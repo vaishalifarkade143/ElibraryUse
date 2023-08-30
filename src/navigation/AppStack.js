@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-import SplashScreen from '../screens/SplashScreen';
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Drawer from '../customComponent/Drawer';
@@ -12,13 +12,25 @@ import Terms from '../screens/Terms';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Disclaimer from '../screens/Disclaimer';
 import TabNavigator from './TabNavigator';
+import Registration from '../screens/Registration';
+import ForgetPassword from '../screens/ForgetPassword';
+
+
+const stack = createNativeStackNavigator();
+const LoginNRegister= () =>{
+  return(
+    <stack.Navigator screenOptions={{headerShown:false}}>
+    <stack.Screen name='Loginn' component={LoginScreen} />
+    <stack.Screen name='Registration' component={Registration} />
+    <stack.Screen name='ForgetPassword' component={ForgetPassword} />
+   </stack.Navigator>
+  );
+};
 
 const drawer = createDrawerNavigator();
-
-//const stack = createNativeStackNavigator();
-
 const AppStack = () => {
   return (
+     
 
     <drawer.Navigator
       drawerContent={props => <Drawer {...props} />}
@@ -47,7 +59,7 @@ const AppStack = () => {
         options={{ headerShown: false }} />
       <drawer.Screen
         name='Login'
-        component={LoginScreen}
+        component={LoginNRegister}
         options={{ headerShown: false }}
       />
      
@@ -73,10 +85,7 @@ const AppStack = () => {
 
 
 
-    // <stack.Navigator screenOptions={{headerShown:false}}>
-    //         <stack.Screen name='Splash' component={SplashScreen} />
-    //         <stack.Screen name='Home' component={HomScreen} />
-    //     </stack.Navigator>
+   
     
   );
 };
