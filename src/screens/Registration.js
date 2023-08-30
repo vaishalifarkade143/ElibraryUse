@@ -21,7 +21,7 @@ const Registration = ({navigation}) => {
                     navigation.goBack();
                 }}
             />
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom:15, }}>
             <View style={styles.floatView}>
 
                 <Text style={{
@@ -193,15 +193,13 @@ const Registration = ({navigation}) => {
                         }}>Register</Text>
 
                     </TouchableOpacity>
-
+                   
                     <TouchableOpacity
                         style={{
-                           
                             alignItems: 'center',
                             padding: 10,
-                           
                             width: '40%',
-                            height: 60,
+                            height: 50,
                             justifyContent: 'center',
                             marginLeft: 110
                         }}
@@ -216,11 +214,11 @@ const Registration = ({navigation}) => {
                         <Text style={{
                             color: '#c27b7f',
                             fontWeight: '700',
-                            fontSize: 18
+                            fontSize: 18,
                         }}>Login</Text>
 
                     </TouchableOpacity>
-                    
+
                
                 </View>
             </View>
@@ -242,7 +240,8 @@ const styles = StyleSheet.create({
       flexDirection: 'column',
       marginLeft: 20,
       marginRight: 20,
-      marginTop: 30
+      marginTop: 30,
+      margin:30
   }
 
 });

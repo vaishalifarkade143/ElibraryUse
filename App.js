@@ -8,9 +8,9 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const stack = createNativeStackNavigator();
 const App = () => {
   return (
-    <NavigationContainer>
-      {/* <AuthStack /> */}
-      <AppStack/>
+    <NavigationContainer independent={true}>
+      <AuthStack />
+      {/* <AppStack/> */}
     </NavigationContainer>
 
 

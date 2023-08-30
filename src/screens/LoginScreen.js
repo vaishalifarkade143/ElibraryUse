@@ -201,7 +201,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         marginLeft: 20,
         marginRight: 20,
-        marginTop: 30
+        marginTop: 30,
+        margin:30
     }
 
 });

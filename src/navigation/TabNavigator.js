@@ -9,12 +9,11 @@ import HomeScreen from '../screens/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
+
+
 const Tab = createBottomTabNavigator();
-
 const TabNavigator = () => {
-   
-
-    return (
+   return (
         
         <Tab.Navigator screenOptions={{
             headerShown: false,

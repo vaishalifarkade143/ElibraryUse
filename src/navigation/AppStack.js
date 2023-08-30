@@ -14,24 +14,24 @@ import Disclaimer from '../screens/Disclaimer';
 import TabNavigator from './TabNavigator';
 import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
+import SplashScreen from '../screens/SplashScreen';
+import HomeScreen from '../screens/HomeScreen';
 
 
 const stack = createNativeStackNavigator();
-const LoginNRegister= () =>{
-  return(
-    <stack.Navigator screenOptions={{headerShown:false}}>
-    <stack.Screen name='Loginn' component={LoginScreen} />
-    <stack.Screen name='Registration' component={Registration} />
-    <stack.Screen name='ForgetPassword' component={ForgetPassword} />
-   </stack.Navigator>
+const LoginNRegister = () => {
+  return (
+    <stack.Navigator screenOptions={{ headerShown: false }}>
+      <stack.Screen name='Loginn' component={LoginScreen} />
+      <stack.Screen name='Registration' component={Registration} />
+      <stack.Screen name='ForgetPassword' component={ForgetPassword} />
+    </stack.Navigator>
   );
 };
 
 const drawer = createDrawerNavigator();
 const AppStack = () => {
   return (
-     
-
     <drawer.Navigator
       drawerContent={props => <Drawer {...props} />}
       screenOptions={{
@@ -40,15 +40,14 @@ const AppStack = () => {
         drawerActiveTintColor: '#fff',
         drawerInactiveTintColor: '#333',
         drawerLabelStyle: {
-
           fontFamily: 'Poppin',
           fontSize: 15,
           fontWeight: '800',
         },
       }}>
 
-      <drawer.Screen name='Home' 
-          component={TabNavigator} />
+      <drawer.Screen name='Home'
+        component={TabNavigator} />
       <drawer.Screen
         name="Contact"
         component={Contact}
@@ -62,7 +61,7 @@ const AppStack = () => {
         component={LoginNRegister}
         options={{ headerShown: false }}
       />
-     
+
       <drawer.Screen
         name="Terms"
         component={Terms}
@@ -78,15 +77,15 @@ const AppStack = () => {
         component={Disclaimer}
         options={{ headerShown: false }}
       />
-      
-    
+
+
     </drawer.Navigator>
 
 
 
 
-   
-    
+
+
   );
 };
 
