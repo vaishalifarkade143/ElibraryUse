@@ -7,8 +7,22 @@ import Books from '../screens/Books';
 import User from '../screens/User';
 import HomeScreen from '../screens/HomeScreen';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Registration from '../screens/Registration';
+import ForgetPassword from '../screens/ForgetPassword';
+import LoginScreen from '../screens/LoginScreen';
 
-
+const stack = createNativeStackNavigator();
+const LoginAndRegister = () => {
+  return (
+    <stack.Navigator screenOptions={{ headerShown: false }}>
+         <stack.Screen name='Userr' component={User} /> 
+      <stack.Screen name='Loginnn' component={LoginScreen} />
+      <stack.Screen name='Registration' component={Registration} />
+      <stack.Screen name='ForgetPassword' component={ForgetPassword} />
+    </stack.Navigator>
+  );
+};
 
 
 const Tab = createBottomTabNavigator();
@@ -44,7 +58,7 @@ const TabNavigator = () => {
 
                 }}
             />
-            <Tab.Screen name='User' component={User}
+            <Tab.Screen name='User' component={LoginAndRegister}
                 options={{
                     tabBarIcon: ({color,size}) =>
                       <Ionicons name="person-circle-outline" color={color} size={size}/>

@@ -1,19 +1,21 @@
 import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext';
 
-const LoginScreen = ({navigation}) => {
+const LoginScreen = ({ navigation }) => {
+    const { login } = useContext(AuthContext);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
 
-    const handleLogin = () => {
-        // Implement your login logic here
+    // const handleLogin = () => {
+    //     // Implement your login logic here
 
 
-        //console.log('Login button clicked');
-    };
+    //     //console.log('Login button clicked');
+    // };
 
     return (
         <View style={styles.container}>
@@ -21,7 +23,8 @@ const LoginScreen = ({navigation}) => {
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
                 onClickLeftIcon={() => {
-                    navigation.navigate('Home');
+                    //navigation.navigate('Home');
+                    navigation.goBack();
                 }}
             />
             <View style={styles.floatView}>
@@ -35,6 +38,7 @@ const LoginScreen = ({navigation}) => {
                     color: '#2f4858'
                 }} >
                     Login</Text>
+
                 <Text style={{
                     marginTop: 10,
                     paddingHorizontal: 50,
@@ -43,6 +47,8 @@ const LoginScreen = ({navigation}) => {
                     fontFamily: 'Poppin-Thin'
                 }}>
                     Sign In to your account</Text>
+
+                {/* <Text>{test}</Text> */}
                 <View style={{ marginTop: 20 }}>
 
                     <View
@@ -130,9 +136,11 @@ const LoginScreen = ({navigation}) => {
                             marginLeft: 110
                         }}
 
-                        onPress={handleLogin}
-                        disabled={!email || !password}
+                        // {/* on login button click */}
+                        onPress={()=> {login()}}
+                       // disabled={!email || !password}
                     >
+
                         <Text style={{
                             color: '#fff',
                             fontWeight: '700',
@@ -140,14 +148,14 @@ const LoginScreen = ({navigation}) => {
                         }}>Login</Text>
 
                     </TouchableOpacity>
-                    
+
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
-                        marginTop: 10, 
+                        marginTop: 10,
                     }}>
                         <TouchableOpacity
-                            onPress={() => 
+                            onPress={() =>
                                 navigation.navigate('Registration')
                             }>
                             <Text style={{
@@ -157,12 +165,12 @@ const LoginScreen = ({navigation}) => {
                                 fontWeight: '700',
                                 fontSize: 15
                             }}>
-                                New Membership</Text> 
+                                New Membership</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                        onPress={() => 
-                            navigation.navigate('ForgetPassword')
-                        }
+                            onPress={() =>
+                                navigation.navigate('ForgetPassword')
+                            }
                         >
                             <Text style={{
                                 color: '#c27b7f',
@@ -179,9 +187,9 @@ const LoginScreen = ({navigation}) => {
         </View>
 
 
-    
 
-  )
+
+    )
 }
 
 export default LoginScreen;
@@ -202,7 +210,7 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginRight: 20,
         marginTop: 30,
-        margin:30
+        margin: 30
     }
 
 });
