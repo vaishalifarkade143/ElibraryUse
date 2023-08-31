@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity } from 'react-native'
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity ,ScrollView} from 'react-native'
 import React, { useState, useContext } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +27,7 @@ const LoginScreen = ({ navigation }) => {
                     navigation.goBack();
                 }}
             />
+            <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom:15, }}>
             <View style={styles.floatView}>
 
                 <Text style={{
@@ -68,7 +69,7 @@ const LoginScreen = ({ navigation }) => {
                             autoCompleteType="email"
                             keyboardType="email-address"
                             value={email}
-                            onChangeText={setEmail}
+                            onChangeText={text=>setEmail(text)}
 
                         />
                     </View>
@@ -89,7 +90,7 @@ const LoginScreen = ({ navigation }) => {
                             autoCompleteType="password"
                             secureTextEntry={true}
                             value={password}
-                            onChangeText={setPassword}
+                            onChangeText={text=>setPassword(text)}
 
                         />
                     </View>
@@ -137,7 +138,7 @@ const LoginScreen = ({ navigation }) => {
                         }}
 
                         // {/* on login button click */}
-                        onPress={()=> {login()}}
+                        onPress={()=> {login(email,password)}}
                        // disabled={!email || !password}
                     >
 
@@ -184,13 +185,14 @@ const LoginScreen = ({ navigation }) => {
                     </View>
                 </View>
             </View>
+            </ScrollView>
         </View>
 
 
 
 
-    )
-}
+    );
+};
 
 export default LoginScreen;
 
