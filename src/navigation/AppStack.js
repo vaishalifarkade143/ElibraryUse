@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text ,StyleSheet} from 'react-native'
 import React from 'react'
 
 
@@ -14,12 +14,13 @@ import Disclaimer from '../screens/Disclaimer';
 import TabNavigator from './TabNavigator';
 import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
-import SplashScreen from '../screens/SplashScreen';
-import HomeScreen from '../screens/HomeScreen';
+import { AuthContext } from '../context/AuthContext';
+
 
 
 const stack = createNativeStackNavigator();
 const LoginNRegister = () => {
+  const { userInfo } = useContext(AuthContext);
   return (
     <stack.Navigator screenOptions={{ headerShown: false }}>
       <stack.Screen name='Loginn' component={LoginScreen} />
@@ -28,6 +29,7 @@ const LoginNRegister = () => {
     </stack.Navigator>
   );
 };
+
 
 const drawer = createDrawerNavigator();
 const AppStack = () => {
@@ -56,11 +58,11 @@ const AppStack = () => {
         name="About"
         component={About}
         options={{ headerShown: false }} />
-      <drawer.Screen
+       <drawer.Screen
         name='Login'
         component={LoginNRegister}
         options={{ headerShown: false }}
-      />
+      />  
 
       <drawer.Screen
         name="Terms"
@@ -81,12 +83,8 @@ const AppStack = () => {
 
     </drawer.Navigator>
 
-
-
-
-
-
   );
 };
+
 
 export default AppStack;

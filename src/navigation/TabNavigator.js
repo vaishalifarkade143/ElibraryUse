@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React from 'react'
+import React ,{useContext}from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Search from '../screens/Search';
@@ -11,6 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
 import LoginScreen from '../screens/LoginScreen';
+import { AuthContext } from '../context/AuthContext';
 
 const stack = createNativeStackNavigator();
 const LoginAndRegister = () => {
@@ -27,6 +28,7 @@ const LoginAndRegister = () => {
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
+    // const { userInfo } = useContext(AuthContext);
    return (
         
         <Tab.Navigator screenOptions={{

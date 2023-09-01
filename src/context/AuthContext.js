@@ -8,23 +8,25 @@ import AppStack from "../navigation/AppStack";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);//for loading 
     const [userToken, setUserToken] = useState(null);
     const [userInfo,setUserInfo] = useState(null);
 
     const login = (email,password) => {
         setIsLoading(true);
+        //to call rest api we use axios package
         axios.post(`${BASE_URL}/member-login`,{
             email,
             password
         })
         .then(res => {
-          //  console.log(res.data);
+           console.log(res.data);
             let userInfo = res.data;
             setUserInfo(userInfo);
             setUserToken(userInfo.data.token)
-        
+        //to check login state is store to the app we use Asynkstorage
             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+
             AsyncStorage.setItem('userToken', userInfo.data.token);
             
             console.log('User Token : ' +userInfo.data.token);
@@ -43,8 +45,9 @@ export const AuthProvider = ({ children }) => {
         setIsLoading(true);
         setUserToken(null);
         
-        AsyncStorage.removeItem('userInfo');
+        AsyncStorage.removeItem('userInfo');//login pr info remove hogi
         AsyncStorage.removeItem('userToken');
+        console.log("Removed token")
 
         setIsLoading(false);
     }
@@ -57,6 +60,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true);
             let userInfo = await AsyncStorage.getItem('userInfo');
             let userToken = await AsyncStorage.getItem('userToken');
+            console.log(userInfo,userToken);
             userInfo = JSON.parse(userInfo);
 
             if(userInfo)
@@ -64,7 +68,6 @@ export const AuthProvider = ({ children }) => {
                 setUserToken(userToken);
                 setUserInfo(userInfo);
             }
-            
            
             setIsLoading(false);
 
@@ -76,11 +79,11 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
       isLoggedIn();
-    }, [AppStack])
+    }, []);
 
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken }}>
+        <AuthContext.Provider value={{ login, logout, isLoading, userToken,userInfo }}>
             {children}
         </AuthContext.Provider>
     );

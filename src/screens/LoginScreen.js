@@ -6,8 +6,8 @@ import { AuthContext } from '../context/AuthContext';
 
 const LoginScreen = ({ navigation }) => {
     const { login } = useContext(AuthContext);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState(null);
+    const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
 
     // const handleLogin = () => {
@@ -138,8 +138,14 @@ const LoginScreen = ({ navigation }) => {
                         }}
 
                         // {/* on login button click */}
-                        onPress={()=> {login(email,password)}}
+                       onPress={()=> {login(email,password)}}
                        // disabled={!email || !password}
+
+                //        onPress={()=> {
+                //         navigation.navigate('Home2');
+                //         console.log();
+                //        }
+                // }
                     >
 
                         <Text style={{

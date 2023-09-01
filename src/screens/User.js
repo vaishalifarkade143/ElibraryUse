@@ -7,6 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
+  const val = useContext(AuthContext);
   return (
     <View style={{ flex: 1, }}>
       <Header
@@ -37,7 +38,14 @@ const User = ({ navigation }) => {
                 height: '90%'}}
               resizeMode='contain'
             />
+            
           </View>
+          <View  style={{flexDirection: 'column',}}>
+       
+          <Text>hello</Text>
+          {/* {userInfo.data.user.first_name} */}
+          </View>
+         
           <TouchableOpacity
                         style={{
                             backgroundColor: '#c27b7f',
@@ -47,7 +55,7 @@ const User = ({ navigation }) => {
                             width: '50%',
                             height: 50,
                             justifyContent: 'center',
-                             marginTop: 50
+                            marginTop: 50
                         }}
 
                         // {/* on login button click */}
@@ -63,12 +71,10 @@ const User = ({ navigation }) => {
                         }}>Login/SignUp</Text>
 
                     </TouchableOpacity>
-          {/* <View style={styles.text}>
-          <Text style={styles.texth1}>Nagpur Digital Library</Text>
-          <Text style={styles.texth2}>Serving You Millions of eResources | 24x7 | Everywhere</Text>
-        </View > */}
+          
       </View> 
     </View>
+    
 
     <View style={{bottom:0,justifyContent:'center',alignItems:'center'}}>
     <TouchableOpacity
@@ -84,11 +90,11 @@ const User = ({ navigation }) => {
                         }}
 
                         // {/* on login button click */}
-                        onPress={()=> {
-                          navigation.navigate('Home2');
-                      }}
+                      //   onPress={()=> {
+                      //     navigation.navigate('Home2');
+                      // }}
 
-                       // onPress={()=> {logout()}}
+                        onPress={()=> {logout()}}
                        // disabled={!email || !password}
                     >
                         <Text style={{

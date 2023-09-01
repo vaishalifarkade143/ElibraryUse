@@ -10,6 +10,8 @@ import { AuthContext } from '../context/AuthContext';
 import AppStack from './AppStack';
 import HomeScreen from '../screens/HomeScreen';
 import TabNavigator from './TabNavigator';
+import AfterLogin from './AfterLogin';
+import User from '../screens/User';
 
 
 const stack = createNativeStackNavigator();
@@ -26,7 +28,15 @@ if(isLoading)
 }
   return (
     <NavigationContainer independent={true}>
-{userToken != null ? <AppStack/>:<AuthStack/>}
+
+ {userToken != null ? <AppStack/>:<AuthStack/>} 
+
+ {/* //after log in we have to see user screen  in stead of Authstack we sholud write User screen*/}
+ {/* {userToken != null ? <AppStack/>:<User/>} */}
+
+ {/* {userToken != null ? <AppStack/>:<AfterLogin/>}  */}
+
+
 
       {/* <AuthStack/> */}
 

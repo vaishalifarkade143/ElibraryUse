@@ -1,5 +1,6 @@
-import { View, Text } from 'react-native'
+import { View, Text ,StyleSheet} from 'react-native'
 import React from 'react'
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -7,27 +8,50 @@ import Registration from '../screens/Registration'
 import ForgetPassword from '../screens/ForgetPassword'
 import { NavigationContainer } from '@react-navigation/native';
 import HomeScreen from '../screens/HomeScreen';
+//import AppStack from './AppStack';
+import TabNavigator from './TabNavigator';
+import Contact from '../screens/Contact';
+import About from '../screens/About';
+import Terms from '../screens/Terms';
+import Disclaimer from '../screens/Disclaimer';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
+import Drawer from '../customComponent/Drawer';
 import AppStack from './AppStack';
-
-//import {HomeScreen } from '../screens/HomeScreen';
-
-
+import User from '../screens/User';
 
 const stack = createNativeStackNavigator();
+
+
 const AuthStack = () => {
+       
+    
     return (
         // add bottomtab n drawer
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{headerShown:false}}>
             <stack.Screen name='Splash' component={SplashScreen} />
             <stack.Screen name='Home3' component={AppStack} />
-            {/* <stack.Screen name='Login' component={LoginScreen} />
-            <stack.Screen name='Registration' component={Registration}/>
-            <stack.Screen name='ForgetPassword' component={ForgetPassword}/> */}
             </stack.Navigator>
         </NavigationContainer>
         
     )
 }
 
+
+///////////////////////////////////////////
+// const AfterLogin= () => {
+         
+//     return (
+//         <NavigationContainer independent={true}>
+//         <stack.Navigator screenOptions={{headerShown:false}}>
+       
+//         <stack.Screen name='Home3' component={AppStack} />
+//         <stack.Screen name='User' component={User} />
+//         </stack.Navigator>
+//     </NavigationContainer>
+//     );
+// };
+////////////////////////////////////////////////////////
+
 export default AuthStack;
+
