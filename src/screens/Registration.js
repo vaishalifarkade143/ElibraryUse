@@ -1,8 +1,9 @@
 import { View, Text,StyleSheet ,Image,TextInput,TouchableOpacity} from 'react-native'
-import React , { useState } from 'react'
+import React , { useContext, useState } from 'react'
 import Header from '../common/Header';
 
 import { ScrollView } from 'react-native';
+import { AuthContext } from '../context/AuthContext';
 
 const Registration = ({navigation}) => {
   const [firstname, setFirstName] = useState('');
@@ -11,6 +12,7 @@ const Registration = ({navigation}) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmpassword, setConfirmPassword] = useState('');
+  const {register} = useContext(AuthContext);
   return (
     <View style={styles.container}>
             <Header
@@ -183,7 +185,9 @@ const Registration = ({navigation}) => {
                             marginLeft: 110
                         }}
 
-                        // onPress={handleLogin}
+                         onPress={()=>{
+                                register(firstname,lastname,phone,email,password)
+                         }}
                         // disabled={!email || !password}
                     >
                         <Text style={{

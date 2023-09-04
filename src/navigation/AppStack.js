@@ -1,5 +1,5 @@
 import { View, Text ,StyleSheet} from 'react-native'
-import React from 'react'
+import React,{useContext} from 'react'
 
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -18,17 +18,17 @@ import { AuthContext } from '../context/AuthContext';
 
 
 
-const stack = createNativeStackNavigator();
-const LoginNRegister = () => {
-  const { userInfo } = useContext(AuthContext);
-  return (
-    <stack.Navigator screenOptions={{ headerShown: false }}>
-      <stack.Screen name='Loginn' component={LoginScreen} />
-      <stack.Screen name='Registration' component={Registration} />
-      <stack.Screen name='ForgetPassword' component={ForgetPassword} />
-    </stack.Navigator>
-  );
-};
+// const stack = createNativeStackNavigator();
+// const LoginNRegister = () => {
+//   const { userInfo } = useContext(AuthContext);
+//   return (
+//     <stack.Navigator screenOptions={{ headerShown: false }}>
+//       <stack.Screen name='Loginn' component={LoginScreen} />
+//       <stack.Screen name='Registration' component={Registration} />
+//       <stack.Screen name='ForgetPassword' component={ForgetPassword} />
+//     </stack.Navigator>
+//   );
+// };
 
 
 const drawer = createDrawerNavigator();
@@ -58,11 +58,11 @@ const AppStack = () => {
         name="About"
         component={About}
         options={{ headerShown: false }} />
-       <drawer.Screen
+       {/* <drawer.Screen
         name='Login'
         component={LoginNRegister}
         options={{ headerShown: false }}
-      />  
+      />   */}
 
       <drawer.Screen
         name="Terms"

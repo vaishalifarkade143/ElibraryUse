@@ -1,9 +1,12 @@
 import { View, Text,Image,StyleSheet } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import Header from '../common/Header';
+import { AuthContext } from '../context/AuthContext';
 
 
 const HomeScreen = ({navigation}) => {
+  const {userInfo} = useContext(AuthContext);
+ const {userToken} = useContext(AuthContext);
   return (
     <View style={styles.container}>
     <Header
@@ -32,6 +35,7 @@ const HomeScreen = ({navigation}) => {
       
     
     </View>
+    {/* <Text>hello {userInfo.data.user.first_name} </Text> */}
   </View>
   );
 };

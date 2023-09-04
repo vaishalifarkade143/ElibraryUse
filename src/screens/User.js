@@ -7,9 +7,10 @@ import { AuthContext } from '../context/AuthContext';
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
-  const val = useContext(AuthContext);
+  const {userInfo} = useContext(AuthContext);
+  const {userToken} = useContext(AuthContext);
   return (
-    <View style={{ flex: 1, }}>
+    <View style={{ flex: 1,}}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
@@ -42,9 +43,17 @@ const User = ({ navigation }) => {
           </View>
           <View  style={{flexDirection: 'column',}}>
        
-          <Text>hello</Text>
-          {/* {userInfo.data.user.first_name} */}
-          </View>
+          {/* <Text> Hello{userInfo.data.user.first_name} {userInfo.data.user.last_name}</Text>
+          <Text> {userInfo.data.user.email}</Text>
+          <Text> {userInfo.data.user.phone}</Text>  */}
+
+           {userToken != null?
+        <View>
+          <Text> {userInfo.data.user.first_name} {userInfo.data.user.last_name}</Text>
+          <Text> {userInfo.data.user.email}</Text>
+          <Text> {userInfo.data.user.phone}</Text></View>
+        :null}
+         
          
           <TouchableOpacity
                         style={{
@@ -52,7 +61,7 @@ const User = ({ navigation }) => {
                             alignItems: 'center',
                             padding: 10,
                             borderRadius: 5,
-                            width: '50%',
+                            width: '100%',
                             height: 50,
                             justifyContent: 'center',
                             marginTop: 50
@@ -68,11 +77,13 @@ const User = ({ navigation }) => {
                             color: '#fff',
                             fontWeight: '700',
                             fontSize: 18
-                        }}>Login/SignUp</Text>
+                        }}>Login/Join</Text>
 
                     </TouchableOpacity>
           
       </View> 
+      
+      </View>
     </View>
     
 
