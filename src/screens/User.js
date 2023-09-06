@@ -2,13 +2,15 @@ import { View, Text, Image, TouchableOpacity } from 'react-native'
 import React, { useContext } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
-
+//import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
   const { userInfo } = useContext(AuthContext);
   const { userToken } = useContext(AuthContext);
+  
+  const { register } = useContext(AuthContext);
   return (
     <View style={{ flex: 1, }}>
       <Header
@@ -53,7 +55,9 @@ const User = ({ navigation }) => {
               <View>
                 <Text> {userInfo.data.user.first_name} {userInfo.data.user.last_name}</Text>
                 <Text> {userInfo.data.user.email}</Text>
-                <Text> {userInfo.data.user.phone}</Text></View>
+                <Text> {userInfo.data.user.phone}</Text>
+                
+                </View>
               : null}
 
 {userToken === null ?
@@ -79,7 +83,7 @@ const User = ({ navigation }) => {
                 color: '#fff',
                 fontWeight: '700',
                 fontSize: 18
-              }}>Login/Join</Text>
+              }}>Sign Up/Login</Text>
 
             </TouchableOpacity>:null}
 
@@ -109,6 +113,7 @@ const User = ({ navigation }) => {
           // }}
 
           onPress={() => { logout() }}
+          
         // disabled={!email || !password}
         >
           <Text style={{

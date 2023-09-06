@@ -1,6 +1,6 @@
 
 import { View, Text, ActivityIndicator } from 'react-native'
-import React,{useContext} from 'react'
+import React, { useContext } from 'react'
 //import AuthStack from './src/navigation/AuthStack';
 import { NavigationContainer } from '@react-navigation/native';
 //import AppStack from './src/navigation/AppStack';
@@ -17,24 +17,24 @@ import User from '../screens/User';
 const stack = createNativeStackNavigator();
 
 const AppNav = () => {
-const {isLoading,userToken} = useContext(AuthContext);
-
-//for login
-if(isLoading)
-{
-<View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-  <ActivityIndicator size={'large'}/>
-</View>
-}
+  const { isLoading, userToken } = useContext(AuthContext);
+  
+  const { register } = useContext(AuthContext);
+  //for login
+  if (isLoading) {
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <ActivityIndicator size={'large'} />
+    </View>
+  }
   return (
     <NavigationContainer independent={true}>
 
- {userToken != null ? <AppStack/>:<AuthStack/>} 
+      {userToken != null ? <AppStack /> : <AuthStack />}
 
- {/* //after log in we have to see user screen  in stead of Authstack we sholud write User screen*/}
- {/* {userToken != null ? <AppStack/>:<User/>} */}
+      {/* //after log in we have to see user screen  in stead of Authstack we sholud write User screen*/}
+      {/* {userToken != null ? <AppStack/>:<User/>} */}
 
- {/* {userToken != null ? <AppStack/>:<AfterLogin/>}  */}
+      {/* {userToken != null ? <AppStack/>:<AfterLogin/>}  */}
 
 
 

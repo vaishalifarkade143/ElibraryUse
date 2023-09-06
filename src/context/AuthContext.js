@@ -11,38 +11,72 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);//for loading 
     const [userToken, setUserToken] = useState(null);
-    const [userInfo, setUserInfo] = useState(null);
+    const [userInfo, setUserInfo] = useState({});
+   
 
-    // Register
-    const register = (firstname, lastname, phone, email, password) => {
-        setIsLoading(true);
+
+    const register = (first_name,
+        last_name,
+        email,
+        phone,
+        password) => {
+      setIsLoading(true);
+        
+        console.log(email, first_name, last_name,password, phone);
         //to call rest api we use axios package
-        axios.post(`
-        https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member`, {
-            firstname, lastname, phone,
+        axios.post(`${BASE_URL}/v1/register-member`,
+         {
+            first_name,
+            last_name,
             email,
+            phone,
             password
         })
             .then(res => {
-                console.log(res.data);
                 let userInfo = res.data;
-                // setUserInfo(userInfo);
-                // setUserToken(userInfo.data.token)
-                //to check login state is store to the app we use Asynkstorage
-                // AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-                // AsyncStorage.setItem('userToken', userInfo.data.token);
-                // console.log('User Token : ' +userInfo.data.token);
+                setUserInfo(userInfo);
+                AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
+                setIsLoading(false);
                 console.log(userInfo);
 
-            })
-            .catch(e => {
-                console.log(`Register error ${e}`);
-            });
+                //Alert for login//
+                // if (email== '' || password == ''){
+                //     alert("please enter email and password")
+                // }
 
-        //  setIsLoading(false);
+                Alert.alert(
+                    'Success!',
+                    `User has successfully registered!`,
+                );
+            })
+
+            //  })
+            .catch(e => {
+                console.log(`Reg error ${e}`);
+                setIsLoading(false);
+            });
+         
     };
 
-    // -------------------
+
+
+    // const register = async (firstname, lastname, phone, email, password) => {
+    //    // console.warn(firstname, lastname, phone, email, password);
+    //     const url = "https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member";
+    //     let result = await fetch(url,
+    //         {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body:JSON.stringify({firstname, lastname, phone, email, password})
+    //         });
+    //         // result = await result.json();
+    //         // if(result)
+    //         // {
+    //         //     console.warn("data added")
+    //         // }
+    //     ///////////////////////////////////////////////////////// /
 
     const login = (email, password) => {
         setIsLoading(true);
@@ -63,27 +97,23 @@ export const AuthProvider = ({ children }) => {
                 console.log(userInfo);
 
                 //Alert for login//
+                // if (email== '' || password == ''){
+                //     alert("please enter email and password")
+                // }
 
                 Alert.alert(
                     'Success!',
                     `User has successfully signed in!`,
-                  );
+                );
+            })
 
-                //   ${userInfo.data.getItem('firstname')}
-             // To verify that this is in fact the current user, currentAsync can be used
-                // const currentUser = await Parse.User.currentAsync();
-                    
-                 // console.log(userInfo === currentUser);
-                 // return true;
-                })
-               
-          //  })
+            //  })
             .catch(e => {
                 console.log(`Login error ${e}`);
                 // Alert.alert('Error!', e.message);
                 // return false;
             });
-      
+
 
         setIsLoading(false);
     }
@@ -101,7 +131,7 @@ export const AuthProvider = ({ children }) => {
         Alert.alert(
             'Success!',
             `User Logout successfully !`,
-          );
+        );
 
         console.log("Removed token")
 
@@ -138,8 +168,9 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo, register }}>
+        <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo,register}}>
             {children}
         </AuthContext.Provider>
+       
     );
 }

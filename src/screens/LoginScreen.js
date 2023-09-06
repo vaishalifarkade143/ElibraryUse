@@ -3,12 +3,16 @@ import React, { useState, useContext } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 const LoginScreen = ({ navigation }) => {
-    const { login } = useContext(AuthContext);
+    const { isLoading,login } = useContext(AuthContext);
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
+    const {userInfo} = useContext(AuthContext);
+    
+    const { register } = useContext(AuthContext);
 
     // const handleLogin = () => {
     //     // Implement your login logic here
@@ -28,6 +32,7 @@ const LoginScreen = ({ navigation }) => {
                 }}
             />
             <ScrollView showsVerticalScrollIndicator={false} style={{marginBottom:15, }}>
+            <Spinner visible={isLoading}/> 
             <View style={styles.floatView}>
 
                 <Text style={{
@@ -136,7 +141,7 @@ const LoginScreen = ({ navigation }) => {
                             justifyContent: 'center',
                             marginLeft: 110
                         }}
-
+                    
                         // {/* on login button click */}
                        onPress={()=> {login(email,password)}}
                        // disabled={!email || !password}
