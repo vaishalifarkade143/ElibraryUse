@@ -7,8 +7,7 @@ import { AuthContext } from '../context/AuthContext';
 const HomeScreen = ({navigation}) => {
  const {userInfo} = useContext(AuthContext);
  const {userToken} = useContext(AuthContext);
- 
- const { register } = useContext(AuthContext);
+
 
   return (
     <View style={styles.container}>

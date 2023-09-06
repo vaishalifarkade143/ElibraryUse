@@ -11,8 +11,8 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
     const {userInfo} = useContext(AuthContext);
-    
-    const { register } = useContext(AuthContext);
+
+  
 
     // const handleLogin = () => {
     //     // Implement your login logic here

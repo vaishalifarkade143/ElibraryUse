@@ -1,5 +1,5 @@
 import { View, Text ,StyleSheet} from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../screens/SplashScreen';
@@ -18,12 +18,13 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Drawer from '../customComponent/Drawer';
 import AppStack from './AppStack';
 import User from '../screens/User';
+import { AuthContext } from '../context/AuthContext';
 
 const stack = createNativeStackNavigator();
 
 
 const AuthStack = () => {
-       
+   // const {userInfo} = useContext(AuthContext);     
     
     return (
         // add bottomtab n drawer

@@ -32,6 +32,8 @@ import { AuthContext } from '../context/AuthContext';
 
 
 const drawer = createDrawerNavigator();
+
+
 const AppStack = () => {
   return (
     <drawer.Navigator

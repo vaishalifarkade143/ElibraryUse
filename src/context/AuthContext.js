@@ -19,26 +19,28 @@ export const AuthProvider = ({ children }) => {
         last_name,
         email,
         phone,
-        password) => {
+        password,token) => {
       setIsLoading(true);
         
         console.log(email, first_name, last_name,password, phone);
-        //to call rest api we use axios package
+       
+        // //to call rest api we use axios package
         axios.post(`${BASE_URL}/v1/register-member`,
          {
             first_name,
             last_name,
             email,
             phone,
-            password
+            password,token
         })
-            .then(res => {
+            .then(res=> {
                 let userInfo = res.data;
                 setUserInfo(userInfo);
-                AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
+               AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
+              
                 setIsLoading(false);
                 console.log(userInfo);
-
+                
                 //Alert for login//
                 // if (email== '' || password == ''){
                 //     alert("please enter email and password")
@@ -86,7 +88,7 @@ export const AuthProvider = ({ children }) => {
             password
         })
             .then(async (res) => {
-                console.log(res.data);
+                //console.log(res.data);
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 setUserToken(userInfo.data.token)
@@ -168,7 +170,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ login, logout, isLoading, userToken, userInfo,register}}>
+        <AuthContext.Provider value={{isLoading,userInfo,userToken,register, login, logout}}>
             {children}
         </AuthContext.Provider>
        
