@@ -17,7 +17,8 @@ const stack = createNativeStackNavigator();
 const LoginAndRegister = () => {
   return (
     <stack.Navigator screenOptions={{ headerShown: false }}>
-         <stack.Screen name='Userr' component={User} /> 
+       
+      <stack.Screen name='Userr' component={User} /> 
       <stack.Screen name='Loginnn' component={LoginScreen} />
       <stack.Screen name='Registration' component={Registration} />
       <stack.Screen name='ForgetPassword' component={ForgetPassword} />
@@ -34,7 +35,6 @@ const BookDetails = () => {
     </Bookstack.Navigator>
   );
 };
-
 
 
 const Tab = createBottomTabNavigator();
