@@ -13,8 +13,6 @@ export const AuthProvider = ({ children }) => {
     const [userToken, setUserToken] = useState(null);
     const [userInfo, setUserInfo] = useState({});
    
-
-
     const register = (first_name,
         last_name,
         email,
@@ -22,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         password,token) => {
       setIsLoading(true);
         
-        console.log(email, first_name, last_name,password, phone);
+       // console.log(email, first_name, last_name,password, phone);
        
         // //to call rest api we use axios package
         axios.post(`${BASE_URL}/v1/register-member`,
@@ -39,7 +37,7 @@ export const AuthProvider = ({ children }) => {
                AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
               
                 setIsLoading(false);
-                console.log(userInfo);
+               // console.log(userInfo);
                 
                 //Alert for login//
                 // if (email== '' || password == ''){
@@ -61,25 +59,6 @@ export const AuthProvider = ({ children }) => {
     };
 
 
-
-    // const register = async (firstname, lastname, phone, email, password) => {
-    //    // console.warn(firstname, lastname, phone, email, password);
-    //     const url = "https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member";
-    //     let result = await fetch(url,
-    //         {
-    //             method: "POST",
-    //             headers: {
-    //                 "Content-Type": "application/json"
-    //             },
-    //             body:JSON.stringify({firstname, lastname, phone, email, password})
-    //         });
-    //         // result = await result.json();
-    //         // if(result)
-    //         // {
-    //         //     console.warn("data added")
-    //         // }
-    //     ///////////////////////////////////////////////////////// /
-
     const login = (email, password) => {
         setIsLoading(true);
         //to call rest api we use axios package
@@ -88,15 +67,14 @@ export const AuthProvider = ({ children }) => {
             password
         })
             .then(async (res) => {
-                //console.log(res.data);
                 let userInfo = res.data;
                 setUserInfo(userInfo);
                 setUserToken(userInfo.data.token)
                 //to check login state is store to the app we use Asynkstorage
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 AsyncStorage.setItem('userToken', userInfo.data.token);
-                console.log('User Token : ' + userInfo.data.token);
-                console.log(userInfo);
+                //console.log('User Token : ' + userInfo.data.token);
+                //console.log(userInfo);
 
                 //Alert for login//
                 // if (email== '' || password == ''){
@@ -148,7 +126,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true);
             let userInfo = await AsyncStorage.getItem('userInfo');
             let userToken = await AsyncStorage.getItem('userToken');
-            console.log(userInfo, userToken);
+            //console.log(userInfo, userToken);
             userInfo = JSON.parse(userInfo);
 
             if (userInfo) {

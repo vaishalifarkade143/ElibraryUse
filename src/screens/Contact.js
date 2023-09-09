@@ -94,7 +94,7 @@ const handleSubmit = () => {
           </Text>
           <Text style={styles.email}>EMAIL: {'\n'} <Text onPress={() => Linking.openURL('/')}>info@digitallibrary.com</Text></Text>
         </View>
-
+<View style={{paddingTop:2,paddingLeft:20,paddingBottom:20}}>
         <Text style={styles.socialText}>Reach out to us on social media</Text>
         <View style={styles.socialIcons}>
           <TouchableOpacity onPress={() => Linking.openURL('https://www.facebook.com')}>
@@ -133,6 +133,7 @@ const handleSubmit = () => {
             /> */}
           </TouchableOpacity>
         </View>
+        </View>
         </ScrollView>
       </View>
     );
@@ -142,7 +143,7 @@ const handleSubmit = () => {
 const styles = {
   container: {
     flex: 1,
-    padding: 20,
+    // padding: 20,
     backgroundColor: '#fff',
   },
   section: {
@@ -165,8 +166,9 @@ const styles = {
     marginTop: 10,
   },
   formContainer: {
-    backgroundColor: "#c27b7f69",
+    // backgroundColor: "#c27b7f69",
     marginBottom: 20,
+    padding: 20,
   },
   input: {
     borderBottomWidth: 1,
@@ -195,6 +197,7 @@ const styles = {
   },
   contactInfo: {
     marginBottom: 20,
+    padding: 20,
   },
   address: {
     fontSize: 16,
@@ -214,9 +217,11 @@ const styles = {
   socialText: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom:10
+    // marginBottom:10,
+    //padding: 20,
   },
   socialIcons: {
+   // padding:10,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },

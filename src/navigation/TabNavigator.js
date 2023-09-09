@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
 import LoginScreen from '../screens/LoginScreen';
-import { AuthContext } from '../context/AuthContext';
+import BooksDetail from '../screens/BooksDetail';
 
 const stack = createNativeStackNavigator();
 const LoginAndRegister = () => {
@@ -24,6 +24,17 @@ const LoginAndRegister = () => {
     </stack.Navigator>
   );
 };
+const Bookstack = createNativeStackNavigator();
+const BookDetails = () => {
+  return (
+    <Bookstack.Navigator screenOptions={{ headerShown: false }}>
+      <Bookstack.Screen name='Home' component={HomeScreen} /> 
+      <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
+    
+    </Bookstack.Navigator>
+  );
+};
+
 
 
 const Tab = createBottomTabNavigator();
@@ -41,7 +52,7 @@ const TabNavigator = () => {
             
           
         }}>
-            <Tab.Screen name='Home2' component={HomeScreen}
+            <Tab.Screen name='Home2' component={BookDetails}
                 options={{
                     tabBarIcon: ({color,size}) =>
                         <Ionicons name="home-outline" color={color} size={size}/>

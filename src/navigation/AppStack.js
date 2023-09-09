@@ -18,17 +18,6 @@ import { AuthContext } from '../context/AuthContext';
 
 
 
-// const stack = createNativeStackNavigator();
-// const LoginNRegister = () => {
-//   const { userInfo } = useContext(AuthContext);
-//   return (
-//     <stack.Navigator screenOptions={{ headerShown: false }}>
-//       <stack.Screen name='Loginn' component={LoginScreen} />
-//       <stack.Screen name='Registration' component={Registration} />
-//       <stack.Screen name='ForgetPassword' component={ForgetPassword} />
-//     </stack.Navigator>
-//   );
-// };
 
 
 const drawer = createDrawerNavigator();
