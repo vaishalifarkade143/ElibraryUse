@@ -1,4 +1,4 @@
-import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ImageBackground, Button, ScrollView } from 'react-native'
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ImageBackground,  ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
@@ -13,8 +13,7 @@ const HomeScreen = ({ navigation }) => {
   const { userInfo } = useContext(AuthContext);
   const { userToken } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
-  // const dispatch = useDispatch();
-  //const products = [1, 2, 3, 4];
+  const [freqBooks,setFreqBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
 
 
@@ -33,7 +32,7 @@ const HomeScreen = ({ navigation }) => {
 
 
 
-  //================book fetch api call using redux===============
+  //================book recently added ===============
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -52,10 +51,27 @@ const HomeScreen = ({ navigation }) => {
     getbooks();
   }, []);
 
+//==========Books fetching end=========//
+
+// ======================frequently added========================//
+
+useEffect(() => {
+  const freqBooks = () => {
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+      .then(res => res.json())
+      .then(responce => {
+       
+        setFreqBooks(responce.data.splice(0,6));
+        setisLoaded(false);
+        //dispatch(viewBooks(responce));
+
+      });
+  };
+  freqBooks();
+}, []);
 
 
-
-  //==========Books fetching end=========//
+// ======================frequently added end========================//
 
   return (
     <View style={styles.container}>
@@ -82,9 +98,10 @@ const HomeScreen = ({ navigation }) => {
               <Text style={styles.texth2}>Serving You Millions of eResources | 24x7 | Everywhere</Text>
             </View >
           </View>
+          </View>
 
-
-        </View>
+        {/* ================Recently added books=================   */}
+     
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Recently Added</Text>
           <TouchableOpacity>
@@ -92,7 +109,6 @@ const HomeScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {/* ================slider books=================   */}
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
 
           <FlatList
@@ -101,7 +117,8 @@ const HomeScreen = ({ navigation }) => {
 
             renderItem={({ item }) =>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('BooksDetailPage')
+                navigation.navigate('BooksDetailPage',{data:item})
+                console.log(item);
                 // {data:item}
               }}>
                 <View style={{
@@ -238,8 +255,96 @@ const HomeScreen = ({ navigation }) => {
         </View>
 
 
-        {/* =================== */}
+        {/* ===========Frequently added======== */}
+       
+        <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
+          <Text style={styles.coroselheading}>Frequently Added</Text>
+          <TouchableOpacity>
+            <Text style={{ color: '#0aada8', fontSize: 17 }}>See all</Text>
+          </TouchableOpacity>
+        </View>
 
+        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+
+          <FlatList
+            keyExtractor={(item) => item.id}
+            data={freqBooks}
+
+            renderItem={({ item }) =>
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('BooksDetailPage',{data:item})
+                // {data:item}
+              }}>
+                <View style={{
+                  width: 182,
+                  height: 260,
+                  marginEnd: 22,
+                  borderRadius: 10,
+                  // backgroundColor: '#fff'
+                }}>
+                  <View style={{
+                    flex: 1,
+                    width: 100,
+                    marginLeft: 60 / 2,
+                    marginTop: 10 / 2,
+                    borderRadius: 5,
+                    overflow: 'visible',
+
+
+                  }}>
+                    <Image source={{ uri: item.image_path }}
+
+                      style={{
+                        aspectRatio: 0.8,
+                        resizeMode: 'cover'
+                      }}
+
+
+                    />
+                  </View>
+                  <View style={{ padding: 10, }}>
+                    <Text style={{
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                      color: '#000'
+                    }} numberOfLines={2}>
+                      {item.name}
+                    </Text>
+
+                    <Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Book</Text>
+                    <Text style={{
+                      backgroundColor: '#c27b7f',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 30,
+                      marginRight: 40,
+                      paddingTop: 10,
+                      width: 100,
+                      height: 40,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Read More</Text>
+                  </View>
+ </View>
+</TouchableOpacity>
+
+            }
+            horizontal={true}
+            contentContainerStyle={{ columnGap: 10 }}
+          />
+        </View>
 
       </ScrollView>
     </View>

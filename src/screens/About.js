@@ -12,6 +12,7 @@
 // export default About
 
 import React from "react";
+import Header from '../common/Header';
 import {
   View,
   Text,
@@ -24,9 +25,18 @@ import {
 
 //const viewStyle = {height: 250};
 
-const ELibrary = () => {
+const ELibrary = ({navigation}) => {
   return (
+    
+                  
     <View style={styles.container}>
+      <Header
+                        rightIcon={require('../images/Logoelibrary.png')}
+                        leftIcon={require('../images/back.png')}
+                        onClickLeftIcon={() => {
+                              navigation.navigate('Home');
+                        }}
+                  />
       <ScrollView>
         <View style={styles.titleContainer}>
           <Text style={styles.title}>ABOUT E-LIBRARY</Text>

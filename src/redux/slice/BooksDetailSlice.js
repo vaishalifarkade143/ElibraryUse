@@ -8,6 +8,7 @@ const BooksSlice = createSlice({
     },
     reducers:{
         viewBooks(state,action){
+            
             state.data = action.payload;
         },
     },
