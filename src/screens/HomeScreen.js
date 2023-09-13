@@ -59,12 +59,9 @@ useEffect(() => {
   const freqBooks = () => {
     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
       .then(res => res.json())
-      .then(responce => {
-       
-        setFreqBooks(responce.data.splice(0,6));
+      .then(respo => {
+        setFreqBooks(respo.data.splice(0,6));
         setisLoaded(false);
-        //dispatch(viewBooks(responce));
-
       });
   };
   freqBooks();
@@ -104,9 +101,7 @@ useEffect(() => {
      
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Recently Added</Text>
-          <TouchableOpacity>
-            <Text style={{ color: '#0aada8', fontSize: 17 }}>See all</Text>
-          </TouchableOpacity>
+         
         </View>
 
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
@@ -209,7 +204,7 @@ useEffect(() => {
                
                   {userToken === null ?
                     <TouchableOpacity style={styles.joinLibraryBtn} onPress={() => {
-                      navigation.navigate('Login2')
+                      //navigation.navigate('Login2')
                     }}>
                       <Text style={styles.joinLibraryText}>Join The Library</Text>
                     </TouchableOpacity> : null}

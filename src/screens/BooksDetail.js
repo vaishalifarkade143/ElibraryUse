@@ -1,17 +1,32 @@
-import { View, Text, StyleSheet, Dimensions, Image,ScrollView ,TouchableOpacity,FlatList} from 'react-native'
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { viewBooks } from '../redux/slice/BooksDetailSlice';
 import { useRoute } from '@react-navigation/native';
+import { Picker } from '@react-native-picker/picker';
+import Header from '../common/Header';
 
-const BooksDetail = ({navigation}) => {
+
+const BooksDetail = ({ navigation }) => {
   const [books, setBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const route = useRoute();
   const dispatch = useDispatch();
   const [tredbooks, setTredBooks] = useState([]);
 
-   // =================single book get================================
+
+
+
+  const [selectedlibraryOptions, setSelectedLibraryOptions] = [
+
+    useState('search by libraryOptions')
+
+  ];
+  const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
+
+  // =================single book get================================
+
+
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -30,79 +45,115 @@ const BooksDetail = ({navigation}) => {
     };
     getbooks();
   }, []);
-// ===========================Trending button=======================
+
+
+  // ===========================Trending button=======================
   useEffect(() => {
     const tredingbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-      .then(res => res.json())
-      //  .then(responce => console.log(responce));
-      .then(responce => {
-        // console.log(JSON.stringify(items) + ' ' +items.data.length);
-        //console.log(responce.data);
-        // console.log('Image : ' + responce.data.image);
-        setTredBooks(responce.data.splice(-4));
-        setisLoaded(false);
-        //dispatch(viewBooks(responce));
+        .then(res => res.json())
+        //  .then(responce => console.log(responce));
+        .then(responce => {
+          // console.log(JSON.stringify(items) + ' ' +items.data.length);
+          //console.log(responce.data);
+          // console.log('Image : ' + responce.data.image);
+          setTredBooks(responce.data.splice(-4));
+          setisLoaded(false);
+          //dispatch(viewBooks(responce));
 
-      });
-  };
+        });
+    };
     tredingbooks();
   }, []);
+
+
   // =================single book get================================
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
-        <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
-      <View style={{
-        marginLeft: 80,
-        width: Dimensions.get('window').width,
-        height: 200,
-        marginEnd: 22,
-        borderRadius: 10,
-      }}>
+       <Header
+                rightIcon={require('../images/Logoelibrary.png')}
+                leftIcon={require('../images/back.png')}
+                onClickLeftIcon={() => {
+                    navigation.navigate('Book');
+                    
+                }}
+            />
+      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
         <View style={{
-          width: 150,
-          marginLeft: 60 / 2,
-          marginTop: 10 / 2,
-          overflow: 'visible',
+          marginLeft: 80,
+          width: Dimensions.get('window').width,
+          height: 200,
+          marginEnd: 22,
+          borderRadius: 10,
         }}>
-          <Image source={{
-            uri: route.params.data.image_path
-          //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png" 
-          }}
-
-            style={{
-              aspectRatio: 0.8,
-              resizeMode: 'cover'
+          <View style={{
+            width: 150,
+            marginLeft: 60 / 2,
+            marginTop: 10 / 2,
+            overflow: 'visible',
+          }}>
+            <Image source={{
+              uri: route.params.data.image_path
+              //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png" 
             }}
-          />
-        </View>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>ISBN No:</Text>
-        <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.isbn}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>Author:</Text>
-        <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.authors_name}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>Format:</Text>
-        <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].format}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>Edition</Text>
-        <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].edition}</Text>
-      </View>
-      <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>Genre:</Text>
-        <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.genres[0].name}</Text>
-      </View>
-      <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
-        <Text style={styles.textHeading}>Description:</Text>
-        <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
 
-      </View>
-      <TouchableOpacity
+              style={{
+                aspectRatio: 0.8,
+                resizeMode: 'cover'
+              }}
+            />
+          </View>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>ISBN No:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.isbn}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Author:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.authors_name}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Format:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].format}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Edition</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].edition}</Text>
+        </View>
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Genre:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.genres[0].name}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Belongs To:</Text>
+          <Picker
+            style={{ height: 50, width: '100%', marginTop: 20, borderWidth: 5, borderColor: 'black' }}
+            prompt="Select Library"
+            selectedValue={selectedlibraryOptions} // Set the initial selected value here
+            onValueChange={(itemValue)=>setSelectedLibraryOptions(itemValue)}
+            // enabled={true} // To disable user interaction with the Picker
+          >
+            {libraryOptions.map((option,index) => (
+              <Picker.Item
+                key={index}
+                label={option}
+                value={option}
+                // enabled={option.value !== ''} // Disable the placeholder option
+              />
+            ))}
+          </Picker>
+        </View>
+
+
+
+
+        <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Description:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
+
+        </View>
+        <TouchableOpacity
           style={{
             backgroundColor: '#c27b7f',
             alignItems: 'center',
@@ -111,9 +162,9 @@ const BooksDetail = ({navigation}) => {
             width: '50%',
             height: 50,
             justifyContent: 'center',
-            marginTop:20,
-            marginLeft:100,
-           marginBottom:20
+            marginTop: 20,
+            marginLeft: 100,
+            marginBottom: 20
           }}
 
           // {/* on login button click */}
@@ -121,8 +172,8 @@ const BooksDetail = ({navigation}) => {
           //     navigation.navigate('Home2');
           // }}
 
-          onPress={() => {}}
-       
+          onPress={() => { }}
+
         >
           <Text style={{
             color: '#fff',
@@ -131,10 +182,10 @@ const BooksDetail = ({navigation}) => {
           }}>Subscribe</Text>
 
         </TouchableOpacity>
-{/* =================================Treding books==================================== */}
-      <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
+        {/* =================================Treding books==================================== */}
+        <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Trending Books</Text>
-          
+
         </View>
 
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
@@ -145,7 +196,7 @@ const BooksDetail = ({navigation}) => {
 
             renderItem={({ item }) =>
               <TouchableOpacity onPress={() => {
-                navigation.navigate('BooksDetailPage',{data:item})
+                navigation.navigate('BooksDetailPage', { data: item })
                 // {data:item}
               }}>
                 <View style={{
@@ -234,10 +285,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: 'bold',
     color: '#000'
-  },coroselheading: {
+  }, coroselheading: {
     fontFamily: 'Philosopher-Bold',
     fontSize: 25,
     fontWeight: '600',
     color: '#000',
+    textAlign: 'center'
   },
+
 });

@@ -1,27 +1,31 @@
 
-import React, { useState,useEffect, } from "react";
-import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text,FlatList,Image } from "react-native";
+import React, { useState, useEffect, } from "react";
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, FlatList, Image, ActivityIndicator } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from "../common/Header";
 import { ScrollView } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
 
 const Books = ({ navigation }) => {
   const [selectedGenre, setSelectedGenre] = useState("Search By Genre");
-  const [selectedPublisher, setSelectedPublisher] = useState(
-    "Search By Publisher"
-  );
+  const [selectedPublisher, setSelectedPublisher] = useState("Search By Publisher");
   const [selectedAuthor, setSelectedAuthor] = useState("Search By Author");
-  const [selectedLanguage, setSelectedLanguage] = useState(
-    "Search By Language"
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState("Search By Language");
   const [selectedFormat, setSelectedFormat] = useState("Search By Format");
   const [selectedLibrary, setSelectedLibrary] = useState("Search By Library");
-  const [searchQuery, setSearchQuery] = useState('');
 
+  // const books = useSelector(state => state);
   const [books, setBooks] = useState([]);
-  const [isLoaded, setisLoaded] = useState(true);
+  // const [isLoaded, setisLoaded] = useState(true);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  // ==========================all books=========================
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -40,11 +44,31 @@ const Books = ({ navigation }) => {
     getbooks();
   }, []);
 
+  // ===========================search ===============================
+
+
   const handleSearch = () => {
-    // search logic here 
+    setIsLoading(true);
+    // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
+    fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?query=${searchQuery}`)
+      .then((res) => res.json())
+      .then((response) => {
+        // Filter the results based on the search query
+        const filteredResults = response.data.filter((item) =>
+          item.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error searching for books:", error);
+        setIsLoading(false);
+      });
+    //search logic here 
     console.log('Searching for:', searchQuery);
   };
-
+  // =================================================================
   const genres = [
     "Genre",
     "Art",
@@ -320,176 +344,205 @@ const Books = ({ navigation }) => {
 
           navigation.goBack();
         }}
+
       />
-      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20}}>
-<View style= {{flex:1,flexDirection:'row'}}>
-        <View style={{
-          marginLeft: 16,
-          marginTop:10,
-          borderColor: '#000',
-          borderWidth: 0.5,
-          borderRadius: 8,
-         width:'43%',
-         height:30
-        }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedGenre}
-            onValueChange={(itemValue) => setSelectedGenre(itemValue)}
-          >
-            {genres.map((genre, index) => (
-              <Picker.Item  key={index} label={genre} value={genre} />
-            ))}
-          </Picker>
-        </View>
-        <View style={{
-          margin: 16,
-          marginTop: 10,
-          borderColor: '#000',
-          borderWidth: 0.5,
-          borderRadius: 8,
-          width:'43%',
-          height:30
-        }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedPublisher}
-            onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
-          >
-            {publishers.map((publisher, index) => (
-              <Picker.Item key={index} label={publisher} value={publisher} />
-            ))}
-          </Picker>
-        </View>
-        </View>
+      <View style={styles.searchcontainer}>
+        <View style={styles.searchBar}>
 
+          <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Search a Book"
+            spellCheck={false}
+            value={searchQuery}
+            onChangeText={(Text) => {
+              setSearchQuery(Text);
+              handleSearch();
+            }}
+          />
 
-<View style= {{flex:1,flexDirection:'row'}}>
-        <View style={{ 
-           marginLeft: 16,
-           borderColor: '#000',
-           borderWidth: 0.5,
-           borderRadius: 8,
-           width:'43%',
-          height:30
-         }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedAuthor}
-            onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
-          >
-            {authors.map((author, index) => (
-              <Picker.Item key={index} label={author} value={author} />
-            ))}
-          </Picker>
-        </View>
-        <View style={{
-          marginLeft: 16,
-          borderColor: '#000',
-          borderWidth: 0.5,
-          borderRadius: 8,
-          width:'43%',
-          height:30
-        }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedLanguage}
-            onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-          >
-            {languages.map((language, index) => (
-              <Picker.Item  key={index} label={language} value={language} />
-            ))}
-          </Picker>
-        </View>
-        </View>
+          {searchQuery !== '' && (
+            <TouchableOpacity onPress={() => {
+              setSearchQuery('');
+            }}>
+              <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+            </TouchableOpacity>)}
 
-        <View style= {{flex:1,flexDirection:'row'}}>
-        <View style={{
-         marginLeft: 16,
-          marginTop: 16,
-          borderColor: '#000',
-          borderWidth: 0.5,
-          borderRadius: 8,
-          width:'43%',
-          height:30
-        }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedFormat}
-            onValueChange={(itemValue) => setSelectedFormat(itemValue)}
-          >
-            {formats.map((format, index) => (
-              <Picker.Item key={index} label={format} value={format} />
-            ))}
-          </Picker>
         </View>
+      </View>
+      {/* Display search results */}
+      {isLoading ? (
+        <ActivityIndicator size="large" color="#c27b7f" />
+      ) : searchResults.length>0?(
+        <FlatList
+          style={{ marginBottom: 0 }}
+          keyExtractor={(item) => item.id.toString()}
+          data={searchResults}
+          renderItem={({ item }) => (
+            // Render each search result item here
+            <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
+              <View style={{ padding: 5,marginLeft:10}}>
+                
+               
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000' }} >
+                  {item.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          numColumns={1}
+          contentContainerStyle={{ columnGap: 10 }}
+        />
+        ):(<Text style={{textAlign:'center',marginTop:20}}>no book found</Text>
+      )}
 
-        <View style={{
-           marginLeft: 16,
-          marginTop: 16,
-          borderColor: '#000',
-          borderWidth: 0.5,
-          borderRadius: 8,
-          width:'43%',
-          height:30
-        }}>
-          <Picker style={{marginTop:-14,marginStart:5 }}
-            selectedValue={selectedLibrary}
-            onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-          >
-            {libraries.map((library, index) => (
-              <Picker.Item key={index} label={library} value={library} />
-            ))}
-          </Picker>
-        </View>
-        </View>
-        <View style={styles.searchcontainer}>
-          <View style={styles.searchBar}>
-
-            <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-
-            <TextInput
-              style={styles.input}
-              placeholder="Search a Book"
-              spellCheck={false}
-              value={searchQuery}
-              onChangeText={setSearchQuery}
-              onSubmitEditing={handleSearch}
-            />
+{/*================== dropdown====================== */}
+      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20 }}>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            marginTop: 10,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedGenre}
+              onValueChange={(itemValue) => setSelectedGenre(itemValue)}
+            >
+              {genres.map((genre, index) => (
+                <Picker.Item key={index} label={genre} value={genre} />
+              ))}
+            </Picker>
+          </View>
+          <View style={{
+            margin: 16,
+            marginTop: 10,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedPublisher}
+              onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
+            >
+              {publishers.map((publisher, index) => (
+                <Picker.Item key={index} label={publisher} value={publisher} />
+              ))}
+            </Picker>
           </View>
         </View>
-        {/* <View style={{ alignItems: 'center' }}>
-          <View style={{ marginVertical: 10, }}>
-            <Button
-              title="Reset"
-              color="#c27b7f"
-              onPress={() => {
-                // Add your reset logic here
-              }}
-            />
+
+
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedAuthor}
+              onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
+            >
+              {authors.map((author, index) => (
+                <Picker.Item key={index} label={author} value={author} />
+              ))}
+            </Picker>
           </View>
-        </View> */}
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#c27b7f',
-            alignItems: 'center',
-            padding: 5,
-            borderRadius: 5,
-            width: '30%',
-            height: 50,
-            justifyContent: 'center',
-            marginLeft: 130
-          }}
-          onPress={() => {
+          <View style={{
+            marginLeft: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedLanguage}
+              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+            >
+              {languages.map((language, index) => (
+                <Picker.Item key={index} label={language} value={language} />
+              ))}
+            </Picker>
+          </View>
+        </View>
 
-          }}
-        >
-          <Text style={{
-            color: '#fff',
-            fontWeight: '700',
-            fontSize: 18
-          }}>Search</Text>
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            marginTop: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedFormat}
+              onValueChange={(itemValue) => setSelectedFormat(itemValue)}
+            >
+              {formats.map((format, index) => (
+                <Picker.Item key={index} label={format} value={format} />
+              ))}
+            </Picker>
+          </View>
 
-        </TouchableOpacity>
+          <View style={{
+            marginLeft: 16,
+            marginTop: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5, }}
+              selectedValue={selectedLibrary}
+              onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
+            >
+              {libraries.map((library, index) => (
+                <Picker.Item key={index} label={library} value={library} />
+              ))}
+            </Picker>
+          </View>
+        </View>
 
- {/* ================Recently added books=================   */}
-     
- <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
+        <View style={{ marginBottom: 15 }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#c27b7f',
+              alignItems: 'center',
+              padding: 5,
+              borderRadius: 5,
+              width: '30%',
+              height: 50,
+              justifyContent: 'center',
+              marginLeft: 130,
+              marginTop: 15
+            }}
+            onPress={() => {
+
+            }}
+          >
+            <Text style={{
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: 18
+            }}>Reset</Text>
+
+          </TouchableOpacity>
+        </View>
+        {/* ================All books=================   */}
+
+        <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Our Books Collection</Text>
         </View>
 
@@ -499,19 +552,19 @@ const Books = ({ navigation }) => {
             keyExtractor={(item) => item.id}
             data={books}
 
-            renderItem={({ item }) =>
-           
+            renderItem={({ item,id }) =>
+
               <TouchableOpacity onPress={() => {
-                navigation.navigate('BooksDetailPage')
+                navigation.navigate('BooksDetailPage', { data: item })
                 // {data:item}
               }}>
                 <View style={{
                   width: 182,
                   height: 260,
-                 marginBottom: 22,
+                  marginBottom: 22,
                   borderRadius: 10,
                   backgroundColor: '#yellow'
-                 
+
                 }}>
                   <View style={{
                     flex: 1,
@@ -524,7 +577,6 @@ const Books = ({ navigation }) => {
 
                   }}>
                     <Image source={{ uri: item.image_path }}
-
                       style={{
                         aspectRatio: 0.8,
                         resizeMode: 'cover'
@@ -574,7 +626,7 @@ const Books = ({ navigation }) => {
               </TouchableOpacity>
 
             }
-          numColumns={2}
+            numColumns={2}
             contentContainerStyle={{ columnGap: 10 }}
           />
 
@@ -585,16 +637,19 @@ const Books = ({ navigation }) => {
 
   );
 };
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
   },
   searchcontainer: {
-    padding:5,
-    marginLeft:6.5,
-    width:'95%',
-    height:50
+    padding: 5,
+
+    width: '100%',
+    height: 50,
+    backgroundColor: '#fff3cd'
   },
   searchBar: {
     flexDirection: 'row',

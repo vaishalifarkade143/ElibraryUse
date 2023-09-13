@@ -227,7 +227,7 @@ const ELibrary = ({navigation}) => {
 const styles = {
   container: {
     flex: 1,
-    padding: 20
+ 
   },
   socialIcons: {
     marginTop: 20,
