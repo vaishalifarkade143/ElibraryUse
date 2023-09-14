@@ -15,19 +15,16 @@ const Books = ({ navigation }) => {
   const [selectedFormat, setSelectedFormat] = useState("Search By Format");
   const [selectedLibrary, setSelectedLibrary] = useState("Search By Library");
 
-  // const books = useSelector(state => state);
   const [books, setBooks] = useState([]);
-  // const [isLoaded, setisLoaded] = useState(true);
+  const [isLoaded, setisLoaded] = useState(true);
 
   const [searchQuery, setSearchQuery] = useState("");
 
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-
-
-const [currentPage, setCurrentPage] = useState(1);
-const itemsPerPage = 10;
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
 
 
 
@@ -50,9 +47,9 @@ const itemsPerPage = 10;
     getbooks();
   }, []);
 
+
+
   // ===========================search ===============================
-
-
   const handleSearch = () => {
     setIsLoading(true);
     // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
@@ -63,7 +60,7 @@ const itemsPerPage = 10;
         const filteredResults = response.data.filter((item) =>
           item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
-        
+
         setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
         setIsLoading(false);
       })
@@ -341,69 +338,16 @@ const itemsPerPage = 10;
     "Rashtramata Kasturba Library"
   ];
 
-  return (
-    <View style={styles.container}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/back.png')}
-        onClickLeftIcon={() => {
 
-          navigation.goBack();
-        }}
 
-      />
-      <View style={styles.searchcontainer}>
-        <View style={styles.searchBar}>
 
-          <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Search a Book"
-            spellCheck={false}
-            value={searchQuery}
-            onChangeText={(Text) => {
-              setSearchQuery(Text);
-              handleSearch();
-            }}
-          />
 
-          {searchQuery !== '' && (
-            <TouchableOpacity onPress={() => {
-              setSearchQuery('');
-              setSearchResults('');
-            }}>
-              <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
-            </TouchableOpacity>)}
 
-        </View>
-      </View>
-      {/* Display search results */}
-      {/* &&  searchQuery !==  setSearchResults */}
-      {isLoading?
-       ( <ActivityIndicator size="large" color="#c27b7f" />):
-
-        (<FlatList
-          style={{ marginBottom: 10 }}
-          keyExtractor={(item) => item.id.toString()}
-          data={searchResults}
-          renderItem={({ item }) => (
-            // Render each search result item here
-            <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
-              <View style={{ padding: 5,marginLeft:10}}>
-                
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000' ,marginBottom:10}} >
-                  {item.name}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          numColumns={1}
-          contentContainerStyle={{ columnGap: 10 }}
-        />
-        )}
-
-{/*================== dropdown====================== */}
-      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20 }}>
+  // -------------------------All books===================
+  const AllBooks = () => {
+    return (
+      <View>
+        {/* ================dropdown===================== */}
         <View style={{ flex: 1, flexDirection: 'row' }}>
           <View style={{
             marginLeft: 16,
@@ -551,9 +495,351 @@ const itemsPerPage = 10;
 
           </TouchableOpacity>
         </View>
-        {/* ================All books=================   */}
-
+{/* ===All books=========================== */}
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
+          <Text style={styles.coroselheading}>Our Books Collection</Text>
+        </View>
+
+        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+
+          <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            // data={books}
+            data={books.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
+            // getItemCount={() => books.length}
+            // getItem={(books, index) => books[index]}
+            renderItem={({ item, id }) =>
+
+              <TouchableOpacity onPress={() => {
+                navigation.navigate('BooksDetailPage', { data: item, id })
+                // {data:item}
+              }}>
+                <View style={{
+                  width: 182,
+                  height: 260,
+                  marginBottom: 22,
+                  borderRadius: 10,
+                  backgroundColor: '#yellow'
+
+                }}>
+                  <View style={{
+                    flex: 1,
+                    width: 100,
+                    marginLeft: 60 / 2,
+                    marginTop: 10 / 2,
+                    borderRadius: 5,
+                    overflow: 'visible',
+
+
+                  }}>
+                    <Image source={{ uri: item.image_path }}
+                      style={{
+                        aspectRatio: 0.8,
+                        resizeMode: 'cover'
+                      }}
+
+
+                    />
+                  </View>
+                  <View style={{ padding: 10, }}>
+                    <Text style={{
+                      fontSize: 15,
+                      fontWeight: 'bold',
+                      color: '#000'
+                    }} numberOfLines={2}>
+                      {item.name}
+                    </Text>
+
+                    <Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Book</Text>
+                    <Text style={{
+                      backgroundColor: '#c27b7f',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 30,
+                      marginRight: 40,
+                      paddingTop: 10,
+                      width: 100,
+                      height: 40,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Read More</Text>
+                  </View>
+
+                </View>
+
+              </TouchableOpacity>
+
+            }
+            numColumns={2}
+            contentContainerStyle={{ columnGap: 10 }}
+          />
+
+        </View>
+
+        {/* // =====================pagination controls to navigate between pages===================  */}
+        <View style={styles.paginationContainer}>
+          <TouchableOpacity
+            style={styles.paginationButton}
+            onPress={() => {
+              if (currentPage > 1) {
+                setCurrentPage(currentPage - 1);
+              }
+            }}
+          >
+            <Text style={styles.paginationText}>Previous</Text>
+          </TouchableOpacity>
+          <Text style={styles.paginationText}>
+            Page {currentPage} of {Math.ceil(books.length / itemsPerPage)}
+          </Text>
+          <TouchableOpacity
+            style={styles.paginationButton}
+            onPress={() => {
+              if (currentPage < Math.ceil(books.length / itemsPerPage)) {
+                setCurrentPage(currentPage + 1);
+              }
+            }}
+          >
+            <Text style={styles.paginationText}>Next</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+
+    );
+  };
+  // ------------------------------------------
+
+
+  return (
+    <View style={styles.container}>
+      <Header
+        rightIcon={require('../images/Logoelibrary.png')}
+        leftIcon={require('../images/back.png')}
+        onClickLeftIcon={() => {
+
+          navigation.goBack();
+        }}
+
+      />
+      {/* =================search============= */}
+      <View style={styles.searchcontainer}>
+        <View style={styles.searchBar}>
+
+          <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+          <TextInput
+            style={styles.input}
+            placeholder="Search a Book"
+            spellCheck={false}
+            value={searchQuery}
+            onChangeText={(Text) => {
+              setSearchQuery(Text);
+              handleSearch();
+            }}
+          />
+
+          {searchQuery !== '' && (
+            <TouchableOpacity onPress={() => {
+              setSearchQuery('');
+              setSearchResults('');
+             
+            }}>
+              <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+            </TouchableOpacity>)}
+
+        </View>
+      </View>
+      {/* Display search results */}
+     
+      {isLoading ?
+        (<ActivityIndicator size="large" color="#c27b7f" />) :
+
+        (<FlatList
+          style={{ marginBottom: 10 }}
+          keyExtractor={(item) => item.id.toString()}
+          data={searchResults}
+          ListFooterComponent={<AllBooks />}
+          renderItem={({ item }) => (
+            // Render each search result item here
+            <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
+              <View style={{ padding: 5, marginLeft: 10 }}>
+
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', marginBottom: 10 }} >
+                  {item.name}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          numColumns={1}
+          contentContainerStyle={{ columnGap: 10 }}
+        />
+        )}
+
+      {/*================== dropdown====================== */}
+      {/* <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20 }}> */}
+      {/* <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            marginTop: 10,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedGenre}
+              onValueChange={(itemValue) => setSelectedGenre(itemValue)}
+            >
+              {genres.map((genre, index) => (
+                <Picker.Item key={index} label={genre} value={genre} />
+              ))}
+            </Picker>
+          </View>
+          <View style={{
+            margin: 16,
+            marginTop: 10,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedPublisher}
+              onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
+            >
+              {publishers.map((publisher, index) => (
+                <Picker.Item key={index} label={publisher} value={publisher} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedAuthor}
+              onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
+            >
+              {authors.map((author, index) => (
+                <Picker.Item key={index} label={author} value={author} />
+              ))}
+            </Picker>
+          </View>
+          <View style={{
+            marginLeft: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedLanguage}
+              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+            >
+              {languages.map((language, index) => (
+                <Picker.Item key={index} label={language} value={language} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+        <View style={{ flex: 1, flexDirection: 'row' }}>
+          <View style={{
+            marginLeft: 16,
+            marginTop: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5 }}
+              selectedValue={selectedFormat}
+              onValueChange={(itemValue) => setSelectedFormat(itemValue)}
+            >
+              {formats.map((format, index) => (
+                <Picker.Item key={index} label={format} value={format} />
+              ))}
+            </Picker>
+          </View>
+
+          <View style={{
+            marginLeft: 16,
+            marginTop: 16,
+            borderColor: '#000',
+            borderWidth: 0.5,
+            borderRadius: 8,
+            width: '43%',
+            height: 30
+          }}>
+            <Picker style={{ marginTop: -14, marginStart: 5, }}
+              selectedValue={selectedLibrary}
+              onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
+            >
+              {libraries.map((library, index) => (
+                <Picker.Item key={index} label={library} value={library} />
+              ))}
+            </Picker>
+          </View>
+        </View>
+
+        <View style={{ marginBottom: 15 }}>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#c27b7f',
+              alignItems: 'center',
+              padding: 5,
+              borderRadius: 5,
+              width: '30%',
+              height: 50,
+              justifyContent: 'center',
+              marginLeft: 130,
+              marginTop: 15
+            }}
+            onPress={() => {
+              setSelectedAuthor("");
+              setSelectedFormat("");
+              setSelectedGenre("");
+              setSelectedLanguage("");
+              setSelectedLibrary("");
+              setSelectedPublisher("");
+            }}
+          >
+            <Text style={{
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: 18
+            }}>Reset</Text>
+
+          </TouchableOpacity>
+        </View> */}
+
+
+      {/* ================All books=================   */}
+
+      {/* <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Our Books Collection</Text>
         </View>
 
@@ -643,13 +929,13 @@ const itemsPerPage = 10;
             contentContainerStyle={{ columnGap: 10 }}
           />
 
-        </View>
+        </View> */}
 
 
 
 
-        {/* =====================pagination controls to navigate between pages=================== */}
-        <View style={styles.paginationContainer}>
+      {/* =====================pagination controls to navigate between pages=================== */}
+      {/* <View style={styles.paginationContainer}>
   <TouchableOpacity
     style={styles.paginationButton}
     onPress={() => {
@@ -673,11 +959,11 @@ const itemsPerPage = 10;
   >
     <Text style={styles.paginationText}>Next</Text>
   </TouchableOpacity>
-</View>
+</View> */}
 
-     
 
-      </ScrollView>
+
+      {/* </ScrollView> */}
     </View>
 
   );
@@ -691,7 +977,6 @@ const styles = StyleSheet.create({
   },
   searchcontainer: {
     padding: 5,
-
     width: '100%',
     height: 50,
     backgroundColor: '#fff3cd'
@@ -722,7 +1007,7 @@ const styles = StyleSheet.create({
   },
 
 
-//styles for pagination
+  //styles for pagination
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
