@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, } from "react";
-import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, FlatList, Image, ActivityIndicator } from "react-native";
+import { View, TextInput, Button, StyleSheet, TouchableOpacity, Text, FlatList, Image, ActivityIndicator, VirtualizedList } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from "../common/Header";
@@ -23,6 +23,12 @@ const Books = ({ navigation }) => {
 
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+
+
+const [currentPage, setCurrentPage] = useState(1);
+const itemsPerPage = 10;
+
 
 
   // ==========================all books=========================
@@ -57,7 +63,7 @@ const Books = ({ navigation }) => {
         const filteredResults = response.data.filter((item) =>
           item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
-
+        
         setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
         setIsLoading(false);
       })
@@ -327,7 +333,7 @@ const Books = ({ navigation }) => {
     "Korean",
     "Hindi"
   ];
-  const formats = ["Search By Format", "Book", "E-Book"];
+  const formats = ["Format", "Book", "E-Book"];
   const libraries = [
     "Library",
     "Dindayal Upadhyay Library",
@@ -364,6 +370,7 @@ const Books = ({ navigation }) => {
           {searchQuery !== '' && (
             <TouchableOpacity onPress={() => {
               setSearchQuery('');
+              setSearchResults('');
             }}>
               <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
             </TouchableOpacity>)}
@@ -371,11 +378,12 @@ const Books = ({ navigation }) => {
         </View>
       </View>
       {/* Display search results */}
-      {isLoading ? (
-        <ActivityIndicator size="large" color="#c27b7f" />
-      ) : searchResults.length>0?(
-        <FlatList
-          style={{ marginBottom: 0 }}
+      {/* &&  searchQuery !==  setSearchResults */}
+      {isLoading?
+       ( <ActivityIndicator size="large" color="#c27b7f" />):
+
+        (<FlatList
+          style={{ marginBottom: 10 }}
           keyExtractor={(item) => item.id.toString()}
           data={searchResults}
           renderItem={({ item }) => (
@@ -383,8 +391,7 @@ const Books = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
               <View style={{ padding: 5,marginLeft:10}}>
                 
-               
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000' }} >
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000' ,marginBottom:10}} >
                   {item.name}
                 </Text>
               </View>
@@ -393,8 +400,7 @@ const Books = ({ navigation }) => {
           numColumns={1}
           contentContainerStyle={{ columnGap: 10 }}
         />
-        ):(<Text style={{textAlign:'center',marginTop:20}}>no book found</Text>
-      )}
+        )}
 
 {/*================== dropdown====================== */}
       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 20 }}>
@@ -529,7 +535,12 @@ const Books = ({ navigation }) => {
               marginTop: 15
             }}
             onPress={() => {
-
+              setSelectedAuthor("");
+              setSelectedFormat("");
+              setSelectedGenre("");
+              setSelectedLanguage("");
+              setSelectedLibrary("");
+              setSelectedPublisher("");
             }}
           >
             <Text style={{
@@ -548,14 +559,16 @@ const Books = ({ navigation }) => {
 
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
 
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={books}
-
+        <FlatList
+            keyExtractor={(item) => item.id.toString()}
+            // data={books}
+            data={books.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
+            // getItemCount={() => books.length}
+            // getItem={(books, index) => books[index]}
             renderItem={({ item,id }) =>
-
+            
               <TouchableOpacity onPress={() => {
-                navigation.navigate('BooksDetailPage', { data: item })
+                navigation.navigate('BooksDetailPage', { data: item,id })
                 // {data:item}
               }}>
                 <View style={{
@@ -632,6 +645,38 @@ const Books = ({ navigation }) => {
 
         </View>
 
+
+
+
+        {/* =====================pagination controls to navigate between pages=================== */}
+        <View style={styles.paginationContainer}>
+  <TouchableOpacity
+    style={styles.paginationButton}
+    onPress={() => {
+      if (currentPage > 1) {
+        setCurrentPage(currentPage - 1);
+      }
+    }}
+  >
+    <Text style={styles.paginationText}>Previous</Text>
+  </TouchableOpacity>
+  <Text style={styles.paginationText}>
+    Page {currentPage} of {Math.ceil(books.length / itemsPerPage)}
+  </Text>
+  <TouchableOpacity
+    style={styles.paginationButton}
+    onPress={() => {
+      if (currentPage < Math.ceil(books.length / itemsPerPage)) {
+        setCurrentPage(currentPage + 1);
+      }
+    }}
+  >
+    <Text style={styles.paginationText}>Next</Text>
+  </TouchableOpacity>
+</View>
+
+     
+
       </ScrollView>
     </View>
 
@@ -674,6 +719,24 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000',
     // marginLeft:50
+  },
+
+
+//styles for pagination
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+  },
+  paginationButton: {
+    backgroundColor: '#c27b7f',
+    padding: 10,
+    borderRadius: 5,
+  },
+  paginationText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 
