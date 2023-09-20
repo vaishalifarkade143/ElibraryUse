@@ -31,7 +31,7 @@ const BookDetails = () => {
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
       <Bookstack.Screen name='Book' component={Books} />
-    
+
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
 
     </Bookstack.Navigator>

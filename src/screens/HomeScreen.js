@@ -118,7 +118,7 @@ useEffect(() => {
               }}>
                 <View style={{
                   width: 182,
-                  height: 260,
+                  height: 280,
                   marginEnd: 22,
                   borderRadius: 10,
                   // backgroundColor: '#fff'
@@ -163,7 +163,10 @@ useEffect(() => {
                       height: 30,
                       marginTop: 5,
                       borderRadius: 5,
-                    }}>Book</Text>
+                    }}>E-Book</Text>
+                    <Text>{item.library_id}</Text>
+ {/* <Text>(({item.library_id}=== 333)?(({item.library_id}=== 111)?(<Text>Dindayal Upadhyay Library</Text>):(<Text>Kundanlal Gupta Library</Text>)):(<Text>Rashtramata Kasturba Library</Text>))</Text> */}
+
                     <Text style={{
                       backgroundColor: '#c27b7f',
                       textAlign: 'center',

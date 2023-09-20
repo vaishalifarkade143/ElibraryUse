@@ -17,11 +17,9 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-  const [selectedlibraryOptions, setSelectedLibraryOptions] = [
+  const [selectedlibraryOptions, setSelectedLibraryOptions] = useState('search by libraryOptions')
 
-    useState('search by libraryOptions')
-
-  ];
+;
   const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
 
   // =================single book get================================
@@ -74,8 +72,8 @@ const BooksDetail = ({ navigation }) => {
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
                 onClickLeftIcon={() => {
-                    navigation.navigate('Book');
-                    
+                    // navigation.navigate('Book');
+                    navigation.goBack();
                 }}
             />
       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
