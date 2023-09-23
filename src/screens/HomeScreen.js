@@ -147,12 +147,15 @@ useEffect(() => {
                     <Text style={{
                       fontSize: 15,
                       fontWeight: 'bold',
-                      color: '#000'
+                      color: '#000',
+                      flexDirection:'column'
                     }} numberOfLines={2}>
                       {item.name}
                     </Text>
 
-                    <Text style={{
+
+
+                    {item.items[0].format===3?( <Text style={{
                       backgroundColor: '#a3a3c2',
                       textAlign: 'center',
                       fontWeight: 'bold',
@@ -164,8 +167,37 @@ useEffect(() => {
                       marginTop: 5,
                       borderRadius: 5,
                     }}>E-Book</Text>
-                    <Text>{item.library_id}</Text>
+                    ):(<Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Book</Text>)}
+                     {/* <Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>{item.items[0].format}</Text>  */}
+                    {/* <Text>{item.library_id}</Text>  */}
  {/* <Text>(({item.library_id}=== 333)?(({item.library_id}=== 111)?(<Text>Dindayal Upadhyay Library</Text>):(<Text>Kundanlal Gupta Library</Text>)):(<Text>Rashtramata Kasturba Library</Text>))</Text> */}
+
+    
+                    
+
+
 
                     <Text style={{
                       backgroundColor: '#c27b7f',
@@ -309,7 +341,8 @@ useEffect(() => {
                       {item.name}
                     </Text>
 
-                    <Text style={{
+
+                    {item.items[0].format===3?( <Text style={{
                       backgroundColor: '#a3a3c2',
                       textAlign: 'center',
                       fontWeight: 'bold',
@@ -320,7 +353,32 @@ useEffect(() => {
                       height: 30,
                       marginTop: 5,
                       borderRadius: 5,
-                    }}>Book</Text>
+                    }}>E-Book</Text>
+                    ):(<Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>Book</Text>)}
+                    {/* <Text style={{
+                      backgroundColor: '#a3a3c2',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                      color: '#fff',
+                      marginLeft: 40,
+                      marginRight: 40,
+                      paddingTop: 5,
+                      height: 30,
+                      marginTop: 5,
+                      borderRadius: 5,
+                    }}>{item.items[0].format}</Text> */}
+                    
                     <Text style={{
                       backgroundColor: '#c27b7f',
                       textAlign: 'center',
