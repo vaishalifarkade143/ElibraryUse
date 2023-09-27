@@ -12,6 +12,9 @@ import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
 import LoginScreen from '../screens/LoginScreen';
 import BooksDetail from '../screens/BooksDetail';
+// import SubscribePage from '../screens/SubscribePage';
+import BookHistory from '../screens/BookHistory';
+import MyEBook from '../screens/MyEBook';
 
 const stack = createNativeStackNavigator();
 const LoginAndRegister = () => {
@@ -21,7 +24,9 @@ const LoginAndRegister = () => {
       <stack.Screen name='Userr' component={User} />
       <stack.Screen name='Loginnn' component={LoginScreen} />
       <stack.Screen name='Registration' component={Registration} />
-      <stack.Screen name='ForgetPassword' component={ForgetPassword} />
+      <stack.Screen name='ForgetPassword' component={ForgetPassword}/>
+      <stack.Screen name='Bookhistory' component={BookHistory}/>
+      <stack.Screen name='MyeBook' component={MyEBook}/>
     </stack.Navigator>
   );
 };
@@ -31,9 +36,10 @@ const BookDetails = () => {
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
       <Bookstack.Screen name='Book' component={Books} />
-
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
-
+      <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
+      <Bookstack.Screen name='subscribebookHistory' component={BookHistory} />
+      <Bookstack.Screen name='reserveEBook' component={MyEBook} />
     </Bookstack.Navigator>
   );
 };

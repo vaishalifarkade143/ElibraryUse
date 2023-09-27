@@ -10,11 +10,11 @@ import Video from 'react-native-video';
 
 
 const HomeScreen = ({ navigation }) => {
-  const { userInfo } = useContext(AuthContext);
+  // const { userInfo } = useContext(AuthContext);
   const { userToken } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [freqBooks,setFreqBooks] = useState([]);
-  const [isLoaded, setisLoaded] = useState(true);
+  const [isLoaded, setisLoaded] = useState(false);
 
 
 
@@ -239,7 +239,7 @@ useEffect(() => {
                
                   {userToken === null ?
                     <TouchableOpacity style={styles.joinLibraryBtn} onPress={() => {
-                      //navigation.navigate('Login2')
+                      navigation.navigate('Loginnn')
                     }}>
                       <Text style={styles.joinLibraryText}>Join The Library</Text>
                     </TouchableOpacity> : null}
@@ -266,11 +266,15 @@ useEffect(() => {
               visible={modalVisible}
               onRequestClose={closeModal}
             >
-              <Video
-            source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }} // Replace with your video URL
+              <View style={styles.modalContainer}>
+          <Video
+            source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }}
             style={styles.video}
-            controls={true}
-          /> 
+            controls={true} // Make sure controls are enabled
+          />
+          {/* Add any other content or close button here */}
+        </View> 
+
               {/* Your video modal content */}
               {/* You can add your video player component here */}
               {/* For simplicity, we'll just show a close button */}

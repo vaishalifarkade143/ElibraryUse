@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React, { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState ,useContext} from 'react'
+import { useDispatch ,useSelector} from 'react-redux';
 import { viewBooks } from '../redux/slice/BooksDetailSlice';
 import { useRoute } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import Header from '../common/Header';
+import { AuthContext } from '../context/AuthContext';
+
+
 
 
 const BooksDetail = ({ navigation }) => {
@@ -13,15 +16,37 @@ const BooksDetail = ({ navigation }) => {
   const route = useRoute();
   const dispatch = useDispatch();
   const [tredbooks, setTredBooks] = useState([]);
+  // const [isLoggedIn, setIsLoggedIn] = useState(false); // You should set this based on the user's login status
+  const { userToken } = useContext(AuthContext);
+
+  const subscribedBooks = useSelector((state) => state.bookHistory.subscribedBooks);
+
+//   const [selectedlibraryOptions, setSelectedLibraryOptions] = useState('search by libraryOptions')
+
+// ;
+//   const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
 
 
 
 
-  const [selectedlibraryOptions, setSelectedLibraryOptions] = useState('search by libraryOptions')
+const handleSubscribe = (book) => {
+  // Check if the book is already subscribed
+  const isSubscribed = subscribedBooks.some((subscribedBook) => subscribedBook.id === book.id);
+  if (!isSubscribed) {
+    // If not subscribed, subscribe to the book
+    dispatch(subscribedBooks(book));
+  } else {
+    // If already subscribed, unsubscribe from the book
+    dispatch(unsubscribeFromBook(book));
+  }
+};
 
-;
-  const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
-
+  const libraries = [
+    
+    { id: 111, name: "Dindayal Upadhyay Library" },
+    { id: 222, name: "Kundanlal Gupta Library" },
+    { id: 333, name: "Rashtramata Kasturba Library" }
+  ];
   // =================single book get================================
 
 
@@ -72,8 +97,8 @@ const BooksDetail = ({ navigation }) => {
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
                 onClickLeftIcon={() => {
-                    // navigation.navigate('Book');
-                    navigation.goBack();
+                    navigation.navigate('Book', { screen: 'Home' });
+                   
                 }}
             />
       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
@@ -108,11 +133,12 @@ const BooksDetail = ({ navigation }) => {
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Author:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.authors_name}</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.authors[0].first_name} {route.params.data.authors[0].last_name}</Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Format:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].format}</Text>
+          {route.params.data.items[0].format===2?(<Text style={{ fontSize: 15, marginLeft: 8 }}>Book</Text>):
+          (<Text style={{ fontSize: 15, marginLeft: 8 }}>E-Book</Text>)}
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Edition</Text>
@@ -122,25 +148,30 @@ const BooksDetail = ({ navigation }) => {
           <Text style={styles.textHeading}>Genre:</Text>
           <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.genres[0].name}</Text>
         </View>
-
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+          <Text style={styles.textHeading}>Publisher:</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{route.params.data.items[0].publisher.name}</Text>
+        </View>
+
+        <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Belongs To:</Text>
-          <Picker
+          {/* <Picker
             style={{ height: 50, width: '100%', marginTop: 20, borderWidth: 5, borderColor: 'black' }}
             prompt="Select Library"
             selectedValue={selectedlibraryOptions} // Set the initial selected value here
             onValueChange={(itemValue)=>setSelectedLibraryOptions(itemValue)}
             // enabled={true} // To disable user interaction with the Picker
-          >
-            {libraryOptions.map((option,index) => (
-              <Picker.Item
-                key={index}
-                label={option}
-                value={option}
-                // enabled={option.value !== ''} // Disable the placeholder option
-              />
-            ))}
-          </Picker>
+          > */}
+          <View style={{marginRight:5}}>{route.params.data.library_id === 111 ?
+                        (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
+                          Dindayal UpadhyayLibrary</Text>) :
+                        (route.params.data.library_id === 222 ?
+                          (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
+                            Kundanlal Gupta Library</Text>) :
+                          (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
+                            Rashtramata Kasturba Library</Text>))}</View>
+            
+          {/* </Picker> */}
         </View>
 
 
@@ -151,7 +182,8 @@ const BooksDetail = ({ navigation }) => {
           <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
 
         </View>
-        <TouchableOpacity
+        {userToken !== null ?
+        (<TouchableOpacity
           style={{
             backgroundColor: '#c27b7f',
             alignItems: 'center',
@@ -165,22 +197,61 @@ const BooksDetail = ({ navigation }) => {
             marginBottom: 20
           }}
 
-          // {/* on login button click */}
-          //   onPress={()=> {
-          //     navigation.navigate('Home2');
-          // }}
+          
+            onPress={()=> {
+          //     navigation.navigate('subscribe',{screen:'sLogin'});
+          navigation.navigate('reserveEBook', { data: route.params.data });
+          }}
 
-          onPress={() => { }}
+          // onPress={() => navigation.navigate('Book', {
+          //   screen: 'Home',
+          //   params: {
+          //     screen: 'Sound',
+          //     params: {
+          //       screen: 'Media',
+          //     },
+          //   },
+          // })}
 
         >
-          <Text style={{
+         <Text style={{
             color: '#fff',
             fontWeight: '700',
             fontSize: 18
           }}>Subscribe</Text>
 
+        </TouchableOpacity>):
+         
+      (
+          <TouchableOpacity
+          style={{
+            backgroundColor: '#c27b7f',
+            alignItems: 'center',
+            padding: 10,
+            borderRadius: 5,
+            width: '50%',
+            height: 50,
+            justifyContent: 'center',
+            marginTop: 20,
+            marginLeft: 100,
+            marginBottom: 20
+          }}
+          onPress={() => {
+            // Navigate to the login page since the user is not logged in
+            navigation.navigate('sLogin');
+           
+          }}
+         
+        >
+          
+          <Text style={{
+            color: '#fff',
+            fontWeight: '700',
+            fontSize: 18
+          }}>Subscribe</Text>
         </TouchableOpacity>
-        {/* =================================Treding books==================================== */}
+      )}
+        {/* =================================Trending books==================================== */}
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Trending Books</Text>
 

@@ -1,5 +1,5 @@
-import React, { useState, useEffect,useRef } from "react";
-import { View, TextInput, Button, ScrollView,StyleSheet, TouchableOpacity, Text, FlatList, Image, ActivityIndicator, VirtualizedList } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, TextInput, Button, ScrollView, StyleSheet, TouchableOpacity, Text, FlatList, Image, ActivityIndicator, VirtualizedList } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from "../common/Header";
@@ -9,7 +9,7 @@ import Pagination from "../components/pagination";
 // import { useRoute } from "@react-navigation/native";
 
 const Books = ({ navigation }) => {
-  const scrollViewRef = useRef(null); // Create a reference to ScrollView
+  // const scrollViewRef = useRef(null); // Create a reference to ScrollView
   const [selectedGenre, setSelectedGenre] = useState("Genre");
   const [genr, setGenr] = useState([]);
   const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
@@ -17,7 +17,7 @@ const Books = ({ navigation }) => {
   const [selectedAuthor, setSelectedAuthor] = useState("Author");
   const [authr, setAuthr] = useState([]);
   const [selectedLanguage, setSelectedLanguage] = useState("Language");
-  const [language,setLanguage]=useState([]);
+  const [language, setLanguage] = useState([]);
   const [selectedFormat, setSelectedFormat] = useState("Format");
   const [selectedLibrary, setSelectedLibrary] = useState("Library");
 
@@ -31,23 +31,28 @@ const Books = ({ navigation }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
-  const[filteredBooks,setFilteredBooks]=useState([]);
+  const [filteredBooks, setFilteredBooks] = useState([]);
 
 
   const [totalBooksCount, setTotalBooksCount] = useState(0);
 
 
 
-  const onPageChange = (page) => {
-    setCurrentPage(page);
 
-    // Scroll to the top
-    if (scrollViewRef.current) {
-      scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
-    }
-  };
 
- // ==========================all books=========================
+  // // Scroll to the top
+  // const onPageChange = (page) => {
+  //   setCurrentPage(page);
+
+  //   // Scroll to the top
+  //   if (scrollViewRef.current) {
+  //     scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+  //   }
+  // };
+
+  // ==========================all books=========================
+
+
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -61,70 +66,614 @@ const Books = ({ navigation }) => {
           setFilteredBooks(responce.data);
           setTotalBooksCount(responce.data.length); // Set the total count
           setisLoaded(false);
-      });
+        });
     };
     getbooks();
   }, []);
 
 
-// ==========================working code for Filter books by selected genre ==========================
-useEffect(() => {
-  // console.log(selectedGenre);
-  let filteredBooksCopy = [...books];
-  if (selectedGenre !== "Genre") { // Make sure a genre is selected
-    filteredBooksCopy = books.filter((book) =>
-      book.genres.some((genr) => genr.name === selectedGenre)
-    );
-    // setFilteredBooks(filteredByGenre);
-    // console.log("Filtered Books:", filteredByGenre);
 
-  } 
-   if (selectedAuthor !== "Author") { // Make sure a genre is selected
-    filteredBooksCopy = books.filter((book) =>
-      book.authors.some((authr) => authr.first_name+ " " +authr.last_name === selectedAuthor)
-    );
-    // console.log("selectedAuthor:", selectedAuthor);
-    // console.log("Filtered Books:", filteredBooksCopy);
-  } 
-   
-  
-  
-  if (selectedPublisher !== "Publisher") { // Make sure a genre is selected
-    filteredBooksCopy = books.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
-    );
-  } 
-  if (selectedLanguage !== "Language") { 
+
+  // ==========================working code for Filter books by selected genre ==========================
+  useEffect(() => {
+    // Reset the current page to 1 whenever a dropdown is clicked
+    setCurrentPage(1);
+
+    // if (scrollViewRef.current) {
+    //   scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
+    // }
+
+    // console.log(selectedGenre);
+    let filteredBooksCopy = [...books];
+
+
+    //single selected dropdown  by genre
+
+    if (selectedGenre !== "Genre") { // Make sure a genre is selected
       filteredBooksCopy = books.filter((book) =>
-      Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
-    );
-      
-  } 
-  if (selectedFormat !== "Format") { 
-    filteredBooksCopy = books.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
-  );
+        book.genres.some((genr) => genr.name === selectedGenre)
+        
+
+      );
+      console.log("single selected dropdown  by genre")
+      // setFilteredBooks(filteredByGenre);
+      // console.log("Filtered Books:", filteredByGenre);
+
+    }
+    if (selectedAuthor !== "Author") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
+      );
+      // console.log("selectedAuthor:", selectedAuthor);
+      // console.log("Filtered Books:", filteredBooksCopy);
+    }
+
+    if (selectedPublisher !== "Publisher") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
+      );
+    }
+    if (selectedLanguage !== "Language") {
+      filteredBooksCopy = books.filter((book) =>
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+      );
+    }
+    if (selectedFormat !== "Format") {
+      filteredBooksCopy = books.filter((book) =>
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedLibrary !== "Library") {
+      filteredBooksCopy = books.filter((book) =>
+        book.library_id === selectedLibrary
+      );
+    }
+
+
+
+    // double selected dropdown by genre
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher") {
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedLanguage !== "Language") {
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedFormat !== "Format") {
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedLibrary !== "Library") {
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+
+    // //three selected dropdown by genre
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedLanguage !== "Language") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    if (selectedGenre !== "Genre" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        book.library_id === selectedLibrary
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+
+    if (selectedGenre !== "Genre" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+
+
+
+
+
+    // //four selected dropdown by genre
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        book.library_id === selectedLibrary
+      );
+    }
+    // genre author language library
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        book.library_id === selectedLibrary
+      );
+    }
+    // genre author library format
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    // genre author language format
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+
+    // genre publisher language library
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    // genre publisher language format
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    // genre publisher library format
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+    // genre language library format
+    if (selectedGenre !== "Genre" && selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+
+
+
+   
+   
+   
+    // //five selected dropdown by genre
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+      );
+    }
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        book.library_id === selectedLibrary
+      );
+    }
+    // genre publisher language library format
+    if (selectedGenre !== "Genre" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    // genre publisher author library format
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+
+
     
-} 
+    
+    
+    
+    
+    //six selected dropdown with genre,publisher,author,library,format,language
+    if (selectedGenre !== "Genre" && selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+      filteredBooksCopy = books.filter((book) =>
+        book.genres.some((genr) => genr.name === selectedGenre) &&
+        book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+        Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+        Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+        Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+        book.library_id === selectedLibrary
+      );
+    }
+
+    
+    
+    
+    
+    
+    
+    
+    
+    //double selected dropdown with author
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
+  //     );
+  //   }
+
+  //   if (selectedAuthor !== "Author" && selectedLanguage !== "Language") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+  //     );
+  //   }
+  //   if (selectedAuthor !== "Author" && selectedFormat !== "Format") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //     );
+  //   }
+  //   if (selectedAuthor !== "Author" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+
+    
+    
+    
+    
+    
+    
+  //   //three selected dropdown by author
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+  //     );
+  //   }
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedFormat !== "Format") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //     );
+  //   }
+  //   // if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //   //   filteredBooksCopy = books.filter((book) =>
+  //   //     book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //   //     book.library_id === selectedLibrary
+  //   //   );
+  //   // }
+
+  //   // Author Language Format
+  //   if (selectedAuthor !== "Author" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //     );
+  //   }
+  //   // Author Language Library
+  //   if (selectedAuthor !== "Author" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+  //   // Author  Format Library
+  //   if (selectedAuthor !== "Author" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+
+    
+    
+    
+    
+    
+    
+  //   //four selected dropdown by author
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //     );
+  //   }
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+  //   // Author Language Format Library
+  //   if ( selectedAuthor !== "Author" &&  selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+  //   // Author Language Format Publisher
+  //   if ( selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format" ) { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) 
+  //     );
+  //   }
+
+  //   // Author Format Library Publisher
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
 
 
-if (selectedLibrary !== "Library") { 
+    
+    
+    
+    
+  //   //five selected dropdown by author
+  //   if (selectedAuthor !== "Author" && selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) && 
+  //       book.library_id === selectedLibrary
+  //       );
+  //   }
 
-filteredBooksCopy = books.filter((book) =>
-book.library_id === selectedLibrary
- );
- 
-} 
-  // Update the total count based on filters
-  setTotalBooksCount(filteredBooksCopy.length);
 
- setFilteredBooks(filteredBooksCopy);
-}, [books,selectedGenre,selectedAuthor,selectedPublisher,selectedLanguage,selectedFormat,selectedLibrary]);
+    
+  //  // double selected dropdown by publisher
+  //   if (selectedPublisher !== "Publisher" && selectedLanguage !== "Language" ) { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) 
+  //       );
+  //   }
+
+  //   if (selectedPublisher !== "Publisher"&& selectedFormat !== "Format" ) { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //       );
+  //   }
+  //   if (selectedPublisher !== "Publisher" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       book.library_id === selectedLibrary
+  //       );
+  //   }
+
+    
+    
+    
+    
+    
+    
+    
+  //   // //three selected dropdown by publisher
+  //   if ( selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  //       );
+  //   }
+  //   if (selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       book.library_id === selectedLibrary
+  //       );
+  //   }
+  //   //Publisher Format Library
+  //   if ( selectedPublisher !== "Publisher" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)  &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) &&
+  //       book.library_id === selectedLibrary
+  //     );
+  //   }
+    
+  //   if (  selectedPublisher !== "Publisher" &&  selectedLibrary !== "Library" && selectedAuthor !== "Author" ) { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) => 
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)  &&
+  //       book.library_id === selectedLibrary &&
+  //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
+  //     );
+  //   }
+    
+    
+    
+    
+  //   // //four selected dropdown by publisher
+  //   if (selectedPublisher !== "Publisher" && selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) && 
+  //       book.library_id === selectedLibrary
+  //       );
+  //   }
+
+
+  //   // // //double selected dropdown by language
+  //   // // if ( selectedLanguage !== "Language" && selectedFormat !== "Format" ) { // Make sure a genre is selected
+  //   // //   filteredBooksCopy = books.filter((book) =>
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) 
+  //   //     );
+  //   // }
+  //   if ( selectedLanguage !== "Language" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //     filteredBooksCopy = books.filter((book) =>
+  //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //       book.library_id === selectedLibrary
+  //       );
+  //   }
+  //   // //three selected dropdown by language
+  //   // if (selectedLanguage !== "Language" && selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //   //   filteredBooksCopy = books.filter((book) =>
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage) &&
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) && 
+  //   //     book.library_id === selectedLibrary
+  //   //     );
+  //   // }
+
+  //   // //double selected dropdown by format
+  //   // if ( selectedFormat !== "Format" && selectedLibrary !== "Library") { // Make sure a genre is selected
+  //   //   filteredBooksCopy = books.filter((book) =>
+  //   //     Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat) && 
+  //   //     book.library_id === selectedLibrary
+  //   //     );
+  //   // }
+
+    setTotalBooksCount(filteredBooksCopy.length);
+
+    setFilteredBooks(filteredBooksCopy);
+  }, [books, selectedGenre, selectedAuthor, selectedPublisher, selectedLanguage, selectedFormat, selectedLibrary]);
 
 
   // ===========================search ===============================
-  
-  
+
+
   const handleSearch = () => {
     setIsLoading(true);
     // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
@@ -146,17 +695,21 @@ book.library_id === selectedLibrary
     // console.log('Searching for:', searchQuery);
   };
   // ==============================static dropdown===================================
+
+  
   
   // const formats = [{id:"null",name:"Formats"},{id:1,name:"book/ebook"},{id:2,name:"book"}, {id:3,name:"ebook"}];
-    const formats = [{id:"",name:"Formats"},{id:2,name:"Books"}, {id:3,name:"ebooks"}];
+
+  // const genres=[{ id: "", name: "Genres" },{id:36,name:"Educational"},{id:44,name:"iology"}]
+  const formats = [{ id: "", name: "Formats" },{ id: 2, name: "Books" }, { id: 3, name: "ebooks" }];
 
 
-    const libraries = [
-        {id:"",name:"Library"},
-        {id:111,name:"Dindayal Upadhyay Library"},
-        {id:222,name:"Kundanlal Gupta Library"},
-        {id:333,name:"Rashtramata Kasturba Library"}
-      ];
+  const libraries = [
+    { id: "", name: "Library" },
+    { id: 111, name: "Dindayal Upadhyay Library" },
+    { id: 222, name: "Kundanlal Gupta Library" },
+    { id: 333, name: "Rashtramata Kasturba Library" }
+  ];
   // const libraries = [
   //   {id:"null",name:"Libraries"},
   //   {id:111,name:"Dindayal Upadhyay Library"},
@@ -167,274 +720,275 @@ book.library_id === selectedLibrary
 
 
   // ===================== fetching data for dynamic dropdown ================================================
-useEffect(() => {
-  // Fetch the list of genres from your API
-  fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres')
-    .then(response => response.json())
-    .then(data => setGenr(["Genre", ...data.data.map(genres => genres.name)]))
-     // Assuming the API response has a "data" field with an array of genres
-    .catch(error => console.error('Error fetching genres:', error));
-}, []);
-useEffect(() => {
-  // Fetch the list of authors from your API
-  fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors')
-    .then(response => response.json())
-    .then(data => setAuthr(["Author", ...data.data.map(authors => authors.first_name+ "" +authors.last_name)])) // Assuming the API response has a "data" field with an array of genres
-    .catch(error => console.error('Error fetching authors:', error));
-}, []);
-useEffect(() => {
-  // Fetch the list of publishers from your API
-  fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers')
-    .then(response => response.json())
-    .then(data => setPublishr(["Publisher", ...data.data.map(publisher=> publisher.name )])) // Assuming the API response has a "data" field with an array of genres
-    .catch(error => console.error('Error fetching publisher:', error));
-}, []);
+  useEffect(() => {
+   // Fetch the list of genres from your API
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres')
+      .then(response => response.json())
+      .then(data => setGenr(["Genre", ...data.data.map(genres => genres.name)]))
+      // Assuming the API response has a "data" field with an array of genres
+      .catch(error => console.error('Error fetching genres:', error));
+  }, []);
+  useEffect(() => {
+    // Fetch the list of authors from your API
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors')
+      .then(response => response.json())
+      .then(data => setAuthr(["Author", ...data.data.map(authors => authors.first_name + "" + authors.last_name)])) // Assuming the API response has a "data" field with an array of genres
+      .catch(error => console.error('Error fetching authors:', error));
+  }, []);
+  useEffect(() => {
+    // Fetch the list of publishers from your API
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers')
+      .then(response => response.json())
+      .then(data => setPublishr(["Publisher", ...data.data.map(publisher => publisher.name)])) // Assuming the API response has a "data" field with an array of genres
+      .catch(error => console.error('Error fetching publisher:', error));
+  }, []);
 
- // Fetch the list of languages from your API
-useEffect(() => {
-  fetch('https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages')
-    .then(response => response.json())
-    .then(data => setLanguage(["Languages", ...data.data.map(language=> language.language_name )])) // Assuming the API response has a "data" field with an array of genres
-    .catch(error => console.error('Error fetching publisher:', error));
-}, []);
+  // Fetch the list of languages from your API
+  useEffect(() => {
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages')
+      .then(response => response.json())
+      .then(data => setLanguage(["Languages", ...data.data.map(language => language.language_name)])) // Assuming the API response has a "data" field with an array of genres
+      .catch(error => console.error('Error fetching publisher:', error));
+  }, []);
 
-//   // Fetch the list of format from your API
-// useEffect(() => {
-//   fetch('https://dindayalupadhyay.smartcitylibrary.com/api/b1/books-items-format')
-//     .then(response => {
-//       if (!response.ok) {
-//         throw new Error(`Network response was not ok (status: ${response.status})`);
-//       }
-//       return response.json();
-//     }
-//       // response.json()
-//       )
-//     .then(data =>{
-//     //   const formatData = data.data.map(format => format.format);
-//     //   setformt(['Format', ...formatData]); 
-//     console.log('API Response:', data);
-//      })
-//      .catch(error => console.error('Error fetching format:', error));
-// }, []);
-  
+  //   // Fetch the list of format from your API
+  // useEffect(() => {
+  //   fetch('https://dindayalupadhyay.smartcitylibrary.com/api/b1/books-items-format')
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error(`Network response was not ok (status: ${response.status})`);
+  //       }
+  //       return response.json();
+  //     }
+  //       // response.json()
+  //       )
+  //     .then(data =>{
+  //     //   const formatData = data.data.map(format => format.format);
+  //     //   setformt(['Format', ...formatData]); 
+  //     console.log('API Response:', data);
+  //      })
+  //      .catch(error => console.error('Error fetching format:', error));
+  // }, []);
+
 
   // -------------------------All books===================
   const AllBooks = () => {
-   return (
-      
+    const scrollViewRef = useRef(null); // Create a ref for ScrollView
+    return (
+
       <View>
         <ScrollView
-      ref={scrollViewRef}
-      contentContainerStyle={styles.scrollContainer}
-    >
-        {/* ================dropdown===================== */}
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{
-            marginLeft: 16,
-            marginTop: 10,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5 }}
-              selectedValue={selectedGenre}
-              onValueChange={(itemValue) => setSelectedGenre(itemValue)}
-            >
-              {genr.map((genres, index) => (
-                <Picker.Item key={index} label={genres} value={genres} />
-              ))}
-            </Picker>
-          </View>
-          <View style={{
-            margin: 16,
-            marginTop: 10,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5 }}
-              selectedValue={selectedPublisher}
-              onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
-            >
-              {publishr.map((publishers, index) => (
-                <Picker.Item key={index} label={publishers} value={publishers} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-
-
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{
-            marginLeft: 16,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5 }}
-              selectedValue={selectedAuthor}
-              onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
-            >
-              {authr.map((author, index) => (
-                <Picker.Item key={index} label={author} value={author} />
-              ))}
-            </Picker>
-          </View>
-          <View style={{
-            marginLeft: 16,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5 }}
-              selectedValue={selectedLanguage}
-              onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-            >
-              {language.map((language, index) => (
-                <Picker.Item key={index} label={language} value={language} />
-              ))}
-            </Picker>
-          </View>
-        </View>
-
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <View style={{
-            marginLeft: 16,
-            marginTop: 16,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5 }}
-              selectedValue={selectedFormat}
-              onValueChange={(itemValue) => setSelectedFormat(itemValue)}
-            >
-              {formats.map((format, index) => (
-                <Picker.Item key={index} label={format.name} value={format.id} />
-              ))}
-            </Picker>
+          ref={scrollViewRef}
+          contentContainerStyle={styles.scrollContainer}
+        >
+          {/* ================dropdown===================== */}
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{
+              marginLeft: 16,
+              marginTop: 10,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5 }}
+                selectedValue={selectedGenre}
+                onValueChange={(itemValue) => setSelectedGenre(itemValue)}
+              >
+                {genr.map((genres, index) => (
+                  <Picker.Item key={index} label={genres} value={genres} />
+                ))}
+              </Picker>
+            </View>
+            <View style={{
+              margin: 16,
+              marginTop: 10,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5 }}
+                selectedValue={selectedPublisher}
+                onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
+              >
+                {publishr.map((publishers, index) => (
+                  <Picker.Item key={index} label={publishers} value={publishers} />
+                ))}
+              </Picker>
+            </View>
           </View>
 
-          <View style={{
-            marginLeft: 16,
-            marginTop: 16,
-            borderColor: '#000',
-            borderWidth: 0.5,
-            borderRadius: 8,
-            width: '43%',
-            height: 30
-          }}>
-            <Picker style={{ marginTop: -14, marginStart: 5, }}
-              selectedValue={selectedLibrary}
-              onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-            >
-              {libraries.map((library, index) => (
-                <Picker.Item key={library.id} label={library.name} value={library.id} />
-              ))}
-            </Picker>
+
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{
+              marginLeft: 16,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5 }}
+                selectedValue={selectedAuthor}
+                onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
+              >
+                {authr.map((author, index) => (
+                  <Picker.Item key={index} label={author} value={author} />
+                ))}
+              </Picker>
+            </View>
+            <View style={{
+              marginLeft: 16,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5 }}
+                selectedValue={selectedLanguage}
+                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
+              >
+                {language.map((language, index) => (
+                  <Picker.Item key={index} label={language} value={language} />
+                ))}
+              </Picker>
+            </View>
           </View>
-        </View>
 
-        <View style={{ marginBottom: 15 }}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#c27b7f',
-              alignItems: 'center',
-              padding: 5,
-              borderRadius: 5,
-              width: '30%',
-              height: 50,
-              justifyContent: 'center',
-              marginLeft: 130,
-              marginTop: 15
-            }}
-            onPress={() => {
-              
-              setFilteredBooks(books);
-              setSelectedAuthor("Author");
-              setSelectedFormat("Format");
-              setSelectedGenre("Genre");
-              setSelectedLanguage("Language");
-              setSelectedLibrary("Library");
-              setSelectedPublisher("Publisher");
-              
-            }}
-          >
-            <Text style={{
-              color: '#fff',
-              fontWeight: '700',
-              fontSize: 18
-            }}>Reset</Text>
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{
+              marginLeft: 16,
+              marginTop: 16,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5 }}
+                selectedValue={selectedFormat}
+                onValueChange={(itemValue) => setSelectedFormat(itemValue)}
+              >
+                {formats.map((format, index) => (
+                  <Picker.Item key={index} label={format.name} value={format.id} />
+                ))}
+              </Picker>
+            </View>
 
-          </TouchableOpacity>
-        </View>
-{/* ==========================All books=========================== */}
-        <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
-          <Text style={styles.coroselheading}>Our Books Collection</Text>
-        </View>
-        {totalBooksCount<10?(<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>):(<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
+            <View style={{
+              marginLeft: 16,
+              marginTop: 16,
+              borderColor: '#000',
+              borderWidth: 0.5,
+              borderRadius: 8,
+              width: '43%',
+              height: 30
+            }}>
+              <Picker style={{ marginTop: -14, marginStart: 5, }}
+                selectedValue={selectedLibrary}
+                onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
+              >
+                {libraries.map((library, index) => (
+                  <Picker.Item key={library.id} label={library.name} value={library.id} />
+                ))}
+              </Picker>
+            </View>
+          </View>
 
-        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+          <View style={{ marginBottom: 15 }}>
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#c27b7f',
+                alignItems: 'center',
+                padding: 5,
+                borderRadius: 5,
+                width: '30%',
+                height: 50,
+                justifyContent: 'center',
+                marginLeft: 130,
+                marginTop: 15
+              }}
+              onPress={() => {
 
-          <FlatList
-            keyExtractor={(item) => item.id.toString()}
-            // data={books}
-            data={filteredBooks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
-            // getItemCount={() => books.length}
-            // getItem={(books, index) => books[index]}
-            renderItem={({ item, id }) =>
+                setFilteredBooks(books);
+                setSelectedAuthor("Author");
+                setSelectedFormat("Format");
+                setSelectedGenre("Genre");
+                setSelectedLanguage("Language");
+                setSelectedLibrary("Library");
+                setSelectedPublisher("Publisher");
 
-              <TouchableOpacity onPress={() => {
-                navigation.navigate('BooksDetailPage', { data: item})
-                // {data:item}
-              }}>
-                <View style={{
-                  width: 182,
-                  height: 296,
-                  marginBottom: 22,
-                  borderRadius: 10,
-                  backgroundColor: '#yellow'
+              }}
+            >
+              <Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>Reset</Text>
 
+            </TouchableOpacity>
+          </View>
+          {/* ==========================All books=========================== */}
+          <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
+            <Text style={styles.coroselheading}>Our Books Collection</Text>
+          </View>
+          {totalBooksCount < 10 ? (<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>) : (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
+
+          <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+
+            <FlatList
+              keyExtractor={(item) => item.id.toString()}
+              // data={books}
+              data={filteredBooks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
+              // getItemCount={() => books.length}
+              // getItem={(books, index) => books[index]}
+              renderItem={({ item, id }) =>
+
+                <TouchableOpacity onPress={() => {
+                  navigation.navigate('BooksDetailPage', { data: item })
+                  // {data:item}
                 }}>
                   <View style={{
-                    flex: 1,
-                    width: 100,
-                    marginLeft: 60 / 2,
-                    marginTop: 10 / 2,
-                    borderRadius: 5,
-                    overflow: 'visible',
-
+                    width: 182,
+                    height: 296,
+                    marginBottom: 22,
+                    borderRadius: 10,
+                    backgroundColor: '#yellow'
 
                   }}>
-                    <Image source={{ uri: item.image_path }}
-                      style={{
-                        aspectRatio: 0.8,
-                        resizeMode: 'cover'
-                      }}
+                    <View style={{
+                      flex: 1,
+                      width: 100,
+                      marginLeft: 60 / 2,
+                      marginTop: 10 / 2,
+                      borderRadius: 5,
+                      overflow: 'visible',
 
 
-                    />
-                  </View>
-                  <View style={{ padding: 10, }}>
-                    <Text style={{
-                      fontSize: 15,
-                      fontWeight: 'bold',
-                      color: '#000'
-                    }} numberOfLines={2}>
-                      {item.name}
-                    </Text>
+                    }}>
+                      <Image source={{ uri: item.image_path }}
+                        style={{
+                          aspectRatio: 0.8,
+                          resizeMode: 'cover'
+                        }}
 
-                    {/* <Text style={{
+
+                      />
+                    </View>
+                    <View style={{ padding: 10, }}>
+                      <Text style={{
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        color: '#000'
+                      }} numberOfLines={2}>
+                        {item.name}
+                      </Text>
+
+                      {/* <Text style={{
                       backgroundColor: '#a3a3c2',
                       textAlign: 'center',
                       fontWeight: 'bold',
@@ -448,101 +1002,79 @@ useEffect(() => {
                     }}>{item.items[0].format}</Text> */}
 
 
-                      {item.items[0].format===3?( <Text style={{
-                      backgroundColor: '#a3a3c2',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 40,
-                      marginRight: 40,
-                      paddingTop: 5,
-                      height: 30,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>E-Book</Text>
-                    ):(<Text style={{
-                      backgroundColor: '#a3a3c2',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 40,
-                      marginRight: 40,
-                      paddingTop: 5,
-                      height: 30,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>Book</Text>)}
+                      {item.items[0].format === 3 ? (<Text style={{
+                        backgroundColor: '#a3a3c2',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        marginLeft: 40,
+                        marginRight: 40,
+                        paddingTop: 5,
+                        height: 30,
+                        marginTop: 5,
+                        borderRadius: 5,
+                      }}>E-Book</Text>
+                      ) : (<Text style={{
+                        backgroundColor: '#a3a3c2',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        marginLeft: 40,
+                        marginRight: 40,
+                        paddingTop: 5,
+                        height: 30,
+                        marginTop: 5,
+                        borderRadius: 5,
+                      }}>Book</Text>)}
 
-                  
-                  
-                  {item.library_id=== 111?
-                  (<Text style={{fontWeight: 'bold',marginLeft: 10}}>
-                    Dindayal UpadhyayLibrary</Text>):
-                  (item.library_id=== 222?
-                    (<Text style={{fontWeight: 'bold',marginLeft: 10}}>
-                      Kundanlal Gupta Library</Text>):
-                  (<Text style={{fontWeight: 'bold',marginLeft: 10}}>
-                    Rashtramata Kasturba Library</Text>))}
 
-                    
-                    <Text style={{
-                      backgroundColor: '#c27b7f',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 30,
-                      marginRight: 40,
-                      paddingTop: 10,
-                      width: 100,
-                      height: 40,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>Read More</Text>
+
+                      {item.library_id === 111 ?
+                        (<Text style={{ fontWeight: 'bold', marginLeft: 10 }}>
+                          Dindayal UpadhyayLibrary</Text>) :
+                        (item.library_id === 222 ?
+                          (<Text style={{ fontWeight: 'bold', marginLeft: 10 }}>
+                            Kundanlal Gupta Library</Text>) :
+                          (<Text style={{ fontWeight: 'bold', marginLeft: 10 }}>
+                            Rashtramata Kasturba Library</Text>))}
+
+
+                      <Text style={{
+                        backgroundColor: '#c27b7f',
+                        textAlign: 'center',
+                        fontWeight: 'bold',
+                        color: '#fff',
+                        marginLeft: 30,
+                        marginRight: 40,
+                        paddingTop: 10,
+                        width: 100,
+                        height: 40,
+                        marginTop: 5,
+                        borderRadius: 5,
+                      }}>Read More</Text>
+                    </View>
+
                   </View>
 
-                </View>
+                </TouchableOpacity>
 
-              </TouchableOpacity>
+              }
+              numColumns={2}
+              contentContainerStyle={{ columnGap: 10 }}
+            />
 
-            }
-            numColumns={2}
-            contentContainerStyle={{ columnGap: 10 }}
+          </View>
+
+          {/* // =====================pagination controls to navigate between pages===================  */}
+          <Pagination
+            currentPage={currentPage}
+            totalPages={Math.ceil(totalBooksCount / itemsPerPage)}
+            onPageChange={(page) => setCurrentPage(page)}
+
           />
 
-        </View>
 
-        {/* // =====================pagination controls to navigate between pages===================  */}
-        {/* <View style={styles.paginationContainer}>
-          <TouchableOpacity
-            style={styles.paginationButton}
-            onPress={() => {
-              if (currentPage > 1) {
-                setCurrentPage(currentPage - 1);
-              }
-            }}
-          >
-            <Text style={styles.paginationText}>Previous</Text>
-          </TouchableOpacity>
-          <Text style={styles.paginationText}>
-            Page {currentPage} of {Math.ceil(books.length / itemsPerPage)}
-          </Text>
-          <TouchableOpacity
-            style={styles.paginationButton}
-            onPress={() => {
-              if (currentPage < Math.ceil(books.length / itemsPerPage)) {
-                setCurrentPage(currentPage + 1);
-              }
-            }}
-          >
-            <Text style={styles.paginationText}>Next</Text>
-          </TouchableOpacity>
-        </View> */}
-        <Pagination
-        currentPage={currentPage}
-        totalPages={Math.ceil(totalBooksCount / itemsPerPage)}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
-      </ScrollView>
+        </ScrollView>
       </View>
 
 
@@ -559,6 +1091,7 @@ useEffect(() => {
         onClickLeftIcon={() => {
 
           navigation.openDrawer();
+          
         }}
 
       />
@@ -575,7 +1108,7 @@ useEffect(() => {
             onChangeText={(Text) => {
               setSearchQuery(Text);
               handleSearch();
-              
+
             }}
           />
 
@@ -583,7 +1116,7 @@ useEffect(() => {
             <TouchableOpacity onPress={() => {
               setSearchQuery('');
               setSearchResults('');
-             
+
             }}>
               <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
             </TouchableOpacity>)}
@@ -591,7 +1124,9 @@ useEffect(() => {
         </View>
       </View>
       {/* Display search results */}
-     
+
+
+
       {isLoading ?
         // (<ActivityIndicator size="large" color="#c27b7f" />,
         (<Text style={styles.noBooksFound}>No books found</Text>) :
@@ -602,13 +1137,13 @@ useEffect(() => {
           data={searchResults}
           ListFooterComponent={<AllBooks />}
           renderItem={({ item }) => (
-            
+
             // Render each search result item here
             <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
-              <View style={{ padding: 5, marginLeft: 10 ,flexDirection: 'row'}}>
-                <Image source={require('../images/bookfill.png')} style={styles.image}  />
+              <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
+                <Image source={require('../images/bookfill.png')} style={styles.image} />
 
-                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', marginBottom: 10,marginLeft:5 }} >
+                <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', marginBottom: 10, marginLeft: 5 }} >
                   {item.name}
                 </Text>
               </View>
@@ -665,10 +1200,10 @@ const styles = StyleSheet.create({
     color: '#000',
     // marginLeft:50
   },
-  image:{
-    width:20,
-    height:20,
-    borderRadius:25
+  image: {
+    width: 20,
+    height: 20,
+    borderRadius: 25
   },
 
 
@@ -688,9 +1223,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
-  noBooksFound:{
+  noBooksFound: {
     fontWeight: '900',
-    marginLeft:140
+    marginLeft: 140
   },
   totalBooksCount: {
     fontSize: 16,
@@ -698,12 +1233,13 @@ const styles = StyleSheet.create({
     color: '#000',
     marginLeft: 10,
     marginBottom: 10,
-    textAlign:'center'
+    textAlign: 'center'
   },
   scrollContainer: {
-    flexGrow: 1,}
+    flexGrow: 1,
+  }
 
-  
+
 });
 
 

@@ -1,13 +1,15 @@
 import React from "react";
-import { View, TouchableOpacity, Text, StyleSheet,Image } from "react-native";
+import { View, TouchableOpacity, Text, StyleSheet, Image, ScrollView } from "react-native";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   // Calculate the range of page numbers to display (e.g., [1, 2, 3, 4, 5])
   const pageRange = Array.from(
-    { length: Math.min(4, totalPages) },
-    (_, i) => currentPage - 3 + i
-  ).filter((page) => page > 0 && page <= totalPages);
+    { length: Math.min(totalPages, totalPages) },
+    (_, i) => i + 1
+  );
 
+  
+  
   return (
     <View style={styles.paginationContainer}>
       <TouchableOpacity
@@ -18,29 +20,34 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           }
         }}
       >
-        <Image source={require('../images/left_arrow.png')}
-                                style={{ width: 25, height:25, }} />
-        {/* <Text style={styles.paginationText}>Previous</Text> */}
+        <Image source={require('../images/left_arrow.png')} style={{ width: 25, height: 25, }} />
       </TouchableOpacity>
-      {pageRange.map((page) => (
-        <TouchableOpacity
-          key={page}
-          style={[
-            styles.paginationButton,
-            currentPage === page ? styles.activePageButton : null,
-          ]}
-          onPress={() => onPageChange(page)}
-        >
-          <Text
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.pageNumbersContainer}
+      >
+        {pageRange.map((page, index) => (
+          <TouchableOpacity
+            key={page}
             style={[
-              styles.paginationText,
-              currentPage === page ? styles.activePageText : null,
+              styles.paginationButton,
+              currentPage === page ? styles.activePageButton : null,
+              index < pageRange.length - 1 ? { marginRight: 15 } : null, // Add margin to all except the last one
             ]}
+            onPress={() => onPageChange(page)}
           >
-            {page}
-          </Text>
-        </TouchableOpacity>
-      ))}
+            <Text
+              style={[
+                styles.paginationText,
+                currentPage === page ? styles.activePageText : null,
+              ]}
+            >
+              {page}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       <TouchableOpacity
         style={styles.paginationButton}
         onPress={() => {
@@ -49,9 +56,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           }
         }}
       >
-        {/* <Text style={styles.paginationText}>Next</Text> */}
-        <Image source={require('../images/right-arrow.png')}
-                                style={{ width: 25, height:25, }} />
+        <Image source={require('../images/right-arrow.png')} style={{ width: 25, height: 25 }} />
       </TouchableOpacity>
     </View>
   );
@@ -63,12 +68,13 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 10,
-    backgroundColor:"#ffad001a"
+    backgroundColor: "#ffad001a",
   },
   paginationButton: {
     backgroundColor: "#c27b7f",
     padding: 10,
     borderRadius: 5,
+    marginRight:10
   },
   paginationText: {
     color: "#fff",
@@ -80,6 +86,13 @@ const styles = StyleSheet.create({
   activePageText: {
     color: "#fff", // Change to your active page text color
   },
+  pageNumbersContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
 });
 
 export default Pagination;
+
+
+
