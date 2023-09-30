@@ -16,28 +16,29 @@ const BookHistory = ({ navigation }) => {
   const { userToken } = useContext(AuthContext);
 
   // Access the booksHistory data from the Redux store
-  const booksHistory = useSelector((state) => state.bookHistory.data);
+  const booksHistory = useSelector((state) => state.book.data);
 
   // ================== Fetch book history data ==================
   
 
-  // useEffect(() => {
-  //   // Access the selected book's data from route.params.data
-  //   const selectedBookData = route.params.data;
-  //   const getBooksHistory = () => {
-  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
-  //       .then((res) => res.json())
-  //       .then((response) => {
-  //         dispatch(historyBooks(response.data));
-  //         setIsLoaded(true); // Set isLoaded to true when data is fetched
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching book history:", error);
-  //       });
-  //   };
-  //   getBooksHistory();
-  // }, [dispatch]);
+  useEffect(() => {
+    // Access the selected book's data from route.params.data
+    const selectedBookData = route.params.data;
+    const getBooksHistory = () => {
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+        .then((res) => res.json())
+        .then((response) => {
+          dispatch(historyBooks(response.data));
+          setIsLoaded(true); // Set isLoaded to true when data is fetched
+        })
+        .catch((error) => {
+          console.error("Error fetching book history:", error);
+        });
+    };
+    getBooksHistory();
+  }, [dispatch]);
 
+  
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', }}>
       <Header
