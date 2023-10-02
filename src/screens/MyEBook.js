@@ -184,7 +184,7 @@
 
 //   return (
 //     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      
+
 //       <Header
 //         rightIcon={require('../images/Logoelibrary.png')}
 //         leftIcon={require('../images/menu.png')}
@@ -335,13 +335,13 @@
 //           keyExtractor={(item) => item.isbn}
 //           data={books}
 //           renderItem={({ item }) => (
-            
+
 //               <View style={{ padding: 10 }}>
 //                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.isbn}</Text>
 //                 {/* <Text style={{ fontSize: 16 }}>{item.authors[0].first_name} {item.authors[0].last_name}</Text> */}
 //                 {/* Add more book details as needed */}
 //               </View>
-            
+
 //           )}
 //         />
 //       )}
@@ -358,16 +358,16 @@
 //           You haven't subscribed to any books yet.
 //         </Text>
 //       ) : (
-       
+
 //         <FlatList
 //           data={subscribedBooks}
-         
+
 //           keyExtractor={(item) => item}
 //           renderItem={({ item }) => (
 //             <View style={{ padding: 10 }}>
 //               {/* Display book details here based on the subscribed book data */}
 //               {/* You can fetch the book details based on 'item' */}
-              
+
 //               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.isbn}</Text>
 //               <Text style={{ fontSize: 16 }}>{/* Author, ISBN, or other details */}</Text>
 //               {/* Add more details as needed */}
@@ -396,73 +396,80 @@ import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import { viewBooks, subscribeToBook, unsubscribeFromBook } from '../redux/slice/BooksDetailSlice';
 import { Table, Row } from 'react-native-table-component';
+import moment from 'moment';
 
 
 const MyEBook = ({ navigation }) => {
   // const [books, setBooks] = useSelector((state) => state.book.data);
   const [isLoaded, setIsLoaded] = useState(false);
+  const [Ebooks, setEbooks] = useState([]);
+  const [AllEbooks, setAllEbooks] = useState([]);
   const dispatch = useDispatch();
   const route = useRoute();
-  const { userToken, member } = useContext(AuthContext);
+  const { userToken, member,userEmail } = useContext(AuthContext);
   const books = useSelector((state) => state.book.subscribedBooks);
   const [subscriptionData, setSubscriptionData] = useState([]);
  // const navigation = useNavigation(); // Get the navigation object
 
- console.log("Books:", books);
+ console.log("Books:", Ebooks);
+ console.log("userEmail:", userEmail);
   useEffect(() => {
     const getbooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
         .then(res => res.json())
         .then(responce => {
           // setBooks(responce.data);
           setIsLoaded(false);
-          dispatch(viewBooks(responce));
+          /* dispatch(viewBooks(responce)); */
+          setAllEbooks(responce.data);
+
         });
     };
+
+    const ebookSubscription = () => {
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+        .then(res => res.json())
+        .then(responce => {
+          // setBooks(responce.data);
+          setIsLoaded(false);
+          setEbooks(responce.data);
+        });
+    };
+
     getbooks();
+    ebookSubscription();
   }, []);
 
-  
-  
-  
-  const handleSubscribe = (library_id,isbn,name,language,author) => {
-    const isAlreadySubscribed = subscriptionData.some((item) => {
-      return (
-        item.email === member.email &&
-        item.library_id === route.params.data.library_id &&
-        item.ebook_id === route.params.data.id
-      );
-    });
 
-    if (isAlreadySubscribed) {
-      // User is already subscribed, implement the unsubscribe logic here if needed.
-      // ...
-    } else {
-      const newSubscription = {
-        email: member.email,
-        library_id: route.params.data.library_id,
-        ebook_id: route.params.data.id,
-      };
 
-      setSubscriptionData([...subscriptionData, newSubscription]);
 
-      // Navigate to the MyEBook page after subscribing
-      navigation.navigate('MyEBook'); // Replace 'MyEBook' with the actual screen name
-    }
-  };
-
-  
-  
-  
   const state = {
-    tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Language', 'Author', 'Action'],
+    tableHead: ['ISBN','Action'],
     widthArr: [130, 130, 300, 130, 130, 130],
   };
 
-  const tableData = books.map((item) => 
+  const itemsValue =
+  AllEbooks.length && Ebooks.length
+            ? AllEbooks
+                  .filter((item, i) =>
+                  Ebooks.find(
+                          (esub) =>
+                              moment(esub.returned_on).format("YYYY-MM-DD") >
+                                  moment().format("YYYY-MM-DD") &&
+                                  item.id == esub.ebook_id &&
+                                   item.library_id == esub.library_id &&
+                                   esub.email == userEmail
+                      )
+                  )
+            : [];
+
+
+            console.log("itemsValue:", itemsValue);
+  const tableData = itemsValue.map((item) =>
   //{
    // console.log("Item:", item);
     //return
+
     [
     item.library_id,
     item.isbn,
@@ -520,7 +527,7 @@ const MyEBook = ({ navigation }) => {
           </View>
         </ScrollView>
       </View>
-      {!isLoaded && <Text>Loading...</Text>}
+      {/* {!isLoaded && <Text>Loading...</Text>} */}
     </View>
   );
 };
