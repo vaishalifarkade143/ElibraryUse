@@ -1,12 +1,37 @@
 import { View, Text,StyleSheet,Image,ScrollView,TouchableOpacity,TextInput } from 'react-native'
-import React , { useState } from 'react'
+import React , { FC, ReactElement,useState } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
+// import Parse from 'parse/react-native';
 
 const ForgetPassword = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
-  return (
+
+    // const doUserPasswordReset = async function (): Promise<boolean> {
+    //     // Note that this value come from state variables linked to your text input
+    //     const emailValue = email;
+    //     return await Parse.User.requestPasswordReset(emailValue)
+    //       .then(() => {
+    //         // logIn returns the corresponding ParseUser object
+    //         Alert.alert(
+    //           'Success!',
+    //           `Please check ${email} to proceed with password reset.`,
+    //         );
+    //         // Redirect user to your login screen
+    //         navigation.navigate('Login');
+    //         return true;
+    //       })
+    //       .catch((error) => {
+    //         // Error can be caused by lack of Internet connection
+    //         Alert.alert('Error!', error.message);
+    //         return false;
+    //       });
+    //   };
+  
+  
+  
+    return (
     <View style={styles.container}>
     <Header
         rightIcon={require('../images/Logoelibrary.png')}

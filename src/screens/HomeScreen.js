@@ -252,7 +252,7 @@ useEffect(() => {
                   <TouchableOpacity onPress={openModal} style={styles.videoBtn}>
                     <Text style={styles.videoBtnText}>Play Video</Text>
                     {/* <image style={styles.videoBtnText}
-  source={{uri:'https://i.pinimg.com/1200x/ef/07/47/ef07471474a0e1086a185086c342ae00.jpg'}}/> */}
+        source={{uri:'https://i.pinimg.com/1200x/ef/07/47/ef07471474a0e1086a185086c342ae00.jpg'}}/> */}
                   </TouchableOpacity>
 
                 </View>

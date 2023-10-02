@@ -44,7 +44,7 @@
 // // };
 
 //   const libraries = [
-    
+
 //     { id: 111, name: "Dindayal Upadhyay Library" },
 //     { id: 222, name: "Kundanlal Gupta Library" },
 //     { id: 333, name: "Rashtramata Kasturba Library" }
@@ -101,7 +101,7 @@
 //                 leftIcon={require('../images/back.png')}
 //                 onClickLeftIcon={() => {
 //                     navigation.navigate('Book', { screen: 'Home' });
-                   
+
 //                 }}
 //             />
 //       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
@@ -173,7 +173,7 @@
 //                             Kundanlal Gupta Library</Text>) :
 //                           (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
 //                             Rashtramata Kasturba Library</Text>))}</View>
-            
+
 //           {/* </Picker> */}
 //         </View>
 
@@ -200,7 +200,7 @@
 //             marginBottom: 20
 //           }}
 
-          
+
 //             onPress={()=> {
 //               // handleSubscribe(route.params.data)}
 //           //     navigation.navigate('subscribe',{screen:'sLogin'});
@@ -229,7 +229,7 @@
 //       fontSize: 18
 //     }}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</Text> */}
 //         </TouchableOpacity>):
-         
+
 //       (
 //           <TouchableOpacity
 //           style={{
@@ -247,11 +247,11 @@
 //           onPress={() => {
 //             // Navigate to the login page since the user is not logged in
 //             navigation.navigate('sLogin');
-           
+
 //           }}
-         
+
 //         >
-          
+
 //           <Text style={{
 //             color: '#fff',
 //             fontWeight: '700',
@@ -374,10 +374,10 @@
 
 
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList } from 'react-native'
-import React, { useEffect, useState ,useContext} from 'react'
-import { useDispatch ,useSelector} from 'react-redux';
-import { viewBooks ,subscribeToBook, unsubscribeFromBook} from '../redux/slice/BooksDetailSlice';
-import { useRoute,useNavigation  } from '@react-navigation/native';
+import React, { useEffect, useState, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { viewBooks, subscribeToBook, unsubscribeFromBook } from '../redux/slice/BooksDetailSlice';
+import { useRoute, useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
@@ -386,7 +386,7 @@ import { AuthContext } from '../context/AuthContext';
 
 
 const BooksDetail = ({ navigation }) => {
-  
+
   const [books, setBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const route = useRoute();
@@ -403,32 +403,32 @@ const BooksDetail = ({ navigation }) => {
   const [isSubscribed, setIsSubscribed] = useState(false);
 
 
-  
-
-//   const [selectedlibraryOptions, setSelectedLibraryOptions] = useState('search by libraryOptions')
-
-// ;
-//   const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
 
 
+  //   const [selectedlibraryOptions, setSelectedLibraryOptions] = useState('search by libraryOptions')
 
-// const isSubscribed = subscribedBooks.data.includes(route.params.data.isbn);
+  // ;
+  //   const libraryOptions=['Dindayal Upadhyay Library','Kundanlal Gupta Library','Rashtramata Kasturba Library']
 
 
-// const handleSubscribe = (book) => {
-//   // Check if the book is already subscribed
-//   const isSubscribed = subscribedBooks.some((isbn) => isbn === book.isbn);
-//   if (!isSubscribed) {
-//     // If not subscribed, subscribe to the book
-//     dispatch(subscribedBooks(book));
-//   } else {
-//     // If already subscribed, unsubscribe from the book
-//     dispatch(unsubscribeFromBook(book));
-//   }
-// };
+
+  // const isSubscribed = subscribedBooks.data.includes(route.params.data.isbn);
+
+
+  // const handleSubscribe = (book) => {
+  //   // Check if the book is already subscribed
+  //   const isSubscribed = subscribedBooks.some((isbn) => isbn === book.isbn);
+  //   if (!isSubscribed) {
+  //     // If not subscribed, subscribe to the book
+  //     dispatch(subscribedBooks(book));
+  //   } else {
+  //     // If already subscribed, unsubscribe from the book
+  //     dispatch(unsubscribeFromBook(book));
+  //   }
+  // };
 
   const libraries = [
-    
+
     { id: 111, name: "Dindayal Upadhyay Library" },
     { id: 222, name: "Kundanlal Gupta Library" },
     { id: 333, name: "Rashtramata Kasturba Library" }
@@ -437,8 +437,8 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-   // Check if the book is already subscribed
-   useEffect(() => {
+  // Check if the book is already subscribed
+  useEffect(() => {
     setIsSubscribed(subscribedBooks.includes(route.params.data.isbn));
   }, [subscribedBooks, route.params.data.isbn]);
 
@@ -450,11 +450,11 @@ const BooksDetail = ({ navigation }) => {
       dispatch(unsubscribeFromBook(route.params.data.isbn));
     } else {
       // If not subscribed, subscribe to the book
-      dispatch(subscribeToBook(route.params.data.isbn));
-     
+      // dispatch(subscribeToBook(route.params.data.isbn));
+      dispatch(subscribeToBook(route.params.data));
 
       // Navigate to the MyEbooks page
-      appNavigation.navigate('reserveEBook',{ data: item });
+      appNavigation.navigate('reserveEBook',{data:item});
     }
   };
 
@@ -465,10 +465,10 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-  
-  
+
+
   // =================single book get================================
-useEffect(() => {
+  useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
 
@@ -512,14 +512,14 @@ useEffect(() => {
   return (
 
     <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
-       <Header
-                rightIcon={require('../images/Logoelibrary.png')}
-                leftIcon={require('../images/back.png')}
-                onClickLeftIcon={() => {
-                    navigation.navigate('Book', { screen: 'Home' });
-                   
-                }}
-            />
+      <Header
+        rightIcon={require('../images/Logoelibrary.png')}
+        leftIcon={require('../images/back.png')}
+        onClickLeftIcon={() => {
+          navigation.navigate('Book', { screen: 'Home' });
+
+        }}
+      />
       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
         <View style={{
           marginLeft: 80,
@@ -556,8 +556,8 @@ useEffect(() => {
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Format:</Text>
-          {route.params.data.items[0].format===2?(<Text style={{ fontSize: 15, marginLeft: 8 }}>Book</Text>):
-          (<Text style={{ fontSize: 15, marginLeft: 8 }}>E-Book</Text>)}
+          {route.params.data.items[0].format === 2 ? (<Text style={{ fontSize: 15, marginLeft: 8 }}>Book</Text>) :
+            (<Text style={{ fontSize: 15, marginLeft: 8 }}>E-Book</Text>)}
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Edition</Text>
@@ -581,15 +581,15 @@ useEffect(() => {
             onValueChange={(itemValue)=>setSelectedLibraryOptions(itemValue)}
             // enabled={true} // To disable user interaction with the Picker
           > */}
-          <View style={{marginRight:5}}>{route.params.data.library_id === 111 ?
-                        (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
-                          Dindayal UpadhyayLibrary</Text>) :
-                        (route.params.data.library_id === 222 ?
-                          (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
-                            Kundanlal Gupta Library</Text>) :
-                          (<Text style={{ fontWeight: 'bold',paddingTop:10,height: 50, fontSize:18,textAlign:'center',marginTop: 10,borderWidth: 5}}>
-                            Rashtramata Kasturba Library</Text>))}</View>
-            
+          <View style={{ marginRight: 5 }}>{route.params.data.library_id === 111 ?
+            (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
+              Dindayal UpadhyayLibrary</Text>) :
+            (route.params.data.library_id === 222 ?
+              (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
+                Kundanlal Gupta Library</Text>) :
+              (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
+                Rashtramata Kasturba Library</Text>))}</View>
+
           {/* </Picker> */}
         </View>
 
@@ -602,27 +602,27 @@ useEffect(() => {
 
         </View>
         {userToken !== null ?
-        (<TouchableOpacity
-          style={{
-            backgroundColor: '#c27b7f',
-            alignItems: 'center',
-            padding: 10,
-            borderRadius: 5,
-            width: '50%',
-            height: 50,
-            justifyContent: 'center',
-            marginTop: 20,
-            marginLeft: 100,
-            marginBottom: 20
-          }}
+          (<TouchableOpacity
+            style={{
+              backgroundColor: '#c27b7f',
+              alignItems: 'center',
+              padding: 10,
+              borderRadius: 5,
+              width: '50%',
+              height: 50,
+              justifyContent: 'center',
+              marginTop: 20,
+              marginLeft: 100,
+              marginBottom: 20
+            }}
 
-          
-            onPress={()=> {
-              handleSubscribe(route.params.data.isbn);
+
+            onPress={() => {
+              handleSubscribe(route.params.data);
               // handleSubscribe(route.params.data)}
-          //     navigation.navigate('subscribe',{screen:'sLogin'});
-          // navigation.navigate('reserveEBook', { data: route.params.data.isbn });
-          }}
+              //     navigation.navigate('subscribe',{screen:'sLogin'});
+              // navigation.navigate('reserveEBook', { data: route.params.data.isbn });
+            }}
 
           // onPress={() => navigation.navigate('Book', {
           //   screen: 'Home',
@@ -634,48 +634,48 @@ useEffect(() => {
           //   },
           // })}
 
-        >
-          <Text style={{
-      color: '#fff',
-      fontWeight: '700',
-      fontSize: 18
-    }}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</Text> 
-         {/* <Text style={{
+          >
+            <Text style={{
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: 18
+            }}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</Text>
+            {/* <Text style={{
       color: '#fff',
       fontWeight: '700',
       fontSize: 18
     }}>{isSubscribed ? 'Unsubscribe' : 'Subscribe'}</Text> */}
-        </TouchableOpacity>):
-         
-      (
-          <TouchableOpacity
-          style={{
-            backgroundColor: '#c27b7f',
-            alignItems: 'center',
-            padding: 10,
-            borderRadius: 5,
-            width: '50%',
-            height: 50,
-            justifyContent: 'center',
-            marginTop: 20,
-            marginLeft: 100,
-            marginBottom: 20
-          }}
-          onPress={() => {
-            // Navigate to the login page since the user is not logged in
-            navigation.navigate('sLogin');
-           
-          }}
-         
-        >
-          
-          <Text style={{
-            color: '#fff',
-            fontWeight: '700',
-            fontSize: 18
-          }}>Subscribe</Text>
-        </TouchableOpacity>
-      )}
+          </TouchableOpacity>) :
+
+          (
+            <TouchableOpacity
+              style={{
+                backgroundColor: '#c27b7f',
+                alignItems: 'center',
+                padding: 10,
+                borderRadius: 5,
+                width: '50%',
+                height: 50,
+                justifyContent: 'center',
+                marginTop: 20,
+                marginLeft: 100,
+                marginBottom: 20
+              }}
+              onPress={() => {
+                // Navigate to the login page since the user is not logged in
+                navigation.navigate('sLogin');
+
+              }}
+
+            >
+
+              <Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>Subscribe</Text>
+            </TouchableOpacity>
+          )}
         {/* =================================Trending books==================================== */}
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Trending Books</Text>

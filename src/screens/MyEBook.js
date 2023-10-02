@@ -243,7 +243,7 @@
 
 
 
-// MyEbooks.js
+//MyEbooks.js
 // import React ,{useEffect, useState ,useContext} from 'react';
 // import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
 // import { useSelector,useDispatch } from 'react-redux';
@@ -253,7 +253,7 @@
 
 // const MyEbooks = () => {
 //   const [books, setBooks] = useState([]);
-//   const [isLoaded, setisLoaded] = useState(false);
+//   const [isLoaded, setisLoaded] = useState(true);
 //   const route = useRoute();
 //   const dispatch = useDispatch();
 
@@ -313,8 +313,10 @@
   //       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
   //         .then((res) => res.json())
   //         .then((response) => {
+  //           setBooks(response.data)
   //           dispatch( subscribeToBook(response.data));
-  //          setisLoaded(true); // Set isLoaded to true when data is fetched
+            
+  //          setisLoaded(false); // Set isLoaded to true when data is fetched
   //         })
   //         .catch((error) => {
   //           console.error("Error fetching book history:", error);
@@ -362,14 +364,14 @@
 //         <FlatList
 //           data={subscribedBooks}
          
-//           keyExtractor={(item) => item}
+//           keyExtractor={(item) => item.isbn}
 //           renderItem={({ item }) => (
 //             <View style={{ padding: 10 }}>
 //               {/* Display book details here based on the subscribed book data */}
 //               {/* You can fetch the book details based on 'item' */}
               
 //               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.isbn}</Text>
-//               <Text style={{ fontSize: 16 }}>{/* Author, ISBN, or other details */}</Text>
+//               <Text style={{ fontSize: 16 }}>{item.library_id}</Text>
 //               {/* Add more details as needed */}
 //             </View>
 //           )}
