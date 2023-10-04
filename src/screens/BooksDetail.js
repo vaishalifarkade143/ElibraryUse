@@ -809,6 +809,7 @@ const BooksDetail = ({ navigation }) => {
   //const [isLoaded, setIsLoaded] = useState(false);
   const [Ebooks, setEbooks] = useState([]);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
+  const [subscribe, setSubscribe] = useState([]);
 
  
 
@@ -819,7 +820,9 @@ const BooksDetail = ({ navigation }) => {
     const subscriptionData = {
       ebook_id: item.id,
       member_id: member_id,
+      item
     };
+    console.log("subbb:",subscriptionData)
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
   
     fetch(url, {
@@ -829,25 +832,27 @@ const BooksDetail = ({ navigation }) => {
         Authorization: `Bearer ${userToken}`,
       },
       body: JSON.stringify(subscriptionData),
+
     })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
+        console.log("responce is:",response)
         return response.json();
       })
       .then((responseData) => {
         console.log('Data stored successfully:', responseData);
-  
+        setSubscribe(responseData.data);
+      
         // Update state or perform other actions as needed
   
         // Navigate to 'myEBook' here if necessary
         console.log('Navigating to myEBook...');
           navigation.navigate('myEBook', {
           data: item,
-          subscribedBooks: updatedSubscribedBooks,
+          //subscribedBooks: updatedSubscribedBooks,
         });
-        console.log('After navigation to myEBook');
       })
       .catch((error) => {
         console.error('Error storing data:', error);
