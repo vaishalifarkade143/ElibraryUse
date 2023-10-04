@@ -696,11 +696,6 @@ const Books = ({ navigation }) => {
   };
   // ==============================static dropdown===================================
 
-  
-  
-  // const formats = [{id:"null",name:"Formats"},{id:1,name:"book/ebook"},{id:2,name:"book"}, {id:3,name:"ebook"}];
-
-  // const genres=[{ id: "", name: "Genres" },{id:36,name:"Educational"},{id:44,name:"iology"}]
   const formats = [{ id: "", name: "Formats" },{ id: 2, name: "Books" }, { id: 3, name: "ebooks" }];
 
 
@@ -710,13 +705,7 @@ const Books = ({ navigation }) => {
     { id: 222, name: "Kundanlal Gupta Library" },
     { id: 333, name: "Rashtramata Kasturba Library" }
   ];
-  // const libraries = [
-  //   {id:"null",name:"Libraries"},
-  //   {id:111,name:"Dindayal Upadhyay Library"},
-  //   {id:222,name:"Kundanlal Gupta Library"},
-  //   {id:333,name:"Rashtramata Kasturba Library"}
-  // ];
-
+ 
 
 
   // ===================== fetching data for dynamic dropdown ================================================

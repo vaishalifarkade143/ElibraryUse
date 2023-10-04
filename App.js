@@ -12,7 +12,7 @@ import { store } from './src/redux/store';
 const stack = createNativeStackNavigator();
 const App = () => {
   return (
-    <Provider store={store}>
+    // <Provider store={store}>
     <AuthProvider>
       <AppNav />
 
@@ -25,7 +25,7 @@ const App = () => {
 
     </AuthProvider>
     
-    </Provider>
+    // </Provider>
   );
 };
 

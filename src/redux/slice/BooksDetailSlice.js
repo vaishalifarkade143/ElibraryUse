@@ -27,9 +27,9 @@ const BooksSlice = createSlice({
         isLoading:false,
     },
     reducers:{
-        viewBooks(state,action){
-            state.data = action.payload;
-        },
+        // viewBooks(state,action){
+        //     state.data = action.payload;
+        // },
         subscribeToBook (state, action) {
             // Add the ISBN of the subscribed book to the state
             state.subscribedBooks.push(action.payload);

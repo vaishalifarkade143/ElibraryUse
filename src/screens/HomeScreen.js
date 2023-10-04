@@ -98,10 +98,10 @@ useEffect(() => {
           </View>
 
         {/* ================Recently added books=================   */}
-     
+
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Recently Added</Text>
-         
+
         </View>
 
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
@@ -114,14 +114,12 @@ useEffect(() => {
               <TouchableOpacity onPress={() => {
                 navigation.navigate('BooksDetailPage',{data:item})
                 console.log(item);
-                // {data:item}
               }}>
                 <View style={{
                   width: 182,
                   height: 280,
                   marginEnd: 22,
                   borderRadius: 10,
-                  // backgroundColor: '#fff'
                 }}>
                   <View style={{
                     flex: 1,
@@ -194,8 +192,8 @@ useEffect(() => {
                     {/* <Text>{item.library_id}</Text>  */}
  {/* <Text>(({item.library_id}=== 333)?(({item.library_id}=== 111)?(<Text>Dindayal Upadhyay Library</Text>):(<Text>Kundanlal Gupta Library</Text>)):(<Text>Rashtramata Kasturba Library</Text>))</Text> */}
 
-    
-                    
+
+
 
 
 
@@ -236,14 +234,14 @@ useEffect(() => {
                   <Text style={styles.heading}>New to Nagpur Digital Library?</Text>
                   <Text style={styles.subHeading}>Here are some quick links to help you get started.</Text>
                   <Text style={styles.paragraph}>Signup for an account when connected to the campus network or contact library administrator.</Text>
-               
+
                   {userToken === null ?
                     <TouchableOpacity style={styles.joinLibraryBtn} onPress={() => {
                       navigation.navigate('Loginnn')
                     }}>
                       <Text style={styles.joinLibraryText}>Join The Library</Text>
                     </TouchableOpacity> : null}
-                  
+
 
                 </View>
                 <View style={styles.rightCol}>
@@ -273,7 +271,7 @@ useEffect(() => {
             controls={true} // Make sure controls are enabled
           />
           {/* Add any other content or close button here */}
-        </View> 
+        </View>
 
               {/* Your video modal content */}
               {/* You can add your video player component here */}
@@ -290,7 +288,7 @@ useEffect(() => {
 
 
         {/* ===========Frequently added======== */}
-       
+
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Frequently Added</Text>
           <TouchableOpacity>
@@ -382,7 +380,7 @@ useEffect(() => {
                       marginTop: 5,
                       borderRadius: 5,
                     }}>{item.items[0].format}</Text> */}
-                    
+
                     <Text style={{
                       backgroundColor: '#c27b7f',
                       textAlign: 'center',

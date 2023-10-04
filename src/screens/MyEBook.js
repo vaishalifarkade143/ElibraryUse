@@ -115,65 +115,102 @@
 // });
 
 
-
-
-
-
-//============================== i m using this code=======================
-
+//===================================worked=============================
 
 // import React, { useState, useEffect, useContext } from 'react';
-// import { View, Text, ScrollView, StyleSheet } from 'react-native';
+// import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
 // import Header from '../common/Header';
 // import { useDispatch, useSelector } from 'react-redux';
 // import { useRoute } from '@react-navigation/native';
 // import { AuthContext } from '../context/AuthContext';
-// import { viewBooks ,subscribeToBook, unsubscribeFromBook} from '../redux/slice/BooksDetailSlice';
-// import { Table, TableWrapper, Row, Col } from 'react-native-table-component';
+// import { Table, Row } from 'react-native-table-component';
 // import moment from 'moment';
+
+
 // const MyEBook = ({ navigation }) => {
 //   const [isLoaded, setIsLoaded] = useState(false);
-//   const dispatch = useDispatch();
+//   const [Ebooks, setEbooks] = useState([]);
+//   const [AllEbooks, setAllEbooks] = useState([]);
 //   const route = useRoute();
-//   const { userToken, } = useContext(AuthContext);
+//   const { userToken,  userEmail,} = useContext(AuthContext);
+//   const { data, subscribedBooks } = route.params;
 
-//   const book = useSelector((state) => state.book.subscribedBooks);
-
-//   // const userSubscriptions = useSelector((state) => state.bookHistory.data) || []; // Provide an empty array as a default
-//   // Filter the booksHistory array to include only subscribed books
-//   // const subscribedBooks = subscribedBooks.filter((book) =>
-//   // book.includes(book.isbn)
-//   // );
-//   // const subscribedBooks = useSelector((state) => state.book.subscribedBooks);
-
-//   console.log(book );
-
+  
 //   useEffect(() => {
-//     const selectedBookData = route.params.data;
-//     const getBooksHistory = () => {
-//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-//         .then((res) => res.json())
-//         .then((response) => {
-//           dispatch(viewBooks(response.data));
-//           setIsLoaded(true);
-//         })
-//         .catch((error) => {
-//           console.error("Error fetching book history:", error);
+//     const getbooks = () => {
+//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
+//         .then(res => res.json())
+//         .then(responce => {
+//           setIsLoaded(false);
+//           setAllEbooks(responce.data);
+
 //         });
 //     };
-//     getBooksHistory();
-//   }, [dispatch]);
+
+//     const ebookSubscription = () => {
+//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+//         .then(res => res.json())
+//         .then(responce => {
+//           setIsLoaded(false);
+//           setEbooks(responce.data);
+//           //setSubscriptionData(route.params.data);
+//         });
+//     };
+
+//     getbooks();
+//     ebookSubscription();
+//   }, []);
+
+
 
 //   const state = {
-//     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Language', 'Author', 'Action'],
-//     widthArr: [130, 130, 300, 130, 130, 130], // Adjust the column widths as needed
+//     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
+//     widthArr: [130, 130, 300, 130, 130, 130],
 //   };
 
-//   const tableData = isLoaded
-//     ? book.map((item) => [item.library_id, item.isbn, item.name, '', '', '']) // Fill in language, author, and action
-//     : [];
+//   const itemsValue =
+//     AllEbooks.length && Ebooks.length
+//       ? AllEbooks
+//         .filter((item, i) =>
+//           Ebooks.find(
+//             (esub) =>
+//               // moment(esub.returned_on).format("YYYY-MM-DD") >
+//               //     moment().format("YYYY-MM-DD") &&
+//               item.id == esub.ebook_id &&
+//               item.library_id == esub.library_id &&
+//               esub.email == userEmail
+//           )
+//         )
+//       : [];
 
-//   // Render the content only when the user is logged in
+
+
+//   //console.log("itemsValue:", itemsValue);
+//   // Create a row to display the data from route.params.data
+//   const routeData = [
+//     route.params.data.library_id,
+//     route.params.data.isbn,
+//     route.params.data.name,
+//     `${route.params.data.authors[0].first_name} ${route.params.data.authors[0].last_name}`,
+//     route.params.data.items[0].language.language_name,
+//     // <Text style={{ color: 'blue', textAlign: 'center' }}>Subscribed</Text>
+//   ];
+
+//   const updatedTableData = [routeData, ...itemsValue.map((item) =>
+//     [
+//       item.library_id,
+//       item.isbn_no,
+//       item.name,
+//       item.authors,
+//       item.language_name,
+//       // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
+//     ]
+//   )];
+
+//   // console.log("table data is : "+tableData);
+//   // Combine the routeData row with the existing tableData
+//   // const updatedTableData = [routeData, ...TableData];
+
 //   if (userToken === null) {
 //     return (
 //       <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
@@ -181,10 +218,9 @@
 //       </View>
 //     );
 //   }
-
+//   // console.log("data is:", route.params.data);
 //   return (
 //     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      
 //       <Header
 //         rightIcon={require('../images/Logoelibrary.png')}
 //         leftIcon={require('../images/menu.png')}
@@ -198,17 +234,16 @@
 //       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
 //       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
 //         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-//           <View style={{ backgroundColor: '#fff', marginTop: 15,marginLeft:15,marginRight:15 }}>
-
+//           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
 //             <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
 //               <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
 //             </Table>
 //             <ScrollView style={styles.dataWrapper}>
 //               <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-//                 {tableData.map((rowData, index) => (
+//                 {updatedTableData.map((item, index) => (
 //                   <Row
 //                     key={index}
-//                     data={rowData}
+//                     data={item}
 //                     widthArr={state.widthArr}
 //                     style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
 //                     textStyle={styles.text}
@@ -216,11 +251,270 @@
 //                 ))}
 //               </Table>
 //             </ScrollView>
-
 //           </View>
 //         </ScrollView>
 //       </View>
-//       {!isLoaded && <Text>Loading...</Text>}
+      
+//     </View>
+//   );
+// };
+
+// export default MyEBook;
+
+// const styles = StyleSheet.create({
+//   container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
+//   header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
+//   text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
+//   dataWrapper: { marginTop: -1 },
+//   row: { height: 40, backgroundColor: '#fff' },
+// });
+
+
+//=================================practice by sanjeev========================================
+
+
+// import React, { useState, useEffect, useContext } from 'react';
+// import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+// import Header from '../common/Header';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { useRoute } from '@react-navigation/native';
+// import { AuthContext } from '../context/AuthContext';
+// import { Table, Row } from 'react-native-table-component';
+// import moment from 'moment';
+// import AsyncStorage from "@react-native-async-storage/async-storage";
+
+
+// const MyEBook = ({ navigation }) => {
+//   const [isLoaded, setIsLoaded] = useState(false);
+//   const [Ebooks, setEbooks] = useState([]);
+//   const [AllEbooks, setAllEbooks] = useState([]);
+//   const route = useRoute();
+//   const { userToken,  userEmail,} = useContext(AuthContext);
+//   const { data, subscribedBooks } = route.params;
+
+//   //const [subscriptionData, setSubscriptionData] = useState(route.params.data);
+//   //const [subscribedBooks, setSubscribedBooks] = useState([]);
+//   //  console.log("Books:", Ebooks);
+//   //  console.log("userEmail:", userEmail);
+  
+
+  
+//   useEffect(() => {
+//     const getbooks = () => {
+//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
+//         .then(res => res.json())
+//         .then(responce => {
+//           setIsLoaded(false);
+//           setAllEbooks(responce.data);
+
+//         });
+//     };
+
+    
+
+//     const ebookSubscription = () => {
+//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+//         .then(res => res.json())
+//         .then(responce => {
+//           setIsLoaded(false);
+//           setEbooks(responce.data);
+//           setSubscriptionData(route.params.data);
+//         });
+//     };
+
+//     // const ebookSubscription = () => {
+//     //   //   
+//     //         setEbooks(route.params.data);
+//     //   //       
+//     //   //     });
+//     //   };
+
+//     //  setEbooks(ebookSubscription);
+
+//     getbooks();
+//     ebookSubscription();
+//   }, []);
+
+
+
+//   const state = {
+//     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
+//     widthArr: [130, 130, 300, 130, 130, 130],
+//   };
+
+
+
+//   const itemsValue =
+//     AllEbooks.length && Ebooks.length
+//       ? AllEbooks
+//         .filter((item, i) =>
+//           Ebooks.find(
+//             (esub) =>
+//               // moment(esub.returned_on).format("YYYY-MM-DD") >
+//               //     moment().format("YYYY-MM-DD") &&
+//               item.id == esub.ebook_id &&
+//               item.library_id == esub.library_id &&
+//               esub.email == userEmail
+//           )
+//         )
+//       : [];
+
+
+//       const syncSubscribedEBooksWithAPI = async () => {
+//         try {
+//           const subscribedEBooks = await AsyncStorage.getItem('subscribedEBooks');
+          
+//           if (subscribedEBooks) {
+//             const subscribedEBookData = JSON.parse(subscribedEBooks);
+      
+//             // Send the subscribedEBookData to the API using a POST request
+//             const response = await fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription', {
+//               method: 'GET',
+//               headers: {
+//                 'Content-Type': 'application/json',
+//                 // Add any required headers here
+//               },
+//               body: JSON.stringify(subscribedEBookData),
+//             });
+      
+//             if (response.status === 200) {
+//               // Data was successfully synced with the API, you can remove the data from local storage if needed
+//               await AsyncStorage.removeItem('subscribedEBooks');
+//               console.log('Subscribed eBook data synced with API');
+//             } else {
+//               console.error('Failed to sync subscribed eBook data with API');
+//             }
+//           }
+//         } catch (error) {
+//           console.error('Error syncing subscribed eBook data with API: ', error);
+//         }
+//       };
+      
+//       // Example usage to sync data when the user is online
+//       syncSubscribedEBooksWithAPI();
+
+
+//   // const itemsValue =
+//   // AllEbooks .filter((item, i) =>
+  
+//   // //     ? AllEbooks
+//   // //   AllEbooks.length && Ebooks.length
+  
+//   // Ebooks.find((esub) =>
+//   // item.isbn_no== route.params.data.isbn ?
+//   //             (item.id== route.params.data.id &&
+//   //             item.library_id == route.params.data.library_id &&
+//   //             esub.email == userEmail)
+//   // //     ? AllEbooks
+//   // //       .filter((item, i) =>
+//   // //         Ebooks.find(
+//   // //           (esub) =>
+//   //             // moment(esub.returned_on).format("YYYY-MM-DD") >
+//   //             //     moment().format("YYYY-MM-DD") &&
+              
+  
+        
+//   //  : []));
+  
+
+
+
+//   //console.log("itemsValue:", itemsValue);
+//   // Create a row to display the data from route.params.data
+//   // const routeData = [
+
+//   //   route.params.data.library_id,
+//   //   route.params.data.isbn,
+//   //   route.params.data.name,
+//   //  `${route.params.data.authors[0].first_name} ${route.params.data.authors[0].last_name}`,
+//   //   route.params.data.items[0].language.language_name,
+//   //   <Text style={{ color: 'blue', textAlign: 'center' }}>Subscribed</Text>
+//   // ];
+//   const routeData = [
+    
+//     // route.params.data.id,
+
+//     route.params.data.library_id,
+//     route.params.data.isbn,
+//     route.params.data.name,
+    
+//    `${route.params.data.authors[0].first_name} ${route.params.data.authors[0].last_name}`,
+//     route.params.data.items[0].language.language_name,
+//    // <Text style={{ color: 'blue', textAlign: 'center' }}>Subscribed</Text>,
+
+    
+//   ];
+
+//   const updatedTableData = [routeData, ...itemsValue.map((item) =>
+//     [
+//       item.library_id,
+//       item.isbn_no,
+//       item.name,
+//       item.authors,
+//       item.language_name,
+//       // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
+//     ]
+//   )];
+
+//   // const updatedTableData = itemsValue.map((item) =>
+//   //   [
+//   //     item.library_id,
+//   //     item.isbn_no,
+//   //     item.name,
+//   //     item.authors,
+//   //     item.language_name,
+//   //     // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
+//   //   ]
+//   // );
+
+//   // console.log("table data is : "+tableData);
+//   // Combine the routeData row with the existing tableData
+//   // const updatedTableData = [routeData, ...TableData];
+
+//   if (userToken === null) {
+//     return (
+//       <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+//         <Text>You need to log in to view this page.</Text>
+//       </View>
+//     );
+//   }
+//   // console.log("data is:", route.params.data);
+//   return (
+//     <View style={{ flex: 1, backgroundColor: '#fff' }}>
+//       <Header
+//         rightIcon={require('../images/Logoelibrary.png')}
+//         leftIcon={require('../images/menu.png')}
+//         onClickLeftIcon={() => {
+//           navigation.openDrawer();
+//         }}
+//       />
+//       <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+//         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
+//       </View>
+//       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
+//       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+//         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+//           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+//             <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+//               <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+//             </Table>
+//             <ScrollView style={styles.dataWrapper}>
+//               <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+//                 {updatedTableData.map((item, index) => (
+//                   <Row
+//                     key={index}
+//                     data={item}
+//                     widthArr={state.widthArr}
+//                     style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
+//                     textStyle={styles.text}
+//                   />
+//                 ))}
+//               </Table>
+//             </ScrollView>
+//           </View>
+//         </ScrollView>
+//       </View>
+//       {/* {!isLoaded && <Text>Loading...</Text>} */}
 //     </View>
 //   );
 // };
@@ -237,158 +531,7 @@
 
 
 
-//=====================================//==============================================//
-
-
-
-
-
-//MyEbooks.js
-// import React ,{useEffect, useState ,useContext} from 'react';
-// import { View, Text, FlatList, Image, TouchableOpacity } from 'react-native';
-// import { useSelector,useDispatch } from 'react-redux';
-// import { useRoute,useNavigation  } from '@react-navigation/native';
-// import { viewBooks ,subscribeToBook, unsubscribeFromBook} from '../redux/slice/BooksDetailSlice';
-
-
-// const MyEbooks = () => {
-//   const [books, setBooks] = useState([]);
-//   const [isLoaded, setisLoaded] = useState(true);
-//   const route = useRoute();
-//   const dispatch = useDispatch();
-
-//   const subscribedBooks = useSelector((state) => state.book.subscribedBooks);
-//   console.log(subscribedBooks )
-
-
-  // useEffect(() => {
-  //   const getbooks = () => {
-  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-
-  //       .then(res => res.json())
-  //       //  .then(responce => console.log(responce));
-  //       .then(responce => {
-  //         // console.log(JSON.stringify(items) + ' ' +items.data.length);
-  //         //console.log(responce.data);
-  //         // console.log('Image : ' + responce.data.image);
-  //         setBooks(responce.data);
-  //         setisLoaded(false);
-  //         dispatch(viewBooks(responce));
-
-  //       });
-  //   };
-  //   getbooks();
-  // }, []);
-
-
-  // useEffect(() => {
-  //   // Fetch book details for the subscribed ISBN numbers here
-  //   const fetchBookDetails = async () => {
-  //     try {
-  //       const bookDetails = await Promise.all(
-  //         subscribedBooks.map(async (isbn) => {
-  //           const response = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${isbn}`);
-  //           const data = await response.json();
-  //           return data; // Return the book details for each ISBN
-  //         })
-  //       );
-  //       setBooks(bookDetails);
-  //       setisLoaded(false);
-  //     } catch (error) {
-  //       console.error('Error fetching book details:', error);
-  //     }
-  //   };
-
-  //   if (subscribedBooks.length > 0) {
-  //     fetchBookDetails();
-  //   }
-  // }, [subscribedBooks]);
-
-
-
-  // useEffect(() => {
-  //     // Access the selected book's data from route.params.data
-  //     // const selectedBookData = route.params.data;
-  //     const getBooksHistory = () => {
-  //       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
-  //         .then((res) => res.json())
-  //         .then((response) => {
-  //           setBooks(response.data)
-  //           dispatch( subscribeToBook(response.data));
-            
-  //          setisLoaded(false); // Set isLoaded to true when data is fetched
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error fetching book history:", error);
-  //         });
-  //     };
-  //     getBooksHistory();
-  //   }, []);
-
-
-
-//   return (
-//     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-//       <Text style={{ fontSize: 20, fontWeight: 'bold', margin: 20 }}>My Ebooks</Text>
-//       {isLoaded ? (
-//         <Text style={{ textAlign: 'center', fontSize: 16 }}>Loading...</Text>
-//       ) : (
-//         <FlatList
-//           keyExtractor={(item) => item.isbn}
-//           data={books}
-//           renderItem={({ item }) => (
-            
-//               <View style={{ padding: 10 }}>
-//                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.isbn}</Text>
-//                 {/* <Text style={{ fontSize: 16 }}>{item.authors[0].first_name} {item.authors[0].last_name}</Text> */}
-//                 {/* Add more book details as needed */}
-//               </View>
-            
-//           )}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-
-
-//   return (
-//     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-//       <Text style={{ fontSize: 20, fontWeight: 'bold', margin: 20 }}>My Ebooks</Text>
-//       {subscribedBooks.length === 0 ? (
-//         <Text style={{ textAlign: 'center', fontSize: 16 }}>
-//           You haven't subscribed to any books yet.
-//         </Text>
-//       ) : (
-       
-//         <FlatList
-//           data={subscribedBooks}
-         
-//           keyExtractor={(item) => item.isbn}
-//           renderItem={({ item }) => (
-//             <View style={{ padding: 10 }}>
-//               {/* Display book details here based on the subscribed book data */}
-//               {/* You can fetch the book details based on 'item' */}
-              
-//               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.isbn}</Text>
-//               <Text style={{ fontSize: 16 }}>{item.library_id}</Text>
-//               {/* Add more details as needed */}
-//             </View>
-//           )}
-//         />
-//       )}
-//     </View>
-//   );
-// };
-
-// export default MyEbooks;
-
-
-
-
-//===================================practice=============================
-
-
+//======================= practice by prachi===============================
 
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
@@ -396,88 +539,104 @@ import Header from '../common/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
-import { viewBooks, subscribeToBook, unsubscribeFromBook } from '../redux/slice/BooksDetailSlice';
 import { Table, Row } from 'react-native-table-component';
+import moment from 'moment';
 
 
 const MyEBook = ({ navigation }) => {
-  // const [books, setBooks] = useSelector((state) => state.book.data);
   const [isLoaded, setIsLoaded] = useState(false);
-  const dispatch = useDispatch();
+  const [Ebooks, setEbooks] = useState([]);
+  const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
-  const { userToken, member } = useContext(AuthContext);
-  const books = useSelector((state) => state.book.subscribedBooks);
-  const [subscriptionData, setSubscriptionData] = useState([]);
- // const navigation = useNavigation(); // Get the navigation object
+  const { userToken,  userEmail,} = useContext(AuthContext);
+  const { data, subscribedBooks } = route.params;
 
- console.log("Books:", books);
+  
   useEffect(() => {
     const getbooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
         .then(res => res.json())
         .then(responce => {
-          // setBooks(responce.data);
           setIsLoaded(false);
-          dispatch(viewBooks(responce));
+          setAllEbooks(responce.data);
+
         });
     };
+
+    const ebookSubscription = () => {
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+        .then(res => res.json())
+        .then(responce => {
+          setIsLoaded(false);
+          setEbooks(responce.data);
+          //setSubscriptionData(route.params.data);
+        });
+    };
+
     getbooks();
+    ebookSubscription();
   }, []);
 
-  
-  
-  
-  const handleSubscribe = (library_id,isbn,name,language,author) => {
-    const isAlreadySubscribed = subscriptionData.some((item) => {
-      return (
-        item.email === member.email &&
-        item.library_id === route.params.data.library_id &&
-        item.ebook_id === route.params.data.id
-      );
-    });
 
-    if (isAlreadySubscribed) {
-      // User is already subscribed, implement the unsubscribe logic here if needed.
-      // ...
-    } else {
-      const newSubscription = {
-        email: member.email,
-        library_id: route.params.data.library_id,
-        ebook_id: route.params.data.id,
-      };
 
-      setSubscriptionData([...subscriptionData, newSubscription]);
-
-      // Navigate to the MyEBook page after subscribing
-      navigation.navigate('MyEBook'); // Replace 'MyEBook' with the actual screen name
-    }
-  };
-
-  
-  
-  
   const state = {
-    tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Language', 'Author', 'Action'],
+    tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
     widthArr: [130, 130, 300, 130, 130, 130],
   };
 
-  const tableData = books.map((item) => 
-  //{
-   // console.log("Item:", item);
-    //return
+  const itemsValue =
+    AllEbooks.length && Ebooks.length
+      ? AllEbooks
+        .filter((item, i) =>
+          Ebooks.find(
+            (esub) =>
+              // moment(esub.returned_on).format("YYYY-MM-DD") >
+              //     moment().format("YYYY-MM-DD") &&
+              item.id == esub.ebook_id &&
+              item.library_id == esub.library_id &&
+              esub.email == userEmail
+          )
+        )
+      : [];
+
+
+
+  // console.log("itemsValue:", itemsValue);
+  // //Create a row to display the data from route.params.data
+  // const routeData = [
+  //   route.params.data.library_id,
+  //   route.params.data.isbn,
+  //   route.params.data.name,
+  //  `${route.params.data.authors[0].first_name} ${route.params.data.authors[0].last_name}`,
+  //  route.params.data.items[0].language.language_name,
+  //   // <Text style={{ color: 'blue', textAlign: 'center' }}>Subscribed</Text>
+  // ];
+
+  // const updatedTableData = [routeData, ...itemsValue.map((item) =>
+  //   [
+  //     item.library_id,
+  //     item.isbn_no,
+  //     item.name,
+  //     item.authors,
+  //     item.language_name,
+  //     // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
+  //   ]
+  // )];
+
+  const updatedTableData = itemsValue.map((item) =>
     [
-    item.library_id,
-    item.isbn,
-    item.name,
-    '',
-    '',
-    <TouchableOpacity onPress={() => handleSubscribe( item.library_id,item.isbn,item.name)}>
-      <Text style={{ color: 'red' }}>Subscribe</Text>
-    </TouchableOpacity>,
-  ]
-//}
-);
-  console.log("table data is : "+tableData);
+      item.library_id,
+      item.isbn_no,
+      item.name,
+      item.authors,
+      item.language_name,
+      // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
+    ]
+  );
+
+  // console.log("table data is : "+tableData);
+  // Combine the routeData row with the existing tableData
+  // const updatedTableData = [routeData, ...TableData];
 
   if (userToken === null) {
     return (
@@ -486,7 +645,7 @@ const MyEBook = ({ navigation }) => {
       </View>
     );
   }
-
+  // console.log("data is:", route.params.data);
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header
@@ -508,10 +667,10 @@ const MyEBook = ({ navigation }) => {
             </Table>
             <ScrollView style={styles.dataWrapper}>
               <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                {tableData.map((rowData, index) => (
+                {updatedTableData.map((item, index) => (
                   <Row
                     key={index}
-                    data={rowData}
+                    data={item}
                     widthArr={state.widthArr}
                     style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
                     textStyle={styles.text}
@@ -522,7 +681,7 @@ const MyEBook = ({ navigation }) => {
           </View>
         </ScrollView>
       </View>
-      {!isLoaded && <Text>Loading...</Text>}
+      
     </View>
   );
 };
@@ -536,6 +695,3 @@ const styles = StyleSheet.create({
   dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: '#fff' },
 });
-
-
-//=========================================================================

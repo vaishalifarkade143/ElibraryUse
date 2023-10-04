@@ -39,7 +39,7 @@ const BookDetails = () => {
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
       <Bookstack.Screen name='subscribebookHistory' component={BookHistory} />
-      <Bookstack.Screen name='reserveEBook' component={MyEBook} />
+      <Bookstack.Screen name='myEBook' component={MyEBook} />
     </Bookstack.Navigator>
   );
 };
