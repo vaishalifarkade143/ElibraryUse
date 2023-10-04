@@ -550,7 +550,7 @@ const MyEBook = ({ navigation }) => {
   const route = useRoute();
   const { userToken,  userEmail,} = useContext(AuthContext);
   const { data, subscribedBooks } = route.params;
-
+  const{subscribe,setSubscribe} = ([]);
   
   useEffect(() => {
     const getbooks = () => {
@@ -570,6 +570,8 @@ const MyEBook = ({ navigation }) => {
           setIsLoaded(false);
           setEbooks(responce.data);
           //setSubscriptionData(route.params.data);
+          setSubscribe(route.params.data);
+
         });
     };
 

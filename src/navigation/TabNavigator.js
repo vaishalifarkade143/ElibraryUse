@@ -26,7 +26,7 @@ const LoginAndRegister = () => {
       <stack.Screen name='Registration' component={Registration} />
       <stack.Screen name='ForgetPassword' component={ForgetPassword}/>
       <stack.Screen name='Bookhistory' component={BookHistory}/>
-      <stack.Screen name='MyeBook' component={MyEBook}/>
+      {/* <stack.Screen name='MyeBook' component={MyEBook}/> */}
     </stack.Navigator>
   );
 };
