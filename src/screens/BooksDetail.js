@@ -6,60 +6,52 @@ import { useRoute, useNavigation } from '@react-navigation/native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from 'axios';
+import { BASE_URL } from "../config";
+
 
 const BooksDetail = ({ navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
   const route = useRoute();
   const [tredbooks, setTredBooks] = useState([]);
-  const { userToken } = useContext(AuthContext);
+  const { userToken ,userInfo} = useContext(AuthContext);
   const [isSubscribed, setIsSubscribed] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);//for loading
   const [subscribedBooks, setSubscribedBooks] = useState([]);
 
+  const handleSubscribe =  (item) => {
 
-  // useEffect(() => {
-  //   // Load subscribed books from local storage when component mounts
-  //   const loadSubscribedBooks = async () => {
-  //     try {
-  //       const storedBooks = await AsyncStorage.getItem('subscribedBooks');
-  //       if (storedBooks) {
-  //         setSubscribedBooks(JSON.parse(storedBooks));
-  //       }
-  //     } catch (error) {
-  //       console.error('Error loading subscribed books from storage: ', error);
-  //     }
-  //   };
 
-  //   loadSubscribedBooks();
-  // }, []);
+    const member_id = userInfo.data.user.member_id;
+    const book_id = userInfo.data.items.book_id
+    console.log('data test', item);
+    /* fetch(`${BASE_URL}/v1/ebook-subscription`, {
+      method: 'POST',
+      headers: {
+          Accept: 'application/json',
+          Authorization: `Bearer ${userToken}`,
 
-  const handleSubscribe = async (item) => {
-    const isAlreadySubscribed = subscribedBooks.some((book) => book.id === item.id);
-    let updatedSubscribedBooks;
-    if (isAlreadySubscribed) {
-      // Unsubscribe by removing the book from the list
-      const updatedSubscribedBooks = subscribedBooks.filter((book) => book.id !== item.id);
-      setSubscribedBooks(updatedSubscribedBooks);
-    } else {
-      // Subscribe by adding the new book to the list
-      const updatedSubscribedBooks = [...subscribedBooks, item];
-      setSubscribedBooks(updatedSubscribedBooks);
-    }
+          'Content-Type': 'multipart/form-data',
 
-    // Save the updated list to local storage
-    // try {
-    //   await AsyncStorage.setItem('subscribedBooks', JSON.stringify(updatedSubscribedBooks || []));
-    // } catch (error) {
-    //   console.error('Error saving subscribed books to storage: ', error);
-    // }
+      },
+      body:{item.data, member_id: member_id, ebook_id: ebook_id},
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+          console.log('response object:',responseJson)
+      })
+      .catch((error) => {
+        console.error(error);
+      }); */
 
-    // Navigate to MyEBook and pass the data
-    navigation.navigate('myEBook', {
-      data: route.params.data,
-      subscribedBooks: updatedSubscribedBooks,
-    });
-  };
-  
+
+};
+
+    /* post request for ebook subscribe end  */
+
+
+
+
 
   // ===========================Trending button=======================
   useEffect(() => {
@@ -74,9 +66,10 @@ const BooksDetail = ({ navigation }) => {
     tredingbooks();
   }, []);
 
-
   const item=route.params.data;
   console.log("passing value to MyEBook Page",route.params.data);
+  const library_id = route.params.data.library_id;
+  console.log("library_id",route.params.data.library_id);
   // =================single book get================================
   return (
 
@@ -105,7 +98,7 @@ const BooksDetail = ({ navigation }) => {
           }}>
             <Image source={{
               uri: route.params.data.image_path
-              //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png" 
+              //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png"
             }}
 
               style={{
@@ -208,7 +201,7 @@ const BooksDetail = ({ navigation }) => {
                 fontWeight: '700',
                 fontSize: 18
               }}>Reserved</Text>)}
-        
+
           </TouchableOpacity>) :
 
           (
@@ -432,11 +425,11 @@ const styles = StyleSheet.create({
 //             Authorization: `Bearer ${userToken}`,
 //           },
 //         });
-  
+
 //         if (!response.ok) {
 //           throw new Error('Network response was not ok');
 //         }
-  
+
 //         const responseData = await response.json();
 //       if (responseData.result === 'success') {
 //         console.log('Successfully subscribed to the eBook');
@@ -453,7 +446,7 @@ const styles = StyleSheet.create({
 //        subscribedBooks: updatedSubscribedBooks,
 //     });
 //   };
-// } 
+// }
 // // const handleSubscribe = async (item) => {
 // //   if (userToken) {
 // //     const isAlreadySubscribed = subscribedBooks.some((book) => book.id === item.id);
@@ -530,10 +523,10 @@ const styles = StyleSheet.create({
 
 //   const item=route.params.data;
 //   console.log("passing value to MyEBook Page",route.params.data);
-  
-  
-  
-  
+
+
+
+
 //   // =================single book get================================
 //   return (
 
@@ -562,7 +555,7 @@ const styles = StyleSheet.create({
 //           }}>
 //             <Image source={{
 //               uri: route.params.data.image_path
-//               //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png" 
+//               //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png"
 //             }}
 
 //               style={{
@@ -665,7 +658,7 @@ const styles = StyleSheet.create({
 //                 fontWeight: '700',
 //                 fontSize: 18
 //               }}>Reserved</Text>)}
-        
+
 //           </TouchableOpacity>) :
 
 //           (
@@ -857,8 +850,8 @@ const styles = StyleSheet.create({
 
 //   const item=route.params.data;
 //   console.log("passing value to MyEBook Page",item);
-  
-  
+
+
 
 
 //   // const handleSubscribe = async (item) => {
@@ -897,8 +890,8 @@ const styles = StyleSheet.create({
 //   //   }
 //   // };
 
-  
-  
+
+
 //   // =================single book get================================
 //   return (
 
@@ -927,7 +920,7 @@ const styles = StyleSheet.create({
 //           }}>
 //             <Image source={{
 //               uri: route.params.data.image_path
-//               //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png" 
+//               //uri: "https://cdn.pixabay.com/photo/2016/11/25/07/00/diamond-1857736_1280.png"
 //             }}
 
 //               style={{
@@ -1031,7 +1024,7 @@ const styles = StyleSheet.create({
 //                 fontWeight: '700',
 //                 fontSize: 18
 //               }}>Reserved</Text>)}
-        
+
 //           </TouchableOpacity>) :
 
 //           (
