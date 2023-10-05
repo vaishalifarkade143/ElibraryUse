@@ -564,7 +564,7 @@ const MyEBook = ({ navigation }) => {
     };
 
     const ebookSubscription = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+      fetch("http://elibrarymix.test2/api/v1/ebook-subscription")
         .then(res => res.json())
         .then(responce => {
           setIsLoaded(false);
