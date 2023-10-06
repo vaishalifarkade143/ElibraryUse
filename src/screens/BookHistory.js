@@ -3,21 +3,22 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, Text, ScrollView, FlatList, StyleSheet } from 'react-native';
 import Header from '../common/Header';
-import { useDispatch, useSelector } from 'react-redux'; // Import useSelector to access Redux state
+// import { useDispatch, useSelector } from 'react-redux'; // Import useSelector to access Redux state
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
-import { historyBooks } from '../redux/slice/BookHistorySlice';
+// import { historyBooks } from '../redux/slice/BookHistorySlice';
 
 const BookHistory = ({ navigation }) => {
   // const [booksHistory, setBooksHistory] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false); // Initialize isLoaded as false
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const route = useRoute();
   const { userToken } = useContext(AuthContext);
 
   // Access the booksHistory data from the Redux store
-  const booksHistory = useSelector((state) => state.book.data);
+  // const booksHistory = useSelector((state) => state.book.data);
 
+ const booksHistory =[];
   // ================== Fetch book history data ==================
   
 

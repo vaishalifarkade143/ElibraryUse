@@ -138,7 +138,6 @@ const User = ({ navigation }) => {
 
               onPress={() => { logout() }}
 
-            // disabled={!email || !password}
             >
               <Text style={{
                 color: '#fff',
@@ -151,14 +150,7 @@ const User = ({ navigation }) => {
         </View>) : null}
 
       </View>
-
-      {/* <View style={{width: Dimensions.get('window'),height: 1,backgroundColor: '#000'}}></View>  */}
-
-
-
-
-
-    </View>
+</View>
 
   );
 };

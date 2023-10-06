@@ -8,7 +8,7 @@ import { Alert } from "react-native";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({children}) => {
     const [isLoading, setIsLoading] = useState(false);//for loading
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState('');
@@ -154,9 +154,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{isLoading,userInfo,userToken,userEmail, register, login, logout}}>
-            {children}
-        </AuthContext.Provider>
+        <AuthContext.Provider value={{isLoading,userInfo,userToken,userEmail, register, login, logout}}>{children}</AuthContext.Provider>
 
     );
 }
