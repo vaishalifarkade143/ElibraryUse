@@ -266,7 +266,8 @@ useEffect(() => {
             >
               <View style={styles.modalContainer}>
           <Video
-            source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }}
+            // source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }}
+            source={{ uri: "https://player.vimeo.com/video/808983383?h=81d7a35acb&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" }}
             style={styles.video}
             controls={true} // Make sure controls are enabled
           />

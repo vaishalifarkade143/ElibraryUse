@@ -38,7 +38,7 @@ export const AuthProvider = ({children}) => {
                AsyncStorage.setItem('userInfo',JSON.stringify(userInfo));
 
                 setIsLoading(false);
-               // console.log(userInfo);
+            //    console.log(userInfo);
 
                 //Alert for login//
                 // if (email== '' || password == ''){
@@ -77,7 +77,7 @@ export const AuthProvider = ({children}) => {
                 AsyncStorage.setItem('userToken', userInfo.data.token);
                 AsyncStorage.setItem('userEmail', userInfo.data.user.email);
                 //console.log('User Token : ' + userInfo.data.token);
-                //console.log(userInfo);
+                console.log(userInfo);
 
                 //Alert for login//
                 // if (email== '' || password == ''){

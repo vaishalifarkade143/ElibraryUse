@@ -37,7 +37,8 @@ const BookHistory = ({ navigation }) => {
         });
     };
     getBooksHistory();
-  }, [dispatch]);
+  }, []);
+  // }, [dispatch]);
 
   
   return (

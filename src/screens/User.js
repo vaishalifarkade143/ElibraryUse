@@ -90,11 +90,19 @@ const User = ({ navigation }) => {
 
 
       <View style={{ flexDirection: 'column' }}>
-        {userToken != null ? (<View>
+        {userToken != null ? 
+        
+        
+        (<View>
+
+
           <View style={{ marginTop: 2, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', }}>
             <Text style={{ fontWeight: '400', fontSize: 18, color: '#000', paddingLeft: 10, paddingTop: 10, paddingBottom: 10 }}>Profile </Text>
             <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 258 }} />
           </View>
+
+
+
 
           <TouchableOpacity onPress={(item) => {
             navigation.navigate('MyeBook',{data:item})
@@ -105,6 +113,10 @@ const User = ({ navigation }) => {
           </View>
           </TouchableOpacity>
 
+          
+          
+          
+          
           <TouchableOpacity onPress={(item) => {
             navigation.navigate('Bookhistory',{data:item})
           }}>
@@ -113,14 +125,33 @@ const User = ({ navigation }) => {
               <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 211 }} />
             </View>
           </TouchableOpacity>
+
+
+
+          <TouchableOpacity onPress={(item) => {
+            navigation.navigate('MembershipPlan',{data:item})
+          }}>
           <View style={{ marginTop: 2, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', }}>
             <Text style={{ fontWeight: '400', fontSize: 18, color: '#000', paddingLeft: 10, paddingTop: 10, paddingBottom: 10 }}>Membership Plans</Text>
             <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 164 }} />
           </View>
+          </TouchableOpacity>
+
+
+
           <View style={{ marginTop: 2, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', }}>
             <Text style={{ fontWeight: '400', fontSize: 18, color: '#000', paddingLeft: 10, paddingTop: 10, paddingBottom: 10 }}>Transactions</Text>
             <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 210 }} />
           </View>
+
+          <TouchableOpacity onPress={(item) => {
+            navigation.navigate('MembershipScreen',{data:item})
+          }}>
+          <View style={{ marginTop: 2, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', }}>
+            <Text style={{ fontWeight: '400', fontSize: 18, color: '#000', paddingLeft: 10, paddingTop: 10, paddingBottom: 10 }}>MembershipScreen</Text>
+            <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 160 }} />
+          </View>
+          </TouchableOpacity>
           <View style={{ bottom: 0, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
 
             <TouchableOpacity

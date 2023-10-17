@@ -138,12 +138,13 @@ const MyEBook = ({ navigation }) => {
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
   const { userToken,  userEmail,} = useContext(AuthContext);
-  const { data, subscribedBooks } = route.params;
+  // const { data, subscribedBooks } = route.params;
   const{subscribe,setSubscribe} = ([]);
   
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
+      //fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
         .then(res => res.json())
         .then(responce => {
           setIsLoaded(false);
@@ -159,7 +160,7 @@ const MyEBook = ({ navigation }) => {
           setIsLoaded(false);
           setEbooks(responce.data);
           //setSubscriptionData(route.params.data);
-          setSubscribe(route.params.data);
+          // setSubscribe(route.params.data);
 
         });
     };
@@ -179,20 +180,23 @@ const MyEBook = ({ navigation }) => {
     AllEbooks.length && Ebooks.length
       ? AllEbooks
         .filter((item, i) =>
+
           Ebooks.find(
             (esub) =>
-              // moment(esub.returned_on).format("YYYY-MM-DD") >
-              //     moment().format("YYYY-MM-DD") &&
-              item.id == esub.ebook_id &&
-              item.library_id == esub.library_id &&
-              esub.email == userEmail
+              item.id === esub.ebook_id &&
+              item.library_id === esub.library_id &&
+              esub.email === userEmail
+          
+
           )
         )
+        
       : [];
 
 
 
-  // console.log("itemsValue:", itemsValue);
+  console.log("itemsValue:", itemsValue);
+
   // //Create a row to display the data from route.params.data
   // const routeData = [
   //   route.params.data.library_id,
@@ -214,6 +218,8 @@ const MyEBook = ({ navigation }) => {
   //   ]
   // )];
 
+
+
   const updatedTableData = itemsValue.map((item) =>
     [
       item.library_id,
@@ -221,7 +227,7 @@ const MyEBook = ({ navigation }) => {
       item.name,
       item.authors,
       item.language_name,
-      <TouchableOpacity onPress={()=>{navigation.navigate("ReadeBook",{data:item.file_name})
+      <TouchableOpacity onPress={()=>{navigation.navigate("ReadeBook",{data:item})
 
       }}>
       <Text style={{ color: '#fff', textAlign: 'center',backgroundColor:'#c27b7f',marginLeft:20,marginRight:20,fontWeight:'bold',borderRadius:5,padding:5}}>Read</Text>
@@ -229,10 +235,14 @@ const MyEBook = ({ navigation }) => {
     ]
   );
 
+
+
   // console.log("table data is : "+tableData);
   // Combine the routeData row with the existing tableData
   // const updatedTableData = [routeData, ...TableData];
 
+  
+  
   if (userToken === null) {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
@@ -240,7 +250,9 @@ const MyEBook = ({ navigation }) => {
       </View>
     );
   }
+
   // console.log("data is:", route.params.data);
+  
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header
@@ -289,4 +301,4 @@ const styles = StyleSheet.create({
   text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
   dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: '#fff' },
-});
+}); 

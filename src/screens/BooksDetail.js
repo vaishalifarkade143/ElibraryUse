@@ -20,6 +20,10 @@ const BooksDetail = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
   const [subscribe, setSubscribe] = useState([]);
+  
+  
+  
+  
   const handleSubscribe = (item) => {
     const member_id = userInfo.data.user.member_id;
     console.log('data testis::::', item);
@@ -28,6 +32,8 @@ const BooksDetail = ({ navigation }) => {
       member_id: member_id,
       item
     };
+
+    
     console.log("subbb:", subscriptionData);
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
     fetch(url, {
@@ -192,8 +198,8 @@ const BooksDetail = ({ navigation }) => {
                 fontWeight: '700',
                 fontSize: 18
               }}>{subscribedBooks.some((book) => book.id === route.params.data.id)
-                ? 'Unsubscribe'
-                : 'Subscribe'}</Text>) : (<Text style={{
+                ? <Text>Unsubscribe</Text>
+                : <Text>subscribe</Text>}</Text>) : (<Text style={{
                   color: '#fff',
                   fontWeight: '700',
                   fontSize: 18

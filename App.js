@@ -25,7 +25,7 @@ const App = () => {
 
     </AuthProvider>
     
-    // </Provider>
+    //  </Provider>
   );
 };
 

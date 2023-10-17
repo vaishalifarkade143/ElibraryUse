@@ -696,6 +696,8 @@ const Books = ({ navigation }) => {
   };
   // ==============================static dropdown===================================
 
+ 
+ 
   const formats = [{ id: "", name: "Formats" },{ id: 2, name: "Books" }, { id: 3, name: "ebooks" }];
 
 
@@ -717,6 +719,9 @@ const Books = ({ navigation }) => {
       // Assuming the API response has a "data" field with an array of genres
       .catch(error => console.error('Error fetching genres:', error));
   }, []);
+   
+
+  
   useEffect(() => {
     // Fetch the list of authors from your API
     fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors')
@@ -1078,7 +1083,6 @@ const Books = ({ navigation }) => {
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
         onClickLeftIcon={() => {
-
           navigation.openDrawer();
           
         }}

@@ -7,7 +7,7 @@
 //         serializableCheck: false,
 //       }),
 //     reducer:{
-//     //    book:BookReducer,
+//        book:BookReducer,
 //     //   //  bookHistory:BookhistoryReducer,
 //     },
 // });
