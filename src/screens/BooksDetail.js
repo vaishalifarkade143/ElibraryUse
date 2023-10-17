@@ -26,9 +26,10 @@ const BooksDetail = ({ navigation }) => {
   
   const handleSubscribe = (item) => {
     const member_id = userInfo.data.user.member_id;
+    const id=route.params.data.items[0].id;
     console.log('data testis::::', item);
     const subscriptionData = {
-      ebook_id: item.id,
+      ebook_id: id,
       member_id: member_id,
       item
     };

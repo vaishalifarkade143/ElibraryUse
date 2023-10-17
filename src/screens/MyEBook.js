@@ -144,7 +144,6 @@ const MyEBook = ({ navigation }) => {
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
-      //fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
         .then(res => res.json())
         .then(responce => {
           setIsLoaded(false);
