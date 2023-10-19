@@ -1,23 +1,154 @@
-import React from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet } from 'react-native';
+
+
+
+import React, { useEffect, useState, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthContext } from '../context/AuthContext';
 
-const MembershipScreen = ({ route }) => {
 
-  const { selectedPlan } = route.params;
+const MembershipScreen = ({navigation }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
+  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState([]);
+  const { userToken } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
+
   const state = {
     tableHead: ['Plan Name', 'Amount', 'Data'],
     widthArr: [200, 200, 200],
   };
-  // const updatedTableData = itemsValue.map((item) =>
-  // [
-  // item.library_id,
-  // item.isbn_no,
-  // item.name,
-  //   ]
-  // );
+
+  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
+    item.subscription_plan.name,
+    item.amount,
+    item.member.subscription.start_date,
+  ]) : [];
+
+
+
+
+ // =================  for table view ============================
+ const fetchSinglePlan = () => {
+  const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+  fetch(singleUrl, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${userToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((res) => {
+      console.log('Single Subscribed Plan Data:', res.data);
+      setSingleSubscribedPlan(res.data);
+      setIsLoading(false); // Data has been loaded
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+      setIsLoading(false); // Handle error and set isLoading to false
+    });
+};
+
+useEffect(() => {
+  // Fetch the single plan when the component mounts
+  fetchSinglePlan();
+
+  // Fetch AllSubscribedPlan data
+  const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
+
+  fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${userToken}`,
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then((data) => {
+      setAllSubscribedPlan(data.data);
+    })
+    .catch((error) => {
+      console.error('Error fetching data:', error);
+    });
+}, [userToken]);
+
+
+
+
+
+
+  // // =================  for table view ============================
+  // const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
+
+  // fetch(apiUrl, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Authorization': `Bearer ${userToken}`,
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((data) => {
+  //     // Process the API response here
+  //     setAllSubscribedPlan(data.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching data:', error);
+  //   });
+
+  // // console.log('API Response:', AllSubscribedPlan);
+
+  
+
+
+  // //console.log('updated API Response:', updatedTableData);
+
+  // //====================== for single plan ==================================
+
+  // const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+  // fetch(singleUrl, {
+  //   method: 'GET',
+  //   headers: {
+  //     'Authorization': `Bearer ${userToken}`,
+  //     'Content-Type': 'application/json',
+  //   },
+  // })
+  //   .then((response) => {
+  //     if (!response.ok) {
+  //       throw new Error(`HTTP error! Status: ${response.status}`);
+  //     }
+  //     return response.json();
+  //   })
+  //   .then((res) => {
+  //     // Process the API response here
+  //     setSingleSubscribedPlan(res.data);
+  //   })
+  //   .catch((error) => {
+  //     console.error('Error fetching data:', error);
+  //   });
+
+  // console.log('single api Response:', singleSubscribedPlan);
+
 
 
   return (
@@ -30,6 +161,7 @@ const MembershipScreen = ({ route }) => {
         }}
       />
       <ScrollView>
+
         <Text style={{
           fontFamily: 'Philosopher-Bold',
           fontSize: 27,
@@ -38,6 +170,8 @@ const MembershipScreen = ({ route }) => {
           textAlign: 'center',
           marginTop: 20
         }}>Membership Plan</Text>
+
+
         <View style={{
           marginTop: 10,
           width: 150,
@@ -54,62 +188,86 @@ const MembershipScreen = ({ route }) => {
           marginBottom: 50,
           paddingBottom: 20,
         }}>
-          <View style={{
-            marginTop: 30,
-            marginLeft: 20,
-            alignItems: 'center'
-          }}>
-            <Text style={{
-              textAlign: 'center',
-              fontFamily: 'Philosopher-Bold',
-              fontSize: 25,
-              fontWeight: '600',
-              color: '#000',
-            }}>Annual Plan</Text>
 
-            <Text style={{
-              fontWeight: 'bold',
-              paddingTop: 5,
-              marginTop: 5,
-              fontSize: 15, fontFamily: 'Philosopher-Bold',
-            }}>Active till</Text>
+          {/* <FlatList
+  keyExtractor={(item) => item.id}
+  data={singleSubscribedPlan}
+  renderItem={({ item }) => ( */}
+
+{isLoading ? (
+            <Text style={styles.loadingText}>Loading...</Text>
+          ) : (
+            Array.isArray(singleSubscribedPlan) ? (
+              singleSubscribedPlan.map((item, index) => (
 
             <View style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
+              marginTop: 30,
+              marginLeft: 20,
               alignItems: 'center'
-            }}>
-              <Image source={require('../images/rupee.png')}
-                style={{
-                  width: 22, height: 20,
-                  marginLeft: 40,
-                  paddingTop: 5,
-                  marginTop: 12,
-                }} />
+              }} key={index}>
+
+              <Text style={{
+                textAlign: 'center',
+                fontFamily: 'Philosopher-Bold',
+                fontSize: 25,
+                fontWeight: '600',
+                color: '#000',
+              }}>{item.subscription_plan.name}</Text>
+
 
               <Text style={{
                 fontWeight: 'bold',
-                color: 'black',
-                paddingTop: 5,
-                marginTop: 5,
-                fontSize: 30, fontFamily: 'Philosopher-Bold',
-              }}> </Text>
-              <Text style={{
-                fontWeight: 'bold',
-                marginRight: 40,
                 paddingTop: 5,
                 marginTop: 5,
                 fontSize: 15, fontFamily: 'Philosopher-Bold',
-              }}>/yearly</Text>
-            </View>
+              }}>Active till: {item.end_date}</Text>
 
-            <Text style={{
-              textAlign: 'center',
-              fontWeight: 'bold',
-              marginTop: 10,
-              marginBottom: 10
-            }}>Subscribed Date:</Text>
-          </View>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <Image source={require('../images/rupee.png')}
+                  style={{
+                    width: 22, height: 20,
+                    marginLeft: 40,
+                    paddingTop: 5,
+                    marginTop: 12,
+                  }} />
+
+                <Text style={{
+                  fontWeight: 'bold',
+                  color: 'black',
+                  paddingTop: 5,
+                  marginTop: 5,
+                  fontSize: 30, fontFamily: 'Philosopher-Bold',
+                }}>{item.subscription_plan.price}</Text>
+                <Text style={{
+                  fontWeight: 'bold',
+                  marginRight: 40,
+                  paddingTop: 5,
+                  marginTop: 5,
+                  fontSize: 15, fontFamily: 'Philosopher-Bold',
+                }}>/yearly</Text>
+              </View>
+
+              <Text style={{
+                textAlign: 'center',
+                fontWeight: 'bold',
+                marginTop: 10,
+                marginBottom: 10
+              }}>Subscribed Date:{item.start_date}</Text>
+            </View>
+          
+         ))
+            ) : (
+              <Text style={styles.errorText}>Failed to load data.</Text>
+            )
+          )}
+
+            {/* )}/>  */}
+
+
           <View style={{ justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity
               onPress={() => {
@@ -123,12 +281,11 @@ const MembershipScreen = ({ route }) => {
                 fontSize: 15,
                 color: "#fff",
                 borderRadius: 8,
-              }}>Upgrate Plan</Text>
+              }}>Upgrade Plan</Text>
             </TouchableOpacity>
           </View>
+
         </View>
-
-
 
         <Text style={{
           fontFamily: 'Philosopher-Bold',
@@ -212,15 +369,15 @@ const MembershipScreen = ({ route }) => {
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                    {/* {updatedTableData.map((item, index) => ( */}
-                    <Row
-                      // key={index}
-                      // data={item}
-                      widthArr={state.widthArr}
-                      // style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                      textStyle={styles.text}
-                    />
-                    {/* ))}  */}
+                    {updatedTableData.map((item, index) => (
+                      <Row
+                        key={index}
+                        data={item}
+                        widthArr={state.widthArr}
+                        style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
+                        textStyle={styles.text}
+                      />
+                    ))}
                   </Table>
                 </ScrollView>
               </View>
@@ -246,4 +403,8 @@ const styles = StyleSheet.create({
   text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
   dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: '#fff' },
+  loadingText: {
+    fontSize: 20,
+    textAlign: 'center',
+  },
 }); 

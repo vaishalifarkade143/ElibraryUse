@@ -43,7 +43,7 @@ const MembershipPlan = () => {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${userToken}`,
       },
-      body: JSON.stringify(data),
+      
     })
 
       .then((response) => {
@@ -61,8 +61,8 @@ const MembershipPlan = () => {
         setIsPlanActivated(true);
 
         console.log('Navigating to MembershipScreen...');
-        navigation.navigate('MembershipScreen', { data: item.id });
-
+        // navigation.navigate('MembershipScreen',{data:responseData});
+        navigation.navigate('MembershipScreen');
       })
 
       .catch((error) => {

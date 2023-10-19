@@ -926,6 +926,8 @@ const Books = ({ navigation }) => {
 
             </TouchableOpacity>
           </View>
+          
+          
           {/* ==========================All books=========================== */}
           <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'center', marginLeft: 15, marginRight: 15, }}>
             <Text style={styles.coroselheading}>Our Books Collection</Text>
@@ -972,7 +974,23 @@ const Books = ({ navigation }) => {
 
 
                       />
-                    </View>
+
+
+          {/* ------------------code for book_item_status----------------------------- */}
+          {item.items[0].book_item_status===4?(<Text style={{position: 'absolute',
+            textAlign:'center',
+            right: -30,
+            width: 80, 
+            height: 20,color:'black',marginTop:10,backgroundColor:'yellow',fontWeight:'bold'}}>Available</Text>):(<Text style={{position: 'absolute',
+            textAlign:'center',
+            right: -20,
+            width: 80, 
+            height: 20,marginTop:10,color:'black',backgroundColor:'red',fontWeight:'bold'}}>Unavailable</Text>)}
+
+                    
+
+
+                  </View>
                     <View style={{ padding: 10, }}>
                       <Text style={{
                         fontSize: 15,

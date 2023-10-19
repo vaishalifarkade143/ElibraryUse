@@ -20,13 +20,13 @@ const BooksDetail = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
   const [subscribe, setSubscribe] = useState([]);
-  
-  
-  
-  
+
+
+
+
   const handleSubscribe = (item) => {
     const member_id = userInfo.data.user.member_id;
-    const id=route.params.data.items[0].id;
+    const id = route.params.data.items[0].id;
     console.log('data testis::::', item);
     const subscriptionData = {
       ebook_id: id,
@@ -34,7 +34,7 @@ const BooksDetail = ({ navigation }) => {
       item
     };
 
-    
+  
     console.log("subbb:", subscriptionData);
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
     fetch(url, {
@@ -61,10 +61,7 @@ const BooksDetail = ({ navigation }) => {
         // Navigate to 'myEBook' here if necessary
         console.log('Navigating to myEBook...');
 
-        navigation.navigate('myEBook', {
-          data: item,
-          //subscribedBooks: updatedSubscribedBooks,
-        });
+        navigation.navigate('myEBook');
 
       })
 
@@ -95,10 +92,10 @@ const BooksDetail = ({ navigation }) => {
     tredingbooks();
   }, []);
 
-  const item = route.params.data;
-  console.log("passing value to MyEBook Page", route.params.data);
-  const library_id = route.params.data.library_id;
-  console.log("library_id", route.params.data.library_id);
+  // const item = route.params.data;
+  // console.log("passing value to MyEBook Page", route.params.data);
+  // const library_id = route.params.data.library_id;
+  // console.log("library_id", route.params.data.library_id);
   // =================single book get================================
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
@@ -175,6 +172,9 @@ const BooksDetail = ({ navigation }) => {
           <Text style={styles.textHeading}>Description:</Text>
           <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
         </View>
+
+
+
         {userToken !== null ?
           (<TouchableOpacity
             style={{
@@ -193,7 +193,9 @@ const BooksDetail = ({ navigation }) => {
               handleSubscribe(route.params.data);
             }}
           >
-            {route.params.data.items[0].format === 3 ?
+
+
+            {/* {route.params.data.items[0].format === 3 ?
               (<Text style={{
                 color: '#fff',
                 fontWeight: '700',
@@ -205,6 +207,20 @@ const BooksDetail = ({ navigation }) => {
                   fontWeight: '700',
                   fontSize: 18
                 }}>Reserved</Text>)}
+
+          </TouchableOpacity>)  */}
+
+
+            {route.params.data.items[0].format === 3 ?
+              (<Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>subscribe</Text>) : (<Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>Reserved</Text>)}
 
           </TouchableOpacity>) :
           (<TouchableOpacity
@@ -226,13 +242,18 @@ const BooksDetail = ({ navigation }) => {
               color: '#fff',
               fontWeight: '700',
               fontSize: 18
-            }}>Subscribe</Text>):(<Text style={{
+            }}>Subscribe</Text>)
+            :
+            (<Text style={{
               color: '#fff',
               fontWeight: '700',
               fontSize: 18
             }}>Reserved</Text>)
           </TouchableOpacity>)}
+
+
         {/* =================================Trending books==================================== */}
+
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Trending Books</Text>
         </View>
