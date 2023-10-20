@@ -12,7 +12,7 @@
   "dependencies": {
     "@parse/react-native": "^0.0.1-alpha.18",
     "@react-native-async-storage/async-storage": "^1.19.3",
-    "@react-native-picker/picker": "^2.5.0",
+    "@react-native-picker/picker": "^2.5.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/drawer": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
@@ -25,6 +25,7 @@
     "react-native": "0.72.4",
     "react-native-blob-util": "^0.19.1",
     "react-native-gesture-handler": "^2.12.1",
+    "react-native-image-picker": "^7.0.1",
     "react-native-loading-spinner-overlay": "^3.0.1",
     "react-native-pdf": "^6.7.1",
     "react-native-reanimated": "^3.4.2",
