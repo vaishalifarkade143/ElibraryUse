@@ -8,51 +8,19 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
 
 
-const MembershipScreen = ({ navigation }) => {
+const Transaction = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
-  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState([]);
   const { userToken } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(true);
 
   const state = {
     tableHead: ['Plan Name', 'Amount', 'Data'],
     widthArr: [200, 200, 200],
   };
 
-// =================  for single data view ============================
-  const fetchSinglePlan = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((res) => {
-        console.log('Single Subscribed Plan Data:', res.data);
-        setSingleSubscribedPlan(res.data);
-        setIsLoading(false); // Data has been loaded
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setIsLoading(false); // Handle error and set isLoading to false
-      });
-  };
 
   // =================  for table view ============================
   useEffect(() => {
-    // Fetch the single plan when the component mounts
-    fetchSinglePlan();
-
     // Fetch AllSubscribedPlan data
     const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
 
@@ -123,15 +91,6 @@ const MembershipScreen = ({ navigation }) => {
     return formattedDate;
   }
 
-
-  const formattedDate = formatDate(singleSubscribedPlan.start_date);
-  const formattedDate1 = formatDate(singleSubscribedPlan.end_date);
-  // const formattedDate2 = formatDate(AllSubscribedPlan.updated_at);
-
-
-
-
-
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
     item.subscription_plan.name,
     item.amount,
@@ -151,7 +110,6 @@ const MembershipScreen = ({ navigation }) => {
         }}
       />
       <ScrollView>
-
         <Text style={{
           fontFamily: 'Philosopher-Bold',
           fontSize: 27,
@@ -159,121 +117,6 @@ const MembershipScreen = ({ navigation }) => {
           color: '#000',
           textAlign: 'center',
           marginTop: 20
-        }}>Membership Plan</Text>
-
-
-
-
-
-        <View style={{
-          marginTop: 10,
-          width: 150,
-          height: 2,
-          backgroundColor: '#c27b7f',
-          alignItems: 'center',
-          marginLeft: 130,
-        }}></View>
-
-        {isLoading ? (
-          <Text style={styles.loadingText}>Loading...</Text>
-        )
-          : (<View style={{
-            backgroundColor: '#fff3cd',
-            marginTop: 20,
-            flexDirection: 'row',
-            marginBottom: 50,
-            paddingBottom: 20,
-          }}>
-
-            <View style={{
-              marginTop: 30,
-              marginLeft: 10,
-              alignItems: 'center'
-            }} >
-              {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
-                textAlign: 'center',
-                fontFamily: 'Philosopher-Bold',
-                fontSize: 25,
-                fontWeight: '600',
-                color: '#000', right: 23
-              }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 2 ? (<Text style={{
-                textAlign: 'center',
-                fontFamily: 'Philosopher-Bold',
-                fontSize: 25,
-                fontWeight: '600',
-                color: '#000', right: 45
-              }}>Long Term</Text>) : (<Text style={styles.loadingText}>Loading...</Text>))}
-
-              <Text style={{
-                fontWeight: 'bold',
-                paddingTop: 5,
-                marginTop: 5,
-                fontSize: 15, fontFamily: 'Philosopher-Bold',
-              }}>Active till:  {formattedDate1}  </Text>
-
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center', right: 64
-              }}>
-                <Image source={require('../images/rupee.png')}
-                  style={{
-                    width: 22, height: 20,
-                    marginLeft: 40,
-                    paddingTop: 5,
-                    marginTop: 12, right: -10
-                  }} />
-
-                <Text style={{
-                  fontWeight: 'bold',
-                  color: 'black',
-                  paddingTop: 5,
-                  marginTop: 5,
-                  fontSize: 30, fontFamily: 'Philosopher-Bold', right: -10
-                }}>{singleSubscribedPlan.plan_amount}</Text>
-                <Text style={{
-                  fontWeight: 'bold',
-                  marginRight: 40,
-                  paddingTop: 5,
-                  marginTop: 5,
-                  fontSize: 15, fontFamily: 'Philosopher-Bold', right: -10
-                }}>/yearly</Text>
-              </View>
-
-              <Text style={{
-                textAlign: 'center',
-                fontWeight: 'bold',
-                marginTop: 10,
-                marginBottom: 10,
-                fontWeight: 'bold', right: -10
-              }}>Subscribed Date:{formattedDate}</Text>
-            </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              <TouchableOpacity
-                onPress={() => {
-
-                }}>
-                <Text style={{
-                  marginLeft: 50,
-                  padding: 10,
-                  backgroundColor: '#c27b7f',
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                  color: "#fff",
-                  borderRadius: 8,
-                }}>Upgrade Plan</Text>
-              </TouchableOpacity>
-            </View>
-
-          </View>
-          )}
-
-        <Text style={{
-          fontFamily: 'Philosopher-Bold',
-          fontSize: 27,
-          fontWeight: '600',
-          color: '#000',
-          textAlign: 'center',
         }}>Transaction</Text>
         <View style={{
           marginTop: 10,
@@ -377,7 +220,7 @@ const MembershipScreen = ({ navigation }) => {
   );
 };
 
-export default MembershipScreen;
+export default Transaction;
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
   header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
