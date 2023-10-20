@@ -1077,6 +1077,19 @@ const Books = ({ navigation }) => {
 
           </View>
 
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           {/* // =====================pagination controls to navigate between pages===================  */}
           <Pagination
             currentPage={currentPage}

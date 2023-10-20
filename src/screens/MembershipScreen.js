@@ -1,6 +1,5 @@
 
 
-
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, FlatList } from 'react-native';
 import Header from '../common/Header';
@@ -9,7 +8,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
 
 
-const MembershipScreen = ({navigation }) => {
+const MembershipScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState([]);
@@ -21,133 +20,127 @@ const MembershipScreen = ({navigation }) => {
     widthArr: [200, 200, 200],
   };
 
+
+
+
+
+
+  // =================  for table view ============================
+  const fetchSinglePlan = () => {
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        console.log('Single Subscribed Plan Data:', res.data);
+        setSingleSubscribedPlan(res.data);
+        setIsLoading(false); // Data has been loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setIsLoading(false); // Handle error and set isLoading to false
+      });
+  };
+
+  useEffect(() => {
+    // Fetch the single plan when the component mounts
+    fetchSinglePlan();
+
+    // Fetch AllSubscribedPlan data
+    const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
+
+    fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setAllSubscribedPlan(data.data);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [userToken]);
+
+
+
+
+
+  //-----------------for convertion of date to personalized style date ----------------------------
+  function formatDate(inputDate) {
+
+    const inputDateObj = new Date(inputDate);
+
+
+    const monthNames = [
+      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+
+
+    const day = inputDateObj.getDate();
+    const month = monthNames[inputDateObj.getMonth()];
+    const year = inputDateObj.getFullYear();
+
+
+    let daySuffix;
+    if (day >= 11 && day <= 13) {
+      daySuffix = 'th';
+    } else {
+      switch (day % 10) {
+        case 1:
+          daySuffix = 'st';
+          break;
+        case 2:
+          daySuffix = 'nd';
+          break;
+        case 3:
+          daySuffix = 'rd';
+          break;
+        default:
+          daySuffix = 'th';
+      }
+    }
+
+
+    const formattedDate = `${day}${daySuffix} ${month}, ${year}`;
+
+    return formattedDate;
+  }
+
+
+  const formattedDate = formatDate(singleSubscribedPlan.start_date);
+  const formattedDate1 = formatDate(singleSubscribedPlan.end_date);
+
+
+
+
+
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
     item.subscription_plan.name,
     item.amount,
-    item.member.subscription.start_date,
+    formattedDate,
   ]) : [];
 
-
-
-
- // =================  for table view ============================
- const fetchSinglePlan = () => {
-  const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-  fetch(singleUrl, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${userToken}`,
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((res) => {
-      console.log('Single Subscribed Plan Data:', res.data);
-      setSingleSubscribedPlan(res.data);
-      setIsLoading(false); // Data has been loaded
-    })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-      setIsLoading(false); // Handle error and set isLoading to false
-    });
-};
-
-useEffect(() => {
-  // Fetch the single plan when the component mounts
-  fetchSinglePlan();
-
-  // Fetch AllSubscribedPlan data
-  const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
-
-  fetch(apiUrl, {
-    method: 'GET',
-    headers: {
-      'Authorization': `Bearer ${userToken}`,
-      'Content-Type': 'application/json',
-    },
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then((data) => {
-      setAllSubscribedPlan(data.data);
-    })
-    .catch((error) => {
-      console.error('Error fetching data:', error);
-    });
-}, [userToken]);
-
-
-
-
-
-
-  // // =================  for table view ============================
-  // const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
-
-  // fetch(apiUrl, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Authorization': `Bearer ${userToken}`,
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((data) => {
-  //     // Process the API response here
-  //     setAllSubscribedPlan(data.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching data:', error);
-  //   });
-
-  // // console.log('API Response:', AllSubscribedPlan);
-
-  
-
-
-  // //console.log('updated API Response:', updatedTableData);
-
-  // //====================== for single plan ==================================
-
-  // const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-  // fetch(singleUrl, {
-  //   method: 'GET',
-  //   headers: {
-  //     'Authorization': `Bearer ${userToken}`,
-  //     'Content-Type': 'application/json',
-  //   },
-  // })
-  //   .then((response) => {
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-  //     return response.json();
-  //   })
-  //   .then((res) => {
-  //     // Process the API response here
-  //     setSingleSubscribedPlan(res.data);
-  //   })
-  //   .catch((error) => {
-  //     console.error('Error fetching data:', error);
-  //   });
-
-  // console.log('single api Response:', singleSubscribedPlan);
 
 
 
@@ -172,6 +165,9 @@ useEffect(() => {
         }}>Membership Plan</Text>
 
 
+
+
+
         <View style={{
           marginTop: 10,
           width: 150,
@@ -181,58 +177,54 @@ useEffect(() => {
           marginLeft: 130,
         }}></View>
 
-        <View style={{
-          backgroundColor: '#fff3cd',
-          marginTop: 20,
-          flexDirection: 'row',
-          marginBottom: 50,
-          paddingBottom: 20,
-        }}>
-
-          {/* <FlatList
-  keyExtractor={(item) => item.id}
-  data={singleSubscribedPlan}
-  renderItem={({ item }) => ( */}
-
-{isLoading ? (
-            <Text style={styles.loadingText}>Loading...</Text>
-          ) : (
-            Array.isArray(singleSubscribedPlan) ? (
-              singleSubscribedPlan.map((item, index) => (
+        {isLoading ? (
+          <Text style={styles.loadingText}>Loading...</Text>
+        )
+          : (<View style={{
+            backgroundColor: '#fff3cd',
+            marginTop: 20,
+            flexDirection: 'row',
+            marginBottom: 50,
+            paddingBottom: 20,
+          }}>
 
             <View style={{
               marginTop: 30,
-              marginLeft: 20,
+              marginLeft: 10,
               alignItems: 'center'
-              }} key={index}>
-
-              <Text style={{
+            }} >
+              {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
                 textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
                 fontSize: 25,
                 fontWeight: '600',
-                color: '#000',
-              }}>{item.subscription_plan.name}</Text>
-
+                color: '#000', right: 23
+              }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 2 ? (<Text style={{
+                textAlign: 'center',
+                fontFamily: 'Philosopher-Bold',
+                fontSize: 25,
+                fontWeight: '600',
+                color: '#000', right: 45
+              }}>Long Term</Text>) : (<Text style={styles.loadingText}>Loading...</Text>))}
 
               <Text style={{
                 fontWeight: 'bold',
                 paddingTop: 5,
                 marginTop: 5,
                 fontSize: 15, fontFamily: 'Philosopher-Bold',
-              }}>Active till: {item.end_date}</Text>
+              }}>Active till:  {formattedDate1}  </Text>
 
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
-                alignItems: 'center'
+                alignItems: 'center', right: 64
               }}>
                 <Image source={require('../images/rupee.png')}
                   style={{
                     width: 22, height: 20,
                     marginLeft: 40,
                     paddingTop: 5,
-                    marginTop: 12,
+                    marginTop: 12, right: -10
                   }} />
 
                 <Text style={{
@@ -240,14 +232,14 @@ useEffect(() => {
                   color: 'black',
                   paddingTop: 5,
                   marginTop: 5,
-                  fontSize: 30, fontFamily: 'Philosopher-Bold',
-                }}>{item.subscription_plan.price}</Text>
+                  fontSize: 30, fontFamily: 'Philosopher-Bold', right: -10
+                }}>{singleSubscribedPlan.plan_amount}</Text>
                 <Text style={{
                   fontWeight: 'bold',
                   marginRight: 40,
                   paddingTop: 5,
                   marginTop: 5,
-                  fontSize: 15, fontFamily: 'Philosopher-Bold',
+                  fontSize: 15, fontFamily: 'Philosopher-Bold', right: -10
                 }}>/yearly</Text>
               </View>
 
@@ -255,37 +247,29 @@ useEffect(() => {
                 textAlign: 'center',
                 fontWeight: 'bold',
                 marginTop: 10,
-                marginBottom: 10
-              }}>Subscribed Date:{item.start_date}</Text>
+                marginBottom: 10,
+                fontWeight: 'bold', right: -10
+              }}>Subscribed Date:{formattedDate}</Text>
             </View>
-          
-         ))
-            ) : (
-              <Text style={styles.errorText}>Failed to load data.</Text>
-            )
-          )}
+            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+              <TouchableOpacity
+                onPress={() => {
 
-            {/* )}/>  */}
+                }}>
+                <Text style={{
+                  marginLeft: 50,
+                  padding: 10,
+                  backgroundColor: '#c27b7f',
+                  fontWeight: 'bold',
+                  fontSize: 15,
+                  color: "#fff",
+                  borderRadius: 8,
+                }}>Upgrade Plan</Text>
+              </TouchableOpacity>
+            </View>
 
-
-          <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-            <TouchableOpacity
-              onPress={() => {
-
-              }}>
-              <Text style={{
-                marginLeft: 70,
-                padding: 10,
-                backgroundColor: '#c27b7f',
-                fontWeight: 'bold',
-                fontSize: 15,
-                color: "#fff",
-                borderRadius: 8,
-              }}>Upgrade Plan</Text>
-            </TouchableOpacity>
           </View>
-
-        </View>
+          )}
 
         <Text style={{
           fontFamily: 'Philosopher-Bold',
