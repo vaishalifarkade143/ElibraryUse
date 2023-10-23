@@ -1000,19 +1000,7 @@ const Books = ({ navigation }) => {
                         {item.name}
                       </Text>
 
-                      {/* <Text style={{
-                      backgroundColor: '#a3a3c2',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 40,
-                      marginRight: 40,
-                      paddingTop: 5,
-                      height: 30,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>{item.items[0].format}</Text> */}
-
+                     
 
                       {item.items[0].format === 3 ? (<Text style={{
                         backgroundColor: '#a3a3c2',
@@ -1077,18 +1065,7 @@ const Books = ({ navigation }) => {
 
           </View>
 
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
+        
           
           {/* // =====================pagination controls to navigate between pages===================  */}
           <Pagination
@@ -1108,6 +1085,7 @@ const Books = ({ navigation }) => {
   // ============================================================================================
 
 
+
   return (
     <View style={styles.container}>
       <Header
@@ -1115,12 +1093,16 @@ const Books = ({ navigation }) => {
         leftIcon={require('../images/menu.png')}
         onClickLeftIcon={() => {
           navigation.openDrawer();
-          
+         
         }}
 
       />
-      {/* =================search============= */}
-      <View style={styles.searchcontainer}>
+
+    {isLoaded  ? (<ActivityIndicator style={{flex:1,justifyContent:'center',alignItems:'center'}} size="large" color="#c27b7f" />):
+
+
+    
+      (<View><View style={styles.searchcontainer}>
         <View style={styles.searchBar}>
 
           <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
@@ -1181,7 +1163,9 @@ const Books = ({ navigation }) => {
             ) : null
           }
         />
-        )}
+        )}</View>
+     
+      )}
 
     </View>
 

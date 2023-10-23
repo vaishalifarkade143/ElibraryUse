@@ -153,6 +153,16 @@ const User = ({ navigation }) => {
           </View>
           </TouchableOpacity>
 
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           <TouchableOpacity onPress={(item) => {
             navigation.navigate('MembershipScreen')
           }}>
@@ -162,7 +172,21 @@ const User = ({ navigation }) => {
             <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 160 }} />
           </View>
           </TouchableOpacity>
+          
 
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
           <View style={{ bottom: 0, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
 
             <TouchableOpacity

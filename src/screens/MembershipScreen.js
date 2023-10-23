@@ -1,7 +1,6 @@
 
-
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, FlatList } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, FlatList,ActivityIndicator } from 'react-native';
 import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
@@ -150,8 +149,9 @@ const MembershipScreen = ({ navigation }) => {
           navigation.openDrawer();
         }}
       />
+      
       <ScrollView>
-
+     
         <Text style={{
           fontFamily: 'Philosopher-Bold',
           fontSize: 27,
@@ -171,13 +171,16 @@ const MembershipScreen = ({ navigation }) => {
           height: 2,
           backgroundColor: '#c27b7f',
           alignItems: 'center',
-          marginLeft: 130,
+          marginLeft: 110,
         }}></View>
 
-        {isLoading ? (
+        {/* {isLoading ? (
           <Text style={styles.loadingText}>Loading...</Text>
         )
-          : (<View style={{
+          : */}
+        {isLoading  ? (<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#c27b7f" />): 
+           (<View>
+            <View style={{
             backgroundColor: '#fff3cd',
             marginTop: 20,
             flexDirection: 'row',
@@ -191,17 +194,20 @@ const MembershipScreen = ({ navigation }) => {
               alignItems: 'center'
             }} >
               {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
-                textAlign: 'center',
+                //textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
                 fontSize: 25,
                 fontWeight: '600',
-                color: '#000', right: 23
+                color: '#000', 
+                //right: 23
+                
               }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 2 ? (<Text style={{
                 textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
                 fontSize: 25,
                 fontWeight: '600',
-                color: '#000', right: 45
+                color: '#000', 
+                right: 35
               }}>Long Term</Text>) : (<Text style={styles.loadingText}>Loading...</Text>))}
 
               <Text style={{
@@ -214,14 +220,17 @@ const MembershipScreen = ({ navigation }) => {
               <View style={{
                 flexDirection: 'row',
                 justifyContent: 'center',
-                alignItems: 'center', right: 64
+                alignItems: 'center', 
+                right: 64
               }}>
                 <Image source={require('../images/rupee.png')}
                   style={{
-                    width: 22, height: 20,
+                    width: 22,
+                    height: 20,
                     marginLeft: 40,
                     paddingTop: 5,
-                    marginTop: 12, right: -10
+                    marginTop: 12, 
+                    right: -10
                   }} />
 
                 <Text style={{
@@ -248,13 +257,14 @@ const MembershipScreen = ({ navigation }) => {
                 fontWeight: 'bold', right: -10
               }}>Subscribed Date:{formattedDate}</Text>
             </View>
-            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ justifyContent: 'center', alignItems: 'center' ,}}>
               <TouchableOpacity
-                onPress={() => {
+                onPress={() => {navigation.navigate('MembershipPlan')
+
 
                 }}>
                 <Text style={{
-                  marginLeft: 50,
+                  marginLeft: 20,
                   padding: 10,
                   backgroundColor: '#c27b7f',
                   fontWeight: 'bold',
@@ -266,9 +276,15 @@ const MembershipScreen = ({ navigation }) => {
             </View>
 
           </View>
-          )}
+       
 
-        <Text style={{
+
+
+
+
+
+
+      <Text style={{
           fontFamily: 'Philosopher-Bold',
           fontSize: 27,
           fontWeight: '600',
@@ -370,6 +386,14 @@ const MembershipScreen = ({ navigation }) => {
 
 
 
+          </View>
+         
+     
+        )}
+     
+     
+     
+     
       </ScrollView>
 
     </View>
@@ -385,7 +409,9 @@ const styles = StyleSheet.create({
   dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: '#fff' },
   loadingText: {
+    flex:1,
     fontSize: 20,
     textAlign: 'center',
+    justifyContent:'center'
   },
-}); 
+});

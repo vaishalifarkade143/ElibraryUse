@@ -24,7 +24,69 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-  const handleSubscribe = (item) => {
+// //------------------handle of navigation to book history page---------------------------
+// const handleBookHistory=(item)=>{
+
+//   const member=userInfo.data.user;
+//   const subscriptionData1={item,member};
+ 
+//   console.log('data retrived ', subscriptionData1);
+
+//   const url='https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
+
+//   fetch(url, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${userToken}`,
+//     },
+//     body: JSON.stringify(subscriptionData1),
+//   })
+
+//   .then((response) => {
+//     if (!response.ok) {
+//       throw new Error('Network response was not ok');
+//     }
+//     console.log("responce is:", response);
+//     return response.json();
+//   })
+//   .then((responseData) => {
+//     console.log('Data stored successfully:', responseData);
+   
+//     console.log('Navigating to myEBook...');
+
+//     navigation.navigate('Bookhistory', {
+//       data: item,
+//     });
+
+//   })
+
+//   .catch((error) => {
+//     console.error('Error storing data:', error);
+//   });
+
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const handleSubscribe = (item) => {
     const member_id = userInfo.data.user.member_id;
     const id = route.params.data.items[0].id;
     console.log('data testis::::', item);
@@ -192,6 +254,7 @@ const BooksDetail = ({ navigation }) => {
             onPress={() => {
               handleSubscribe(route.params.data);
             }}
+            
           >
 
 
