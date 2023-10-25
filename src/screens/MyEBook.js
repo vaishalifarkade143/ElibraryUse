@@ -268,6 +268,10 @@ const MyEBook = ({ navigation }) => {
         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
       </View>
       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
+      
+      
+      
+      
       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>

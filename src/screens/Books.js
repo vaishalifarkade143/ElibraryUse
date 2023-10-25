@@ -1102,7 +1102,7 @@ const Books = ({ navigation }) => {
 
 
     
-      (<View><View style={styles.searchcontainer}>
+      (<View style={{flex:1}}><View style={styles.searchcontainer}>
         <View style={styles.searchBar}>
 
           <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />

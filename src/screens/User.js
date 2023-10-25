@@ -122,7 +122,7 @@ const User = ({ navigation }) => {
           
           
           
-          <TouchableOpacity onPress={(item) => {
+          <TouchableOpacity onPress={() => {
             navigation.navigate('Bookhistory')
           }}>
             <View style={{ marginTop: 2, backgroundColor: '#fff', flexDirection: 'row', alignItems: 'center', }}>

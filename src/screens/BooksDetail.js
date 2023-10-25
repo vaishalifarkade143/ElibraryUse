@@ -25,48 +25,51 @@ const BooksDetail = ({ navigation }) => {
 
 
 // //------------------handle of navigation to book history page---------------------------
-// const handleBookHistory=(item)=>{
-
-//   const member=userInfo.data.user;
-//   const subscriptionData1={item,member};
- 
-//   console.log('data retrived ', subscriptionData1);
-
-//   const url='https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
-
-//   fetch(url, {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: `Bearer ${userToken}`,
-//     },
-//     body: JSON.stringify(subscriptionData1),
-//   })
-
-//   .then((response) => {
-//     if (!response.ok) {
-//       throw new Error('Network response was not ok');
-//     }
-//     console.log("responce is:", response);
-//     return response.json();
-//   })
-//   .then((responseData) => {
-//     console.log('Data stored successfully:', responseData);
+const handleBookHistory=(item)=>{
    
-//     console.log('Navigating to myEBook...');
+   
+  const subscriptionData1={
+              book_item_id:route.params.data.items[0].id,
+              library_id:route.params.data.library_id
+            };
+ 
+  console.log('data retrived ', subscriptionData1);
+ 
+ 
+ 
+  const url=`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item.items[0].id}/reserve-book`;
 
-//     navigation.navigate('Bookhistory', {
-//       data: item,
-//     });
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${userToken}`,
+    },
+    body: JSON.stringify(subscriptionData1),
+   
+  })
 
-//   })
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    console.log("responce is:", response);
+    return response.json();
+  })
+  .then((responseData) => {
+    console.log('Data stored successfully:', responseData);
+   
+    console.log('Navigating to myEBook...');
 
-//   .catch((error) => {
-//     console.error('Error storing data:', error);
-//   });
+    navigation.navigate('subscribebookHistory');
 
-// }
+  })
 
+  .catch((error) => {
+    console.error('Error storing data:', error);
+  });
+
+}
 
 
 
@@ -252,7 +255,8 @@ const handleSubscribe = (item) => {
               marginBottom: 20
             }}
             onPress={() => {
-              handleSubscribe(route.params.data);
+              {route.params.data.items[0].format === 3 ?
+             ( handleSubscribe(route.params.data)):(handleBookHistory(route.params.data))}
             }}
             
           >
