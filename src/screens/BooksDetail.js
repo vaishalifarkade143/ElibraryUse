@@ -59,7 +59,7 @@ const handleBookHistory=(item)=>{
   .then((responseData) => {
     console.log('Data stored successfully:', responseData);
    
-    console.log('Navigating to myEBook...');
+    
 
     navigation.navigate('subscribebookHistory');
 

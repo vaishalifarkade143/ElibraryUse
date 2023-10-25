@@ -155,49 +155,14 @@ const BookHistory = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(true); // Initialize isLoaded as false
 
   const { userToken } = useContext(AuthContext);
+  const [status,setStatus]=useState(true);
 
 
 
 
 
 
-  const handleUnreserve = (item) => {
-
-    console.log(item);
-
-    const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item}/un-reserve-book`;
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userToken}`,
-      },
-      // body: JSON.stringify(library_id),
-
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        console.log("responce is:", response);
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log('Data stored successfully:', responseData);
-
-
-
-
-
-      })
-
-      .catch((error) => {
-        console.error('Error storing data:', error);
-      });
-  }
-
-
-
+  
 
 
 
@@ -230,6 +195,63 @@ const BookHistory = ({ navigation }) => {
         console.error('Error fetching data:', error);
       });
   }, [userToken]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  const handleUnreserve = (item) => {
+   
+      // console.log(item.book_item_id);
+  
+
+      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item.book_item_id}/un-reserve-book`;
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`,
+        },
+        
+  
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          console.log("responce is:", response);
+          return response.json();
+        })
+        .then((responseData) => {
+          console.log('Data stored successfully:', responseData);
+          setStatus(false);
+         
+  
+  
+  
+  
+        })
+  
+        .catch((error) => {
+          console.error('Error storing data:', error);
+        });
+
+
+   
+  }
+
+
 
 
 
@@ -290,8 +312,10 @@ const BookHistory = ({ navigation }) => {
       book.book_item.book.name,
       book.book_item.book_code, book.issued_on === null ? (<Text>N/A</Text>) : (null), formatDate(book.issue_due_date),
       formatDate(book.reserve_date), book.return_due_date === null ? (<Text>N/A</Text>) : (null),
-      book.return_date === null ? (<Text>N/A</Text>) : (null), book.book_item.status === 1 ? (<Text>Reserved</Text>) : (<Text>Unreserved</Text>),
-      <Button style={{ fontSize: 15, marginLeft: 60 }} title="Unreserve" />
+      book.return_date === null ? (<Text>N/A</Text>) : (null), book.status === 1 ? (<Text>Reserved</Text>) : (<Text style={{color:"#1998ff",fontWeight:'bold'}}>Unreserved</Text>),
+      // book.status === 1 ?(<Button style={{ fontSize: 15, marginLeft: 60 }} title="Unreserve" onPress={handleUnreserve(book.book_item_id,book.book_item.book.library_id)} />):null
+      book.status !== 1 ?null:(<Button style={{ fontSize: 15, marginLeft: 60,backgroundColor:'#c27b7f' }} title="Unreserve" onPress={()=>handleUnreserve(book)} />)
+
     ]
   );
 
