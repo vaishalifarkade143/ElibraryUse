@@ -595,13 +595,17 @@
 
 
 
-import { View, Text, ScrollView, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
+import { View, Text, ScrollView, StyleSheet, Image, TextInput, TouchableOpacity, ImageBackground } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../common/Header';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const Profile = ({ navigation }) => {
+
+    const [image, setImage] = useState('');
+
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -615,6 +619,33 @@ const Profile = ({ navigation }) => {
     const { userToken } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [isData, setIsData] = useState(false);
+
+
+    //======================image========================
+    const takePhotoFromCamera = () => {
+        ImagePicker.openCamera({
+            compressImageMaxWidth: 300,
+            compressImageMaxHeight: 300,
+            cropping: true,
+            compressImageQuality: 0.7
+        }).then(image => {
+            console.log(image);
+            setImage(image.path);
+        });
+    }
+
+    const choosePhotoFromLibrary = () => {
+        ImagePicker.openPicker({
+            width: 300,
+            height: 300,
+            cropping: true,
+            compressImageQuality: 0.7
+        }).then(image => {
+            console.log(image);
+            setImage(image.path);
+        });
+    }
+
 
     useEffect(() => {
         // Fetch user profile data on component load
@@ -643,6 +674,8 @@ const Profile = ({ navigation }) => {
                 setLastName(res.data.last_name);
                 setEmail(res.data.email);
                 setPhone(res.data.phone);
+                console.log("image:", res.data.image_path);
+                setImage(res.data.image_path);
                 setAddress1(res.data.address.address_1);
                 setAddress2(res.data.address.address_2);
                 setState(res.data.address.state);
@@ -656,50 +689,107 @@ const Profile = ({ navigation }) => {
             });
     };
 
-    const handleSave = () => {
+
+
+    // const handleSave = () => {
+    //     const urlUpdate = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/update-member-profile';
+    //     const updatedData = {
+    //         is_active: 1,
+    //         first_name: first_name,
+    //         last_name: last_name,
+    //         email: email,
+    //         phone: phone,
+    //         address_1: address_1,
+    //         address_2: address_2,
+    //         country_id: null,
+    //         city: city,
+    //         state: state,
+    //         zip: zip,
+    //         // remove_image:1
+    //         image:Image,
+    //         //{image_path===null?(remove_image:1):(image_path:(binary))}
+    //         // image_path:(binary),
+    //     };
+
+    //     console.log('updated data:', updatedData);
+    //     fetch(urlUpdate, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Authorization: `Bearer ${userToken}`,
+    //         },
+
+
+    //         body: JSON.stringify(updatedData),
+    //     })
+    //         .then((response) => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             console.log('Data updated successfully:', response);
+    //             // After successfully updating, fetch the updated profile data
+    //             return fetchProfileData();
+    //         })
+    //         .then(() => {
+    //             setIsData(false);
+    //         })
+    //         .catch((error) => {
+    //             console.error('Error updating data:', error);
+    //         });
+    // };
+
+
+
+    const handleSave = async () => {
         const urlUpdate = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/update-member-profile';
-        const updatedData = {
-            is_active: 1,
-            first_name: first_name,
-            last_name: last_name,
-            email: email,
-            phone: phone,
-            address_1: address_1,
-            address_2: address_2,
-            country_id: null,
-            city: city,
-            state: state,
-            zip: zip,
-            remove_image: 1
 
-        };
+        const formData = new FormData();
+        formData.append('is_active', '1');
+        formData.append('first_name', first_name);
+        formData.append('last_name', last_name);
+        formData.append('email', email);
+        formData.append('phone', phone);
+        formData.append('address_1', address_1);
+        formData.append('address_2', address_2);
+        formData.append('city', city);
+        formData.append('state', state);
+        formData.append('zip', zip);
 
-        console.log('updated data:', updatedData);
-        fetch(urlUpdate, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${userToken}`,
-            },
+        if (image) {
+            // If there's an image, add it to the form data
+            const imageFileName = image.split('/').pop();
+            const imageData = {
+                uri: image,
+                type: 'image/jpeg', // Change the type if necessary
+                name: imageFileName,
+            };
+            formData.append('image', imageData);
+        }
 
-
-            body: JSON.stringify(updatedData),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                console.log('Data updated successfully:', response);
-                // After successfully updating, fetch the updated profile data
-                return fetchProfileData();
-            })
-            .then(() => {
-                setIsData(false);
-            })
-            .catch((error) => {
-                console.error('Error updating data:', error);
+        try {
+            const response = await fetch(urlUpdate, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'multipart/form-data', // Important for sending files
+                    Authorization: `Bearer ${userToken}`,
+                },
+                body: formData,
             });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            console.log('Data updated successfully:', response);
+            // After successfully updating, fetch the updated profile data
+            await fetchProfileData();
+            setIsData(false);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
     };
+
+
 
     return (
         <View style={{ flex: 1, }}>
@@ -865,20 +955,43 @@ const Profile = ({ navigation }) => {
                             marginLeft: 15,
                             marginRight: 15,
                         }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Member Profile</Text>
+                        <Text style={{
+                            color: '#000',
+                            fontSize: 14,
+                            fontWeight: 'bold'
+                        }}>Member Profile</Text>
                     </View>
 
-                    <TouchableOpacity>
-                        <View
-                            style={{
-                                marginTop: 15,
-                                marginLeft: 15,
-                                marginRight: 15,
-                            }}>
-                            <Image source={require('../images/user.png')}
-                                style={{ width: 100, height: 100, }} />
-                        </View>
-                    </TouchableOpacity>
+                    <View
+                        style={{
+                            height: 150,
+                            width: 150,
+                            backgroundColor: '#cbb7b8',
+                            borderRadius: 15,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            marginLeft: 10,
+                            marginTop: 10,
+                        }}>
+                        {image ?
+                            (<ImageBackground
+                                source={{
+                                    uri: image,
+                                }}
+                                style={{
+                                    height: 150,
+                                    width: 150,
+                                }}
+                                imageStyle={{ borderRadius: 15 }} />)
+                            :
+                            (<Text style={{
+                                fontSize: 18,
+                                borderRadius: 80,
+                                padding: 35,
+                                backgroundColor: '#7d68f0'
+                            }}>{first_name.charAt(0).toUpperCase() + "" + last_name.charAt(0).toUpperCase()}</Text>)
+                        }
+                    </View>
 
                     <View style={{
                         marginTop: 5,
@@ -888,14 +1001,12 @@ const Profile = ({ navigation }) => {
                     }}>
                         <TouchableOpacity
                             style={{
-                                width: '40%',
+                                width: '35%',
                                 height: 70,
                                 justifyContent: 'center',
 
                             }}
-                            onPress={() =>
-                                navigation.goBack()
-                            }
+                            onPress={takePhotoFromCamera}
                         >
                             <Text style={{
                                 padding: 8,
@@ -907,18 +1018,17 @@ const Profile = ({ navigation }) => {
                                 borderRadius: 5,
                                 backgroundColor: '#c27b7f',
 
-                            }}>Change Profile</Text>
+                            }}>Take Photo</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity
                             style={{
-                                width: '40%',
+                                width: '60%',
                                 height: 70,
                                 justifyContent: 'center',
                             }}
-                            onPress={() =>
-                                navigation.goBack()
-                            }
+                            onPress=
+                            {choosePhotoFromLibrary}
                         >
                             <Text style={{
                                 padding: 8,
@@ -928,7 +1038,7 @@ const Profile = ({ navigation }) => {
                                 fontSize: 18,
                                 textAlign: 'center',
                                 borderRadius: 5,
-                            }}>Remove Profile</Text>
+                            }}>Choose from Gallary</Text>
                         </TouchableOpacity>
                     </View>
 

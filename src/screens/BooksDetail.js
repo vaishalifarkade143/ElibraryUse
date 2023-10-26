@@ -283,11 +283,11 @@ const handleSubscribe = (item) => {
                 color: '#fff',
                 fontWeight: '700',
                 fontSize: 18
-              }}>subscribe</Text>) : (<Text style={{
+              }}>subscribe</Text>) : (<View><Text style={{
                 color: '#fff',
                 fontWeight: '700',
                 fontSize: 18
-              }}>Reserved</Text>)}
+              }}>Reserved</Text><View><Text>Available <Text style={{backgroundColor:'#c27b7f',color:'white',width:3,height:3}}> 1</Text></Text></View></View>)}
 
           </TouchableOpacity>) :
           (<TouchableOpacity

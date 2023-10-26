@@ -193,10 +193,6 @@ useEffect(() => {
  {/* <Text>(({item.library_id}=== 333)?(({item.library_id}=== 111)?(<Text>Dindayal Upadhyay Library</Text>):(<Text>Kundanlal Gupta Library</Text>)):(<Text>Rashtramata Kasturba Library</Text>))</Text> */}
 
 
-
-
-
-
                     <Text style={{
                       backgroundColor: '#c27b7f',
                       textAlign: 'center',
