@@ -1,16 +1,18 @@
-import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, ImageBackground } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
-  const { userInfo } = useContext(AuthContext);
-  const { userToken } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
   const [image, setImage] = useState('');
   const { register } = useContext(AuthContext);
+
+  const userFirstName = userInfo && userInfo.data ? userInfo.data.user.first_name : '';
+  const userLastName = userInfo && userInfo.data ? userInfo.data.user.last_name : '';
+  const userImage = userInfo && userInfo.data ? userInfo.data.user.image_path : '';
   console.log("user Info:", userInfo);
   return (
     <View style={{ flex: 1, }}>
@@ -32,11 +34,14 @@ const User = ({ navigation }) => {
 
         <View style={{
           flexDirection: 'row',
-          marginTop: 5,
           position: 'fixed'
         }}>
-          <View>
-            {/* <Image
+
+
+
+
+          {/* <View> */}
+          {/* <Image
               source={require('../images/profile.png')}
               style={{
                 width: 160,
@@ -46,9 +51,8 @@ const User = ({ navigation }) => {
             /> */}
 
 
-            {userInfo.data.user.image_path ?
+          {/* {userToken !==null?
               (<Image
-                //source={require('../images/profile.png')}
                 source={{ uri: userInfo.data.user.image_path }}
                 style={{
                   width: 120,
@@ -63,10 +67,59 @@ const User = ({ navigation }) => {
                 borderRadius: 80,
                 padding: 35,
                 backgroundColor: '#7d68f0'
-              }}>{first_name.charAt(0).toUpperCase() + "" + last_name.charAt(0).toUpperCase()}</Text>)
+              }}>
+                {userInfo.data.user.first_name.charAt(0).toUpperCase() + "" + userInfo.data.user.first_name.charAt(0).toUpperCase()}
+              </Text>)
             }
 
-          </View>
+          </View> */}
+
+
+{userToken !==null?
+          (<View
+            style={{
+              height: 150,
+              width: 150,
+              backgroundColor: '#cbb7b8',
+              borderRadius: 75,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginLeft: 10,
+              marginTop: 10,
+            }}>
+            {userImage !== null ?
+              (<ImageBackground
+                source={{
+                  uri: userInfo.data.user.image_path,
+                }}
+                style={{
+                  height: 150,
+                  width: 150,
+
+                }}
+                imageStyle={{borderRadius:75}} />)
+              :
+              (<Text style={{
+                fontSize: 18,
+                borderRadius: 80,
+                padding: 35,
+                backgroundColor: '#7d68f0'
+              }}>
+                {userFirstName.charAt(0).toUpperCase() + " " + userLastName.charAt(0).toUpperCase()}
+               </Text>)
+            }
+          </View>):(<ImageBackground
+               source={require('../images/profile.png')}
+                style={{
+                  height: 150,
+                  width: 150,
+
+                }}
+                imageStyle={{borderRadius:75}} />)
+
+          }
+
+
           <View style={{ flexDirection: 'column', marginLeft: 40, marginTop: 10 }}>
 
             {userToken != null ?
@@ -78,18 +131,18 @@ const User = ({ navigation }) => {
                     color: '#000',
                     fontFamily: 'Philosopher-Bold',
                   }}> {userInfo.data.user.first_name} {userInfo.data.user.last_name}</Text>
-                <Text 
-                style={{
+                <Text
+                  style={{
                     fontWeight: 'bold',
                     fontSize: 14,
                     fontFamily: 'Poppin-Thin',
                   }}> {userInfo.data.user.email}</Text>
                 <Text
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: 15,
-                  fontFamily: 'Poppin-Thin',
-                }}> {userInfo.data.user.phone}</Text>
+                  style={{
+                    fontWeight: 'bold',
+                    fontSize: 15,
+                    fontFamily: 'Poppin-Thin',
+                  }}> {userInfo.data.user.phone}</Text>
               </View>
               : null}
 
