@@ -13,7 +13,9 @@ const User = ({ navigation }) => {
   const userFirstName = userInfo && userInfo.data ? userInfo.data.user.first_name : '';
   const userLastName = userInfo && userInfo.data ? userInfo.data.user.last_name : '';
   const userImage = userInfo && userInfo.data ? userInfo.data.user.image_path : '';
+
   console.log("user Info:", userInfo);
+  
   return (
     <View style={{ flex: 1, }}>
       <Header
@@ -38,41 +40,6 @@ const User = ({ navigation }) => {
         }}>
 
 
-
-
-          {/* <View> */}
-          {/* <Image
-              source={require('../images/profile.png')}
-              style={{
-                width: 160,
-                height: '80%'
-              }}
-              resizeMode='contain'
-            /> */}
-
-
-          {/* {userToken !==null?
-              (<Image
-                source={{ uri: userInfo.data.user.image_path }}
-                style={{
-                  width: 120,
-                  height: '80%',
-                  borderRadius: 200,
-                  marginLeft: 10,
-                }}
-                resizeMode='contain'
-              />) :
-              (<Text style={{
-                fontSize: 18,
-                borderRadius: 80,
-                padding: 35,
-                backgroundColor: '#7d68f0'
-              }}>
-                {userInfo.data.user.first_name.charAt(0).toUpperCase() + "" + userInfo.data.user.first_name.charAt(0).toUpperCase()}
-              </Text>)
-            }
-
-          </View> */}
 
 
 {userToken !==null?
@@ -244,14 +211,6 @@ const User = ({ navigation }) => {
 
 
 
-
-
-
-
-
-
-
-
               <TouchableOpacity onPress={(item) => {
                 navigation.navigate('MembershipScreen')
               }}>
@@ -263,17 +222,6 @@ const User = ({ navigation }) => {
                   <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 160 }} />
                 </View>
               </TouchableOpacity>
-
-
-
-
-
-
-
-
-
-
-
 
 
 
