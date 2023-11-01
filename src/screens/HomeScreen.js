@@ -938,10 +938,7 @@ const HomeScreen = ({ navigation }) => {
                       style={{
                         aspectRatio: 0.8,
                         resizeMode: 'cover'
-                      }}
-
-
-                    />
+                      }} />
                   </View>
                   <View style={{ padding: 10, }}>
                     <Text style={{

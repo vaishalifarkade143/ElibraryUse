@@ -91,6 +91,9 @@ const Transaction = ({ navigation }) => {
     return formattedDate;
   }
 
+
+  
+
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
     item.subscription_plan.name,
     item.amount,

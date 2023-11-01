@@ -20,6 +20,7 @@ import MembershipPlan from '../screens/MembershipPlan';
 import MembershipScreen from '../screens/MembershipScreen';
 import Transaction from '../screens/Transaction';
 import Profile from '../screens/Profile';
+import Resources from '../screens/Resources';
 
 
 const stack = createNativeStackNavigator();
@@ -39,6 +40,7 @@ const LoginAndRegister = () => {
       <stack.Screen name='MembershipScreen' component={MembershipScreen}/>
       <stack.Screen name='transaction' component={Transaction}/>
       <stack.Screen name='profile' component={Profile}/>
+      <stack.Screen name='resources' component={Resources}/>
     </stack.Navigator>
   );
 };

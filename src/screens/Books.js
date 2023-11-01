@@ -37,19 +37,6 @@ const Books = ({ navigation }) => {
   const [totalBooksCount, setTotalBooksCount] = useState(0);
 
 
-
-
-
-  // // Scroll to the top
-  // const onPageChange = (page) => {
-  //   setCurrentPage(page);
-
-  //   // Scroll to the top
-  //   if (scrollViewRef.current) {
-  //     scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
-  //   }
-  // };
-
   // ==========================all books=========================
 
 
@@ -795,6 +782,7 @@ const Books = ({ navigation }) => {
                 ))}
               </Picker>
             </View>
+
             <View style={{
               margin: 16,
               marginTop: 10,
@@ -977,15 +965,23 @@ const Books = ({ navigation }) => {
 
 
           {/* ------------------code for book_item_status----------------------------- */}
-          {item.items[0].book_item_status===4?(<Text style={{position: 'absolute',
+          {item.items[0].book_item_status===4?
+          (<Text style={{position: 'absolute',
             textAlign:'center',
             right: -30,
             width: 80, 
-            height: 20,color:'black',marginTop:10,backgroundColor:'yellow',fontWeight:'bold'}}>Available</Text>):(<Text style={{position: 'absolute',
+            height: 20,
+            color:'black', 
+            marginTop:10,
+            backgroundColor:'yellow',
+            fontWeight:'bold'}}>
+              Available</Text>):
+              (<Text style={{position: 'absolute',
             textAlign:'center',
             right: -20,
             width: 80, 
-            height: 20,marginTop:10,color:'black',backgroundColor:'red',fontWeight:'bold'}}>Unavailable</Text>)}
+            height: 20,marginTop:10,color:'black',backgroundColor:'red',fontWeight:'bold'}}>
+              Unavailable</Text>)}
 
                     
 
@@ -1098,7 +1094,8 @@ const Books = ({ navigation }) => {
 
       />
 
-    {isLoaded  ? (<ActivityIndicator style={{flex:1,justifyContent:'center',alignItems:'center'}} size="large" color="#c27b7f" />):
+    {isLoaded  ? (<ActivityIndicator style={{flex:1,justifyContent:'center',alignItems:'center'}}
+     size="large" color="#c27b7f" />):
 
 
     

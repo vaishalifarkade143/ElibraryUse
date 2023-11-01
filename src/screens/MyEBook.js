@@ -199,27 +199,6 @@ const MyEBook = ({ navigation }) => {
 
   console.log("itemsValue:", itemsValue);
 
-  // //Create a row to display the data from route.params.data
-  // const routeData = [
-  //   route.params.data.library_id,
-  //   route.params.data.isbn,
-  //   route.params.data.name,
-  //  `${route.params.data.authors[0].first_name} ${route.params.data.authors[0].last_name}`,
-  //  route.params.data.items[0].language.language_name,
-  //   // <Text style={{ color: 'blue', textAlign: 'center' }}>Subscribed</Text>
-  // ];
-
-  // const updatedTableData = [routeData, ...itemsValue.map((item) =>
-  //   [
-  //     item.library_id,
-  //     item.isbn_no,
-  //     item.name,
-  //     item.authors,
-  //     item.language_name,
-  //     // <Text style={{ color: 'red', textAlign: 'center' }}>Subscribed</Text>
-  //   ]
-  // )];
-
 
 
   const updatedTableData = itemsValue.map((item) =>
@@ -237,13 +216,6 @@ const MyEBook = ({ navigation }) => {
     ]
   );
 
-
-
-  // console.log("table data is : "+tableData);
-  // Combine the routeData row with the existing tableData
-  // const updatedTableData = [routeData, ...TableData];
-
-  
   
   if (userToken === null) {
     return (
@@ -253,8 +225,6 @@ const MyEBook = ({ navigation }) => {
     );
   }
 
-  // console.log("data is:", route.params.data);
-  
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
       <Header
