@@ -291,7 +291,9 @@ const handleSubscribe = (item) => {
           <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
         </View>
 
-<View style={{ flexDirection: 'column', }}>
+
+
+{/* <View style={{ flexDirection: 'column', }}>
 {route.params.data.items[0].format !== 3 ?
 ( <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10,}}>
   <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
@@ -357,7 +359,76 @@ const handleSubscribe = (item) => {
 
          
     </View>
-  
+   */}
+
+{route.params.data.items[0].status===1?
+(<View style={{ flexDirection: 'column', }}>
+{route.params.data.items[0].format !== 3 ?
+( <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10,}}>
+  <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
+  <Text style={{backgroundColor:'#c27b7f',color:'white',padding:5,borderRadius:15}}>1</Text></View>)
+  :(null)}
+  {userToken !== null ?
+          (<TouchableOpacity
+            style={{
+              backgroundColor: '#c27b7f',
+              alignItems: 'center',
+              padding: 10,
+              borderRadius: 5,
+              width: '50%',
+              height: 50,
+              justifyContent: 'center',
+              marginTop: 20,
+              marginLeft: 100,
+              marginBottom: 20
+            }}
+            onPress={() => {
+              {route.params.data.items[0].format === 3 ?
+             (setModalVisible(!modalVisible)):(handleBookHistory(route.params.data))}
+            }}
+          >
+          {route.params.data.items[0].format === 3 ?
+              (<Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>subscribe</Text>) : (<Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18
+              }}>Reserved</Text>
+              )}
+          </TouchableOpacity>) :
+          (<TouchableOpacity
+            style={{
+              backgroundColor: '#c27b7f',
+              alignItems: 'center',
+              padding: 10,
+              borderRadius: 5,
+              width: '50%',
+              height: 50,
+              justifyContent: 'center',
+              marginTop: 20,
+              marginLeft: 100,
+              marginBottom: 20
+            }} onPress={() => {
+              // Navigate to the login page since the user is not logged in
+              navigation.navigate('sLogin');
+            }}>(<Text style={{
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: 18
+            }}>Subscribe</Text>):<Text style={{
+              color: '#fff',
+              fontWeight: '700',
+              fontSize: 18
+            }}>Reserved</Text>
+           
+          </TouchableOpacity>)}
+
+         
+    </View>):(<Text style={{textAlign:'center',color:'red',
+    fontSize:18,fontWeight:'bold',marginBottom:10}}>Unavailable</Text>)}
         {/* =================================Trending books==================================== */}
 
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>

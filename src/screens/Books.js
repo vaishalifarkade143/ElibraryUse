@@ -965,7 +965,7 @@ const Books = ({ navigation }) => {
 
 
           {/* ------------------code for book_item_status----------------------------- */}
-          {item.items[0].book_item_status===4?
+          {item.items[0].status===1?
           (<Text style={{position: 'absolute',
             textAlign:'center',
             right: -30,
@@ -1099,7 +1099,8 @@ const Books = ({ navigation }) => {
 
 
     
-      (<View style={{flex:1}}><View style={styles.searchcontainer}>
+      (<View style={{flex:1}}>
+        <View style={styles.searchcontainer}>
         <View style={styles.searchBar}>
 
           <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />

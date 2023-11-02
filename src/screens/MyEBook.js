@@ -1,138 +1,12 @@
-// import React, { useState, useEffect, useContext } from 'react';
-// import { View, Text, ScrollView, StyleSheet } from 'react-native';
-// import Header from '../common/Header';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { useRoute } from '@react-navigation/native';
-// import { AuthContext } from '../context/AuthContext';
-// import { historyBooks } from '../redux/slice/BookHistorySlice';
-
-// const MyEBook = ({ navigation }) => {
-//   const [isLoaded, setIsLoaded] = useState(false);
-//   const dispatch = useDispatch();
-//   const route = useRoute();
-//   const { userToken } = useContext(AuthContext);
-
-//   const booksHistory = useSelector((state) => state.bookHistory.data);
-
-//   useEffect(() => {
-//     const selectedBookData = route.params.data;
-//     const getBooksHistory = () => {
-//       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-//         .then((res) => res.json())
-//         .then((response) => {
-//           dispatch(historyBooks(response.data));
-//           setIsLoaded(true);
-//         })
-//         .catch((error) => {
-//           console.error("Error fetching book history:", error);
-//         });
-//     };
-//     getBooksHistory();
-//   }, [dispatch]);
-
-//   return (
-//     <View style={{ flex: 1, backgroundColor: '#fff' }}>
-//       <Header
-//         rightIcon={require('../images/Logoelibrary.png')}
-//         leftIcon={require('../images/menu.png')}
-//         onClickLeftIcon={() => {
-//           navigation.openDrawer();
-//         }}
-//       />
-//       <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-//         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
-//       </View>
-//       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
-
-//       <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-//         <View style={{ backgroundColor: '#fff', marginTop: 15 }}>
-//           <ScrollView >
-//           <View style={styles.table}>
-//             <View style={styles.tableHeader}>
-//               <Text style={styles.columnHeader}>LIBRARY</Text>
-//               <Text style={styles.columnHeader}>ISBN</Text>
-//               <Text style={styles.columnHeader}>Book Name</Text>
-//               <Text style={styles.columnHeader}>Language</Text>
-//               <Text style={styles.columnHeader}>Author</Text>
-//               <Text style={styles.columnHeader}>Action</Text>
-//             </View>
-//             {isLoaded && booksHistory.map((item) => (
-//               <View style={styles.tableRow} key={item.id}>
-//                 <Text style={styles.tableCell}>{item.library_id}</Text>
-//                 <Text style={[styles.tableCell, styles.isbnCell]}>{item.isbn}</Text>
-//                 <Text numberOfLines={3} ellipsizeMode="tail" style={styles.tableCell}>{item.name}</Text>
-//                 <Text style={styles.tableCell}>{/* Add language here */}</Text>
-//                 <Text style={styles.tableCell}>{/* Add author here */}</Text>
-//                 <Text style={styles.tableCell}>{/* Add action here */}</Text>
-//               </View>
-//             ))}
-//             </View>
-//           </ScrollView>
-//         </View>
-//       </ScrollView>
-
-//       {!isLoaded && <Text>Loading...</Text>}
-//     </View>
-//   );
-// };
-
-// export default MyEBook;
-
-// const styles = StyleSheet.create({
-//   table: {
-//     backgroundColor: '#fff',
-//     width: '100%',
-//   },
-//   tableHeader: {
-//     flexDirection: 'row',
-//     backgroundColor: '#fff',
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#000',
-//     justifyContent: 'space-between',
-//   },
-//   columnHeader: {
-//     fontWeight: 'bold',
-//     flex: 1,
-//     color: '#000',
-//   },
-//   tableRow: {
-//     flexDirection: 'row',
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//    // borderBottomWidth: 1,
-//     //alignItems:'center',
-//     justifyContent: 'space-between',
-//   },
-//   tableCell: {
-//     flex: 1,
-//     color: '#000',
-//   },
-//   isbnCell: {
-//     flex: 2, // Adjust the flex value to set the width of the ISBN column
-//   },
-// });
-
-
-//======================= practice by prachi===============================
-
-
-
-
-
-
-
 
 
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity,TextInput } from 'react-native';
 import Header from '../common/Header';
-import { useDispatch, useSelector } from 'react-redux';
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
-import moment from 'moment';
+import Feather from 'react-native-vector-icons/Feather';
 
 
 const MyEBook = ({ navigation }) => {
@@ -141,8 +15,7 @@ const MyEBook = ({ navigation }) => {
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
   const { userToken,  userEmail,} = useContext(AuthContext);
-  // const { data, subscribedBooks } = route.params;
-  const{subscribe,setSubscribe} = ([]);
+  const [searchQuery, setSearchQuery] = useState('');
   
   useEffect(() => {
     const getbooks = () => {
@@ -178,7 +51,8 @@ const MyEBook = ({ navigation }) => {
     widthArr: [130, 130, 300, 130, 130, 130],
   };
 
-  const itemsValue =
+
+   const itemsValue =
     AllEbooks.length && Ebooks.length
       ? AllEbooks
         .filter((item, i) =>
@@ -188,20 +62,22 @@ const MyEBook = ({ navigation }) => {
               item.id === esub.ebook_id &&
               item.library_id === esub.library_id &&
               esub.email === userEmail
-          
-
           )
         )
         
       : [];
 
-
-
-  console.log("itemsValue:", itemsValue);
-
-
-
-  const updatedTableData = itemsValue.map((item) =>
+  const updatedTableData = itemsValue
+  .filter((item) => {
+    // Step 4: Filter the data based on the search query
+    const bookName = item.name.toLowerCase();
+    const bookCode = item.authors.toLowerCase();
+    const language = item.language_name.toLowerCase();
+    const query = searchQuery.toLowerCase();
+    return bookName.includes(query) || bookCode.includes(query) || language.includes(query);
+  })
+  
+  .map((item) =>
     [
       item.library_id,
       item.isbn_no,
@@ -237,16 +113,38 @@ const MyEBook = ({ navigation }) => {
       <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
       </View>
-      <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
-      
-      
-      
-      
+      <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd',
+       justifyContent: 'center' }}></View>
+     
       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+
+{/* ==================search======================= */}
+<View style={styles.searchcontainer}>
+            <View style={styles.searchBar}>
+              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search by Book Name, Author, Language"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+
+              {searchQuery !== '' && (
+                <TouchableOpacity onPress={() => {
+                  setSearchQuery('');
+
+                }}>
+                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                </TouchableOpacity>)}
+            </View>
+          </View>
+ {/* ===================================================================== */}    
+
         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
             <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
+              textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
             </Table>
             <ScrollView style={styles.dataWrapper}>
               <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -277,4 +175,28 @@ const styles = StyleSheet.create({
   text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
   dataWrapper: { marginTop: -1 },
   row: { height: 40, backgroundColor: '#fff' },
+
+  searchIcon: {
+    marginRight: 5,
+  },
+  searchInput: {
+    fontSize: 15,
+  },
+  searchcontainer: {
+    marginTop:10,
+    marginLeft:10,
+    padding: 5,
+    width: '95%',
+    height: 50,
+    backgroundColor: '#fff3cd'
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: 'gray',
+    paddingHorizontal: 3,
+
+  },
 }); 

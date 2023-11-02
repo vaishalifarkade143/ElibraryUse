@@ -1,11 +1,9 @@
-
-
-//========================modified code of book history(added modal)==================================
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Pressable, ScrollView, FlatList, StyleSheet, Button, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, ScrollView, TextInput,  StyleSheet,  Modal, TouchableOpacity } from 'react-native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
+import Feather from 'react-native-vector-icons/Feather';
 
 
 const BookHistory = ({ navigation }) => {
@@ -14,7 +12,7 @@ const BookHistory = ({ navigation }) => {
   const { userToken } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
-
+  const [searchQuery, setSearchQuery] = useState('');
   // =================  for table view ============================
   useEffect(() => {
 
@@ -124,40 +122,46 @@ const BookHistory = ({ navigation }) => {
     widthArr: [190, 190, 120, 120, 130, 130, 130, 130, 130, 130],
   };
 
-  const updatedTableData = booksHistory.map((book) =>
-    [
-      book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10, }}>Dindayal Upadhyay Library</Text>)
-        : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10, }}>Kundanlal Gupta Library</Text>) :
-          (<Text style={{ marginLeft: 10, }}>Rashtramata Kasturba Library</Text>)),
-
-      book.book_item.book.name,
-      book.book_item.book_code,
-
-      book.issued_on === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
-
-      formatDate(book.issue_due_date),
-      formatDate(book.reserve_date),
-
-      book.return_due_date === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
-
-      book.return_date === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
-
-      book.status === 1 ?
-        (<Text style={{ textAlign: 'center', fontWeight: 'bold', color: '#c27b7f', fontSize: 15, }}>Reserved</Text>) :
-        (<Text style={{ color: "#1998ff", fontWeight: 'bold', textAlign: 'center' }}>Unreserved</Text>),
-
-      book.status !== 1 ? null : (<TouchableOpacity style={{ backgroundColor: '#c27b7f', borderRadius: 5, marginRight: 15, alignItems: 'center', justifyContent: 'center' }}
-        onPress={() => {
-          setSelectedBook(book);
-          setModalVisible(!modalVisible)
-        }}><Text style={{ padding: 6, textAlign: 'center', color: '#fff', fontSize: 15, fontWeight: 'bold' }}>UNRESERVE</Text></TouchableOpacity>)
-    ]
-  );
+  const updatedTableData = booksHistory
+    .filter((book) => {
+      // Step 4: Filter the data based on the search query
+      const bookName = book.book_item.book.name.toLowerCase();
+      const bookCode = book.book_item.book_code.toLowerCase();
+      const query = searchQuery.toLowerCase();
+      return bookName.includes(query) || bookCode.includes(query);
+    })
 
 
-  // const name = selectedBook ? selectedBook.book_item.book.name : '';
-  // const code = selectedBook ? selectedBook.book_item.book_code : '';
-  //  console.log( name,code);
+
+    .map((book) =>
+      [
+        book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10, }}>Dindayal Upadhyay Library</Text>)
+          : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10, }}>Kundanlal Gupta Library</Text>) :
+            (<Text style={{ marginLeft: 10, }}>Rashtramata Kasturba Library</Text>)),
+
+        book.book_item.book.name,
+        book.book_item.book_code,
+
+        book.issued_on === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
+
+        formatDate(book.issue_due_date),
+        formatDate(book.reserve_date),
+
+        book.return_due_date === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
+
+        book.return_date === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (null),
+
+        book.status === 1 ?
+          (<Text style={{ textAlign: 'center', fontWeight: 'bold', color: '#c27b7f', fontSize: 15, }}>Reserved</Text>) :
+          (<Text style={{ color: "#1998ff", fontWeight: 'bold', textAlign: 'center' }}>Unreserved</Text>),
+
+        book.status !== 1 ? null : (<TouchableOpacity style={{ backgroundColor: '#c27b7f', borderRadius: 5, marginRight: 15, alignItems: 'center', justifyContent: 'center' }}
+          onPress={() => {
+            setSelectedBook(book);
+            setModalVisible(!modalVisible)
+          }}><Text style={{ padding: 6, textAlign: 'center', color: '#fff', fontSize: 15, fontWeight: 'bold' }}>UNRESERVE</Text></TouchableOpacity>)
+      ]
+    );
 
   return (
     <View style={{ flex: 1, backgroundColor: '#fff', }}>
@@ -183,19 +187,19 @@ const BookHistory = ({ navigation }) => {
               marginBottom: 5,
               textAlign: 'center',
               fontFamily: 'Philosopher-Bold',
-              fontSize:15
+              fontSize: 15
             }}>Unreserve a book</Text>
             <Text style={styles.modalText}>Are you sure you want to unreserve  </Text>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{
-              marginBottom: 10,
-              fontSize:13
-            }}>"{selectedBook ? selectedBook.book_item.book.name : ''}
+            <View style={{ flexDirection: 'row' }}>
+              <Text style={{
+                marginBottom: 10,
+                fontSize: 13
+              }}>"{selectedBook ? selectedBook.book_item.book.name : ''}
               </Text>
-            <Text style={{
-              marginBottom: 10,
-              fontSize:13
-            }}>({selectedBook ? selectedBook.book_item.book_code : ''})"
+              <Text style={{
+                marginBottom: 10,
+                fontSize: 13
+              }}>({selectedBook ? selectedBook.book_item.book_code : ''})"
               </Text>
             </View>
 
@@ -226,14 +230,39 @@ const BookHistory = ({ navigation }) => {
         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>Book History</Text>
       </View>
       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
+      <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+        {/* ==================search======================= */}
+      <View style={styles.searchcontainer}>
+            <View style={styles.searchBar}>
+              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+              <TextInput
+                style={styles.searchInput}
+                placeholder="Search by Book Name or Book Code"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
+              />
+
+              {searchQuery !== '' && (
+                <TouchableOpacity onPress={() => {
+                  setSearchQuery('');
+
+                }}>
+                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                </TouchableOpacity>)}
+            </View>
+          </View>
+
+ {/* ===================================================================== */}      
 
       <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
         <View style={{ backgroundColor: '#fff3cd', marginTop: 15 }}>
+          
 
+          <View style={{ flex: 1, backgroundColor: '#fff3cd', paddingTop:-60 }}>
+      
+           
+              <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 }}>
 
-          <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
-            <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-              <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
                   <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                 </Table>
@@ -251,12 +280,17 @@ const BookHistory = ({ navigation }) => {
                   </Table>
                 </ScrollView>
               </View>
-            </ScrollView>
+           
           </View>
 
         </View>
 
       </ScrollView>
+
+
+
+      </View>
+      
 
     </View>
   );
@@ -288,8 +322,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 20,
-    paddingLeft:40,
-    paddingRight:40,
+    paddingLeft: 40,
+    paddingRight: 40,
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
@@ -315,6 +349,29 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 5,
     textAlign: 'center',
+  },
+  searchIcon: {
+    marginRight: 8,
+  },
+  searchInput: {
+    fontSize: 15,
+  },
+  searchcontainer: {
+    marginTop:10,
+    marginLeft:10,
+    padding: 5,
+    width: '93%',
+    height: 50,
+    backgroundColor: '#fff3cd'
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: 'gray',
+    paddingHorizontal: 12,
+
   },
 })
 

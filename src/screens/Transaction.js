@@ -8,10 +8,12 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
 
 
+
 const Transaction = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const { userToken } = useContext(AuthContext);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const state = {
     tableHead: ['Plan Name', 'Amount', 'Data'],
@@ -94,7 +96,14 @@ const Transaction = ({ navigation }) => {
 
   
 
-  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
+  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
+  .filter((item) => {
+    // Step 4: Filter the data based on the search query
+    const plan =  item.subscription_plan.name.toLowerCase();
+    const query = searchQuery.toLowerCase();
+    return plan.includes(query) ;
+  })
+  .map((item) => [
     item.subscription_plan.name,
     item.amount,
     formatDate(item.created_at),
@@ -137,55 +146,28 @@ const Transaction = ({ navigation }) => {
           paddingBottom: 20,
         }}>
 
-          {/* =================search============= */}
-          <View style={{
-            padding: 5,
-            width: '70%',
-            height: 50,
-            backgroundColor: '#fff3cd',
-            marginTop: 20,
-          }}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'white',
-              borderRadius: 8,
-              borderWidth: 1,
-              borderColor: 'gray',
-              paddingHorizontal: 12,
-              marginLeft: 20,
-
-            }}>
-
-              <Feather name="search" color={"gray"} size={20} style={{ marginRight: 8, }} />
+          {/* ==================search======================= */}
+<View style={styles.searchcontainer}>
+            <View style={styles.searchBar}>
+              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
               <TextInput
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                }}
-                placeholder="Search a Book"
-                spellCheck={false}
-                //value={searchQuery}
-                onChangeText={(Text) => {
-                  // setSearchQuery(Text);
-                  // handleSearch();
-
-                }}
+                style={styles.searchInput}
+                placeholder="Search by Plan Name"
+                value={searchQuery}
+                onChangeText={setSearchQuery}
               />
 
-              {/* {searchQuery !== '' && ( */}
-              <TouchableOpacity onPress={() => {
-                // setSearchQuery('');
-                // setSearchResults('');
+              {searchQuery !== '' && (
+                <TouchableOpacity onPress={() => {
+                  setSearchQuery('');
 
-              }}>
-                <Feather name="x" color={"gray"} size={20} style={{ marginRight: 8, }} />
-              </TouchableOpacity>
-              {/* )} */}
-
+                }}>
+                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                </TouchableOpacity>)}
             </View>
           </View>
-          {/* Display search results */}
+ {/* ===================================================================== */}    
+      
 
           {/* table */}
           <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
@@ -233,5 +215,29 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 20,
     textAlign: 'center',
+  },
+
+  searchIcon: {
+    marginRight: 27,
+  },
+  searchInput: {
+    fontSize: 15,
+  },
+  searchcontainer: {
+    marginTop:10,
+    marginLeft:10,
+    padding: 5,
+    width: '70%',
+    height: 50,
+    backgroundColor: '#fff3cd'
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: 'gray',
+    paddingHorizontal: 12,
+
   },
 }); 

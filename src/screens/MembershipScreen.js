@@ -13,6 +13,8 @@ const MembershipScreen = ({ navigation }) => {
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState([]);
   const { userToken } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [searchQuery, setSearchQuery] = useState('');
+  
 
   const state = {
     tableHead: ['Plan Name', 'Amount', 'Data'],
@@ -131,7 +133,14 @@ const MembershipScreen = ({ navigation }) => {
 
 
 
-  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan.map((item) => [
+  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
+  .filter((item) => {
+    // Step 4: Filter the data based on the search query
+    const plan = item.subscription_plan.name.toLowerCase();
+    const query = searchQuery.toLowerCase();
+    return plan.includes(query) ;
+  })
+  .map((item) => [
     item.subscription_plan.name,
     item.amount,
     formatDate(item.created_at),
@@ -276,13 +285,6 @@ const MembershipScreen = ({ navigation }) => {
             </View>
 
           </View>
-       
-
-
-
-
-
-
 
       <Text style={{
           fontFamily: 'Philosopher-Bold',
@@ -307,55 +309,27 @@ const MembershipScreen = ({ navigation }) => {
           paddingBottom: 20,
         }}>
 
-          {/* =================search============= */}
-          <View style={{
-            padding: 5,
-            width: '70%',
-            height: 50,
-            backgroundColor: '#fff3cd',
-            marginTop: 20,
-          }}>
-            <View style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'white',
-              borderRadius: 8,
-              borderWidth: 1,
-              borderColor: 'gray',
-              paddingHorizontal: 12,
-              marginLeft: 20,
-
-            }}>
-
-              <Feather name="search" color={"gray"} size={20} style={{ marginRight: 8, }} />
+         {/* ==================search======================= */}
+<View style={styles.searchcontainer}>
+            <View style={styles.searchBar}>
+              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
               <TextInput
-                style={{
-                  flex: 1,
-                  fontSize: 16,
-                }}
-                placeholder="Search a Book"
-                spellCheck={false}
-                //value={searchQuery}
-                onChangeText={(Text) => {
-                  // setSearchQuery(Text);
-                  // handleSearch();
-
-                }}
+                style={styles.searchInput}
+                placeholder="Search by Plan Name "
+                value={searchQuery}
+                onChangeText={setSearchQuery}
               />
 
-              {/* {searchQuery !== '' && ( */}
-              <TouchableOpacity onPress={() => {
-                // setSearchQuery('');
-                // setSearchResults('');
+              {searchQuery !== '' && (
+                <TouchableOpacity onPress={() => {
+                  setSearchQuery('');
 
-              }}>
-                <Feather name="x" color={"gray"} size={20} style={{ marginRight: 8, }} />
-              </TouchableOpacity>
-              {/* )} */}
-
+                }}>
+                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                </TouchableOpacity>)}
             </View>
           </View>
-          {/* Display search results */}
+ {/* ===================================================================== */}    
 
           {/* table */}
           <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
@@ -380,20 +354,9 @@ const MembershipScreen = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
-
-
-        </View>
-
-
-
-          </View>
-         
-     
-        )}
-     
-     
-     
-     
+</View>
+ </View>
+          )}
       </ScrollView>
 
     </View>
@@ -414,4 +377,28 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     justifyContent:'center'
   },
+  searchIcon: {
+    marginRight: 20,
+  },
+  searchInput: {
+    fontSize: 15,
+  },
+  searchcontainer: {
+    marginTop:10,
+    marginLeft:10,
+    padding: 5,
+    width: '75%',
+    height: 50,
+    backgroundColor: '#fff3cd'
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 8,
+    borderColor: 'gray',
+    paddingHorizontal: 12,
+
+  },
+
 });

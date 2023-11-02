@@ -561,7 +561,9 @@ const HomeScreen = ({ navigation }) => {
 
 
   //===========added recently=================================
-  const format = [{ id: 1, name: "Hardcover" }, { id: 2, name: "PAPERBACK" }, { id: 3, name: "E_BOOK" }]
+  const format = [{ id: 1, name: "Hardcover" }, 
+  { id: 2, name: "PAPERBACK" },
+   { id: 3, name: "E_BOOK" }]
 
 
 
@@ -600,26 +602,6 @@ const HomeScreen = ({ navigation }) => {
 
 
 
-  //==========Books fetching end=========//
-
-  // ======================frequently added========================//
-
-  // useEffect(() => {
-  //   const freqBooks = () => {
-  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-  //       .then(res => res.json())
-  //       .then(respo => {
-  //         setFreqBooks(respo.data.splice(0,6));
-  //         setisLoaded(false);
-  //       });
-  //   };
-  //   freqBooks();
-  // }, []);
-
-
-
-
-
   useEffect(() => {
     const freqBooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -632,49 +614,14 @@ const HomeScreen = ({ navigation }) => {
     freqBooks();
   }, []);
 
-
-
-
-
   const filterBooks = freqBooks.filter((item) =>
-
-
-    item.items[0].format === (format[0].id || format[1].id)
-
-
-  )
-    ;
-
-
-
+  item.items[0].format === (format[0].id || format[1].id));
 
   const featuredEBooks = freqBooks.filter((item) =>
 
     item.items[0].format === format[2].id
 
-  )
-
-    ;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  );
 
   // ======================frequently added end========================//
 
@@ -800,11 +747,6 @@ const HomeScreen = ({ navigation }) => {
                     {/* <Text>{item.library_id}</Text>  */}
                     {/* <Text>(({item.library_id}=== 333)?(({item.library_id}=== 111)?(<Text>Dindayal Upadhyay Library</Text>):(<Text>Kundanlal Gupta Library</Text>)):(<Text>Rashtramata Kasturba Library</Text>))</Text> */}
 
-
-
-
-
-
                     <Text style={{
                       backgroundColor: '#c27b7f',
                       textAlign: 'center',
@@ -878,19 +820,12 @@ const HomeScreen = ({ navigation }) => {
                   source={{ uri: "https://player.vimeo.com/video" }}
                   style={styles.video}
                   controls={true} // Make sure controls are enabled
-                />
+                  resizeMode={'cover'}
+/>
                 {/* Add any other content or close button here */}
               </View>
 
-              {/* Your video modal content */}
-              {/* You can add your video player component here */}
-              {/* For simplicity, we'll just show a close button */}
-              {/* <View style={styles.modalContainer}>
-                <TouchableOpacity onPress={closeModal} style={styles.closeModalBtn}>
-                  <Text style={styles.closeModalText}>Close</Text>
-                </TouchableOpacity>
-
-              </View> */}
+             
             </Modal>
           </ImageBackground >
         </View>
@@ -1009,22 +944,6 @@ const HomeScreen = ({ navigation }) => {
             contentContainerStyle={{ columnGap: 10 }}
           />
         </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1196,7 +1115,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     color: '#000',
-    // backgroundColor:'yellow',
     marginLeft:85,
     right: 0
   },
