@@ -69,7 +69,7 @@ const MyEBook = ({ navigation }) => {
 
   const updatedTableData = itemsValue
   .filter((item) => {
-    // Step 4: Filter the data based on the search query
+    
     const bookName = item.name.toLowerCase();
     const bookCode = item.authors.toLowerCase();
     const language = item.language_name.toLowerCase();

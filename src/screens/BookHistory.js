@@ -124,7 +124,7 @@ const BookHistory = ({ navigation }) => {
 
   const updatedTableData = booksHistory
     .filter((book) => {
-      // Step 4: Filter the data based on the search query
+      
       const bookName = book.book_item.book.name.toLowerCase();
       const bookCode = book.book_item.book_code.toLowerCase();
       const query = searchQuery.toLowerCase();

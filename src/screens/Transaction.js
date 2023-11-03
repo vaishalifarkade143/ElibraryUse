@@ -98,7 +98,7 @@ const Transaction = ({ navigation }) => {
 
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
   .filter((item) => {
-    // Step 4: Filter the data based on the search query
+    
     const plan =  item.subscription_plan.name.toLowerCase();
     const query = searchQuery.toLowerCase();
     return plan.includes(query) ;

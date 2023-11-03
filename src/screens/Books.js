@@ -661,25 +661,36 @@ const Books = ({ navigation }) => {
   // ===========================search ===============================
 
 
+  // const handleSearch = () => {
+  //   setIsLoading(true);
+  //   // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
+  //   fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?query=${searchQuery}`)
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       // Filter the results based on the search query
+  //       const filteredResults = response.data.filter((item) =>
+  //         item.name.toLowerCase().includes(searchQuery.toLowerCase())
+  //       );
+  //       setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
+  //       setIsLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error searching for books:", error);
+  //       setIsLoading(false);
+  //     });
+  //   //search logic here 
+  //   // console.log('Searching for:', searchQuery);
+  // };
+
   const handleSearch = () => {
     setIsLoading(true);
-    // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
-    fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?query=${searchQuery}`)
-      .then((res) => res.json())
-      .then((response) => {
-        // Filter the results based on the search query
-        const filteredResults = response.data.filter((item) =>
+   
+        const filteredResults = books.filter((item) =>
           item.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
         setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
         setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error searching for books:", error);
-        setIsLoading(false);
-      });
-    //search logic here 
-    // console.log('Searching for:', searchQuery);
+     
   };
   // ==============================static dropdown===================================
 
@@ -1099,7 +1110,7 @@ const Books = ({ navigation }) => {
 
 
     
-      (<View style={{flex:1}}>
+      (<View style={{flex:3}}>
         <View style={styles.searchcontainer}>
         <View style={styles.searchBar}>
 
@@ -1116,7 +1127,7 @@ const Books = ({ navigation }) => {
             }}
           />
 
-          {searchQuery !== '' && (
+          {searchQuery !== ''  && (
             <TouchableOpacity onPress={() => {
               setSearchQuery('');
               setSearchResults('');
