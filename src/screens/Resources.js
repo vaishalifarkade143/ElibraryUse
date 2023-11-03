@@ -1,4 +1,4 @@
-// import React, { useEffect, useState, useContext } from 'react';
+// import React, { useEffect, useState, useContext,useRef } from 'react';
 // import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
 // import Header from '../common/Header';
 // import { Table, Row } from 'react-native-table-component';
@@ -10,6 +10,9 @@
 // import { useNavigation } from '@react-navigation/native';
 // import Pdf from 'react-native-pdf';
 // import Video from 'react-native-video';
+// import Slider from '@react-native-community/slider';
+// import Orientation from 'react-native-orientation-locker'; 
+
 
 // const Resources = () => {
 //   const navigation = useNavigation();
@@ -17,14 +20,38 @@
 //   const [AllOption, setAllOption] = useState(null);
 //   const [selectedGenre, setSelectedGenre] = useState("Search By Genre");
 //   const { userToken } = useContext(AuthContext);
-//   const [modalVisible, setModalVisible] = useState(false);
 //   const [pdfModalVisible, setPdfModalVisible] = useState(false);
 //   const [videoModalVisible, setVideoModalVisible] = useState(false);
 //   const [currentPage, setCurrentPage] = useState(1);
 //   const [searchQuery, setSearchQuery] = useState('');
+
 //   const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/sample.pdf`;
+
+
+
 //   const videoUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/file_example_MP4_480_1_5MG.mp4`
 
+//   // const [isPlaying, setIsPlaying] = useState(false);
+//   // const videoRef = useRef(null);
+//  // const videoUrl = 'https://your-video-url-here.mp4'; // Replace with your video URL
+
+// //  const playPauseToggle = () => {
+// //   setIsPlaying(!isPlaying);
+// // };
+
+
+//   const [clicked, setClicked] = useState(false);
+//   const [puased, setPaused] = useState(false);
+//   const [progress, setProgress] = useState(null);
+//   const [fullScreen,setFullScreen]=useState(false)
+//   const ref = useRef();
+//   const format = seconds => {
+//     let mins = parseInt(seconds / 60)
+//       .toString()
+//       .padStart(2, '0');
+//     let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
+//     return `${mins}:${secs}`;
+//   };
 //   //===============================================================================
 
 
@@ -145,7 +172,7 @@
 
 //   const updatedTableData = AllOption ? AllOption
 //     .filter((item) => {
-//       // Step 4: Filter the data based on the search query
+
 //       const title = item.title.toLowerCase();
 //       const query = searchQuery.toLowerCase();
 //       return title.includes(query);
@@ -228,18 +255,137 @@
 
 //         }}>
 
-//         <View style={styles.modalContainer}>
-//           <Video
-//             // source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }}
-//             source={{ uri: videoUrl }}
-//             style={styles.videoPlayer}
-//             // Make sure controls are enabled
-//             //resizeMode={'cover'}
-//             controls={true}
-//           />
-          
 
-//         </View>
+
+// <View style={{flex: 1}}>
+//       <TouchableOpacity
+//         style={{width: '100%', height:fullScreen?'100%': 200}}
+//         onPress={() => {
+//           setClicked(true);
+//         }}>
+//         <Video
+//           paused={puased}
+//           source={{ uri: videoUrl }}
+//           ref={ref}
+//           onProgress={x => {
+//             console.log(x);
+//             setProgress(x);
+//           }}
+
+//           muted
+//           style={{width: '100%', height: fullScreen?'100%': 200}}
+//           resizeMode="contain"
+//         />
+//         {clicked && (
+//           <TouchableOpacity
+//             style={{
+//               width: '100%',
+//               height: '100%',
+//               position: 'absolute',
+//               backgroundColor: 'rgba(0,0,0,.5)',
+//               justifyContent: 'center',
+//               alignItems: 'center',
+//             }}>
+//             <View style={{flexDirection: 'row'}}>
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   ref.current.seek(parseInt(progress.currentTime) - 10);
+//                 }}>
+//                 <Image
+//                   source={require('../images/backward.png')}
+//                   style={{width: 30, height: 30, tintColor: 'white'}}
+//                 />
+//               </TouchableOpacity>
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   setPaused(!puased);
+//                 }}>
+//                 <Image
+//                   source={
+//                     puased
+//                       ? require('../images/play-button.png')
+//                       : require('../images/pause.png')
+//                   }
+//                   style={{
+//                     width: 30,
+//                     height: 30,
+//                     tintColor: 'white',
+//                     marginLeft: 50,
+//                   }}
+//                 />
+//               </TouchableOpacity>
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   ref.current.seek(parseInt(progress.currentTime) + 10);
+//                 }}>
+//                 <Image
+//                   source={require('../images/forward.png')}
+//                   style={{
+//                     width: 30,
+//                     height: 30,
+//                     tintColor: 'white',
+//                     marginLeft: 50,
+//                   }}
+//                 />
+//               </TouchableOpacity>
+//             </View>
+//             <View
+//               style={{
+//                 width: '100%',
+//                 flexDirection: 'row',
+//                 justifyContent: 'space-between',
+//                 position: 'absolute',
+//                 bottom: 0,
+//                 paddingLeft: 20,
+//                 paddingRight: 20,
+//                 alignItems:'center'
+//               }}>
+//               <Text style={{color: 'white'}}>
+//                 {format(progress.currentTime)}
+//               </Text>
+//               <Slider
+//                 style={{width: '80%', height: 40}}
+//                 minimumValue={0}
+//                 maximumValue={progress.seekableDuration}
+//                 minimumTrackTintColor="#FFFFFF"
+//                 maximumTrackTintColor="#fff"
+//                 onValueChange={(x)=>{
+//                   ref.current.seek(x);
+//                 }}
+//               />
+//               <Text style={{color: 'white'}}>
+//                 {format(progress.seekableDuration)}
+//               </Text>
+//             </View>
+//             <View
+//               style={{
+//                 width: '100%',
+//                 flexDirection: 'row',
+//                 justifyContent: 'space-between',
+//                 position: 'absolute',
+//                 top: 10,
+//                 paddingLeft: 20,
+//                 paddingRight: 20,
+//                 alignItems:'center'
+//               }}>
+//             <TouchableOpacity onPress={()=>{
+//               if(fullScreen){
+//                 Orientation.lockToPortrait();
+//             } else{
+//                 Orientation.lockToLandscape();
+//             }
+//             setFullScreen(!fullScreen)
+//             }}>
+//               <Image source={fullScreen?require('../images/minimize.png'):require('../images/full-size.png')}
+//                style={{width:24,height: 24,tintColor:'white'}}/>
+//             </TouchableOpacity>
+//             </View>
+//           </TouchableOpacity>
+//         )}
+//       </TouchableOpacity>
+//     </View>
+
+
 //       </Modal>
 
 
@@ -468,6 +614,7 @@
 //     textAlign: 'center',
 //   },
 //   videoPlayer: {
+//    // flex: 1,
 //     width: Dimensions.get('window').width,
 //     height: Dimensions.get('window').width * (9 / 16),
 //     //backgroundColor: 'black',
@@ -478,6 +625,32 @@
 //     alignItems: 'center',
 //     backgroundColor: 'rgba(0, 0, 0, 0.7)',
 //   },
+//   // videoControls: {
+//   //   position: 'absolute',
+//   //   bottom: 0,
+//   //   left: 0,
+//   //   right: 0,
+//   //   // Add styles for your video controls here
+//   // },
+//   // videoPlayer: {
+//   //   width: 300, // Adjust the width as needed
+//   //   height: 200, // Adjust the height as needed
+//   // },
+//   controlsContainer: {
+//     flexDirection: 'row',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 10,
+//   },
+//   controlButton: {
+//     paddingHorizontal: 10,
+//     paddingVertical: 5,
+//     backgroundColor: '#c27b7f',
+//     color: 'white',
+//     borderRadius: 5,
+//     margin: 5,
+//   },
+
 //   searchIcon1: {
 //     marginRight: 5,
 //   },
@@ -503,10 +676,11 @@
 //   },
 
 // });
+
 // ====================================================================================
 
 
-import React, { useEffect, useState, useContext,useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
 import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
@@ -519,7 +693,7 @@ import { useNavigation } from '@react-navigation/native';
 import Pdf from 'react-native-pdf';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
-import Orientation from 'react-native-orientation-locker'; 
+import Orientation from 'react-native-orientation-locker';
 
 
 const Resources = () => {
@@ -535,23 +709,13 @@ const Resources = () => {
 
   const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/sample.pdf`;
 
-  
 
+  const [videoDuration, setVideoDuration] = useState(0);
   const videoUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/file_example_MP4_480_1_5MG.mp4`
-
-  // const [isPlaying, setIsPlaying] = useState(false);
-  // const videoRef = useRef(null);
- // const videoUrl = 'https://your-video-url-here.mp4'; // Replace with your video URL
-
-//  const playPauseToggle = () => {
-//   setIsPlaying(!isPlaying);
-// };
-
-
   const [clicked, setClicked] = useState(false);
   const [puased, setPaused] = useState(false);
   const [progress, setProgress] = useState(null);
-  const [fullScreen,setFullScreen]=useState(false)
+  const [fullScreen, setFullScreen] = useState(false)
   const ref = useRef();
   const format = seconds => {
     let mins = parseInt(seconds / 60)
@@ -680,7 +844,7 @@ const Resources = () => {
 
   const updatedTableData = AllOption ? AllOption
     .filter((item) => {
-      
+
       const title = item.title.toLowerCase();
       const query = searchQuery.toLowerCase();
       return title.includes(query);
@@ -763,160 +927,144 @@ const Resources = () => {
 
         }}>
 
-        {/* <View style={styles.modalContainer}>
-          <Video
-      ref={videoRef}
-      source={{ uri: videoUrl }}
-      style={styles.videoPlayer}
-      paused={!isPlaying}
-      controls={false}
-      resizeMode={'cover'}
-      
-    />
-    <View style={styles.controlsContainer}>
-      <TouchableOpacity onPress={playPauseToggle}>
-        <Text style={styles.controlButton}>{isPlaying ? 'Pause' : 'Play'}</Text>
-      </TouchableOpacity> */}
-      {/* Add more custom controls here */}
-    {/* </View>
-        </View> */}
 
-<View style={{flex: 1}}>
-      <TouchableOpacity
-        style={{width: '100%', height:fullScreen?'100%': 200}}
-        onPress={() => {
-          setClicked(true);
-        }}>
-        <Video
-          paused={puased}
-          source={{ uri: videoUrl }}
-          ref={ref}
-          onProgress={x => {
-            console.log(x);
-            setProgress(x);
-          }}
-          // Can be a URL or a local file.
-          //  ref={(ref) => {
-          //    this.player = ref
-          //  }}                                      // Store reference
-          //  onBuffer={this.onBuffer}                // Callback when remote video is buffering
-          //  onError={this.videoError}
 
-          // Callback when video cannot be loaded
-          muted
-          style={{width: '100%', height: fullScreen?'100%': 200}}
-          resizeMode="contain"
-        />
-        {clicked && (
+        <View style={{ flex: 1 }}>
           <TouchableOpacity
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              backgroundColor: 'rgba(0,0,0,.5)',
-              justifyContent: 'center',
-              alignItems: 'center',
+            style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+            onPress={() => {
+              setClicked(true);
             }}>
-            <View style={{flexDirection: 'row'}}>
-              <TouchableOpacity
-                onPress={() => {
-                  ref.current.seek(parseInt(progress.currentTime) - 10);
-                }}>
-                <Image
-                  source={require('../images/backward.png')}
-                  style={{width: 30, height: 30, tintColor: 'white'}}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  setPaused(!puased);
-                }}>
-                <Image
-                  source={
-                    puased
-                      ? require('../images/play-button.png')
-                      : require('../images/pause.png')
-                  }
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: 'white',
-                    marginLeft: 50,
-                  }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  ref.current.seek(parseInt(progress.currentTime) + 10);
-                }}>
-                <Image
-                  source={require('../images/forward.png')}
-                  style={{
-                    width: 30,
-                    height: 30,
-                    tintColor: 'white',
-                    marginLeft: 50,
-                  }}
-                />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                position: 'absolute',
-                bottom: 0,
-                paddingLeft: 20,
-                paddingRight: 20,
-                alignItems:'center'
-              }}>
-              <Text style={{color: 'white'}}>
-                {format(progress.currentTime)}
-              </Text>
-              <Slider
-                style={{width: '80%', height: 40}}
-                minimumValue={0}
-                maximumValue={progress.seekableDuration}
-                minimumTrackTintColor="#FFFFFF"
-                maximumTrackTintColor="#fff"
-                onValueChange={(x)=>{
-                  ref.current.seek(x);
-                }}
-              />
-              <Text style={{color: 'white'}}>
-                {format(progress.seekableDuration)}
-              </Text>
-            </View>
-            <View
-              style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                position: 'absolute',
-                top: 10,
-                paddingLeft: 20,
-                paddingRight: 20,
-                alignItems:'center'
-              }}>
-            <TouchableOpacity onPress={()=>{
-              if(fullScreen){
-                Orientation.lockToPortrait();
-            } else{
-                Orientation.lockToLandscape();
-            }
-            setFullScreen(!fullScreen)
-            }}>
-              <Image source={fullScreen?require('../images/minimize.png'):require('../images/full-size.png')}
-               style={{width:24,height: 24,tintColor:'white'}}/>
-            </TouchableOpacity>
-            </View>
-          </TouchableOpacity>
-        )}
-      </TouchableOpacity>
-    </View>
+            <Video
+              paused={puased}
+              source={{ uri: videoUrl }}
+              ref={ref}
+              onProgress={x => {
+                console.log(x);
+                setProgress(x);
 
-        
+              }}
+              onLoad={data => {
+                setVideoDuration(data.duration);
+              }}
+
+              muted
+              style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+              resizeMode="contain"
+            />
+            {clicked && (
+              <TouchableOpacity
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  position: 'absolute',
+                  backgroundColor: 'rgba(0,0,0,.5)',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      ref.current.seek(parseInt(progress.currentTime) - 10);
+                    }}>
+                    <Image
+                      source={require('../images/backward.png')}
+                      style={{ width: 30, height: 30, tintColor: 'white' }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      setPaused(!puased);
+                    }}>
+                    <Image
+                      source={
+                        puased
+                          ? require('../images/play-button.png')
+                          : require('../images/pause.png')
+                      }
+                      style={{
+                        width: 30,
+                        height: 30,
+                        tintColor: 'white',
+                        marginLeft: 50,
+                      }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => {
+                      ref.current.seek(parseInt(progress.currentTime) + 10);
+                    }}>
+                    <Image
+                      source={require('../images/forward.png')}
+                      style={{
+                        width: 30,
+                        height: 30,
+                        tintColor: 'white',
+                        marginLeft: 50,
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    position: 'absolute',
+                    bottom: 0,
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    alignItems: 'center'
+                  }}>
+                  <Text style={{ color: 'white' }}>
+                    {format(progress.currentTime)}
+                  </Text>
+                  <Slider
+                    style={{ width: '80%', height: 40 }}
+                    minimumValue={0}
+                    maximumValue={videoDuration}
+                    // maximumValue={progress.seekableDuration}
+                    minimumTrackTintColor="#FFFFFF"
+                    maximumTrackTintColor="#fff"
+                    onValueChange={(x) => {
+                      ref.current.seek(x);
+                    }}
+                    value={progress.currentTime}
+                  />
+                  
+                  <Text style={{ color: 'white' }}>
+                    {format(progress.seekableDuration)}
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    width: '100%',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    position: 'absolute',
+                    top: 10,
+                    paddingLeft: 20,
+                    paddingRight: 20,
+                    alignItems: 'center'
+                  }}>
+                  <TouchableOpacity onPress={() => {
+                    if (fullScreen) {
+                      Orientation.lockToPortrait();
+                    } else {
+                      Orientation.lockToLandscape();
+                    }
+                    setFullScreen(!fullScreen)
+                  }}>
+                    <Image source={fullScreen ? require('../images/minimize.png') : require('../images/full-size.png')}
+                      style={{ width: 24, height: 24, tintColor: 'white' }} />
+                  </TouchableOpacity>
+                </View>
+              </TouchableOpacity>
+            )}
+          </TouchableOpacity>
+        </View>
+
+
       </Modal>
 
 
@@ -1145,7 +1293,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   videoPlayer: {
-   // flex: 1,
+    // flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width * (9 / 16),
     //backgroundColor: 'black',
