@@ -946,6 +946,7 @@ const Books = ({ navigation }) => {
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('BooksDetailPage', { data: item })
                   // {data:item}
+                  console.log(item);
                 }}>
                   <View style={{
                     width: 182,

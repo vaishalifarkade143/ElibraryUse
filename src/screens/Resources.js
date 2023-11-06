@@ -681,7 +681,7 @@
 
 
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions, PermissionsAndroid } from 'react-native';
 import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import { Picker } from '@react-native-picker/picker';
@@ -694,7 +694,8 @@ import Pdf from 'react-native-pdf';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
-
+// import RNFS from 'react-native-fs';
+import RNFetchBlob from 'rn-fetch-blob';
 
 const Resources = () => {
   const navigation = useNavigation();
@@ -704,11 +705,19 @@ const Resources = () => {
   const { userToken } = useContext(AuthContext);
   const [pdfModalVisible, setPdfModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+  const [audioModalVisible, setAudioModalVisible] = useState(false);
+  const [downloadModalVisible, setDownloadModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
+
+
   const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/sample.pdf`;
 
+  const audioUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/file_example_MP3_5MG.mp3`
+
+
+  //==============================video=================================================
 
   const [videoDuration, setVideoDuration] = useState(0);
   const videoUrl = `https://dindayalupadhyay.smartcitylibrary.com/public/uploads/Resources/file_example_MP4_480_1_5MG.mp4`
@@ -724,9 +733,92 @@ const Resources = () => {
     let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
     return `${mins}:${secs}`;
   };
-  //===============================================================================
 
 
+  //====================================Audio===========================================
+
+  const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; // URL for the XLSX file
+
+  // const downloadXLSX = async () => {
+  //   try {
+  //     const downloadPath = `${RNFS.CachesDirectoryPath}/downloaded_file.xlsx`; // Local path and filename for the downloaded file
+  //     const response = await RNFS.downloadFile({
+  //       fromUrl: xlsxUrl,
+  //       toFile: downloadPath,
+  //     });
+
+  //     if (response.statusCode === 200) {
+  //       console.log('XLSX file downloaded successfully to:', downloadPath);
+  //     } else {
+  //       console.error('Failed to download the XLSX file');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error downloading the XLSX file:', error);
+  //   }
+  // };
+
+
+
+
+  //===================for permition=============================
+
+  const requestStoragePermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission',
+          // message:
+          //   'Cool Photo App needs access to your camera ' +
+          //   'so you can take awesome pictures.',
+          buttonNeutral: 'Ask Me Later',
+          buttonNegative: 'Cancel',
+          buttonPositive: 'OK',
+        },
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        // console.log('You can use the camera');
+        downloadFile();
+      } else {
+        console.log('Storage permission denied');
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+
+  const downloadFile = () => {
+    const { config, fs } = RNFetchBlob;
+    const data = new Date();
+    const fileDir = fs.dirs.DownloadDir;//download file Directory where want to store
+
+    //file download code =================
+
+      config({
+        // add this option that makes response data to be stored as a file,
+        // this is much more performant.
+        fileCache: true,
+        //=========filedownload manager code===================
+        addAndroidDownloads:{
+          useDownloadManager:true,
+          notification:true,
+          path:fileDir + "/download_"+Math.floor(data.getDate()+data.getSeconds() / 2)+'.xlsx',//mix of date n time to get random no.
+          description:'file download'
+        }
+        //=======================================
+      })
+      .fetch('GET', xlsxUrl, {
+        //some headers ..
+      })
+      .then((res) => {
+        // the temp file path
+        console.log('The file saved to ', res.path());
+        alert("file downloaded successfully")
+      })
+  }
+
+  // ====================================================================
 
   const mapCategoryToInt = (categoryName) => {
     switch (categoryName) {
@@ -822,18 +914,32 @@ const Resources = () => {
         return (
           <TouchableOpacity
             onPress={() => {
-              setPdfModalVisible(true); // Open the PDF modal
+              setPdfModalVisible(true); // Open the video modal
             }}>
             <Text style={styles.categoryText}>Read</Text></TouchableOpacity>
         );
       case 3:
         return (
-          <MaterialIcons name="audiotrack" color={"#fff"} size={20} style={styles.searchIcon} />
-
+          <TouchableOpacity
+            onPress={() => {
+              setAudioModalVisible(true); // Open the audio modal
+            }}>
+            <MaterialIcons name="audiotrack" color={"#fff"} size={20} style={styles.searchIcon} />
+          </TouchableOpacity>
         );
       case 4:
         return (
-          <Text style={styles.categoryText}>Downloads</Text>
+          <TouchableOpacity
+            // onPress={() => {
+            //    {downloadXLSX}
+            //   setDownloadModalVisible(true); // Open the audio modal
+            // }}
+            onPress={() => {
+              requestStoragePermission();
+            }}
+          >
+            <Text style={styles.categoryText}>Downloads</Text>
+          </TouchableOpacity>
         );
       default:
         return (
@@ -1031,7 +1137,7 @@ const Resources = () => {
                     }}
                     value={progress.currentTime}
                   />
-                  
+
                   <Text style={{ color: 'white' }}>
                     {format(progress.seekableDuration)}
                   </Text>
@@ -1063,10 +1169,91 @@ const Resources = () => {
             )}
           </TouchableOpacity>
         </View>
+      </Modal>
 
+      {/* ============================audio=============================== */}
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={audioModalVisible}
+        onRequestClose={() => {
+          setAudioModalVisible(false);
+
+        }}>
+
+        <View style={{
+          marginTop: 250,
+          marginLeft: 10,
+          marginRight: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#fff3cd',
+          paddingBottom: 30,
+          paddingTop: 30,
+          borderRadius: 15,
+        }}>
+          <Text style={{
+            marginBottom: 15,
+            fontSize: 15,
+            fontWeight: 'bold',
+            color: '#000',
+            textAlign: 'center',
+            fontFamily: 'Philosopher-Bold',
+          }}>Preview</Text>
+          <Video
+            source={{ uri: audioUrl }}
+            style={{
+              width: 300,
+              height: 100,
+              borderRadius: 15,
+              paddingLeft: 10,
+              paddingRight: 10,
+            }}
+            controls={true} // Show audio controls (play, pause, etc.)
+            resizeMode="contain"
+            onEnd={() => setAudioModalVisible(false)}
+          />
+        </View>
 
       </Modal>
 
+
+      {/* ===============================download======================== */}
+      {/* <Modal
+        animationType="slide"
+        transparent={true}
+        visible={downloadModalVisible}
+        onRequestClose={() => {
+          setDownloadModalVisible(false);
+
+        }}>
+        <View style={{
+          height: 40,
+          width: 300,
+          justifyContent: 'center',
+          backgroundColor: 'pink',
+          marginTop: 30,
+          borderRadius: 10,
+          marginLeft: 60,
+        }}>
+          <View
+            style={{ flexDirection: 'row' }}>
+            <Text>Hellow</Text>
+            <Image source={require('../images/download.png')}
+              style={{ width: 15, height: 15, }} />
+            <Image source={require('../images/folder.png')}
+              style={{ width: 15, height: 15, }} />
+          </View>
+
+        </View>
+
+
+      </Modal> */}
+
+
+
+      {/* ================================================ */}
 
       <ScrollView>
         <Text style={{
@@ -1293,10 +1480,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   videoPlayer: {
-    // flex: 1,
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').width * (9 / 16),
-    //backgroundColor: 'black',
   },
   modalContainer: {
     flex: 1,
@@ -1304,17 +1489,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
-  // videoControls: {
-  //   position: 'absolute',
-  //   bottom: 0,
-  //   left: 0,
-  //   right: 0,
-  //   // Add styles for your video controls here
-  // },
-  // videoPlayer: {
-  //   width: 300, // Adjust the width as needed
-  //   height: 200, // Adjust the height as needed
-  // },
   controlsContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -1353,5 +1527,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
 
   },
+
 
 });

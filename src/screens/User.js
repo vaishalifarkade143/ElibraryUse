@@ -352,7 +352,7 @@ const User = ({ navigation }) => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.error('Error fetching data:', error);
+        // console.error('Error fetching data:', error);
         setIsLoading(false);
       });
   };

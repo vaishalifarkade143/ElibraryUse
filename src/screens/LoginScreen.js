@@ -13,28 +13,7 @@ const LoginScreen = ({ navigation }) => {
     const {userInfo} = useContext(AuthContext);
 
   
-    const handleValidate = () => {
-        // Perform client-side validation
-        if (!email) {
-          alert('Please enter your email.');
-          return;
-        }
     
-        if (!password) {
-          alert('Please enter your password.');
-          return;
-        }
-    
-        // If validation passes, call the login function
-        login(email, password);
-      };
-    // const handleLogin = () => {
-    //     // Implement your login logic here
-
-
-    //     //console.log('Login button clicked');
-    // };
-
     return (
         <View style={styles.container}>
             <Header
@@ -157,7 +136,7 @@ const LoginScreen = ({ navigation }) => {
                         }}
                     
                         // {/* on login button click */}
-                       onPress= {handleValidate}
+                       onPress= {()=>{login(email, password)}}
                        // disabled={!email || !password}
 
                 //        onPress={()=> {
