@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Pressable, ScrollView, TextInput,  StyleSheet,  Modal, TouchableOpacity } from 'react-native';
+import { View, Text, Pressable, ScrollView, TextInput, StyleSheet, Modal, TouchableOpacity } from 'react-native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
@@ -124,7 +124,7 @@ const BookHistory = ({ navigation }) => {
 
   const updatedTableData = booksHistory
     .filter((book) => {
-      
+
       const bookName = book.book_item.book.name.toLowerCase();
       const bookCode = book.book_item.book_code.toLowerCase();
       const query = searchQuery.toLowerCase();
@@ -232,35 +232,35 @@ const BookHistory = ({ navigation }) => {
       <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
         {/* ==================search======================= */}
-      <View style={styles.searchcontainer}>
-            <View style={styles.searchBar}>
-              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search by Book Name or Book Code"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
+        <View style={styles.searchcontainer}>
+          <View style={styles.searchBar}>
+            <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search by Book Name or Book Code"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
 
-              {searchQuery !== '' && (
-                <TouchableOpacity onPress={() => {
-                  setSearchQuery('');
+            {searchQuery !== '' && (
+              <TouchableOpacity onPress={() => {
+                setSearchQuery('');
 
-                }}>
-                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
-                </TouchableOpacity>)}
-            </View>
+              }}>
+                <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+              </TouchableOpacity>)}
           </View>
+        </View>
 
- {/* ===================================================================== */}      
+        {/* ===================================================================== */}
 
-      <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-        <View style={{ backgroundColor: '#fff3cd', marginTop: 15 }}>
-          
+        <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+          <View style={{ backgroundColor: '#fff3cd', marginTop: 15 }}>
 
-          <View style={{ flex: 1, backgroundColor: '#fff3cd', paddingTop:-60 }}>
-      
-           
+
+            <View style={{ flex: 1, backgroundColor: '#fff3cd', paddingTop: -60 }}>
+
+
               <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 }}>
 
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -280,17 +280,17 @@ const BookHistory = ({ navigation }) => {
                   </Table>
                 </ScrollView>
               </View>
-           
+
+            </View>
+
           </View>
 
-        </View>
-
-      </ScrollView>
+        </ScrollView>
 
 
 
       </View>
-      
+
 
     </View>
   );
@@ -357,8 +357,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   searchcontainer: {
-    marginTop:10,
-    marginLeft:10,
+    marginTop: 10,
+    marginLeft: 10,
     padding: 5,
     width: '93%',
     height: 50,

@@ -1,17 +1,9 @@
-
-
-
-
-// //===================book details page(added modal)====================
 // import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList,Modal,Pressable } from 'react-native'
 // import React, { useEffect, useState, useContext } from 'react'
 // import { useRoute, useNavigation } from '@react-navigation/native';
 // import Header from '../common/Header';
 // import { AuthContext } from '../context/AuthContext';
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// import axios from 'axios';
-// import { BASE_URL } from "../config";
-
+// import Pdf from 'react-native-pdf';
 
 // const BooksDetail = ({ navigation }) => {
 //   const [isLoaded, setisLoaded] = useState(true);
@@ -23,12 +15,21 @@
 //   const [subscribedBooks, setSubscribedBooks] = useState([]);
 //   const [subscribe, setSubscribe] = useState([]);
 
+//   const [libraryid,setLibraryId]=useState([]);
 
-  
 //   const currentDate = new Date();
 //   const endDate = new Date(currentDate);
 //   endDate.setDate(endDate.getDate() + 10);
 //   const [modalVisible, setModalVisible] = useState(false);
+
+
+
+//   const filename = route.params.data.file_name;
+//   // .split(".")[0];
+//   const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public_uploads_ebooks/${filename}`;
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const [pdfModalVisible, setPdfModalVisible] = useState(false);
+
 
 //   //-----------------for convertion of date to personalized style date ----------------------------
 //   function formatDate(inputDate) {
@@ -65,36 +66,26 @@
 //           daySuffix = 'th';
 //       }
 //     }
-
-
-//     const formattedDate = `${day}${daySuffix} ${month}, ${year}`;
-
-//     return formattedDate;
+// const formattedDate = `${day}${daySuffix} ${month}, ${year}`;
+// return formattedDate;
 //   }
 
 //   const startDate = formatDate(currentDate);
 //   const endingDate= formatDate(endDate);
 
-// //   console.log('Current Date:', startDate);
-// // console.log('End Date:', endingDate);
-
-  
-
-
-
 // //------------------handle of navigation to book history page---------------------------
 // const handleBookHistory=(item)=>{
-   
-   
+
+
 //   const subscriptionData1={
 //               book_item_id:route.params.data.items[0].id,
 //               library_id:route.params.data.library_id
 //             };
- 
+
 //   console.log('data retrived ', subscriptionData1);
- 
- 
- 
+
+
+
 //   const url=`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item.items[0].id}/reserve-book`;
 
 //   fetch(url, {
@@ -104,8 +95,7 @@
 //       Authorization: `Bearer ${userToken}`,
 //     },
 //     body: JSON.stringify(subscriptionData1),
-   
-//   })
+//    })
 
 //   .then((response) => {
 //     if (!response.ok) {
@@ -116,18 +106,16 @@
 //   })
 //   .then((responseData) => {
 //     console.log('Data stored successfully:', responseData);
-   
-   
-
 //     navigation.navigate('subscribebookHistory');
-
-//   })
+//  })
 
 //   .catch((error) => {
 //     console.error('Error storing data:', error);
 //   });
 
 // }
+
+// // ===================================================================================
 
 // const handleSubscribe = (item) => {
 //     const member_id = userInfo.data.user.member_id;
@@ -139,8 +127,8 @@
 //       item
 //     };
 
- 
-//     console.log("subbb:", subscriptionData);
+
+//     //console.log("subbb:", subscriptionData);
 //     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
 //     fetch(url, {
 //       method: 'POST',
@@ -158,12 +146,12 @@
 //         return response.json();
 //       })
 //       .then((responseData) => {
-//         console.log('Data stored successfully:', responseData);
-      
+//        console.log('Data stored successfully:', responseData);
+
 //         setModalVisible(!modalVisible);
 
-       
-//         console.log('Navigating to myEBook...');
+
+//         //console.log('Navigating to myEBook...');
 
 //         navigation.navigate('myEBook');
 
@@ -174,8 +162,8 @@
 //       });
 //   };
 
+// // ================================================================
 
-  
 //   useEffect(() => {
 //     const tredingbooks = () => {
 //       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -188,6 +176,94 @@
 //     tredingbooks();
 //   }, []);
 
+
+
+
+
+//   //===================API CALL FOR DIFFERENT LIBRARY WHEATHER THE MEMBER IS REGISTERED OR NOT=======================
+//   useEffect(() => {
+
+//     const id= userInfo.data.user.id;
+//     console.log(id);
+//    const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
+
+//    fetch(apiUrl, {
+//      method: 'GET',
+//      headers: {
+//        'Authorization': `Bearer ${userToken}`,
+//        'Content-Type': 'application/json',
+//      },
+//    })
+//      .then((response) => {
+//        if (!response.ok) {
+//          throw new Error(`HTTP error! Status: ${response.status}`);
+//        }
+//        return response.json();
+//      })
+//      .then((data) => {
+//        setLibraryId(data.data);
+
+//      })
+//      .catch((error) => {
+//        console.error('Error fetching data:', error);
+//      });
+//  }, [route,tredbooks]);
+
+
+
+
+// console.log(libraryid);
+
+// //===================API CALL FOR register-member-to-library=======================  
+// const handleMemberRegistered = (item) => {
+
+
+//   console.log(item);
+//   const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member-to-library/${item.library_id}`;
+//   fetch(url, {
+//     method: 'POST',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       Authorization: `Bearer ${userToken}`,
+//     },
+
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       console.log("responce is:", response);
+//       return response.json();
+//     })
+//     .then((responseData) => {
+//       console.log('Data stored successfully:', responseData);
+
+//       setModalVisible(!modalVisible);
+
+
+//       console.log('Navigating to myEBook...');
+
+//       navigation.navigate('myEBook');
+
+//     })
+
+//     .catch((error) => {
+//       console.error('Error storing data:', error);
+//     });
+// };
+
+
+// const userLibraryId = libraryid.map((item) => [
+//   item.user_library_id,
+// ]) ;
+// const LibraryId= userLibraryId.flat();
+
+// console.log(LibraryId);
+// console.log(LibraryId.includes(route.params.data.library_id) );
+
+
+
+
 //   return (
 //     <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
 //       <Header
@@ -198,17 +274,21 @@
 //         }}
 //       />
 
-//     <Modal
+//      <Modal
 //         animationType="slide"
 //         transparent={true}
 //         visible={modalVisible}
 //         onRequestClose={() => {
-         
+
 //           setModalVisible(!modalVisible);
 //         }}>
 //         <View style={styles.centeredView}>
-//           <View style={styles.modalView}>
-           
+
+
+
+// {LibraryId.includes(route.params.data.library_id) ?
+//           (<View style={styles.modalView}>
+
 //             <Text style={styles.modalText}>The Book Will be Subscribed from</Text>
 //             <View style={{flexDirection:'row', marginBottom: 15,}}>
 //             <Text style={{color:'blue',fontSize:15,fontWeight:'bold', }}>{startDate}</Text> 
@@ -220,7 +300,105 @@
 //               onPress={() => handleSubscribe(route.params.data)}>
 //               <Text style={styles.textStyle}>Subscribe</Text>
 //             </Pressable>
-          
+
+//           </View>):
+//           (<View style={styles.modalView}>
+
+//             <Text style={styles.modalText}>Book Reservation/Subscription</Text>
+//             <View style={{flexDirection:'row', marginBottom: 15,}}>
+//             {/* <Text style={{color:'blue',fontSize:15,fontWeight:'bold', }}></Text> */}
+
+//              <Text>These book belongs to</Text>
+
+//               {route.params.data.library_id === 111 ?
+//             (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, 
+//             fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
+//               Dindayal UpadhyayLibrary</Text>) :
+
+//             (route.params.data.library_id === 222 ?
+//               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', 
+//               marginTop: 10, borderWidth: 5 }}>
+//                 Kundanlal Gupta Library</Text>) :
+
+//               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center',
+//                marginTop: 10, borderWidth: 5 }}>
+//                 Rashtramata Kasturba Library</Text>))}
+
+//                 <Text>. And Your are not the Member either.Do you want to Register for </Text>
+
+//              {route.params.data.library_id === 111 ?
+//             (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', 
+//             marginTop: 10, borderWidth: 5 }}>
+//               Dindayal UpadhyayLibrary</Text>) :
+
+//             (route.params.data.library_id === 222 ?
+//               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, 
+//               textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
+//                 Kundanlal Gupta Library</Text>) :
+
+//               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center',
+//                marginTop: 10, borderWidth: 5 }}>
+//                 Rashtramata Kasturba Library</Text>))} 
+
+//                 <Text>and Continue ?</Text>
+
+//             </View>
+
+
+
+//             <View style={{ flexDirection: 'row', gap: 10 }}>
+//               <Pressable
+//                 style={styles.button}
+//                 // onPress={() => handleMemberRegistered(selectedLibraryId)}>
+//                 onPress={() => handleMemberRegistered(route.params.data)}>
+//                 <Text style={styles.textStyle}>Yes</Text>
+//               </Pressable>
+
+//               <Pressable
+//                 style={styles.button}
+//                 onPress={() => setModalVisible(!modalVisible)}>
+//                 <Text style={styles.textStyle}>No</Text>
+//               </Pressable>
+//             </View>
+
+
+//           </View>)}
+//         </View>
+//       </Modal>
+
+//       {/* ===============================Pdf Modal============================================== */}
+//       <Modal
+//         animationType="slide"
+//         transparent={true}
+//         visible={pdfModalVisible}
+//         onRequestClose={() => {
+//           setPdfModalVisible(false);
+
+//         }}>
+//         <View style={styles.centeredView}>
+//           <View style={styles.modalView}>
+//             <Pdf
+//               trustAllCerts={false}
+//               source={{ uri: pdfUrl }}
+//               onLoadComplete={(numberOfPages, filePath) => {
+//                 console.log(`Number of pages: ${numberOfPages}`);
+//               }}
+//               onPageChanged={(page, numberOfPages) => {
+//                 setCurrentPage(page);
+//               }}
+//               onError={(error) => {
+//                 console.log(error);
+//               }}
+//               onPressLink={(uri) => {
+//                 console.log(`Link pressed: ${uri}`);
+//               }}
+//               style={styles.pdf}
+//             />
+
+//             <View style={styles.pageButton}>
+//               <Text style={styles.pageButtonText}> {currentPage}</Text>
+//             </View>
+
 //           </View>
 //         </View>
 //       </Modal>
@@ -288,6 +466,7 @@
 //                 Kundanlal Gupta Library</Text>) :
 //               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
 //                 Rashtramata Kasturba Library</Text>))}</View></View>
+
 //         <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
 //           <Text style={styles.textHeading}>Description:</Text>
 //           <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
@@ -295,73 +474,6 @@
 
 
 
-// {/* <View style={{ flexDirection: 'column', }}>
-// {route.params.data.items[0].format !== 3 ?
-// ( <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10,}}>
-//   <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
-//   <Text style={{backgroundColor:'#c27b7f',color:'white',padding:5,borderRadius:15}}>1</Text></View>)
-//   :(null)}
-//   {userToken !== null ?
-//           (<TouchableOpacity
-//             style={{
-//               backgroundColor: '#c27b7f',
-//               alignItems: 'center',
-//               padding: 10,
-//               borderRadius: 5,
-//               width: '50%',
-//               height: 50,
-//               justifyContent: 'center',
-//               marginTop: 20,
-//               marginLeft: 100,
-//               marginBottom: 20
-//             }}
-//             onPress={() => {
-//               {route.params.data.items[0].format === 3 ?
-//              (setModalVisible(!modalVisible)):(handleBookHistory(route.params.data))}
-//             }}
-//           >
-//           {route.params.data.items[0].format === 3 ?
-//               (<Text style={{
-//                 color: '#fff',
-//                 fontWeight: '700',
-//                 fontSize: 18
-//               }}>subscribe</Text>) : (<Text style={{
-//                 color: '#fff',
-//                 fontWeight: '700',
-//                 fontSize: 18
-//               }}>Reserved</Text>
-//               )}
-//           </TouchableOpacity>) :
-//           (<TouchableOpacity
-//             style={{
-//               backgroundColor: '#c27b7f',
-//               alignItems: 'center',
-//               padding: 10,
-//               borderRadius: 5,
-//               width: '50%',
-//               height: 50,
-//               justifyContent: 'center',
-//               marginTop: 20,
-//               marginLeft: 100,
-//               marginBottom: 20
-//             }} onPress={() => {
-//               // Navigate to the login page since the user is not logged in
-//               navigation.navigate('sLogin');
-//             }}>(<Text style={{
-//               color: '#fff',
-//               fontWeight: '700',
-//               fontSize: 18
-//             }}>Subscribe</Text>):<Text style={{
-//               color: '#fff',
-//               fontWeight: '700',
-//               fontSize: 18
-//             }}>Reserved</Text>
-           
-//           </TouchableOpacity>)}
-
-         
-//     </View>
-//    */}
 
 // {route.params.data.items[0].status===1?
 // (<View style={{ flexDirection: 'column', }}>
@@ -370,37 +482,80 @@
 //   <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
 //   <Text style={{backgroundColor:'#c27b7f',color:'white',padding:5,borderRadius:15}}>1</Text></View>)
 //   :(null)}
+
 //   {userToken !== null ?
-//           (<TouchableOpacity
+
+//           <TouchableOpacity
 //             style={{
 //               backgroundColor: '#c27b7f',
-//               alignItems: 'center',
+//               //alignItems: 'center',
 //               padding: 10,
 //               borderRadius: 5,
-//               width: '50%',
+//               width: '35%',
 //               height: 50,
-//               justifyContent: 'center',
+//              // justifyContent: 'center',
 //               marginTop: 20,
-//               marginLeft: 100,
-//               marginBottom: 20
+//               marginLeft: 20,
+//               marginBottom: 20,
+
 //             }}
 //             onPress={() => {
 //               {route.params.data.items[0].format === 3 ?
-//              (setModalVisible(!modalVisible)):(handleBookHistory(route.params.data))}
+//              (setModalVisible(!modalVisible))
+//              :(handleBookHistory(route.params.data))}
 //             }}
 //           >
-//           {route.params.data.items[0].format === 3 ?
-//               (<Text style={{
+//           {route.params.data.items[0].format === 3 ? 
+//               (<View style={{flexDirection:'row'}}>
+
+
+//                 <Text style={{
 //                 color: '#fff',
 //                 fontWeight: '700',
-//                 fontSize: 18
-//               }}>subscribe</Text>) : (<Text style={{
+//                 fontSize: 18,
+//                 textAlign:'center',
+//                 paddingLeft:10,
+//               }}>subscribe</Text>
+
+
+//               <TouchableOpacity
+//             style={{
+//               backgroundColor: '#c27b7f',
+//               padding: 10,
+//               borderRadius: 5,
+//               width: '100%',
+//               height: 50,
+//               marginTop: -10,
+//               marginLeft: 40,
+//             }}
+//             onPress={() => {
+//               setPdfModalVisible(true);
+//              }}>
+//               <Text style={{
 //                 color: '#fff',
 //                 fontWeight: '700',
-//                 fontSize: 18
+//                 fontSize: 18,
+//                 textAlign:'center'
+//               }}>preview</Text>
+//               </TouchableOpacity>
+
+
+
+
+//               </View>)
+//               :
+//                (<Text style={{
+//                 color: '#fff',
+//                 fontWeight: '700',
+//                 fontSize: 18,
+//                 textAlign:'center'
 //               }}>Reserved</Text>
 //               )}
-//           </TouchableOpacity>) :
+//           </TouchableOpacity>
+
+
+//           :
+
 //           (<TouchableOpacity
 //             style={{
 //               backgroundColor: '#c27b7f',
@@ -414,23 +569,25 @@
 //               marginLeft: 100,
 //               marginBottom: 20
 //             }} onPress={() => {
-//               // Navigate to the login page since the user is not logged in
 //               navigation.navigate('sLogin');
-//             }}>(<Text style={{
+//             }}>
+//               (<Text style={{
 //               color: '#fff',
 //               fontWeight: '700',
 //               fontSize: 18
-//             }}>Subscribe</Text>):<Text style={{
+//             }}>Subscribe</Text>):(<Text style={{
 //               color: '#fff',
 //               fontWeight: '700',
 //               fontSize: 18
-//             }}>Reserved</Text>
-           
+//             }}>Reserved</Text>)
+
 //           </TouchableOpacity>)}
 
-         
+
 //     </View>):(<Text style={{textAlign:'center',color:'red',
 //     fontSize:18,fontWeight:'bold',marginBottom:10}}>Unavailable</Text>)}
+
+
 //         {/* =================================Trending books==================================== */}
 
 //         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
@@ -526,7 +683,7 @@
 //     justifyContent: 'center',
 //     alignItems: 'center',
 //     marginTop: 22,
-    
+
 //   },
 //   modalView: {
 //     margin: 20,
@@ -559,28 +716,80 @@
 //     color: 'white',
 //     fontWeight: 'bold',
 //     textAlign: 'center',
-    
+
 //   },
 //   modalText: {
 //     marginBottom: 5,
 //     textAlign: 'center',
 //     fontWeight: 'bold',
 //   },
-
+//   pdf: {
+//     flex: 1,
+//     width: Dimensions.get('window').width,
+//     height: Dimensions.get('window').height,
+// },
+// pageButton: {
+//     position: 'absolute',
+//     bottom: 210,
+//     right: 0,
+//     backgroundColor: 'black',
+//     borderRadius: 10,
+//     padding: 10,
+// },
+// pageButtonText: {
+//     color: 'white',
+// },
 // });
 
 
 
 
-//===================book details page(added modal)====================
-import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList,Modal,Pressable } from 'react-native'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ============================================== to git commit==================================
+
+
+import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native'
 import React, { useEffect, useState, useContext } from 'react'
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from 'axios';
-import { BASE_URL } from "../config";
+import Pdf from 'react-native-pdf';
+import { Alert } from "react-native";
 
 
 const BooksDetail = ({ navigation }) => {
@@ -593,12 +802,25 @@ const BooksDetail = ({ navigation }) => {
   const [subscribedBooks, setSubscribedBooks] = useState([]);
   const [subscribe, setSubscribe] = useState([]);
 
-  const [libraryid,setLibraryId]=useState([]);
-  
+
+  const [libraryid, setLibraryId] = useState([]);
+
   const currentDate = new Date();
   const endDate = new Date(currentDate);
   endDate.setDate(endDate.getDate() + 10);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const status = (userToken !== null ? (true) : (false));
+
+  const filename = route.params.data.file_name;
+  // .split(".")[0];
+  const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public_uploads_ebooks/${filename}`;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pdfModalVisible, setPdfModalVisible] = useState(false);
+
+
+  const [subscribeCount, setSubscribeCount] = useState(0);
+
 
   //-----------------for convertion of date to personalized style date ----------------------------
   function formatDate(inputDate) {
@@ -635,71 +857,58 @@ const BooksDetail = ({ navigation }) => {
           daySuffix = 'th';
       }
     }
-
-
     const formattedDate = `${day}${daySuffix} ${month}, ${year}`;
-
     return formattedDate;
   }
 
   const startDate = formatDate(currentDate);
-  const endingDate= formatDate(endDate);
+  const endingDate = formatDate(endDate);
 
-//   console.log('Current Date:', startDate);
-// console.log('End Date:', endingDate);
-
-  
+  //------------------handle of navigation to book history page---------------------------
+  const handleBookHistory = (item) => {
 
 
+    const subscriptionData1 = {
+      book_item_id: route.params.data.items[0].id,
+      library_id: route.params.data.library_id
+    };
 
-//------------------handle of navigation to book history page---------------------------
-const handleBookHistory=(item)=>{
-   
-   
-  const subscriptionData1={
-              book_item_id:route.params.data.items[0].id,
-              library_id:route.params.data.library_id
-            };
- 
-  console.log('data retrived ', subscriptionData1);
- 
- 
- 
-  const url=`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item.items[0].id}/reserve-book`;
+    console.log('data retrived butttttl::::;', subscriptionData1);
 
-  fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${userToken}`,
-    },
-    body: JSON.stringify(subscriptionData1),
-   
-  })
 
-  .then((response) => {
-    if (!response.ok) {
-      throw new Error('Network response was not ok');
-    }
-    console.log("responce is:", response);
-    return response.json();
-  })
-  .then((responseData) => {
-    console.log('Data stored successfully:', responseData);
-   
-   
 
-    navigation.navigate('subscribebookHistory');
+    const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item.items[0].id}/reserve-book`;
 
-  })
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      },
+      body: JSON.stringify(subscriptionData1),
+    })
 
-  .catch((error) => {
-    console.error('Error storing data:', error);
-  });
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("responce is:", response);
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log('Data stored successfully:', responseData);
+        navigation.navigate('subscribebookHistory');
+      })
 
-}
+      .catch((error) => {
+        console.error('Error storing data:', error);
+      });
 
-const handleSubscribe = (item) => {
+  }
+
+  // ===================================================================================
+
+  const handleSubscribe = (item) => {
     const member_id = userInfo.data.user.member_id;
     const id = route.params.data.items[0].id;
     console.log('data testis::::', item);
@@ -709,8 +918,8 @@ const handleSubscribe = (item) => {
       item
     };
 
- 
-    console.log("subbb:", subscriptionData);
+
+    //console.log("subbb:", subscriptionData);
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
     fetch(url, {
       method: 'POST',
@@ -729,14 +938,10 @@ const handleSubscribe = (item) => {
       })
       .then((responseData) => {
         console.log('Data stored successfully:', responseData);
-      
+
         setModalVisible(!modalVisible);
-
-       
-        console.log('Navigating to myEBook...');
-
+        setSubscribeCount(subscribeCount + 1);
         navigation.navigate('myEBook');
-
       })
 
       .catch((error) => {
@@ -744,8 +949,8 @@ const handleSubscribe = (item) => {
       });
   };
 
+  // ================================================================
 
- //API CALL FOR FETCHING OF TRENDING BOOKS 
   useEffect(() => {
     const tredingbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
@@ -760,47 +965,92 @@ const handleSubscribe = (item) => {
 
 
 
+
+
   //===================API CALL FOR DIFFERENT LIBRARY WHEATHER THE MEMBER IS REGISTERED OR NOT=======================
-  useEffect(() => {
 
-    const id= userInfo.data.user.id;
+
+  const handle_member = () => {
+
+    const id = userInfo.data.user.id;
     console.log(id);
-   const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
+    const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
 
-   fetch(apiUrl, {
-     method: 'GET',
-     headers: {
-       'Authorization': `Bearer ${userToken}`,
-       'Content-Type': 'application/json',
-     },
-   })
-     .then((response) => {
-       if (!response.ok) {
-         throw new Error(`HTTP error! Status: ${response.status}`);
-       }
-       return response.json();
-     })
-     .then((data) => {
-       setLibraryId(data.data);
-       console.log(libraryid);
-     })
-     .catch((error) => {
-       console.error('Error fetching data:', error);
-     });
- }, [route,tredbooks]);
+    fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setLibraryId(data.data);
+
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }
 
 
 
- //  const filterid =libraryid.filter((item) =>
-//     {item.user_library_id.includes(route.params.data.library_id)?(returns (true)):(returns (false))}
 
-  
-//   );
-const filterid=libraryid.filter((item)=>
-item.user_library_id
-   
-    );
-    
+  console.log(libraryid);
+
+
+  //===================API CALL FOR register-member-to-library=======================  
+
+  const handleMemberRegistered = (item) => {
+
+
+    console.log(item);
+    const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member-to-library/${item}`;
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userToken}`,
+      },
+
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        console.log("responce is:", response);
+        return response.json();
+      })
+      .then((responseData) => {
+        console.log('Data stored successfully:', responseData);
+
+        setModalVisible(!modalVisible);
+
+        Alert.alert(
+          'Success!',
+          'You are successfully registered with same email and password'
+        )
+      })
+
+      .catch((error) => {
+        console.error('Error storing data:', error);
+      });
+  };
+
+
+  const userLibraryId = libraryid.map((item) => [
+    item.user_library_id,
+  ]);
+  const LibraryId = userLibraryId.flat();
+
+  console.log(LibraryId);
+  console.log(LibraryId.includes(route.params.data.library_id));
+
 
 
 
@@ -814,29 +1064,146 @@ item.user_library_id
         }}
       />
 
-    <Modal
+      <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-         
+
           setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
+
+
+
+          {LibraryId.includes(route.params.data.library_id) ?
+            (<View style={styles.modalView}>
+
+              <Text style={styles.modalText}>The Book Will be Subscribed from</Text>
+              <View style={{ flexDirection: 'row', marginBottom: 15, }}>
+                <Text style={{ color: 'blue', fontSize: 15, fontWeight: 'bold', }}>{startDate}</Text>
+                <Text style={{ fontSize: 15, fontWeight: 'bold', }}>  to  </Text>
+                <Text style={{ color: 'blue', fontSize: 15, fontWeight: 'bold', }}>{endingDate}</Text>
+              </View>
+              <Pressable
+                style={styles.button}
+                onPress={() => { handleSubscribe(route.params.data), handle_member() }}>
+                <Text style={styles.textStyle}>Subscribe</Text>
+              </Pressable>
+
+            </View>) :
+            (<View style={styles.modalView}>
+
+              <Text style={styles.modalText}>Book Reservation/Subscription</Text>
+              <View style={{ flexDirection: 'row', marginBottom: 15, }}>
+
+                <Text style={{
+                  textAlign: 'center', marginBottom: 5,
+                  textAlign: 'center',
+                  fontWeight: 'bold',
+                }}>These book belongs to</Text>
+
+                {route.params.data.library_id === 111 ?
+                  (<Text style={{
+                    fontWeight: 'bold', paddingTop: 10, height: 50,
+                    fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5
+                  }}>
+                    Dindayal UpadhyayLibrary</Text>) :
+
+                  (route.params.data.library_id === 222 ?
+                    (<Text style={{
+                      fontWeight: 'bold', fontSize: 18, textAlign: 'center',
+                      marginTop: 10
+                    }}>
+                      Kundanlal Gupta Library</Text>) :
+
+                    (<Text style={{
+                      fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center',
+                      marginTop: 10, borderWidth: 5
+                    }}>
+                      Rashtramata Kasturba Library</Text>))}
+
+                <Text>. And Your are not the Member either.Do you want to Register for </Text>
+
+                {route.params.data.library_id === 111 ?
+                  (<Text style={{
+                    fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center',
+                    marginTop: 10, borderWidth: 5
+                  }}>
+                    Dindayal UpadhyayLibrary</Text>) :
+
+                  (route.params.data.library_id === 222 ?
+                    (<Text style={{
+                      fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18,
+                      textAlign: 'center', marginTop: 10, borderWidth: 5
+                    }}>
+                      Kundanlal Gupta Library</Text>) :
+
+                    (<Text style={{
+                      fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center',
+                      marginTop: 10, borderWidth: 5
+                    }}>
+                      Rashtramata Kasturba Library</Text>))}
+
+                <Text>and Continue ?</Text>
+
+              </View>
+
+
+
+              <View style={{ flexDirection: 'row', gap: 10 }}>
+                <Pressable
+                  style={styles.button}
+                  // onPress={() => handleMemberRegistered(selectedLibraryId)}>
+                  onPress={() => { handleMemberRegistered(route.params.data.library_id), handle_member() }}>
+                  <Text style={styles.textStyle}>Yes</Text>
+                </Pressable>
+
+                <Pressable
+                  style={styles.button}
+                  onPress={() => setModalVisible(!modalVisible)}>
+                  <Text style={styles.textStyle}>No</Text>
+                </Pressable>
+              </View>
+
+
+            </View>)}
+        </View>
+      </Modal>
+
+      {/* ===============================Pdf Modal============================================== */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={pdfModalVisible}
+        onRequestClose={() => {
+          setPdfModalVisible(false);
+
+        }}>
+        <View style={styles.centeredView}>
           <View style={styles.modalView}>
-           
-            <Text style={styles.modalText}>The Book Will be Subscribed from</Text>
-            <View style={{flexDirection:'row', marginBottom: 15,}}>
-            <Text style={{color:'blue',fontSize:15,fontWeight:'bold', }}>{startDate}</Text> 
-            <Text style={{fontSize:15,fontWeight:'bold', }}>  to  </Text>
-            <Text style={{color:'blue',fontSize:15,fontWeight:'bold',}}>{endingDate }</Text> 
+            <Pdf
+              trustAllCerts={false}
+              source={{ uri: pdfUrl }}
+              onLoadComplete={(numberOfPages, filePath) => {
+                console.log(`Number of pages: ${numberOfPages}`);
+              }}
+              onPageChanged={(page, numberOfPages) => {
+                setCurrentPage(page);
+              }}
+              onError={(error) => {
+                console.log(error);
+              }}
+              onPressLink={(uri) => {
+                console.log(`Link pressed: ${uri}`);
+              }}
+              style={styles.pdf}
+            />
+
+            <View style={styles.pageButton}>
+              <Text style={styles.pageButtonText}> {currentPage}</Text>
             </View>
-            <Pressable
-              style={styles.button}
-              onPress={() => handleSubscribe(route.params.data)}>
-              <Text style={styles.textStyle}>Subscribe</Text>
-            </Pressable>
-          
+
           </View>
         </View>
       </Modal>
@@ -904,6 +1271,7 @@ item.user_library_id
                 Kundanlal Gupta Library</Text>) :
               (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
                 Rashtramata Kasturba Library</Text>))}</View></View>
+
         <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Description:</Text>
           <Text style={{ fontSize: 15, marginLeft: 3 }}>{route.params.data.description}</Text>
@@ -911,112 +1279,155 @@ item.user_library_id
 
 
 
-{/* <View style={{ flexDirection: 'column', }}>
-{route.params.data.items[0].format !== 3 ?
-( <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10,}}>
-  <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
-  <Text style={{backgroundColor:'#c27b7f',color:'white',padding:5,borderRadius:15}}>1</Text></View>)
-  :(null)}
-  {userToken !== null ?
-          (<TouchableOpacity
+        {/* ========================working with preview================ */}
+
+
+        <View style={{ flexDirection: 'row' }}>
+          <TouchableOpacity
             style={{
               backgroundColor: '#c27b7f',
-              alignItems: 'center',
               padding: 10,
               borderRadius: 5,
-              width: '50%',
+              width: '35%',
               height: 50,
-              justifyContent: 'center',
               marginTop: 20,
-              marginLeft: 100,
-              marginBottom: 20
+              marginLeft: 20,
+              marginBottom: 20,
+
             }}
             onPress={() => {
-              {route.params.data.items[0].format === 3 ?
-             (setModalVisible(!modalVisible)):(handleBookHistory(route.params.data))}
+
+              if (userToken !== null) {
+                if (route.params.data.items[0].format === 3) {
+                  setModalVisible(true);
+                } else {
+                  handleBookHistory(route.params.data);
+                  
+                }
+              } else {
+                navigation.navigate('sLogin');
+              }
             }}
           >
-          {route.params.data.items[0].format === 3 ?
-              (<Text style={{
-                color: '#fff',
-                fontWeight: '700',
-                fontSize: 18
-              }}>subscribe</Text>) : (<Text style={{
-                color: '#fff',
-                fontWeight: '700',
-                fontSize: 18
-              }}>Reserved</Text>
-              )}
-          </TouchableOpacity>) :
-          (<TouchableOpacity
-            style={{
-              backgroundColor: '#c27b7f',
-              alignItems: 'center',
-              padding: 10,
-              borderRadius: 5,
-              width: '50%',
-              height: 50,
-              justifyContent: 'center',
-              marginTop: 20,
-              marginLeft: 100,
-              marginBottom: 20
-            }} onPress={() => {
-              // Navigate to the login page since the user is not logged in
-              navigation.navigate('sLogin');
-            }}>(<Text style={{
+            <Text style={{
               color: '#fff',
               fontWeight: '700',
-              fontSize: 18
-            }}>Subscribe</Text>):<Text style={{
-              color: '#fff',
-              fontWeight: '700',
-              fontSize: 18
-            }}>Reserved</Text>
-           
-          </TouchableOpacity>)}
+              fontSize: 18,
+              textAlign: 'center',
+            }}> {route.params.data.items[0].format === 3 ? 'Subscribe' : 'Reserved'}</Text>
+          </TouchableOpacity>
 
-         
-    </View>
-   */}
 
-{route.params.data.items[0].status===1?
+          {userToken !== null && route.params.data.items[0].format === 3 ?
+            (<TouchableOpacity
+              style={{
+                backgroundColor: '#c27b7f',
+                padding: 10,
+                borderRadius: 5,
+                width: '35%',
+                height: 50,
+                marginTop: 20,
+                marginLeft: 20,
+                marginBottom: 20,
+
+              }}
+              onPress={() => {
+                setPdfModalVisible(true);
+              }}
+            >
+
+              <Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18,
+                textAlign: 'center',
+                //paddingLeft:10,
+              }}>Preview</Text>
+
+            </TouchableOpacity>) : null}
+
+
+        </View>
+
+        {route.params.data.items[0].status === 1 ?
+          (<View style={{ flexDirection: 'column', }}>
+
+            {route.params.data.items[0].format !== 3 ?
+              (<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
+                <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: 700, color: '#c27b7f' }}>Available </Text>
+                <Text style={{ backgroundColor: '#c27b7f', color: 'white', padding: 5, borderRadius: 15 }}>1</Text></View>)
+              :
+              (null)}
+          </View>) :
+          (<Text style={{
+            textAlign: 'center', color: 'red',
+            fontSize: 18, fontWeight: 'bold', marginBottom: 10
+          }}>Unavailable</Text>)
+
+        }
+
+        {/* =====================================without preview================================== */}
+
+
+
+        {/* {route.params.data.items[0].status===1?
 (<View style={{ flexDirection: 'column', }}>
+
 {route.params.data.items[0].format !== 3 ?
 ( <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',marginTop:10,}}>
   <Text style={{textAlign:'center',fontSize:17,fontWeight:700,color: '#c27b7f'}}>Available </Text>
   <Text style={{backgroundColor:'#c27b7f',color:'white',padding:5,borderRadius:15}}>1</Text></View>)
-  :(null)}
+  :
+  (null)}
+
+
+
   {userToken !== null ?
+
           (<TouchableOpacity
             style={{
               backgroundColor: '#c27b7f',
-              alignItems: 'center',
               padding: 10,
               borderRadius: 5,
-              width: '50%',
+              width: '35%',
               height: 50,
-              justifyContent: 'center',
               marginTop: 20,
-              marginLeft: 100,
-              marginBottom: 20
+              marginLeft: 20,
+              marginBottom: 20,
+              
             }}
             onPress={() => {
               {route.params.data.items[0].format === 3 ?
-             (setModalVisible(!modalVisible)):(handleBookHistory(route.params.data))}
+             (setModalVisible(!modalVisible))
+             :(handleBookHistory(route.params.data))}
             }}
           >
-          {route.params.data.items[0].format === 3 ?
-              (<Text style={{
+          {route.params.data.items[0].format === 3 ? 
+              (
+              <View style={{flexDirection:'row'}}>
+                <Text style={{
                 color: '#fff',
                 fontWeight: '700',
-                fontSize: 18
-              }}>subscribe</Text>) : (<Text style={{
+                fontSize: 18,
+                textAlign:'center',
+                paddingLeft:10,
+              }}>subscribe</Text>
+
+            
+             
+
+             </View>
+             )
+              :
+               (<Text style={{
                 color: '#fff',
                 fontWeight: '700',
-                fontSize: 18
+                fontSize: 18,
+                textAlign:'center'
               }}>Reserved</Text>
               )}
-          </TouchableOpacity>) :
+          </TouchableOpacity>)
+          :
           (<TouchableOpacity
             style={{
               backgroundColor: '#c27b7f',
@@ -1030,23 +1441,45 @@ item.user_library_id
               marginLeft: 100,
               marginBottom: 20
             }} onPress={() => {
-              // Navigate to the login page since the user is not logged in
               navigation.navigate('sLogin');
-            }}>(<Text style={{
-              color: '#fff',
-              fontWeight: '700',
-              fontSize: 18
-            }}>Subscribe</Text>):<Text style={{
-              color: '#fff',
-              fontWeight: '700',
-              fontSize: 18
-            }}>Reserved</Text>
-           
-          </TouchableOpacity>)}
+            }}>
+               {route.params.data.items[0].format === 3 ? 
+              (
+              <View style={{flexDirection:'row'}}>
+                <Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18,
+                textAlign:'center',
+                paddingLeft:10,
+              }}>subscribe</Text>
 
-         
-    </View>):(<Text style={{textAlign:'center',color:'red',
-    fontSize:18,fontWeight:'bold',marginBottom:10}}>Unavailable</Text>)}
+            
+             
+
+             </View>
+             )
+              :
+               (<Text style={{
+                color: '#fff',
+                fontWeight: '700',
+                fontSize: 18,
+                textAlign:'center'
+              }}>Reserved</Text>
+              )}
+           
+          </TouchableOpacity>)
+    }  
+    
+    </View>):
+    (<Text style={{textAlign:'center',color:'red',
+    fontSize:18,fontWeight:'bold',marginBottom:10}}>Unavailable</Text>)
+    
+    }  */}
+
+
+
+
         {/* =================================Trending books==================================== */}
 
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
@@ -1061,7 +1494,6 @@ item.user_library_id
             renderItem={({ item }) =>
               <TouchableOpacity onPress={() => {
                 navigation.navigate('BooksDetailPage', { data: item })
-                console.log(item);
               }}>
                 <View style={{
                   width: 182,
@@ -1143,7 +1575,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 22,
-    
+
   },
   modalView: {
     margin: 20,
@@ -1176,12 +1608,27 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     textAlign: 'center',
-    
+
   },
   modalText: {
     marginBottom: 5,
     textAlign: 'center',
     fontWeight: 'bold',
   },
-
+  pdf: {
+    flex: 1,
+    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').height,
+  },
+  pageButton: {
+    position: 'absolute',
+    bottom: 210,
+    right: 0,
+    backgroundColor: 'black',
+    borderRadius: 10,
+    padding: 10,
+  },
+  pageButtonText: {
+    color: 'white',
+  },
 });

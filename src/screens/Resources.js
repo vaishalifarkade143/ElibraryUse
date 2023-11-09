@@ -706,7 +706,7 @@ const Resources = () => {
   const [pdfModalVisible, setPdfModalVisible] = useState(false);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [audioModalVisible, setAudioModalVisible] = useState(false);
-  const [downloadModalVisible, setDownloadModalVisible] = useState(false);
+ // const [downloadModalVisible, setDownloadModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -739,27 +739,7 @@ const Resources = () => {
 
   const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; // URL for the XLSX file
 
-  // const downloadXLSX = async () => {
-  //   try {
-  //     const downloadPath = `${RNFS.CachesDirectoryPath}/downloaded_file.xlsx`; // Local path and filename for the downloaded file
-  //     const response = await RNFS.downloadFile({
-  //       fromUrl: xlsxUrl,
-  //       toFile: downloadPath,
-  //     });
-
-  //     if (response.statusCode === 200) {
-  //       console.log('XLSX file downloaded successfully to:', downloadPath);
-  //     } else {
-  //       console.error('Failed to download the XLSX file');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error downloading the XLSX file:', error);
-  //   }
-  // };
-
-
-
-
+  
   //===================for permition=============================
 
   const requestStoragePermission = async () => {
@@ -930,10 +910,6 @@ const Resources = () => {
       case 4:
         return (
           <TouchableOpacity
-            // onPress={() => {
-            //    {downloadXLSX}
-            //   setDownloadModalVisible(true); // Open the audio modal
-            // }}
             onPress={() => {
               requestStoragePermission();
             }}
@@ -1217,43 +1193,6 @@ const Resources = () => {
         </View>
 
       </Modal>
-
-
-      {/* ===============================download======================== */}
-      {/* <Modal
-        animationType="slide"
-        transparent={true}
-        visible={downloadModalVisible}
-        onRequestClose={() => {
-          setDownloadModalVisible(false);
-
-        }}>
-        <View style={{
-          height: 40,
-          width: 300,
-          justifyContent: 'center',
-          backgroundColor: 'pink',
-          marginTop: 30,
-          borderRadius: 10,
-          marginLeft: 60,
-        }}>
-          <View
-            style={{ flexDirection: 'row' }}>
-            <Text>Hellow</Text>
-            <Image source={require('../images/download.png')}
-              style={{ width: 15, height: 15, }} />
-            <Image source={require('../images/folder.png')}
-              style={{ width: 15, height: 15, }} />
-          </View>
-
-        </View>
-
-
-      </Modal> */}
-
-
-
-      {/* ================================================ */}
 
       <ScrollView>
         <Text style={{

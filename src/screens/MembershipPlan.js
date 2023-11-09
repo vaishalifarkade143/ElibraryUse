@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Alert,ScrollView } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -111,6 +111,8 @@ const MembershipPlan = () => {
           marginLeft:120
         }}></View>
 
+
+        
         <View style={{
           marginTop: 30,
           backgroundColor: '#fff',
@@ -194,6 +196,7 @@ const MembershipPlan = () => {
             }
           />
         </View>
+       
       </View>
     </View>
 

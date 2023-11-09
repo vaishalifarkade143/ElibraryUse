@@ -34,8 +34,6 @@ const MyEBook = ({ navigation }) => {
         .then(responce => {
           setIsLoaded(false);
           setEbooks(responce.data);
-          //setSubscriptionData(route.params.data);
-          // setSubscribe(route.params.data);
 
         });
     };
