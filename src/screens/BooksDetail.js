@@ -1318,7 +1318,7 @@ const BooksDetail = ({ navigation }) => {
           </TouchableOpacity>
 
 
-          {userToken !== null && route.params.data.items[0].format === 3 ?
+          {userToken !== null && route.params.data.items[0].format === 3 && route.params.data.items[0].pdf_preview_file ?
             (<TouchableOpacity
               style={{
                 backgroundColor: '#c27b7f',
