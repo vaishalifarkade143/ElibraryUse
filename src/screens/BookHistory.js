@@ -162,8 +162,20 @@ const BookHistory = ({ navigation }) => {
           }}><Text style={{ padding: 6, textAlign: 'center', color: '#fff', fontSize: 15, fontWeight: 'bold' }}>UNRESERVE</Text></TouchableOpacity>)
       ]
     );
-
-  return (
+    // const bookname=selectedBook.book_item.book.name;
+    // const bookcode=selectedBook.book_item.book_code;
+      
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    return (
     <View style={{ flex: 1, backgroundColor: '#fff', }}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
@@ -190,18 +202,18 @@ const BookHistory = ({ navigation }) => {
               fontSize: 15
             }}>Unreserve a book</Text>
             <Text style={styles.modalText}>Are you sure you want to unreserve  </Text>
-            <View style={{ flexDirection: 'row' }}>
+            {/* <View style={{ flexDirection: 'row' }}>
               <Text style={{
                 marginBottom: 10,
                 fontSize: 13
-              }}>"{selectedBook ? selectedBook.book_item.book.name : ''}
+              }}>"{bookname}
               </Text>
               <Text style={{
                 marginBottom: 10,
                 fontSize: 13
-              }}>({selectedBook ? selectedBook.book_item.book_code : ''})"
+              }}>({bookcode })"
               </Text>
-            </View>
+            </View> */}
 
             <View style={{ flexDirection: 'row', gap: 10 }}>
 
