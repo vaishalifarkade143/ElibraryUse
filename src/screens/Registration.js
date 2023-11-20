@@ -1,3 +1,8 @@
+
+// ==================validation added==================================
+
+
+
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
 import React, { useContext, useState } from 'react'
 import Header from '../common/Header';
@@ -5,6 +10,9 @@ import Header from '../common/Header';
 import { ScrollView } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
+
+import { Formik } from 'formik';
+import * as Yup from 'yup';
 
 const Registration = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
@@ -15,25 +23,50 @@ const Registration = ({ navigation }) => {
     const [confirmpassword, setConfirmPassword] = useState('');
     const { isLoading, register } = useContext(AuthContext);
 
+    const validationSchema = Yup.object().shape({
+        first_name: Yup.string()
+            .required('First name must be required.'),
+        last_name: Yup.string()
+            .required('Last name must be required.'),
+        email: Yup.string().
+            email('Please Enter Email Address').
+            required('Email must be required.'),
+        phone: Yup.string()
+            .min(10)
+            .required('Phone number should be atleast 10 characters.'),
+        password: Yup.string()
+            // .min(8)
+            .required('Password must be required.'),
+        // .matches('Must contain minimum 8 characters'),
+        // .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 'Must contain minimum 8 characters,at least one uppercase letter,at least one lowercase letter, one special character and one number'),
+        confirmpassword: Yup.string()
+            .required('Password is not matching')
+    });
+
+    const handleRegister = (values) => {
+        // Call the login function with the form values
+        register(values.first_name, values.last_name, values.email, values.phone, values.password);
+
+    };
+
     return (
         <View style={styles.container}>
             <Header
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
                 onClickLeftIcon={() => {
-                    // navigation.navigate('Login');
                     navigation.goBack();
                 }}
             />
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
-                <Spinner visible={isLoading} />
+            {isLoading && <Spinner visible={true} />}
                 <View style={styles.floatView}>
 
                     <Text style={{
                         fontSize: 36,
                         fontWeight: '500',
                         textAlign: 'center',
-                        paddingHorizontal: 80,
+                        paddingHorizontal: 60,
                         paddingVertical: 'auto',
                         fontFamily: 'Philosopher-Bold',
                         color: '#2f4858'
@@ -47,192 +80,217 @@ const Registration = ({ navigation }) => {
                         fontFamily: 'Poppin-Thin'
                     }}>
                         Register your membership</Text>
-                    <View style={{ marginTop: 20 }}>
-                        <View
-                            style={{
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                flexDirection: "row",
-                                margin: 15,
-                                paddingLeft: 15,
-                                gap: 10
-                            }}>
-                            <Image source={require('../images/user.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="First Name"
-                                autoCompleteType="first_name"
-                                keyboardType="name-phone-pad"
-                                value={first_name}
-                                onChangeText={setFirstName}
 
-                            />
-                        </View>
-                        <View
-                            style={{
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                flexDirection: "row",
-                                margin: 15,
-                                paddingLeft: 15,
-                                gap: 10
-                            }}>
-                            <Image source={require('../images/user.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="Last Name"
-                                autoCompleteType="last_name"
-                                keyboardType="name-phone-pad"
-                                value={last_name}
-                                onChangeText={setLastName}
+                    <Formik
+                        initialValues={{
+                            first_name: '',
+                            last_name: '',
+                            email: '',
+                            phone: '',
+                            password: '',
+                            confirmpassword: ''
+                        }}
+                        validationSchema={validationSchema}
+                        onSubmit={handleRegister}
+                    >
+                        {({ handleChange, handleBlur, handleSubmit, values, errors, touched, isValid }) => (
 
-                            />
-                        </View>
+                            <View style={{ marginTop: 20 }}>
+                                <View>
+                                    <View
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: "row",
+                                            margin: 15,
+                                            paddingLeft: 15,
+                                            gap: 10
+                                        }}>
+                                        <Image source={require('../images/user.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="First Name"
+                                            autoCompleteType="first_name"
+                                            keyboardType="name-phone-pad"
+                                            value={values.first_name}
+                                            onChangeText={handleChange('first_name')}
+                                            onBlur={handleBlur('first_name')}
+                                        />
+                                    </View>
+                                    {touched.first_name && errors.first_name &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>{errors.first_name}</Text>}
+                                </View>
 
-                        <View
-                            style={{
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                flexDirection: "row",
-                                margin: 15,
-                                paddingLeft: 15,
-                                gap: 10
-                            }}>
-                            <Image source={require('../images/email.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="Email"
-                                autoCompleteType="email"
-                                keyboardType="email-address"
-                                value={email}
-                                onChangeText={setEmail}
+                                <View>
+                                    <View
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: "row",
+                                            margin: 15,
+                                            paddingLeft: 15,
+                                            gap: 10
+                                        }}>
+                                        <Image source={require('../images/user.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="Last Name"
+                                            autoCompleteType="last_name"
+                                            keyboardType="name-phone-pad"
+                                            value={values.last_name}
+                                            onChangeText={handleChange('last_name')}
+                                            onBlur={handleBlur('last_name')}
+                                        />
+                                    </View>
+                                    {touched.last_name && errors.last_name &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>{errors.last_name}</Text>}
+                                </View>
 
-                            />
-                        </View>
+                                <View>
+                                    <View
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: "row",
+                                            margin: 15,
+                                            paddingLeft: 15,
+                                            gap: 10
+                                        }}>
+                                        <Image source={require('../images/email.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="Email"
+                                            autoCompleteType="email"
+                                            keyboardType="email-address"
+                                            value={values.email}
+                                            onChangeText={handleChange('email')}
+                                            onBlur={handleBlur('email')}
+                                        />
+                                    </View>
+                                    {touched.email && errors.email &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>{errors.email}</Text>}
+                                </View>
 
-                        <View
-                            style={{
-                                backgroundColor: '#fff',
-                                display: 'flex',
-                                alignItems: 'center',
-                                flexDirection: "row",
-                                margin: 15,
-                                paddingLeft: 15,
-                                gap: 10
-                            }}>
-                            <Image source={require('../images/telephone.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="Phone"
-                                autoCompleteType="phone"
-                                keyboardType="number-pad"
-                                value={phone}
-                                onChangeText={setPhone}
+                                <View>
+                                    <View
+                                        style={{
+                                            backgroundColor: '#fff',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            flexDirection: "row",
+                                            margin: 15,
+                                            paddingLeft: 15,
+                                            gap: 10
+                                        }}>
+                                        <Image source={require('../images/telephone.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="Phone"
+                                            autoCompleteType="phone"
+                                            keyboardType="number-pad"
+                                            value={values.phone}
+                                            onChangeText={handleChange('phone')}
+                                            onBlur={handleBlur('phone')}
+                                        />
+                                    </View>
+                                    {touched.phone && errors.phone &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>{errors.phone}</Text>}
+                                </View>
 
-                            />
-                        </View>
+                                <View>
+                                    <View style={{
+                                        backgroundColor: '#fff',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: "row",
+                                        margin: 15,
+                                        paddingLeft: 15,
+                                        gap: 10,
+                                    }}>
+                                        <Image source={require('../images/password.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="Password"
+                                            autoCompleteType="password"
+                                            secureTextEntry={true}
+                                            value={values.password}
+                                            onChangeText={handleChange('password')}
+                                            onBlur={handleBlur('password')}
+                                        />
+                                    </View>
+                                    {touched.password && errors.password &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>
+                                            {errors.password}</Text>}
+                                </View>
 
-                        <View style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            margin: 15,
-                            paddingLeft: 15,
-                            gap: 10,
-                        }}>
-                            <Image source={require('../images/password.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="Password"
-                                autoCompleteType="password"
-                                secureTextEntry={true}
-                                value={password}
-                                onChangeText={setPassword}
+                                <View>
+                                    <View style={{
+                                        backgroundColor: '#fff',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        flexDirection: "row",
+                                        margin: 15,
+                                        paddingLeft: 15,
+                                        gap: 10,
+                                    }}>
+                                        <Image source={require('../images/password.png')}
+                                            style={{ width: 15, height: 15, }} />
+                                        <TextInput
+                                            placeholder="Confirm Password"
+                                            autoCompleteType="confirmpassword"
+                                            secureTextEntry={true}
+                                            value={values.confirmpassword}
+                                            onChangeText={handleChange('confirmpassword')}
+                                            onBlur={handleBlur('confirmpassword')}
+                                        />
+                                    </View>
+                                    {touched.confirmpassword && errors.confirmpassword &&
+                                        <Text style={{ color: 'red', marginLeft: 30 }}>
+                                            {errors.confirmpassword}</Text>}
+                                </View>
 
-                            />
-                        </View>
-                        <View style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            margin: 15,
-                            paddingLeft: 15,
-                            gap: 10,
-                        }}>
-                            <Image source={require('../images/password.png')}
-                                style={{ width: 15, height: 15, }} />
-                            <TextInput
-                                placeholder="Confirm Password"
-                                autoCompleteType="confirmpassword"
-                                secureTextEntry={true}
-                                value={confirmpassword}
-                                onChangeText={setConfirmPassword}
+                                <TouchableOpacity
+                                    style={[styles.registerbtn,
+                                    { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
 
-                            />
-                        </View>
+                                    onPress={handleSubmit}
+                                    disabled={!isValid}
+                                >
+                                    <Text style={{
+                                        color: '#fff',
+                                        fontWeight: '700',
+                                        fontSize: 18
+                                    }}>Register</Text>
+                                </TouchableOpacity>
 
-                        <TouchableOpacity
-                            style={{
-                                backgroundColor: '#c27b7f',
-                                alignItems: 'center',
-                                padding: 10,
-                                borderRadius: 5,
-                                width: '40%',
-                                height: 60,
-                                justifyContent: 'center',
-                                marginLeft: 110
-                            }}
+                                <TouchableOpacity
+                                    style={{
+                                        alignItems: 'center',
+                                        padding: 10,
+                                        width: '40%',
+                                        height: 50,
+                                        justifyContent: 'center',
+                                        marginLeft: 110
+                                    }}
+                                    onPress={() =>
+                                        navigation.goBack()
+                                    }
+                                >
+                                    <Text style={{
+                                        color: '#c27b7f',
+                                        fontWeight: '700',
+                                        fontSize: 18,
+                                    }}>Login</Text>
 
-                            onPress={() => {
-                                register(first_name,
-                                    last_name,
-                                    email,
-                                    phone,
-                                    password);
-                                //navigation.navigate('Loginn');
-                            }}
-                        // disabled={!email || !password}
-                        >
-                            <Text style={{
-                                color: '#fff',
-                                fontWeight: '700',
-                                fontSize: 18
-                            }}>Register</Text>
-
-                        </TouchableOpacity>
-
-                        <TouchableOpacity
-                            style={{
-                                alignItems: 'center',
-                                padding: 10,
-                                width: '40%',
-                                height: 50,
-                                justifyContent: 'center',
-                                marginLeft: 110
-                            }}
-                            onPress={() =>
-                                // navigation.navigate('Loginn')
-                                navigation.goBack()
-                            }
-
-                        // onPress={handleLogin}
-                        // disabled={!email || !password}
-                        >
-                            <Text style={{
-                                color: '#c27b7f',
-                                fontWeight: '700',
-                                fontSize: 18,
-                            }}>Login</Text>
-
-                        </TouchableOpacity>
+                                </TouchableOpacity>
 
 
-                    </View>
+                            </View>
+                        )}
+                    </Formik>
                 </View>
             </ScrollView>
         </View>
@@ -246,7 +304,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     floatView: {
-        height: 700,
+        height: 800,
         backgroundColor: '#fff3cd',
         justifyContent: 'center',
         flexDirection: 'column',
@@ -254,6 +312,16 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginTop: 30,
         margin: 30
+    },
+    registerbtn: {
+        backgroundColor: '#c27b7f',
+        alignItems: 'center',
+        padding: 10,
+        borderRadius: 5,
+        width: '40%',
+        height: 60,
+        justifyContent: 'center',
+        marginLeft: 110
     }
 
 });

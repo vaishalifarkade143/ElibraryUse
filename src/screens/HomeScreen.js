@@ -1,12 +1,11 @@
 
 import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ActivityIndicator, ImageBackground, ScrollView } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
-import { useDispatch } from 'react-redux';
-import { viewBooks } from '../redux/slice/BooksDetailSlice';
 import Video from 'react-native-video';
-
+import Slider from '@react-native-community/slider';
+import Orientation from 'react-native-orientation-locker';
 
 const HomeScreen = ({ navigation }) => {
   // const { userInfo } = useContext(AuthContext);
@@ -14,6 +13,24 @@ const HomeScreen = ({ navigation }) => {
   const [books, setBooks] = useState([]);
   const [freqBooks, setFreqBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
+  const [videoModalVisible, setVideoModalVisible] = useState(false);
+
+  //==============================video not working=================================================
+
+  const [videoDuration, setVideoDuration] = useState(0);
+  const videoUrl = `https://player-telemetry.vimeo.com/player-events/log/play`
+  const [clicked, setClicked] = useState(false);
+  const [puased, setPaused] = useState(false);
+  const [progress, setProgress] = useState(null);
+  const [fullScreen, setFullScreen] = useState(false)
+  const ref = useRef();
+  const format2 = seconds => {
+    let mins = parseInt(seconds / 60)
+      .toString()
+      .padStart(2, '0');
+    let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
+    return `${mins}:${secs}`;
+  };
 
   //===========added recently=================================
   const format = [{ id: 1, name: "Hardcover" },
@@ -24,13 +41,13 @@ const HomeScreen = ({ navigation }) => {
   //==============video section====================
   const [modalVisible, setModalVisible] = React.useState(false);
   const image = { uri: 'https://static.vecteezy.com/system/resources/thumbnails/022/574/918/small/abstract-blurred-public-library-interior-space-blurry-room-with-bookshelves-by-defocused-effect-use-for-background-or-backdrop-in-abstract-blurred-publicbusiness-or-education-concepts-generative-ai-photo.jpg' }
-  const openModal = () => {
-    setModalVisible(true);
-  };
+  // const openModal = () => {
+  //   setModalVisible(true);
+  // };
 
-  const closeModal = () => {
-    setModalVisible(false);
-  };
+  // const closeModal = () => {
+  //   setModalVisible(false);
+  // };
 
   //================book recently added ===============
   useEffect(() => {
@@ -109,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.coroselheading}>Recently Added</Text>
 
           </View>
-         
+
           <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
 
             <FlatList
@@ -183,7 +200,7 @@ const HomeScreen = ({ navigation }) => {
                         marginTop: 5,
                         borderRadius: 5,
                       }}>Book</Text>)}
-                      
+
 
                       <Text style={{
                         backgroundColor: '#c27b7f',
@@ -212,7 +229,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
 
-            {/* ==============video section ============= */}
+          {/* ==============video section ============= */}
 
           <View style={styles.contactSection}>
             <ImageBackground source={image} >
@@ -226,7 +243,7 @@ const HomeScreen = ({ navigation }) => {
 
                     {userToken === null ?
                       <TouchableOpacity style={styles.joinLibraryBtn} onPress={() => {
-                        navigation.navigate('Loginnn')
+                        navigation.navigate('Userr')
                       }}>
                         <Text style={styles.joinLibraryText}>Join The Library</Text>
                       </TouchableOpacity> : null}
@@ -236,10 +253,12 @@ const HomeScreen = ({ navigation }) => {
                   <View style={styles.rightCol}>
                     {/* You can place your video player component here */}
                     {/* For simplicity, we'll just show a placeholder */}
-                    <TouchableOpacity onPress={openModal} style={styles.videoBtn}>
+
+                    <TouchableOpacity onPress={() => {
+                      setVideoModalVisible(true);
+                    }} style={styles.videoBtn}>
                       <Text style={styles.videoBtnText}>Play Video</Text>
-                      {/* <image style={styles.videoBtnText}
-        source={{uri:'https://i.pinimg.com/1200x/ef/07/47/ef07471474a0e1086a185086c342ae00.jpg'}}/> */}
+
                     </TouchableOpacity>
 
                   </View>
@@ -247,25 +266,154 @@ const HomeScreen = ({ navigation }) => {
                 </View>
               </View>
 
+              {/* =================video modal=================== */}
+
               <Modal
                 animationType="slide"
                 transparent={true}
-                visible={modalVisible}
-                onRequestClose={closeModal}
-              >
-                <View style={styles.modalContainer}>
-                  <Video
-                    // source={{ uri: 'https://player.vimeo.com/external/403131658.sd.mp4' }}
-                    source={{ uri: "https://player.vimeo.com/video" }}
-                    style={styles.video}
-                    controls={true} // Make sure controls are enabled
-                    resizeMode={'cover'}
-                  />
-                  {/* Add any other content or close button here */}
+                visible={videoModalVisible}
+                onRequestClose={() => {
+                  setVideoModalVisible(false);
+
+                }}>
+
+
+
+                <View style={{ flex: 1 }}>
+                  <TouchableOpacity
+                    style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+                    onPress={() => {
+                      setClicked(true);
+                    }}>
+                    <Video
+                      paused={puased}
+                      source={{ uri: videoUrl }}
+                      ref={ref}
+                      onProgress={x => {
+                        console.log(x);
+                        setProgress(x);
+
+                      }}
+                      onLoad={data => {
+                        setVideoDuration(data.duration);
+                      }}
+
+                      muted
+                      style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+                      resizeMode="contain"
+                    />
+                    {clicked && (
+                      <TouchableOpacity
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          position: 'absolute',
+                          backgroundColor: 'rgba(0,0,0,.5)',
+                          justifyContent: 'center',
+                          alignItems: 'center',
+                        }}>
+                        <View style={{ flexDirection: 'row' }}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              ref.current.seek(parseInt(progress.currentTime) - 10);
+                            }}>
+                            <Image
+                              source={require('../images/backward.png')}
+                              style={{ width: 30, height: 30, tintColor: 'white' }}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              setPaused(!puased);
+                            }}>
+                            <Image
+                              source={
+                                puased
+                                  ? require('../images/play-button.png')
+                                  : require('../images/pause.png')
+                              }
+                              style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: 'white',
+                                marginLeft: 50,
+                              }}
+                            />
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            onPress={() => {
+                              ref.current.seek(parseInt(progress.currentTime) + 10);
+                            }}>
+                            <Image
+                              source={require('../images/forward.png')}
+                              style={{
+                                width: 30,
+                                height: 30,
+                                tintColor: 'white',
+                                marginLeft: 50,
+                              }}
+                            />
+                          </TouchableOpacity>
+                        </View>
+                        <View
+                          style={{
+                            width: '100%',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            position: 'absolute',
+                            bottom: 0,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            alignItems: 'center'
+                          }}>
+                          <Text style={{ color: 'white' }}>
+                            {format2(progress.currentTime)}
+                          </Text>
+                          <Slider
+                            style={{ width: '80%', height: 40 }}
+                            minimumValue={0}
+                            maximumValue={videoDuration}
+                            minimumTrackTintColor="#FFFFFF"
+                            maximumTrackTintColor="#fff"
+                            onValueChange={(x) => {
+                              ref.current.seek(x);
+                            }}
+                            value={progress  ? progress.currentTime : 0}
+                          />
+
+                          <Text style={{ color: 'white' }}>
+                            {format2(progress.seekableDuration)}
+                          </Text>
+                        </View>
+                        <View
+                          style={{
+                            width: '100%',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            position: 'absolute',
+                            top: 10,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+                            alignItems: 'center'
+                          }}>
+                          <TouchableOpacity onPress={() => {
+                            if (fullScreen) {
+                              Orientation.lockToPortrait();
+                            } else {
+                              Orientation.lockToLandscape();
+                            }
+                            setFullScreen(!fullScreen)
+                          }}>
+                            <Image source={fullScreen ? require('../images/minimize.png') : require('../images/full-size.png')}
+                              style={{ width: 24, height: 24, tintColor: 'white' }} />
+                          </TouchableOpacity>
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                  </TouchableOpacity>
                 </View>
-
-
               </Modal>
+
             </ImageBackground >
           </View>
 
@@ -288,14 +436,13 @@ const HomeScreen = ({ navigation }) => {
               renderItem={({ item }) =>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('BooksDetailPage', { data: item })
-                 
+
                 }}>
                   <View style={{
                     width: 182,
                     height: 260,
                     marginEnd: 22,
                     borderRadius: 10,
-                    // backgroundColor: '#fff'
                   }}>
                     <View style={{
                       flex: 1,
@@ -348,7 +495,7 @@ const HomeScreen = ({ navigation }) => {
                         marginTop: 5,
                         borderRadius: 5,
                       }}>Book</Text>)}
-                      
+
                       <Text style={{
                         backgroundColor: '#c27b7f',
                         textAlign: 'center',
@@ -382,7 +529,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
 
-        
+
 
           <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
 
@@ -393,7 +540,6 @@ const HomeScreen = ({ navigation }) => {
               renderItem={({ item }) =>
                 <TouchableOpacity onPress={() => {
                   navigation.navigate('BooksDetailPage', { data: item })
-                  // {data:item}
                 }}>
                   <View style={{
                     width: 182,
@@ -456,7 +602,7 @@ const HomeScreen = ({ navigation }) => {
                         marginTop: 5,
                         borderRadius: 5,
                       }}>Book</Text>)}
-                      
+
                       <Text style={{
                         backgroundColor: '#c27b7f',
                         textAlign: 'center',

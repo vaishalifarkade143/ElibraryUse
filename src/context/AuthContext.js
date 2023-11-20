@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
         phone,
         password, token) => {
         setIsLoading(true);
-
+        console.log('Registering user:', { first_name, last_name, email, phone, password });
         // console.log(email, first_name, last_name,password, phone);
 
         // //to call rest api we use axios package
@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
                 last_name,
                 email,
                 phone,
-                password, token
+                password
             })
             .then(res => {
                 let userInfo = res.data;
@@ -77,8 +77,6 @@ export const AuthProvider = ({ children }) => {
             //  })
             .catch(e => {
                 console.log(`Login error ${e}`);
-                // Alert.alert('Error!', e.message);
-                // return false;
             });
 
 
@@ -114,7 +112,6 @@ export const AuthProvider = ({ children }) => {
             let userInfo = await AsyncStorage.getItem('userInfo');
             let userToken = await AsyncStorage.getItem('userToken');
             let userEmail = await AsyncStorage.getItem('userEmail');
-            //console.log(userInfo, userToken);
             userInfo = JSON.parse(userInfo);
 
             if (userInfo) {
