@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
                 );
             })
             .catch(e => {
-                console.log(`Reg error ${e}`);
+                console.log(`register error ${e}`);
                 setIsLoading(false);
             });
 
@@ -76,7 +76,11 @@ export const AuthProvider = ({ children }) => {
 
             //  })
             .catch(e => {
-                console.log(`Login error ${e}`);
+                // console.log(`Login error ${e}`);
+                Alert.alert(
+                    'Login fail',
+                    `Email Id and Password doesn't match !`, 
+                );
             });
 
 

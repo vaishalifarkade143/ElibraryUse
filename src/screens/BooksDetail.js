@@ -415,7 +415,8 @@ const BooksDetail = ({ navigation }) => {
   // console.log(LibraryId);
   // console.log(LibraryId.includes(route.params.data.library_id));
 
-
+  const data=route.params.data;
+  console.log(data);
 
 
   return (

@@ -344,7 +344,9 @@ const User = ({ navigation }) => {
       .then((res) => {
         setProfile(res.data);
         setFirstName(res.data.first_name);
+        console.log("first User Screen:", res.data.first_name);
         setLastName(res.data.last_name);
+        console.log("last User Screen:", res.data.last_name);
         setEmail(res.data.email);
         setPhone(res.data.phone);
         console.log("image User Screen:", res.data.image_path);

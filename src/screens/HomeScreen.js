@@ -6,6 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
+import WebView from 'react-native-webview';
 
 const HomeScreen = ({ navigation }) => {
   // const { userInfo } = useContext(AuthContext);
@@ -18,10 +19,12 @@ const HomeScreen = ({ navigation }) => {
   //==============================video not working=================================================
 
   const [videoDuration, setVideoDuration] = useState(0);
-  const videoUrl = `https://player-telemetry.vimeo.com/player-events/log/play`
+  // const videoUrl = `https://player-telemetry.vimeo.com/player-events/log/play`
+  const videoUrl = `https://player.vimeo.com/video/808983383?h=81d7a35acb&badge=0&autopause=0&player_id=0&app_id=58479`
   const [clicked, setClicked] = useState(false);
   const [puased, setPaused] = useState(false);
-  const [progress, setProgress] = useState(null);
+  // const [progress, setProgress] = useState(null);
+  const [progress, setProgress] = useState({ currentTime: 0, seekableDuration: 0 });
   const [fullScreen, setFullScreen] = useState(false)
   const ref = useRef();
   const format2 = seconds => {
@@ -41,13 +44,6 @@ const HomeScreen = ({ navigation }) => {
   //==============video section====================
   const [modalVisible, setModalVisible] = React.useState(false);
   const image = { uri: 'https://static.vecteezy.com/system/resources/thumbnails/022/574/918/small/abstract-blurred-public-library-interior-space-blurry-room-with-bookshelves-by-defocused-effect-use-for-background-or-backdrop-in-abstract-blurred-publicbusiness-or-education-concepts-generative-ai-photo.jpg' }
-  // const openModal = () => {
-  //   setModalVisible(true);
-  // };
-
-  // const closeModal = () => {
-  //   setModalVisible(false);
-  // };
 
   //================book recently added ===============
   useEffect(() => {
@@ -277,9 +273,13 @@ const HomeScreen = ({ navigation }) => {
 
                 }}>
 
+                <WebView
+                  source={{ uri: videoUrl }}
+                  style={{ flex: 1 }}
+                  mediaPlaybackRequiresUserAction={false} // Enable autoplay
+                />
 
-
-                <View style={{ flex: 1 }}>
+                {/* <View style={{ flex: 1 }}>
                   <TouchableOpacity
                     style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
                     onPress={() => {
@@ -369,6 +369,7 @@ const HomeScreen = ({ navigation }) => {
                           <Text style={{ color: 'white' }}>
                             {format2(progress.currentTime)}
                           </Text>
+
                           <Slider
                             style={{ width: '80%', height: 40 }}
                             minimumValue={0}
@@ -378,7 +379,8 @@ const HomeScreen = ({ navigation }) => {
                             onValueChange={(x) => {
                               ref.current.seek(x);
                             }}
-                            value={progress  ? progress.currentTime : 0}
+                            value={progress.currentTime} // Use progress.currentTime directly
+                            
                           />
 
                           <Text style={{ color: 'white' }}>
@@ -411,7 +413,7 @@ const HomeScreen = ({ navigation }) => {
                       </TouchableOpacity>
                     )}
                   </TouchableOpacity>
-                </View>
+                </View> */}
               </Modal>
 
             </ImageBackground >
