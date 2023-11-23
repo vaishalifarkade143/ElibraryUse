@@ -68,7 +68,7 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={{
       headerShown: false,
       tabBarShowLabel: false,
-      tabBarStyle: { backgroundColor: '#fff3cd' },
+      tabBarStyle: { backgroundColor: '#f5ebe6' },
       //tabBarActiveBackgroundColor:'#c27b7f',
       tabBarInactiveTintColor: '#000',
       tabBarActiveTintColor: '#c27b7f'
@@ -81,12 +81,12 @@ const TabNavigator = () => {
             <Ionicons name="home-outline" color={color} size={size} />
         }}
       />
-      <Tab.Screen name='Search' component={Search}
+      {/* <Tab.Screen name='Search' component={Search}
         options={{
           tabBarIcon: ({ color, size }) =>
             <Ionicons name="search-outline" color={color} size={size} />
         }}
-      />
+      /> */}
       <Tab.Screen name='Books' component={Books}
         options={{
           tabBarIcon: ({ color, size }) =>

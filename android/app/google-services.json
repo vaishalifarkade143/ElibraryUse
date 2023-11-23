@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "501138505650",
+    "project_id": "elibraryuse",
+    "storage_bucket": "elibraryuse.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501138505650:android:c0fd826f8058f84a96aeab",
+        "android_client_info": {
+          "package_name": "com.elibraryuse"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASpu27WON5Z_u2NiDjI1q6WUOcysSdVWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

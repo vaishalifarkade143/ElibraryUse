@@ -1,14 +1,12 @@
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useState, useContext } from 'react'
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView ,Alert} from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
-
-
+import messaging from '@react-native-firebase/messaging'
 
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
@@ -16,6 +14,56 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
     const { userInfo } = useContext(AuthContext);
+    // ========================push notification============================
+
+    useEffect(() => {
+        getDeviceToken();
+    }, []);
+
+
+    const getDeviceToken = async () => {
+        try {
+          const token = await messaging().getToken();
+          console.log('Token is:', token);
+          return token;
+        } catch (error) {
+          console.error('Error getting FCM token:', error);
+          return null;
+        }
+      };
+
+
+
+    // =================to get alert in app ==========================
+
+    useEffect(() => {
+        const unsubscribe = messaging().onMessage(async remoteMessage => {
+            Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+            console.log("A new FCM message arrived:", JSON.stringify(remoteMessage));
+        });
+
+        return unsubscribe;
+    }, []);
+
+
+
+    const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      
+        if (enabled) {
+          console.log('Authorization status:', authStatus);
+        }
+      };
+      
+      // Call the function when the component mounts
+      useEffect(() => {
+        requestUserPermission();
+      }, []);
+
+    //   ===========================validtion code ========================================
 
     const validationSchema = Yup.object().shape({
         email: Yup.string().
@@ -29,10 +77,33 @@ const LoginScreen = ({ navigation }) => {
 
     });
 
-    const handleLogin = (values) => {
+   
+
+    
+
+      //===============on click of login button=================================
+    
+      const handleLogin = async (values) => {
         // Call the login function with the form values
         login(values.email, values.password);
-    };
+    
+        // Get the device token
+        const token = await getDeviceToken();
+    
+        if (token) {
+          // Send a push notification or use the token as needed
+          messaging()
+            .sendMessage({
+              to: token,
+              notification: {
+                title: 'Login Successful',
+                body: 'You have successfully logged in!',
+              },
+            })
+            .then(() => console.log('Notification sent successfully'))
+            .catch((error) => console.error('Error sending notification:', error));
+        }
+      };
 
 
     return (
@@ -236,7 +307,7 @@ const styles = StyleSheet.create({
     },
     floatView: {
         height: 500,
-        backgroundColor: '#fff3cd',
+        backgroundColor: '#f5ebe6',
         justifyContent: 'center',
         flexDirection: 'column',
         marginLeft: 20,

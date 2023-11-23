@@ -5,5 +5,20 @@ import 'react-native-gesture-handler';
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
+import messaging from '@react-native-firebase/messaging';
+
+
+// ===========background push notification=================
+messaging().setBackgroundMessageHandler(async remoteMessage => {
+    console.log('Message handled in the background!', remoteMessage);
+  });
+
+//   ===============kill state===================
+messaging().getInitialNotification(
+    async remoteMessage => {
+        console.log('Message handled in the Kill!', remoteMessage);
+      }
+);
+// ==============================================
 
 AppRegistry.registerComponent(appName, () => App);

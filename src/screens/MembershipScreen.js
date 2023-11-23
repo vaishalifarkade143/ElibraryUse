@@ -11,7 +11,7 @@ const MembershipScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState([]);
-  const { userToken } = useContext(AuthContext);
+  const { userToken,userInfo } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -50,6 +50,9 @@ const MembershipScreen = ({ navigation }) => {
   };
 
   // =================  for table view ============================
+  
+  
+ 
   useEffect(() => {
     // Fetch the single plan when the component mounts
     fetchSinglePlan();
@@ -76,7 +79,7 @@ const MembershipScreen = ({ navigation }) => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [userToken]);
+  }, []);
 
 
 
@@ -170,10 +173,6 @@ const MembershipScreen = ({ navigation }) => {
           marginTop: 20
         }}>Membership Plan</Text>
 
-
-
-
-
         <View style={{
           marginTop: 10,
           width: 150,
@@ -183,10 +182,19 @@ const MembershipScreen = ({ navigation }) => {
           marginLeft: 110,
         }}></View>
 
+
+
+
+        
+
         {isLoading ? (<ActivityIndicator style={{
           justifyContent: 'center',
           alignItems: 'center'
         }} size="large" color="#c27b7f" />) :
+
+
+          
+          
           (<View>
             <View style={{
               backgroundColor: '#fff3cd',
@@ -206,7 +214,7 @@ const MembershipScreen = ({ navigation }) => {
                   fontSize: 25,
                   fontWeight: '600',
                   color: '#000',
-                }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 2 ? (<Text style={{
+                }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
                   textAlign: 'center',
                   fontFamily: 'Philosopher-Bold',
                   fontSize: 25,
@@ -352,8 +360,24 @@ const MembershipScreen = ({ navigation }) => {
                 </ScrollView>
               </View>
             </View>
-          </View>
-          )}
+          </View>)
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          }
+      
+      
+      
+      
+      
+      
+      
       </ScrollView>
 
     </View>

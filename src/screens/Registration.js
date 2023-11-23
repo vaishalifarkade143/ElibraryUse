@@ -1,10 +1,7 @@
 
-// ==================validation added==================================
-
-
 
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState,useEffect } from 'react'
 import Header from '../common/Header';
 
 import { ScrollView } from 'react-native';
@@ -14,6 +11,8 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
+import messaging from '@react-native-firebase/messaging';
+
 const Registration = ({ navigation }) => {
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
@@ -22,6 +21,35 @@ const Registration = ({ navigation }) => {
     const [password, setPassword] = useState('');
     const [confirmpassword, setConfirmPassword] = useState('');
     const { isLoading, register } = useContext(AuthContext);
+
+
+// =========================push notification===================
+
+
+const requestUserPermission = async () => {
+    try {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+      if (enabled) {
+        console.log('Authorization status:', authStatus);
+      }
+    } catch (error) {
+      console.error('Error requesting permission:', error);
+    }
+  };
+
+  // Call the function when the component mounts
+  useEffect(() => {
+    requestUserPermission();
+  }, []);
+
+
+
+
+    // =======================validation===================================
 
     const validationSchema = Yup.object().shape({
         first_name: Yup.string()
@@ -43,11 +71,24 @@ const Registration = ({ navigation }) => {
             .required('Password is not matching')
     });
 
-    const handleRegister = (values) => {
-        // Call the login function with the form values
-        register(values.first_name, values.last_name, values.email, values.phone, values.password);
+// ===================on click of registrer========================
 
-    };
+
+    const handleRegister = async (values) => {
+        // Call the register function with the form values
+        register(values.first_name, values.last_name, values.email, values.phone, values.password);
+    
+        // Send a foreground push notification
+        messaging()
+          .sendMessage({
+            notification: {
+              title: 'Registration Successful',
+              body: 'You have successfully registered!',
+            },
+          })
+          .then(() => console.log('Notification sent successfully'))
+          .catch((error) => console.error('Error sending notification:', error));
+      };
 
     return (
         <View style={styles.container}>
@@ -305,7 +346,7 @@ const styles = StyleSheet.create({
     },
     floatView: {
         height: 800,
-        backgroundColor: '#fff3cd',
+        backgroundColor: '#f5ebe6',
         justifyContent: 'center',
         flexDirection: 'column',
         marginLeft: 20,

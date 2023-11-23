@@ -24,6 +24,6 @@ const styles=StyleSheet.create({
     flex:1,
     alignItems:'center',
     justifyContent:'center',
-    backgroundColor:'#fff3cd'
+    backgroundColor:'#f5ebe6'
     }
 });

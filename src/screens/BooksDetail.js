@@ -1,4 +1,8 @@
 
+
+
+
+
 // =========================working for avail====================================
 
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native'
@@ -19,6 +23,9 @@ const BooksDetail = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
   const [subscribe, setSubscribe] = useState([]);
+
+
+  const [book_libraryid, setBook_LibraryId] = useState([]);
 
 
   const [libraryid, setLibraryId] = useState([]);
@@ -242,6 +249,50 @@ const BooksDetail = ({ navigation }) => {
 
 
 
+  useEffect(() => {
+
+    const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
+
+    fetch(apiUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSubscribedBooks(data.data);
+
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, [route, tredbooks]);
+
+
+
+  const itemsValue1 = subscribedBooks.filter((item, i) =>
+
+    item.ebook_id === route.params.data.items[0].id &&
+    item.library_id === route.params.data.library_id &&
+    item.email === userEmail
+
+  )
+    ;
+  const itemsValue = itemsValue1.length;
+
+  const status = (itemsValue !== 0 ? (true) : (false))
+
+
+
+
+  console.log("yes", status);
 
 
 
@@ -252,74 +303,45 @@ const BooksDetail = ({ navigation }) => {
 
 
 
+  // useEffect(() => {
+    
+  //   const id=route.params.data.id;
+  //   const libraryid=route.params.data.library_id;
+
+  //   const subscriptionData2 = {
+  //     id:id,
+  //     search_by_book: true,
+  //     library_id:libraryid
+  //   };
+
+  //   const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/search-books?id=${id}&search_by_book=true&library_id=${libraryid}`;
+
+  //   fetch(apiUrl, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': `Bearer ${userToken}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //     // body: JSON.stringify(subscriptionData2),
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((data) => {
+  //       setBook_LibraryId(data.data);
+       
+        
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // })
 
 
-
-
-
-
-
-
-
-
-  //   useEffect(() => {
-
-  //     const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
-
-  //     fetch(apiUrl, {
-  //        method: 'GET',
-  //        headers: {
-  //         'Authorization': `Bearer ${userToken}`,
-  //          'Content-Type': 'application/json',
-  //        },
-  //      })
-  //       .then((response) => {
-  //          if (!response.ok) {
-  //            throw new Error(`HTTP error! Status: ${response.status}`);
-  //          }
-  //          return response.json();
-  //       })
-  //        .then((data) => {
-  //         setSubscribedBooks(data.data);
-
-  //        })
-  //        .catch((error) => {
-  //          console.error('Error fetching data:', error);
-  //        });
-  //     }, [route,tredbooks]);
-
-
-
-  //   const itemsValue1 =subscribedBooks.filter((item, i) =>
-
-  //     item.ebook_id===route.params.data.items[0].id &&
-  //     item.library_id===route.params.data.library_id &&
-  //     item.email===userEmail
-
-  //   )
-  // ;
-  // const itemsValue=itemsValue1.flat();
-
-  // const status=(itemsValue!==null?(true):(false))
-
-
-
-
-  // console.log("yes", status);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  // console.log(book_libraryid);
 
 
 
@@ -365,7 +387,7 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-  console.log(libraryid);
+  // console.log(libraryid);
 
 
   //===================API CALL FOR register-member-to-library=======================  
@@ -415,8 +437,7 @@ const BooksDetail = ({ navigation }) => {
   // console.log(LibraryId);
   // console.log(LibraryId.includes(route.params.data.library_id));
 
-  const data=route.params.data;
-  console.log(data);
+ 
 
 
   return (
@@ -458,37 +479,7 @@ const BooksDetail = ({ navigation }) => {
 
               <Text style={styles.modalText}>Book Reservation/Subscription</Text>
 
-              {/* <View style={{flexDirection:'row', marginBottom: 15, padding:30}}>
 
-                <Text>These book belongs to</Text>
-
-                {route.params.data.library_id === 111 ?
-                  (<Text>
-                    Dindayal UpadhyayLibrary</Text>) :
-
-                  (route.params.data.library_id === 222 ?
-                    (<Text>
-                      Kundanlal Gupta Library</Text>) :
-
-                    (<Text >
-                      Rashtramata Kasturba Library</Text>))}
-
-                <Text>. And Your are not the Member either.Do you want to Register for </Text>
-
-                {route.params.data.library_id === 111 ?
-                  (<Text>
-                    Dindayal UpadhyayLibrary</Text>) :
-
-                  (route.params.data.library_id === 222 ?
-                    (<Text >
-                      Kundanlal Gupta Library</Text>) :
-
-                    (<Text >
-                      Rashtramata Kasturba Library</Text>))}
-
-                <Text>and Continue ?</Text>
-
-              </View> */}
 
               <View style={{ marginBottom: 15, }}>
 
@@ -649,9 +640,8 @@ const BooksDetail = ({ navigation }) => {
         {/* ========================working with preview================ */}
 
 
-
-
-        {route.params.data.items[0].status === 1 ?
+        {/* 
+{route.params.data.items[0].status === 1 ?
           (<View style={{ flexDirection: 'column', }}>
 
             {route.params.data.items[0].format !== 3 ?
@@ -757,8 +747,155 @@ const BooksDetail = ({ navigation }) => {
             textAlign: 'center', color: 'red',
             fontSize: 18, fontWeight: 'bold', marginBottom: 10
           }}>Unavailable</Text>)
+} */}
+
+
+
+
+
+
+
+        {route.params.data.items[0].status === 1 ?
+          (<View style={{ flexDirection: 'column' }}>
+
+            {route.params.data.items[0].format !== 3 ?
+              (<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
+                <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: 700, color: '#c27b7f' }}>Available </Text>
+                <Text style={{ backgroundColor: '#c27b7f', color: 'white', padding: 5, borderRadius: 15 }}>1</Text></View>)
+              :
+              (null)}
+
+
+            {userToken !== null && itemsValue ? (<Text style={{
+              backgroundColor: 'grey',
+              padding: 10,
+              borderRadius: 5,
+              width: '35%',
+
+
+              height: 50,
+              marginTop: 20,
+              marginLeft: 20,
+              marginBottom: 20,
+              color: 'black'
+
+            }}>Ebook is Subscribed</Text>) :
+              (
+
+                <View style={{ flexDirection: 'row' }}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#c27b7f',
+                      padding: 10,
+                      borderRadius: 5,
+                      width: '35%',
+                      height: 50,
+                      marginTop: 20,
+                      marginLeft: 20,
+                      marginBottom: 20,
+
+                    }}
+                    onPress={() => {
+
+                      if (userInfo.data.user.membership_plan_name === null) {
+
+                        Alert.alert(
+                          `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                      }
+
+                      else {
+                        if (userToken !== null) {
+
+                          if (route.params.data.items[0].format === 3) {
+
+                            handle_member();
+                            setModalVisible(!modalVisible);
+                          } else {
+                            if (LibraryId.includes(route.params.data.library_id)) {
+                              handleBookHistory(route.params.data);
+                            } else {
+                              handle_member();
+                              setModalVisible(!modalVisible);
+                            }
+                          }
+                        }
+
+                        else {
+                          navigation.navigate('sLogin');
+                        }
+                      }
+
+
+
+
+                    }}
+
+
+                  >
+                    <Text style={{
+                      color: '#fff',
+                      fontWeight: '700',
+                      fontSize: 18,
+                      textAlign: 'center',
+                    }}> {route.params.data.items[0].format === 3 ? 'Subscribe' : 'Reserved'}</Text>
+                  </TouchableOpacity>
+
+
+                  {userToken !== null &&
+                    route.params.data.items[0].format === 3 &&
+                    route.params.data.items[0].pdf_preview_file !== null ?
+                    (<TouchableOpacity
+                      style={{
+                        backgroundColor: '#c27b7f',
+                        padding: 10,
+                        borderRadius: 5,
+                        width: '35%',
+                        height: 50,
+                        marginTop: 20,
+                        marginLeft: 20,
+                        marginBottom: 20,
+
+                      }}
+                      onPress={() => {
+                        setPdfModalVisible(true);
+
+                      }}
+                    >
+
+                      <Text style={{
+                        color: '#fff',
+                        fontWeight: '700',
+                        fontSize: 18,
+                        textAlign: 'center',
+                      }}>Preview</Text>
+
+                    </TouchableOpacity>) : null}
+
+
+                </View>
+
+              )}
+
+
+
+
+
+
+          </View>
+
+
+          ) :
+
+
+
+
+          (<Text style={{
+            textAlign: 'center', color: 'red',
+            fontSize: 18, fontWeight: 'bold', marginBottom: 10
+          }}>Unavailable</Text>)
 
         }
+
 
         {/* =================================Trending books==================================== */}
 

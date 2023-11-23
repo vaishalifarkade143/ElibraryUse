@@ -2,7 +2,6 @@ import { View, Text,StyleSheet,Image,ScrollView,TouchableOpacity,TextInput } fro
 import React , { FC, ReactElement,useState } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
-// import Parse from 'parse/react-native';
 
 const ForgetPassword = () => {
     const navigation = useNavigation();
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     },
     floatView: {
         height: 400,
-        backgroundColor: '#fff3cd',
+        backgroundColor: '#f5ebe6',
         justifyContent: 'center',
         flexDirection: 'column',
         marginLeft: 20,

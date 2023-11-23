@@ -344,12 +344,12 @@ const User = ({ navigation }) => {
       .then((res) => {
         setProfile(res.data);
         setFirstName(res.data.first_name);
-        console.log("first User Screen:", res.data.first_name);
+        // console.log("first User Screen:", res.data.first_name);
         setLastName(res.data.last_name);
-        console.log("last User Screen:", res.data.last_name);
+        // console.log("last User Screen:", res.data.last_name);
         setEmail(res.data.email);
         setPhone(res.data.phone);
-        console.log("image User Screen:", res.data.image_path);
+        // console.log("image User Screen:", res.data.image_path);
         setImage(res.data.image_path);
         setIsLoading(false);
       })
@@ -359,7 +359,7 @@ const User = ({ navigation }) => {
       });
   };
 
-  console.log("user Info:", userInfo);
+  // console.log("user Info:", userInfo);
 
   return (
     <View style={{ flex: 1, }}>
@@ -373,7 +373,7 @@ const User = ({ navigation }) => {
       <View style={{
         margin: 5,
         height: 200,
-        backgroundColor: "#fff3cd",
+        backgroundColor: "#f5ebe6",
         flexDirection: 'column',
         paddingRight: 10,
         justifyContent: 'center'
