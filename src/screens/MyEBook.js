@@ -7,7 +7,7 @@ import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
-
+import messaging from '@react-native-firebase/messaging';
 
 const MyEBook = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -16,6 +16,39 @@ const MyEBook = ({ navigation }) => {
   const route = useRoute();
   const { userToken,  userEmail,} = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+
+
+
+  // ===================scheuled push notification=======================
+  useEffect(() => {
+    // ... your existing code
+
+    const setupFirebaseMessaging = async () => {
+      // Get the FCM token
+      const fcmToken = await messaging().getToken();
+      console.log('FCM Token:', fcmToken);
+
+      // Listen for messages when the app is in the foreground
+      const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
+        console.log('Foreground Message:', remoteMessage);
+        // Handle foreground messages here
+      });
+
+      // Listen for messages when the app is in the background or closed
+      const unsubscribeOnBackgroundMessage = messaging().setBackgroundMessageHandler(async remoteMessage => {
+        console.log('Background Message:', remoteMessage);
+        // Handle background messages here
+      });
+
+      // Clean up listeners when the component unmounts
+      return () => {
+        unsubscribeOnMessage();
+        unsubscribeOnBackgroundMessage();
+      };
+    };
+
+    setupFirebaseMessaging();
+  }, []);
   
   useEffect(() => {
     const getbooks = () => {

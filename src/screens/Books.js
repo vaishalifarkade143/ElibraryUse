@@ -56,7 +56,7 @@ const Books = ({ navigation }) => {
         });
     };
     getbooks();
-  }, []);
+  },[]);
 
 
 

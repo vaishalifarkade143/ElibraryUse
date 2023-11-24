@@ -55,6 +55,8 @@ const BookDetails = () => {
       <Bookstack.Screen name='subscribebookHistory' component={BookHistory} />
       <Bookstack.Screen name='myEBook' component={MyEBook} />
       <Bookstack.Screen name='ReadeBook' component={ReadEBook}/>
+      <Bookstack.Screen name='Membershipplan' component={MembershipPlan}/>
+      <Bookstack.Screen name='membershipscreen' component={MembershipScreen}/>
     </Bookstack.Navigator>
   );
 };

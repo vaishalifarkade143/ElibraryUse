@@ -37,7 +37,7 @@ export const AuthProvider = ({ children }) => {
                 setUserInfo(userInfo);
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setIsLoading(false);
-                
+
                 // Alert.alert(
                 //     'Success!',
                 //     `User has successfully registered!`,
@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }) => {
                 AsyncStorage.setItem('userToken', userInfo.data.token);
                 AsyncStorage.setItem('userEmail', userInfo.data.user.email);
                 //console.log('User Token : ' + userInfo.data.token);
-                // console.log(userInfo);
+                console.log(userInfo);
                
                 // Alert.alert(
                 //     'Success!',
