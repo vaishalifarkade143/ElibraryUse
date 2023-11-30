@@ -41,23 +41,24 @@ const MembershipScreen = ({ navigation }) => {
       .then((res) => {
         console.log('Single Subscribed Plan Data:', res.data);
         setSingleSubscribedPlan(res.data);
-        setIsLoading(false); // Data has been loaded
+        setIsLoading(false); 
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
-        setIsLoading(false); // Handle error and set isLoading to false
+        setIsLoading(false); 
       });
   };
+
+  useEffect(()=>{
+     fetchSinglePlan();
+  })
 
   // =================  for table view ============================
   
   
- 
-  useEffect(() => {
-    // Fetch the single plan when the component mounts
-    fetchSinglePlan();
-
-    // Fetch AllSubscribedPlan data
+ userToken!==null?
+  (useEffect(() => {
+    
     const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
 
     fetch(apiUrl, {
@@ -79,7 +80,7 @@ const MembershipScreen = ({ navigation }) => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [])):(null);
 
 
 

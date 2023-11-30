@@ -1,5 +1,5 @@
 import { View, Text, Image, StyleSheet } from 'react-native'
-import React, { useContext } from 'react'
+import React, { useContext ,useState, useEffect} from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
 import Search from '../screens/Search';
@@ -24,6 +24,7 @@ import Resources from '../screens/Resources';
 
 
 const stack = createNativeStackNavigator();
+
 const LoginAndRegister = () => {
   return (
     <stack.Navigator screenOptions={{ headerShown: false }}>
@@ -65,6 +66,17 @@ const BookDetails = () => {
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   // const { userInfo } = useContext(AuthContext);
+  const [refresh, setRefresh] = useState(false);
+
+
+  useEffect(() => {
+    if (refresh) {
+      
+      setRefresh(false);
+    }
+  }, [refresh]);
+
+
   return (
 
     <Tab.Navigator screenOptions={{
@@ -73,7 +85,10 @@ const TabNavigator = () => {
       tabBarStyle: { backgroundColor: '#f5ebe6' },
       //tabBarActiveBackgroundColor:'#c27b7f',
       tabBarInactiveTintColor: '#000',
-      tabBarActiveTintColor: '#c27b7f'
+      tabBarActiveTintColor: '#c27b7f',
+      refresh: refresh,
+        
+      
 
 
     }}>

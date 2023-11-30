@@ -14,54 +14,55 @@ const LoginScreen = ({ navigation }) => {
     const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
     const { userInfo } = useContext(AuthContext);
-    // ========================push notification============================
 
-    useEffect(() => {
-        getDeviceToken();
-    }, []);
+    // ======================== imp  push notification   get token============================
 
-
-    const getDeviceToken = async () => {
-        try {
-          const token = await messaging().getToken();
-          console.log('Token is:', token);
-          return token;
-        } catch (error) {
-          console.error('Error getting FCM token:', error);
-          return null;
-        }
-      };
+    // useEffect(() => {
+    //     getDeviceToken();
+    // }, []);
 
 
-
-    // =================to get alert in app ==========================
-
-    useEffect(() => {
-        const unsubscribe = messaging().onMessage(async remoteMessage => {
-            Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-            console.log("A new FCM message arrived:", JSON.stringify(remoteMessage));
-        });
-
-        return unsubscribe;
-    }, []);
+    // const getDeviceToken = async () => {
+    //     try {
+    //       const token = await messaging().getToken();
+    //       console.log('Token is:', token);
+    //       return token;
+    //     } catch (error) {
+    //       console.error('Error getting FCM token:', error);
+    //       return null;
+    //     }
+    //   };
 
 
 
-    const requestUserPermission = async () => {
-        const authStatus = await messaging().requestPermission();
-        const enabled =
-          authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-          authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    // ================        imp  to get alert in app ==========================
+
+    // useEffect(() => {
+    //     const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //         Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
+    //         console.log("A new FCM message arrived:", JSON.stringify(remoteMessage));
+    //     });
+
+    //     return unsubscribe;
+    // }, []);
+
+
+
+    // const requestUserPermission = async () => {
+    //     const authStatus = await messaging().requestPermission();
+    //     const enabled =
+    //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+    //       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
       
-        if (enabled) {
-          console.log('Authorization status:', authStatus);
-        }
-      };
+    //     if (enabled) {
+    //       console.log('Authorization status:', authStatus);
+    //     }
+    //   };
       
-      // Call the function when the component mounts
-      useEffect(() => {
-        requestUserPermission();
-      }, []);
+    //   // Call the function when the component mounts
+    //   useEffect(() => {
+    //     requestUserPermission();
+    //   }, []);
 
     //   ===========================validtion code ========================================
 
