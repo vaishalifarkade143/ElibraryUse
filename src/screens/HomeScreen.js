@@ -1,5 +1,5 @@
 
-import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ActivityIndicator, ImageBackground, ScrollView } from 'react-native'
+import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ActivityIndicator, ImageBackground, ScrollView, Animated } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
@@ -7,15 +7,25 @@ import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
 import WebView from 'react-native-webview';
+import { Card, Title, Paragraph, Button } from 'react-native-paper';
+import Books from './Books';
+
+
+
+
+
 
 const HomeScreen = ({ navigation }) => {
-  // const { userInfo } = useContext(AuthContext);
   const { userToken } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [freqBooks, setFreqBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
+  
 
+
+  // generating a random number
+  const a = Math.floor(Math.random() * (10 - 1)) + 1;
   //==============================video not working=================================================
 
   const [videoDuration, setVideoDuration] = useState(0);
@@ -23,7 +33,6 @@ const HomeScreen = ({ navigation }) => {
   const videoUrl = `https://player.vimeo.com/video/808983383?h=81d7a35acb&badge=0&autopause=0&player_id=0&app_id=58479`
   const [clicked, setClicked] = useState(false);
   const [puased, setPaused] = useState(false);
-  // const [progress, setProgress] = useState(null);
   const [progress, setProgress] = useState({ currentTime: 0, seekableDuration: 0 });
   const [fullScreen, setFullScreen] = useState(false)
   const ref = useRef();
@@ -52,10 +61,8 @@ const HomeScreen = ({ navigation }) => {
         .then(res => res.json())
 
         .then(responce => {
-          setBooks(responce.data.splice(-4));
+          setBooks(responce.data.splice(-20));
           setisLoaded(false);
-
-
         });
     };
     getbooks();
@@ -78,11 +85,9 @@ const HomeScreen = ({ navigation }) => {
   const filterBooks = freqBooks.filter((item) =>
     item.items[0].format === (format[0].id || format[1].id));
 
+
   const featuredEBooks = freqBooks.filter((item) =>
-
-    item.items[0].format === format[2].id
-
-  );
+    item.items[0].format === format[2].id);
 
   // ======================frequently added end========================//
 
@@ -118,112 +123,87 @@ const HomeScreen = ({ navigation }) => {
 
           {/* ================Recently added books=================   */}
 
-          <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
+          <View style={{
+            flexDirection: 'row',
+            marginVertical: 5,
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginLeft: 15, marginRight: 15,
+          }}>
             <Text style={styles.coroselheading}>Recently Added</Text>
-
+            <TouchableOpacity onPress={()=>{
+              navigation.navigate('Books')
+            }}>
+            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
-
+        
+          <View style={{ marginStart: 10,height:280 }}>
             <FlatList
+              horizontal={true}
+              snapToInterval={200} // Adjust the interval based on your design
+              decelerationRate="fast"
+              contentContainerStyle={{
+                gap: -50,
+                paddingHorizontal: 7,
+              }}
+              showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
               data={books}
-
               renderItem={({ item }) =>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('BooksDetailPage', { data: item })
-                  console.log(item);
-                }}>
+                <TouchableOpacity
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: 200,
+                    height: 320
+                  }}
+                  onPress={() => {
+                    navigation.navigate('BooksDetailPage', { data: item })
+                  }}>
                   <View style={{
-                    width: 182,
-                    height: 280,
-                    marginEnd: 22,
-                    borderRadius: 10,
+                    width: 150,
+                    height: 200,
+                    marginEnd: 50,
+                    marginTop: -120
                   }}>
                     <View style={{
-                      flex: 1,
-                      width: 100,
-                      marginLeft: 60 / 2,
-                      marginTop: 10 / 2,
+                      width: 140,
+                      elevation: 5,
                       borderRadius: 5,
-                      overflow: 'visible',
-
-
+                      color: '#000'
                     }}>
                       <Image source={{ uri: item.image_path }}
-
                         style={{
-                          aspectRatio: 0.8,
-                          resizeMode: 'cover'
+                          aspectRatio: 0.6,
+                          resizeMode: 'contain',
+                          borderRadius: 5,
+
                         }}
-
-
                       />
                     </View>
-                    <View style={{ padding: 10, }}>
-                      <Text style={{
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: '#000',
-                        flexDirection: 'column'
-                      }} numberOfLines={2}>
-                        {item.name}
-                      </Text>
 
-
-
-                      {item.items[0].format === 3 ? (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>E-Book</Text>
-                      ) : (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Book</Text>)}
-
-
-                      <Text style={{
-                        backgroundColor: '#c27b7f',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 30,
-                        marginRight: 40,
-                        paddingTop: 10,
-                        width: 100,
-                        height: 40,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Read More</Text>
-                    </View>
+                    <Text style={{
+                      marginTop: 10,
+                      fontSize: 15,
+                      color: '#000',
+                      flexDirection: 'column'
+                    }} numberOfLines={1}>
+                      {item.name}
+                    </Text>
 
                   </View>
 
                 </TouchableOpacity>
 
               }
-              horizontal={true}
-              contentContainerStyle={{ columnGap: 10 }}
+
             />
 
           </View>
-
 
           {/* ==============video section ============= */}
 
@@ -270,7 +250,6 @@ const HomeScreen = ({ navigation }) => {
                 visible={videoModalVisible}
                 onRequestClose={() => {
                   setVideoModalVisible(false);
-
                 }}>
 
                 <WebView
@@ -278,7 +257,7 @@ const HomeScreen = ({ navigation }) => {
                   style={{ flex: 1 }}
                   mediaPlaybackRequiresUserAction={false} // Enable autoplay
                 />
-          </Modal>
+              </Modal>
 
             </ImageBackground >
           </View>
@@ -288,100 +267,81 @@ const HomeScreen = ({ navigation }) => {
 
           {/* ===========Frequently added======== */}
 
-          <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
+          <View style={{
+            flexDirection: 'row',
+            marginVertical: 5, marginTop: 15,
+            justifyContent: 'space-between', marginLeft: 15, marginRight: 15,
+          }}>
             <Text style={styles.coroselheading}>Featured Books</Text>
-
+            
+            <TouchableOpacity onPress={()=>{
+              navigation.navigate('Books')
+            }}>
+            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            </TouchableOpacity>
           </View>
 
-          <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+          <View style={{  marginTop: 10, marginStart: 10,
+            backgroundColor: '#fff',height:250 }}>
 
             <FlatList
+              horizontal={true}
+              snapToInterval={200} // Adjust the interval based on your design
+              decelerationRate="fast"
+              contentContainerStyle={{
+                gap: -20,
+                paddingHorizontal: 12,
+              }}
+              showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={filterBooks.splice(0, 6)}
+              data={filterBooks.splice(a, 20)}
 
               renderItem={({ item }) =>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('BooksDetailPage', { data: item })
+                
 
-                }}>
+                <TouchableOpacity
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: 180,
+                    height: 300
+                  }}
+                  onPress={() => {
+                    navigation.navigate('BooksDetailPage', { data: item })
+
+                  }}>
                   <View style={{
-                    width: 182,
-                    height: 260,
-                    marginEnd: 22,
-                    borderRadius: 10,
+                    width: 145,
+                    height: 280,
+                    marginEnd: 50,
                   }}>
                     <View style={{
-                      flex: 1,
-                      width: 100,
-                      marginLeft: 60 / 2,
-                      marginTop: 10 / 2,
+                      elevation: 5,
                       borderRadius: 5,
-                      overflow: 'visible',
-
-
+                      color: '#000'
                     }}>
                       <Image source={{ uri: item.image_path }}
-
                         style={{
                           aspectRatio: 0.8,
-                          resizeMode: 'cover'
-                        }} />
+                          resizeMode: 'cover',
+                          borderRadius: 10,
+
+                        }}
+                      />
                     </View>
-                    <View style={{ padding: 10, }}>
-                      <Text style={{
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: '#000'
-                      }} numberOfLines={2}>
-                        {item.name}
-                      </Text>
-
-
-                      {item.items[0].format === 3 ? (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>E-Book</Text>
-                      ) : (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Book</Text>)}
-
-                      <Text style={{
-                        backgroundColor: '#c27b7f',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 30,
-                        marginRight: 40,
-                        paddingTop: 10,
-                        width: 100,
-                        height: 40,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Read More</Text>
-                    </View>
+                    <Text style={{
+                      marginTop: 10,
+                      fontSize: 15,
+                      color: '#000',
+                      flexDirection: 'column'
+                    }} numberOfLines={1}>
+                      {item.name}
+                    </Text>
                   </View>
                 </TouchableOpacity>
-
               }
-              horizontal={true}
-              contentContainerStyle={{ columnGap: 10 }}
             />
           </View>
 
@@ -389,110 +349,88 @@ const HomeScreen = ({ navigation }) => {
 
           {/* //=============featured ebooks======================== */}
 
-          <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
+          <View style={{
+            flexDirection: 'row', marginVertical: 5,
+            justifyContent: 'space-between', marginLeft: 15, marginRight: 15,
+          }}>
             <Text style={styles.coroselheading}>Featured E-Books</Text>
-
+             <TouchableOpacity onPress={()=>{
+              navigation.navigate('Books')
+            }}>
+            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            </TouchableOpacity>
           </View>
-
-
-
-
-          <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+          <View style={{
+            marginTop: 10, marginStart: 10,
+            backgroundColor: '#fff',height:250
+          }}>
 
             <FlatList
+              horizontal={true}
+              snapToInterval={200} // Adjust the interval based on your design
+              decelerationRate="fast"
+              contentContainerStyle={{
+                gap: -20,
+                paddingHorizontal: 12,
+              }}
+              showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              data={featuredEBooks.splice(0, 6)}
+              data={featuredEBooks.splice(a, 20)}
 
               renderItem={({ item }) =>
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('BooksDetailPage', { data: item })
-                }}>
+               
+
+                <TouchableOpacity
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexDirection: 'row',
+                    width: 180,
+                    height: 300
+                  }}
+                  onPress={() => {
+                    navigation.navigate('BooksDetailPage', { data: item })
+
+                  }}>
                   <View style={{
-                    width: 182,
-                    height: 260,
-                    marginEnd: 22,
-                    borderRadius: 10,
-                    // backgroundColor: '#fff'
+                    width: 145,
+                    height: 280,
+                    marginEnd: 50,
                   }}>
                     <View style={{
-                      flex: 1,
-                      width: 100,
-                      marginLeft: 60 / 2,
-                      marginTop: 10 / 2,
+                      elevation: 5,
                       borderRadius: 5,
-                      overflow: 'visible',
-
-
+                      color: '#000'
                     }}>
                       <Image source={{ uri: item.image_path }}
-
                         style={{
                           aspectRatio: 0.8,
-                          resizeMode: 'cover'
+                          resizeMode: 'cover',
+                          borderRadius: 10,
+
                         }}
-
-
                       />
                     </View>
-                    <View style={{ padding: 10, }}>
-                      <Text style={{
-                        fontSize: 15,
-                        fontWeight: 'bold',
-                        color: '#000'
-                      }} numberOfLines={2}>
-                        {item.name}
-                      </Text>
-
-
-                      {item.items[0].format === 3 ? (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>E-Book</Text>
-                      ) : (<Text style={{
-                        backgroundColor: '#a3a3c2',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 40,
-                        marginRight: 40,
-                        paddingTop: 5,
-                        height: 30,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Book</Text>)}
-
-                      <Text style={{
-                        backgroundColor: '#c27b7f',
-                        textAlign: 'center',
-                        fontWeight: 'bold',
-                        color: '#fff',
-                        marginLeft: 30,
-                        marginRight: 40,
-                        paddingTop: 10,
-                        width: 100,
-                        height: 40,
-                        marginTop: 5,
-                        borderRadius: 5,
-                      }}>Read More</Text>
-                    </View>
+                    <Text style={{
+                      marginTop: 10,
+                      fontSize: 15,
+                      color: '#000',
+                      flexDirection: 'column'
+                    }} numberOfLines={1}>
+                      {item.name}
+                    </Text>
                   </View>
                 </TouchableOpacity>
-
               }
-              horizontal={true}
-              contentContainerStyle={{ columnGap: 10 }}
             />
           </View>
 
         </ScrollView>)}
+
+
+
+
     </View>
   );
 };
@@ -546,14 +484,14 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     color: '#000',
-    marginLeft: 85,
+    //marginLeft: 85,
     right: 0
   },
 
 
   contactSection: {
     backgroundColor: '#fff',
-    paddingVertical: 20,
+    // paddingVertical: 20,
   },
   container1: {
     paddingHorizontal: 20,

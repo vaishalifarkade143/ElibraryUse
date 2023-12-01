@@ -308,22 +308,22 @@ const User = ({ navigation }) => {
   const [profile, setProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const [refresh, setRefresh] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     // Fetch user profile data on component load
     fetchProfileData();
-  }, [userToken,refresh]);
+  }, [userToken]);
 
-  useEffect(() => {
-    // Listen for navigation focus event
-    const unsubscribe = navigation.addListener('focus', () => {
-      // Trigger a refresh when the User screen comes into focus
-      setRefresh(!refresh);
-    });
+  // useEffect(() => {
+  //   // Listen for navigation focus event
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     // Trigger a refresh when the User screen comes into focus
+  //     setRefresh(!refresh);
+  //   });
 
-    return unsubscribe;
-  }, [navigation]);
+  //   return unsubscribe;
+  // }, [navigation]);
 
   const fetchProfileData = () => {
     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';

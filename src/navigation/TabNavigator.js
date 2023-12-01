@@ -23,6 +23,7 @@ import Profile from '../screens/Profile';
 import Resources from '../screens/Resources';
 
 
+
 const stack = createNativeStackNavigator();
 
 const LoginAndRegister = () => {
@@ -63,18 +64,36 @@ const BookDetails = () => {
 };
 
 
-const Tab = createBottomTabNavigator();
-const TabNavigator = () => {
-  // const { userInfo } = useContext(AuthContext);
-  const [refresh, setRefresh] = useState(false);
+const Bookstack2 = createNativeStackNavigator();
+const BookDetails2 = () => {
+  return (
+    <Bookstack2.Navigator screenOptions={{ headerShown: false }}>
+      <Bookstack2.Screen name='Book' component={Books} />
+      <Bookstack2.Screen name='BooksDetailPage' component={BooksDetail} />
+      <Bookstack2.Screen name='sLogin' component={LoginAndRegister} />
+      <Bookstack2.Screen name='subscribebookHistory' component={BookHistory} />
+      <Bookstack2.Screen name='myEBook' component={MyEBook} />
+      <Bookstack2.Screen name='ReadeBook' component={ReadEBook}/>
+      <Bookstack2.Screen name='Membershipplan' component={MembershipPlan}/>
+      <Bookstack2.Screen name='membershipscreen' component={MembershipScreen}/>
+    </Bookstack2.Navigator>
+  );
+};
+  
 
+  const Tab = createBottomTabNavigator();
+  const TabNavigator = () => {
+    // const { userInfo } = useContext(AuthContext);
+    const [refresh, setRefresh] = useState(false);
+  
+  
+    useEffect(() => {
+      if (refresh) {
+        
+        setRefresh(false);
+      }
+    }, [refresh]);
 
-  useEffect(() => {
-    if (refresh) {
-      
-      setRefresh(false);
-    }
-  }, [refresh]);
 
 
   return (
@@ -104,7 +123,7 @@ const TabNavigator = () => {
             <Ionicons name="search-outline" color={color} size={size} />
         }}
       /> */}
-      <Tab.Screen name='Books' component={Books}
+      <Tab.Screen name='Books' component={ BookDetails2 }//Books
         options={{
           tabBarIcon: ({ color, size }) =>
             <Ionicons name="book-outline" color={color} size={size} />
@@ -120,9 +139,12 @@ const TabNavigator = () => {
     </Tab.Navigator>
 
   )
-}
+
+};
 
 export default TabNavigator;
+
+
 const styles = StyleSheet.create({
   bottomView: {
     position: 'absolute',

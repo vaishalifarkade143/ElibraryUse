@@ -26,25 +26,25 @@ const Registration = ({ navigation }) => {
 // =========================push notification===================
 
 
-const requestUserPermission = async () => {
-    try {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+// const requestUserPermission = async () => {
+//     try {
+//       const authStatus = await messaging().requestPermission();
+//       const enabled =
+//         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
 
-      if (enabled) {
-        console.log('Authorization status:', authStatus);
-      }
-    } catch (error) {
-      console.error('Error requesting permission:', error);
-    }
-  };
+//       if (enabled) {
+//         console.log('Authorization status:', authStatus);
+//       }
+//     } catch (error) {
+//       console.error('Error requesting permission:', error);
+//     }
+//   };
 
-  // Call the function when the component mounts
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
+//   // Call the function when the component mounts
+//   useEffect(() => {
+//     requestUserPermission();
+//   }, []);
 
 
 

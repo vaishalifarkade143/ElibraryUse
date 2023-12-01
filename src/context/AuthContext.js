@@ -38,10 +38,10 @@ export const AuthProvider = ({ children }) => {
                 AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
                 setIsLoading(false);
 
-                // Alert.alert(
-                //     'Success!',
-                //     `User has successfully registered!`,
-                // );
+                Alert.alert(
+                    'Success!',
+                    `User has successfully registered!`,
+                );
             })
             .catch(e => {
                 console.log(`register error ${e}`);
