@@ -3,13 +3,8 @@ import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, 
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
-import Video from 'react-native-video';
-import Slider from '@react-native-community/slider';
-import Orientation from 'react-native-orientation-locker';
 import WebView from 'react-native-webview';
-import { Card, Title, Paragraph, Button } from 'react-native-paper';
-import Books from './Books';
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 
@@ -170,13 +165,16 @@ const HomeScreen = ({ navigation }) => {
                     marginEnd: 50,
                     marginTop: -120
                   }}>
+
+                        
                     <View style={{
                       width: 140,
-                      elevation: 5,
-                      borderRadius: 5,
+                      // elevation: 5,
+                      // borderRadius: 5,
                       color: '#000'
                     }}>
-                      <Image source={{ uri: item.image_path }}
+                   <Image
+                    source={item.image_path !== null ? { uri: item.image_path } : require('../images/book.png')}
                         style={{
                           aspectRatio: 0.6,
                           resizeMode: 'contain',
@@ -265,7 +263,7 @@ const HomeScreen = ({ navigation }) => {
 
 
 
-          {/* ===========Frequently added======== */}
+          {/* ===========featured books======== */}
 
           <View style={{
             flexDirection: 'row',
@@ -277,7 +275,7 @@ const HomeScreen = ({ navigation }) => {
             <TouchableOpacity onPress={()=>{
               navigation.navigate('Books')
             }}>
-            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            <Text style={{ color: 'blue', fontSize: 15,marginTop:10 }}>See All</Text>
             </TouchableOpacity>
           </View>
 
@@ -357,7 +355,7 @@ const HomeScreen = ({ navigation }) => {
              <TouchableOpacity onPress={()=>{
               navigation.navigate('Books')
             }}>
-            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            <Text style={{ color: 'blue', fontSize: 15,marginTop:10  }}>See All</Text>
             </TouchableOpacity>
           </View>
           <View style={{
