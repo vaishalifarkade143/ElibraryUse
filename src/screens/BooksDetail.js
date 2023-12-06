@@ -997,16 +997,10 @@
 
 
 
-
-
-
 //               </View>
 
 
 //           ) :
-
-
-
 
 //           (<Text style={{
 //             textAlign: 'center', color: 'red',
@@ -1445,33 +1439,21 @@ const BooksDetail = ({ navigation }) => {
   };
 
   
-  
-  
-  
-  
-  
-  
-  
-  // ================================================================
+  // =================================== treding books =============================
 
   useEffect(() => {
     const tredingbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
         .then(res => res.json())
         .then(responce => {
-          setTredBooks(responce.data.splice(-4));
+          setTredBooks(responce.data.splice(-20));
           setisLoaded(false);
         });
     };
     tredingbooks();
   },[]);
 
-
-
-
-
-
- 
+// ======================================================================================
   userToken !== null ?
     (useEffect(() => {
       const id = userInfo.data.user.id;
@@ -1550,8 +1532,6 @@ const BooksDetail = ({ navigation }) => {
   useEffect(() => {
     
     const id=route.params.data.id;
-    // const libraryid=route.params.data.library_id;
-
     console.log("search",id,selectedLibrary);
 
     const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/search-books?id=${id}&search_by_book=true&library_id=${selectedLibrary}`;
@@ -1574,7 +1554,6 @@ const BooksDetail = ({ navigation }) => {
         setBookDetails(data.data);
         setInitialDataFetched(true);
        
-        // console.log('hy',bookdetails);
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
@@ -1629,8 +1608,7 @@ const [filterbook,setFilterBook]=useState(null);
     setInitialDataFetched(false);
   },[selectedLibrary])
   
-  // console.log('b',book1);
-  // console.log('f',filterbook);
+  
   
 
 
@@ -1783,7 +1761,6 @@ const [filterbook,setFilterBook]=useState(null);
               <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Pressable
                   style={styles.button}
-                  // onPress={() => handleMemberRegistered(selectedLibraryId)}>
                   onPress={() => { handleMemberRegistered(selectedLibrary), handle_member() }}>
                   <Text style={styles.textStyle}>Yes</Text>
                 </Pressable>
@@ -1870,16 +1847,16 @@ const [filterbook,setFilterBook]=useState(null);
 
       <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
         <View style={{
-          marginLeft: 80,
           width: Dimensions.get('window').width,
           height: 200,
           marginEnd: 22,
-          borderRadius: 10,
+          marginTop:20,
+          alignItems:'center',
+          justifyContent:'center',
         }}>
           <View style={{
-            width: 150,
-            marginLeft: 60 / 2,
-            marginTop: 10 / 2,
+            width: 180,
+            marginTop: 14 / 2,
             overflow: 'visible',
           }}>
             <Image source={{
@@ -1887,12 +1864,12 @@ const [filterbook,setFilterBook]=useState(null);
             }}
               style={{
                 aspectRatio: 0.8,
-                resizeMode: 'cover'
+                resizeMode: 'cover',borderRadius:20,
               }}
             />
           </View>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={{ flexDirection: 'row', marginTop: 50, marginLeft: 10, }}>
           <Text style={styles.textHeading}>ISBN No:</Text><Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.isbn}</Text>
         </View>
 
@@ -1922,169 +1899,34 @@ const [filterbook,setFilterBook]=useState(null);
           <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.publisher?.name}</Text>
         </View>
 
-        {/* <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
-          <Text style={styles.textHeading}>Belongs To:</Text>
-          <View style={{ marginRight: 5 }}>{route.params.data.library_id === 111 ?
-            (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
-              Dindayal UpadhyayLibrary</Text>) :
-            (route.params.data.library_id === 222 ?
-              (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
-                Kundanlal Gupta Library</Text>) :
-              (<Text style={{ fontWeight: 'bold', paddingTop: 10, height: 50, fontSize: 18, textAlign: 'center', marginTop: 10, borderWidth: 5 }}>
-                Rashtramata Kasturba Library</Text>))}</View></View> */}
+        <Text style={[styles.textHeading,{marginLeft:10,marginTop:10,marginBottom:5}]}>Belongs To:</Text>
 
-
-<View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10,marginBottom:10 ,}}>
-      <Text style={styles.textHeading}>Belongs To:</Text>
-
+<View style={{ flexDirection: 'column', 
+                marginLeft: 10,
+                 marginBottom:5,
+                 marginRight:10,
+                 borderColor:'grey',
+                 borderWidth:1.5,
+                borderRadius:5
+}}>
       <Picker
         selectedValue={selectedLibrary}
         onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-        style={{ height: 40, marginTop: 10, textAlign: 'center', }}
+        style={{ height: 40, marginTop: -12, textAlign: 'center',padding:5 }}
       >
-       
         {libraries.map((library) => (
           <Picker.Item key={library.id} label={library.name} value={library.id}
           enabled={bookdetails.some((book) => book.book.library_id === library.id)}
-          
           />
         ))}
       </Picker>
+ </View>
 
-      {/* {selectedLibrary && (
-        <Text
-          style={{
-            fontWeight: 'bold',
-            paddingTop: 10,
-            height: 50,
-            fontSize: 18,
-            textAlign: 'center',
-            marginTop: 10,
-            borderWidth: 5,
-          }}
-        >
-          {selectedLibrary === 111
-            ? 'Dindayal Upadhyay Library'
-            : selectedLibrary === 222
-            ? 'Kundanlal Gupta Library'
-            : 'Rashtramata Kasturba Library'}
-        </Text>
-      )} */}
-    </View>
         <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Description:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 3 }}>{book1[0]?.book?.description}</Text>
+          <Text style={{ fontSize: 15, marginLeft: 3 }} numberOfLines={3}>{book1[0]?.book?.description}</Text>
         </View>
-           {/* ========================working with preview================ */}
- {/* 
-{route.params.data.items[0].status === 1 ?
-          (<View style={{ flexDirection: 'column', }}>
-
-            {route.params.data.items[0].format !== 3 ?
-              (<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
-                <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: 700, color: '#c27b7f' }}>Available </Text>
-                <Text style={{ backgroundColor: '#c27b7f', color: 'white', padding: 5, borderRadius: 15 }}>1</Text></View>)
-              :
-              (null)}
-
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#c27b7f',
-                  padding: 10,
-                  borderRadius: 5,
-                  width: '35%',
-                  height: 50,
-                  marginTop: 20,
-                  marginLeft: 20,
-                  marginBottom: 20,
-
-                }}
-                onPress={() => {
-
-                  if (userToken !== null) {
-
-                    if (route.params.data.items[0].format === 3) {
-                      // If the condition is true (format is equal to 3), execute the following:
-                      // handle_member();
-                      handle_member();
-                      // setModalVisible(!modalVisible);
-                      setModalVisible(!modalVisible);
-                    } else {
-                      // If the condition is false, execute the following:
-                      // Check if LibraryId includes the library_id from route.params.data
-                      if (LibraryId.includes(route.params.data.library_id)) {
-                        // If true, execute handleBookHistory with route.params.data
-                        handleBookHistory(route.params.data);
-                      } else {
-                        // If false, execute the following:
-                        // handle_member();
-                        handle_member();
-                        // setModalVisible(!modalVisible);
-                        setModalVisible(!modalVisible);
-                      }
-                    }
-                  }
-
-                  else {
-                    navigation.navigate('sLogin');
-                  }
-                }}
-
-
-              >
-                <Text style={{
-                  color: '#fff',
-                  fontWeight: '700',
-                  fontSize: 18,
-                  textAlign: 'center',
-                }}> {route.params.data.items[0].format === 3 ? 'Subscribe' : 'Reserved'}</Text>
-              </TouchableOpacity>
-
-
-              {userToken !== null &&
-                route.params.data.items[0].format === 3 &&
-                route.params.data.items[0].pdf_preview_file !== null ?
-                (<TouchableOpacity
-                  style={{
-                    backgroundColor: '#c27b7f',
-                    padding: 10,
-                    borderRadius: 5,
-                    width: '35%',
-                    height: 50,
-                    marginTop: 20,
-                    marginLeft: 20,
-                    marginBottom: 20,
-
-                  }}
-                  onPress={() => {
-                    setPdfModalVisible(true);
-
-                  }}
-                >
-
-                  <Text style={{
-                    color: '#fff',
-                    fontWeight: '700',
-                    fontSize: 18,
-                    textAlign: 'center',
-                  }}>Preview</Text>
-
-                </TouchableOpacity>) : null}
-
-
-            </View>
-
-          </View>
-
-
-          ) :
-          (<Text style={{
-            textAlign: 'center', color: 'red',
-            fontSize: 18, fontWeight: 'bold', marginBottom: 10
-          }}>Unavailable</Text>)
-} */}
-
+          
  {book1[0]?.status === 1 ?
           (<View style={{ flexDirection: 'column' }}>
 
@@ -2100,14 +1942,16 @@ const [filterbook,setFilterBook]=useState(null);
               backgroundColor: 'grey',
               padding: 10,
               borderRadius: 5,
-              width: '35%',
-
-
-              height: 50,
+              width: 170,
+              height: 40,
               marginTop: 20,
               marginLeft: 20,
               marginBottom: 20,
-              color: 'black'
+              color: 'black', 
+              textAlign:'center',
+              fontSize:15,
+              fontWeight:'bold',
+              opacity:0.4
 
             }}>Ebook is Subscribed</Text>) :
               (
@@ -2128,8 +1972,7 @@ const [filterbook,setFilterBook]=useState(null);
                     onPress={() => {
 
                       if (userToken !== null && userInfo.data.user.membership_plan_name === null) {
-                        // navigation.navigate('Membershipplan');
-
+                      
                         Alert.alert(
                           `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
                       }
@@ -2216,71 +2059,63 @@ const [filterbook,setFilterBook]=useState(null);
         <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
           <Text style={styles.coroselheading}>Trending Books</Text>
         </View>
+        
 
         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
           <FlatList
+           horizontal={true}
+           snapToInterval={200} // Adjust the interval based on your design
+           decelerationRate="fast"
+           contentContainerStyle={{
+             gap: -20,
+             paddingHorizontal: 12,
+           }}
+           showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             data={tredbooks}
 
             renderItem={({ item }) =>
-              <TouchableOpacity onPress={() => {
+              <TouchableOpacity 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+                width: 180,
+                height: 300
+              }}
+              onPress={() => {
                 navigation.navigate('BooksDetailPage', { data: item })
               }}>
                 <View style={{
-                  width: 182,
-                  height: 260,
-                  marginEnd: 22,
-                  borderRadius: 10,
-                }}>
-                  <View style={{
-                    flex: 1,
-                    width: 100,
-                    marginLeft: 60 / 2,
-                    marginTop: 10 / 2,
-                    borderRadius: 5,
-                    overflow: 'visible',
+                    width: 145,
+                    height: 280,
+                    marginEnd: 50,
                   }}>
+                    <View style={{
+                      elevation: 5,
+                      borderRadius: 5,
+                      color: '#000'
+                    }}>
                     <Image source={{ uri: item.image_path }}
                       style={{
                         aspectRatio: 0.8,
-                        resizeMode: 'cover'
-                      }} /></View>
-                  <View style={{ padding: 10, }}>
-                    <Text style={{
+                        resizeMode: 'cover',
+                        borderRadius: 10,
+                      }} />
+                      </View>
+                    <Text  style={{
+                      marginTop: 10,
                       fontSize: 15,
-                      fontWeight: 'bold',
-                      color: '#000'
-                    }} numberOfLines={2}>{item.name}</Text><Text style={{
-                      backgroundColor: '#a3a3c2',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 40,
-                      marginRight: 40,
-                      paddingTop: 5,
-                      height: 30,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>Book</Text>
-                    <Text style={{
-                      backgroundColor: '#c27b7f',
-                      textAlign: 'center',
-                      fontWeight: 'bold',
-                      color: '#fff',
-                      marginLeft: 30,
-                      marginRight: 40,
-                      paddingTop: 10,
-                      width: 100,
-                      height: 40,
-                      marginTop: 5,
-                      borderRadius: 5,
-                    }}>Read More</Text>
-                  </View>
+                      fontFamily:'Philosopher-bold',
+                      color: '#000',
+                      flexDirection: 'column'
+                    }} numberOfLines={1}>
+                      {item.name}
+                    </Text>
                 </View>
               </TouchableOpacity>
             }
-            horizontal={true}
-            contentContainerStyle={{ columnGap: 10 }}
           />
         </View>
       </ScrollView>
@@ -2316,7 +2151,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: {
-      // width: 0,
       height: 3,
     },
     shadowOpacity: 0.25,

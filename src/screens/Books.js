@@ -67,33 +67,20 @@ const Books = ({ navigation }) => {
     // Reset the current page to 1 whenever a dropdown is clicked
     setCurrentPage(1);
 
-    // if (scrollViewRef.current) {
-    //   scrollViewRef.current.scrollTo({ x: 0, y: 0, animated: true });
-    // }
-
-    // console.log(selectedGenre);
     let filteredBooksCopy = [...books];
-
-
-    //single selected dropdown  by genre
+ //single selected dropdown  by genre
 
     if (selectedGenre !== "Genre") { // Make sure a genre is selected
       filteredBooksCopy = books.filter((book) =>
         book.genres.some((genr) => genr.name === selectedGenre)
-
-
-      );
+  );
       console.log("single selected dropdown  by genre")
-      // setFilteredBooks(filteredByGenre);
-      // console.log("Filtered Books:", filteredByGenre);
-
     }
     if (selectedAuthor !== "Author") { // Make sure a genre is selected
       filteredBooksCopy = books.filter((book) =>
         book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
       );
-      // console.log("selectedAuthor:", selectedAuthor);
-      // console.log("Filtered Books:", filteredBooksCopy);
+      
     }
 
     if (selectedPublisher !== "Publisher") { // Make sure a genre is selected
@@ -661,28 +648,6 @@ const Books = ({ navigation }) => {
 
   // ===========================search ===============================
 
-
-  // const handleSearch = () => {
-  //   setIsLoading(true);
-  //   // Replace 'YOUR_API_ENDPOINT' with your actual API endpoint for searching books
-  //   fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?query=${searchQuery}`)
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       // Filter the results based on the search query
-  //       const filteredResults = response.data.filter((item) =>
-  //         item.name.toLowerCase().includes(searchQuery.toLowerCase())
-  //       );
-  //       setSearchResults(filteredResults); // Update search results state with filtered data// Update search results state with API response
-  //       setIsLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error searching for books:", error);
-  //       setIsLoading(false);
-  //     });
-  //   //search logic here 
-  //   // console.log('Searching for:', searchQuery);
-  // };
-
   const handleSearch = () => {
     setIsLoading(true);
 
@@ -762,6 +727,8 @@ const Books = ({ navigation }) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
+            paddingTop:10,
+            paddingBottom:10
           }}>
             <View style={{
               marginLeft: 10,
@@ -1020,7 +987,7 @@ const Books = ({ navigation }) => {
           </View> */}
           {/* ======================================================= */}
 
-          
+
           <View style={{ marginBottom: 15 }}>
             <TouchableOpacity
               style={{
@@ -1064,7 +1031,9 @@ const Books = ({ navigation }) => {
           }}>
             <Text style={styles.coroselheading}>Our Books Collection</Text>
           </View>
-          {totalBooksCount < 10 ? (<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>) : (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
+          {totalBooksCount < 10 ? (<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>)
+           : 
+          (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
 
           <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
 

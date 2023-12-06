@@ -94,20 +94,20 @@ const Transaction = ({ navigation }) => {
   }
 
 
-  
+
 
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
-  .filter((item) => {
-    
-    const plan =  item.subscription_plan.name.toLowerCase();
-    const query = searchQuery.toLowerCase();
-    return plan.includes(query) ;
-  })
-  .map((item) => [
-    item.subscription_plan.name,
-    item.amount,
-    formatDate(item.created_at),
-  ]) : [];
+    .filter((item) => {
+
+      const plan = item.subscription_plan.name.toLowerCase();
+      const query = searchQuery.toLowerCase();
+      return plan.includes(query);
+    })
+    .map((item) => [
+      item.subscription_plan.name,
+      item.amount,
+      formatDate(item.created_at),
+    ]) : [];
 
 
 
@@ -147,7 +147,7 @@ const Transaction = ({ navigation }) => {
         }}>
 
           {/* ==================search======================= */}
-<View style={styles.searchcontainer}>
+          <View style={styles.searchcontainer}>
             <View style={styles.searchBar}>
               <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
               <TextInput
@@ -166,8 +166,8 @@ const Transaction = ({ navigation }) => {
                 </TouchableOpacity>)}
             </View>
           </View>
- {/* ===================================================================== */}    
-      
+          {/* ===================================================================== */}
+
 
           {/* table */}
           <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
@@ -224,8 +224,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   searchcontainer: {
-    marginTop:10,
-    marginLeft:10,
+    marginTop: 10,
+    marginLeft: 10,
     padding: 5,
     width: '70%',
     height: 50,

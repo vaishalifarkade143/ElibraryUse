@@ -21,23 +21,11 @@ const HomeScreen = ({ navigation }) => {
 
   // generating a random number
   const a = Math.floor(Math.random() * (10 - 1)) + 1;
-  //==============================video not working=================================================
+  //==============================video working=================================================
 
-  const [videoDuration, setVideoDuration] = useState(0);
-  // const videoUrl = `https://player-telemetry.vimeo.com/player-events/log/play`
   const videoUrl = `https://player.vimeo.com/video/808983383?h=81d7a35acb&badge=0&autopause=0&player_id=0&app_id=58479`
-  const [clicked, setClicked] = useState(false);
-  const [puased, setPaused] = useState(false);
-  const [progress, setProgress] = useState({ currentTime: 0, seekableDuration: 0 });
-  const [fullScreen, setFullScreen] = useState(false)
-  const ref = useRef();
-  const format2 = seconds => {
-    let mins = parseInt(seconds / 60)
-      .toString()
-      .padStart(2, '0');
-    let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
-    return `${mins}:${secs}`;
-  };
+ 
+ 
 
   //===========added recently=================================
   const format = [{ id: 1, name: "Hardcover" },
@@ -46,7 +34,6 @@ const HomeScreen = ({ navigation }) => {
 
 
   //==============video section====================
-  const [modalVisible, setModalVisible] = React.useState(false);
   const image = { uri: 'https://static.vecteezy.com/system/resources/thumbnails/022/574/918/small/abstract-blurred-public-library-interior-space-blurry-room-with-bookshelves-by-defocused-effect-use-for-background-or-backdrop-in-abstract-blurred-publicbusiness-or-education-concepts-generative-ai-photo.jpg' }
 
   //================book recently added ===============
@@ -169,8 +156,6 @@ const HomeScreen = ({ navigation }) => {
                         
                     <View style={{
                       width: 140,
-                      // elevation: 5,
-                      // borderRadius: 5,
                       color: '#000'
                     }}>
                    <Image
@@ -179,7 +164,6 @@ const HomeScreen = ({ navigation }) => {
                           aspectRatio: 0.6,
                           resizeMode: 'contain',
                           borderRadius: 5,
-
                         }}
                       />
                     </View>
@@ -225,8 +209,6 @@ const HomeScreen = ({ navigation }) => {
 
                   </View>
                   <View style={styles.rightCol}>
-                    {/* You can place your video player component here */}
-                    {/* For simplicity, we'll just show a placeholder */}
 
                     <TouchableOpacity onPress={() => {
                       setVideoModalVisible(true);
@@ -259,8 +241,6 @@ const HomeScreen = ({ navigation }) => {
 
             </ImageBackground >
           </View>
-
-
 
 
           {/* ===========featured books======== */}

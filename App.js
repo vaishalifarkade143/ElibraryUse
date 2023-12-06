@@ -1,8 +1,5 @@
 
 import React,{useEffect} from 'react'
-import AuthStack from './src/navigation/AuthStack';
-import { NavigationContainer } from '@react-navigation/native';
-import AppStack from './src/navigation/AppStack';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { AuthProvider } from './src/context/AuthContext';
 import AppNav from './src/navigation/AppNav';
@@ -10,6 +7,8 @@ import PushNotification from "react-native-push-notification";
 import notifee from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging'
 
+import { getDatabase, ref, set } from '@react-native-firebase/database';
+import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
 
 const stack = createNativeStackNavigator();
 const App = () => {
@@ -68,22 +67,44 @@ const App = () => {
   //   },
   // });
 
-// ===============================get divece token on load of app =======================//
+// ===============================get device token on load of app and     to store device token========================//
   useEffect(() => {
     getDeviceToken();
 }, []);
 
 
-const getDeviceToken = async () => {
+// const getDeviceToken = async () => {
+//     try {
+//       const token = await messaging().getToken();
+//       console.log('Token is:', token);
+//       return token;
+//     } catch (error) {
+//       console.error('Error getting FCM token:', error);
+//       return null;
+//     }
+//   };
+
+
+
+  const getDeviceToken = async () => {
     try {
       const token = await messaging().getToken();
       console.log('Token is:', token);
+
+      // Store the token in Firebase Realtime Database
+      const tokensRef = ref(getDatabase(), 'deviceTokens');
+      set(tokensRef, { [token]: true });
+      console.log('FCM token is stored successfully in firebase.');
       return token;
     } catch (error) {
-      console.error('Error getting FCM token:', error);
+      console.error('Error storing FCM token:', error);
       return null;
     }
   };
+
+  // ===============================================================
+
+
 
 
 // =================to get alert in app ==========================
