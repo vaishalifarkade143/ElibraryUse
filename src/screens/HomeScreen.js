@@ -322,10 +322,7 @@ const HomeScreen = ({ navigation }) => {
               }
             />
           </View>
-
-
-
-          {/* //=============featured ebooks======================== */}
+ {/* //=============featured ebooks======================== */}
 
           <View style={{
             flexDirection: 'row', marginVertical: 5,
@@ -356,9 +353,7 @@ const HomeScreen = ({ navigation }) => {
               data={featuredEBooks.splice(a, 20)}
 
               renderItem={({ item }) =>
-               
-
-                <TouchableOpacity
+               <TouchableOpacity
                   style={{
                     display: 'flex',
                     alignItems: 'center',
@@ -405,11 +400,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
 
         </ScrollView>)}
-
-
-
-
-    </View>
+ </View>
   );
 };
 
@@ -462,14 +453,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     fontWeight: '600',
     color: '#000',
-    //marginLeft: 85,
     right: 0
   },
-
-
-  contactSection: {
+   contactSection: {
     backgroundColor: '#fff',
-    // paddingVertical: 20,
   },
   container1: {
     paddingHorizontal: 20,

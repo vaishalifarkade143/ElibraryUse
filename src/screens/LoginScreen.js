@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView ,Alert} from 'react-native'
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
@@ -6,36 +6,55 @@ import { AuthContext } from '../context/AuthContext';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import messaging from '@react-native-firebase/messaging'
+import messaging from '@react-native-firebase/messaging';
+import { getDatabase, ref, push, onValue } from '@react-native-firebase/database';
 
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
-    const [email, setEmail] = useState(null);
-    const [password, setPassword] = useState(null);
     const [rememberMe, setRememberMe] = useState(false);
     const { userInfo } = useContext(AuthContext);
 
-    // ======================== imp  push notification   get token============================
+    // ===============================Important get device token on load of app and to store device token========================//
+  
 
-    // useEffect(() => {
-    //     getDeviceToken();
-    // }, []);
+    const getDeviceToken = async () => {
+        try {
+            const token = await messaging().getToken();
+            console.log('Token is:', token);
+
+            // Store the token in Firebase Realtime Database without replacing the previous tokens
+            const tokensRef = ref(getDatabase(), 'deviceTokens');
+            const newTokenRef = push(tokensRef);
+            newTokenRef.set({ token });
+
+            console.log('FCM token is stored successfully in Firebase.');
+            return token;
+        } catch (error) {
+            console.error('Error storing FCM token:', error);
+            return null;
+        }
+    };
 
 
-    // const getDeviceToken = async () => {
-    //     try {
-    //       const token = await messaging().getToken();
-    //       console.log('Token is:', token);
-    //       return token;
-    //     } catch (error) {
-    //       console.error('Error getting FCM token:', error);
-    //       return null;
-    //     }
-    //   };
+    const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+            console.log('Authorization status:', authStatus);
+        }
+    };
+
+    // Call the function when the component mounts
+    useEffect(() => {
+        requestUserPermission();
+    }, []);
 
 
 
-    // ================        imp  to get alert in app ==========================
+    // ====================imp  to get alert in app ==========================
 
     // useEffect(() => {
     //     const unsubscribe = messaging().onMessage(async remoteMessage => {
@@ -46,23 +65,6 @@ const LoginScreen = ({ navigation }) => {
     //     return unsubscribe;
     // }, []);
 
-
-
-    // const requestUserPermission = async () => {
-    //     const authStatus = await messaging().requestPermission();
-    //     const enabled =
-    //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    //       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-      
-    //     if (enabled) {
-    //       console.log('Authorization status:', authStatus);
-    //     }
-    //   };
-      
-    //   // Call the function when the component mounts
-    //   useEffect(() => {
-    //     requestUserPermission();
-    //   }, []);
 
     //   ===========================validtion code ========================================
 
@@ -78,34 +80,48 @@ const LoginScreen = ({ navigation }) => {
 
     });
 
-   
+    //===============on click of login button=================================
 
-    
+    const handleLogin = async (values) => {
 
-      //===============on click of login button=================================
-    
-      const handleLogin = async (values) => {
         // Call the login function with the form values
-        login(values.email, values.password);
-    
-        // Get the device token
-        const token = await getDeviceToken();
-    
-        if (token) {
-          // Send a push notification or use the token as needed
-          messaging()
-            .sendMessage({
-              to: token,
-              notification: {
-                title: 'Login Successful',
-                body: 'You have successfully logged in!',
-              },
-            })
-            .then(() => console.log('Notification sent successfully'))
-            .catch((error) => console.error('Error sending notification:', error));
-        }
-      };
 
+        login(values.email, values.password);  //imp 
+        getDeviceToken();
+
+        //-----------redirect to membershipplan screen-------------------------
+
+        // console.log("plan is::", userInfo.data.user.membership_plan_name);
+        // if (userInfo.data.user.membership_plan_name !== null) {
+        //     login(values.email, values.password);
+        //     console.log(values.email);
+        // }
+        // else {
+        //     navigation.navigate('Membershipplan');
+        //     console.log("error");
+        // }
+
+
+
+        // ================for push notification======================
+
+        // Get the device token
+        // const token = await getDeviceToken();
+
+        // if (token) {
+        //   // Send a push notification or use the token as needed
+        //   messaging()
+        //     .sendMessage({
+        //       to: token,
+        //       notification: {
+        //         title: 'Login Successful',
+        //         body: 'You have successfully logged in!',
+        //       },
+        //     })
+        //     .then(() => console.log('Notification sent successfully'))
+        //     .catch((error) => console.error('Error sending notification:', error));
+        // }
+    };
 
     return (
 

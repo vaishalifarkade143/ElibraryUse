@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState('');
     const [userInfo, setUserInfo] = useState({});
-
+    // const [userMemPlan, setUserMemPlan] = useState({});
     const register = (first_name,
         last_name,
         email,
@@ -44,50 +44,106 @@ export const AuthProvider = ({ children }) => {
                 );
             })
             .catch(e => {
-                console.log(`register error ${e}`);
+                // console.log(`register error ${e}`);
                 setIsLoading(false);
             });
 
     };
 
 
-    const login = (email, password) => {
-        setIsLoading(true);
-        //to call rest api we use axios package
-        axios.post(`${BASE_URL}/member-login`, {
-            email,
-            password
-        })
-            .then(async (res) => {
-                let userInfo = res.data;
-                setUserInfo(userInfo);
-                setUserToken(userInfo.data.token)
-                setUserEmail(userInfo.data.user.email)
-                //to check login state is store to the app we use Asynkstorage
-                AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-                AsyncStorage.setItem('userToken', userInfo.data.token);
-                AsyncStorage.setItem('userEmail', userInfo.data.user.email);
-                //console.log('User Token : ' + userInfo.data.token);
-                console.log(userInfo);
-               
-                // Alert.alert(
-                //     'Success!',
-                //     `User has successfully signed in!`,
-                // )
-            })
+    // const login = (email, password) => {
+    //     setIsLoading(true);
+    //     //to call rest api we use axios package
+    //     axios.post(`${BASE_URL}/member-login`, {
+    //         email,
+    //         password
+    //     })
+    //         .then(async (res) => {
+    //             let userInfo = res.data;
+    //             setUserInfo(userInfo);
+    //             setUserToken(userInfo.data.token)
+    //             setUserEmail(userInfo.data.user.email)
+    //             // setUserMemPlan(userInfo.data.user.membership_plan_name)
+    //             //to check login state is store to the app we use Asynkstorage
+    //             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+    //             AsyncStorage.setItem('userToken', userInfo.data.token);
+    //             AsyncStorage.setItem('userEmail', userInfo.data.user.email);
+    //             // AsyncStorage.setItem('userMemPlan', userInfo.data.user.membership_plan_name);
+    //             //console.log('User Token : ' + userInfo.data.token);
+    //             console.log(userInfo);
 
-            //  })
-            .catch(e => {
-                // console.log(`Login error ${e}`);
-                Alert.alert(
-                    'Login fail',
-                    `Email Id and Password doesn't match !`, 
-                );
+    //             Alert.alert(
+    //                 'Success!',
+    //                 `User has successfully signed in!`,
+    //             )
+    //         })
+
+    //         //  })
+    //         .catch(e => {
+    //             // console.log(`Login error ${e}`);
+    //             console.log('Login error:', error);
+    //             if (error.response) {
+    //                 console.log('Response data:', error.response.data);
+    //                 console.log('Response status:', error.response.status);
+    //             }
+    //             Alert.alert(
+    //                 'Login fail',
+    //                 `Email Id and Password doesn't match !`,
+    //             );
+    //         })
+
+    //         .finally(() => {
+    //             setIsLoading(false); // Move this line inside the finally block
+    //         });
+    //     // setIsLoading(false);
+    // }
+
+    
+
+    const login = async (email, password) => {
+        setIsLoading(true);
+        try {
+            const response = await axios.post(`${BASE_URL}/member-login`, {
+                email,
+                password
             });
 
+            const result = response.data;
+            setUserInfo(result);
+            setUserToken(result.data.token);
+            setUserEmail(result.data.user.email);
 
-        setIsLoading(false);
-    }
+            AsyncStorage.setItem('userInfo', JSON.stringify(result));
+            AsyncStorage.setItem('userToken', result.data.token);
+            AsyncStorage.setItem('userEmail', result.data.user.email);
+
+            Alert.alert(
+                'Success!',
+                `User has successfully signed in!`,
+            );
+
+            return result; // Return the result for further use if needed
+        } catch (error) {
+            console.error('Login error:', error);
+
+            if (error.response) {
+                console.log('Response data:', error.response.data);
+                console.log('Response status:', error.response.status);
+            }
+
+            Alert.alert(
+                'Login fail',
+                `Email Id and Password don't match!`,
+            );
+
+            throw error; // Re-throw the error for further handling if needed
+        } finally {
+            setIsLoading(false);
+        }
+    };
+    
+
+
 
     // =========================
 
@@ -99,14 +155,14 @@ export const AuthProvider = ({ children }) => {
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userEmail');
 
-        console.log("Removed token")
+        // console.log("Removed token")
 
         setIsLoading(false);
-         //Alert for logout//
+        //Alert for logout//
         Alert.alert(
             'Success!',
             `User Logout successfully !`,
-       );
+        );
     }
 
 
@@ -118,16 +174,16 @@ export const AuthProvider = ({ children }) => {
             let userInfo = await AsyncStorage.getItem('userInfo');
             let userToken = await AsyncStorage.getItem('userToken');
             let userEmail = await AsyncStorage.getItem('userEmail');
+            // let userMemPlan =  await AsyncStorage.getItem('userMemPlan');
             userInfo = JSON.parse(userInfo);
 
             if (userInfo) {
                 setUserToken(userToken);
                 setUserInfo(userInfo);
                 setUserEmail(userEmail);
+                // setUserMemPlan(userMemPlan);
             }
-
             setIsLoading(false);
-
         }
         catch (e) {
             console.log(`isLogged in error ${e}`);
@@ -140,7 +196,7 @@ export const AuthProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ isLoading, userInfo, userToken, userEmail, register, login, logout }}>{children}</AuthContext.Provider>
+        <AuthContext.Provider value={{ isLoading, userInfo, userToken, userEmail, register, login, logout, isLoggedIn }}>{children}</AuthContext.Provider>
 
     );
 }

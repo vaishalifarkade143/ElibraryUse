@@ -5,7 +5,6 @@ import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity, Alert,Scroll
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../common/Header';
-import Feather from 'react-native-vector-icons/Feather';
 
 
 const MembershipPlan = () => {
@@ -13,7 +12,6 @@ const MembershipPlan = () => {
   const [subscript, setSubscript] = useState([]);
   const navigation = useNavigation();
   const { userInfo, userToken } = useContext(AuthContext);
-  const [selectedPlan, setSelectedPlan] = useState(null);
   const [isPlanActivated, setIsPlanActivated] = useState(false);
 
   useEffect(() => {
@@ -30,12 +28,8 @@ const MembershipPlan = () => {
 
   const activatePlan = (item) => {
 
-    // const id=item.id;
     const data = userInfo.data.user;
-    console.log(data);
-
-
-
+    // console.log(data);
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session/${item.id}`;
     fetch(url, {
       method: 'POST',
@@ -50,46 +44,23 @@ const MembershipPlan = () => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log("responce is:", response);
+        // console.log("responce is:", response);
         return response.json();
       })
 
-
-
       .then((responseData) => {
-        console.log('Data stored successfully:', responseData);
+        // console.log('Data stored successfully:', responseData);
         setIsPlanActivated(true);
-
-        console.log('Navigating to MembershipScreen...');
-        // navigation.navigate('MembershipScreen',{data:responseData});
         navigation.navigate('MembershipScreen');
       })
 
       .catch((error) => {
         console.error('Error storing data:', error);
       });
-    // setIsLoaded(false);
-
-
-    // setSelectedPlan(item);
-
-
-
-    // setIsPlanActivated(true);
-
-    // Alert.alert('Subscription Successful', () => {
-    // Navigate to the home screen
-
-
-    // navigation.navigate('MembershipScreen', { data:selectedPlan });
-    // });
+   
   };
-
-
-  return (
-
-
-    <View style={styles.container}>
+ return (
+  <View style={styles.container}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
@@ -110,9 +81,7 @@ const MembershipPlan = () => {
           backgroundColor: '#c27b7f',
           marginLeft:120
         }}></View>
-
-
-        
+ 
         <View style={{
           marginTop: 30,
           backgroundColor: '#fff',
@@ -126,7 +95,6 @@ const MembershipPlan = () => {
               <View style={{
                 width: 182,
                 height: 200,
-                //borderRadius: 10,
               }}>
                 <Text style={{
                   textAlign: 'center',
@@ -151,7 +119,6 @@ const MembershipPlan = () => {
                   <Text style={{
                     fontWeight: 'bold',
                     color: 'black',
-                    //marginLeft: 60,
                     paddingTop: 5,
                     marginTop: 5,
                     fontSize: 30,
@@ -175,8 +142,6 @@ const MembershipPlan = () => {
                 <TouchableOpacity disabled={isPlanActivated} onPress={() => {
                   // Call activatePlan function to activate the plan
                   activatePlan(item);
-                  // Set isPlanActivated to true once plan is activated
-                  // navigation.navigate("Home");
                   setIsPlanActivated(true);
 
                 }}>

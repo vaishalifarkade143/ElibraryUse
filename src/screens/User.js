@@ -315,15 +315,6 @@ const User = ({ navigation }) => {
     fetchProfileData();
   }, [userToken]);
 
-  // useEffect(() => {
-  //   // Listen for navigation focus event
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     // Trigger a refresh when the User screen comes into focus
-  //     setRefresh(!refresh);
-  //   });
-
-  //   return unsubscribe;
-  // }, [navigation]);
 
   const fetchProfileData = () => {
     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';

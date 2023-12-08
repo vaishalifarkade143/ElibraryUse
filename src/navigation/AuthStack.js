@@ -24,8 +24,6 @@ const stack = createNativeStackNavigator();
 
 
 const AuthStack = () => {
-   // const {userInfo} = useContext(AuthContext);     
-    
     return (
         // add bottomtab n drawer
         <NavigationContainer independent={true}>
@@ -37,22 +35,6 @@ const AuthStack = () => {
         
     )
 }
-
-
-///////////////////////////////////////////
-// const AfterLogin= () => {
-         
-//     return (
-//         <NavigationContainer independent={true}>
-//         <stack.Navigator screenOptions={{headerShown:false}}>
-       
-//         <stack.Screen name='Home3' component={AppStack} />
-//         <stack.Screen name='User' component={User} />
-//         </stack.Navigator>
-//     </NavigationContainer>
-//     );
-// };
-////////////////////////////////////////////////////////
 
 export default AuthStack;
 

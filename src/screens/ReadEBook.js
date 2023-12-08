@@ -10,8 +10,6 @@ const ReadEBook = () => {
     const navigation = useNavigation();
     const [currentPage, setCurrentPage] = useState(1);
 
-    // const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public_uploads_ebooks/${filename.slice(0, -4)}`;
-
     const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public_uploads_ebooks/${filename.split(".")[0]}`;
 
     return (
@@ -28,7 +26,7 @@ const ReadEBook = () => {
                     trustAllCerts={false}
                     source={{ uri: pdfUrl }}
                     onLoadComplete={(numberOfPages, filePath) => {
-                        console.log(`Number of pages: ${numberOfPages}`);
+                        // console.log(`Number of pages: ${numberOfPages}`);
                     }}
                     onPageChanged={(page, numberOfPages) => {
                         // console.log(`Current page: ${page}`);
@@ -38,7 +36,7 @@ const ReadEBook = () => {
                         console.log(error);
                     }}
                     onPressLink={(uri) => {
-                        console.log(`Link pressed: ${uri}`);
+                        // console.log(`Link pressed: ${uri}`);
                     }}
                     style={styles.pdf}
                 />)

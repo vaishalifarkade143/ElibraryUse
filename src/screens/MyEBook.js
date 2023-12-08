@@ -14,7 +14,7 @@ const MyEBook = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
-  const { userToken,  userEmail,} = useContext(AuthContext);
+  const { userToken,  userEmail,userMemPlan} = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -26,17 +26,17 @@ const MyEBook = ({ navigation }) => {
     const setupFirebaseMessaging = async () => {
       // Get the FCM token
       const fcmToken = await messaging().getToken();
-      console.log('FCM Token:', fcmToken);
+      // console.log('FCM Token:', fcmToken);
 
       // Listen for messages when the app is in the foreground
       const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
-        console.log('Foreground Message:', remoteMessage);
+        // console.log('Foreground Message:', remoteMessage);
         // Handle foreground messages here
       });
 
       // Listen for messages when the app is in the background or closed
       const unsubscribeOnBackgroundMessage = messaging().setBackgroundMessageHandler(async remoteMessage => {
-        console.log('Background Message:', remoteMessage);
+        // console.log('Background Message:', remoteMessage);
         // Handle background messages here
       });
 

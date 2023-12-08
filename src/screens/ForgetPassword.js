@@ -36,7 +36,6 @@ const ForgetPassword = () => {
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/back.png')}
         onClickLeftIcon={() => {
-            // navigation.navigate('Login');
             navigation.goBack();
         }}
     />
@@ -86,8 +85,6 @@ const ForgetPassword = () => {
                 />
             </View>
 
-           
-            
             <TouchableOpacity
                 style={{
                     backgroundColor: '#c27b7f',
@@ -100,8 +97,6 @@ const ForgetPassword = () => {
                     marginLeft: 110
                 }}
 
-                // onPress={handleLogin}
-                // disabled={!email || !password}
             >
                 <Text style={{
                     color: '#fff',
@@ -126,8 +121,6 @@ const ForgetPassword = () => {
                 
               }
 
-                // onPress={handleLogin}
-                // disabled={!email || !password}
             >
                 <Text style={{
                     color: '#c27b7f',

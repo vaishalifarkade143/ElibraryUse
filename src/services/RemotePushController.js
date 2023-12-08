@@ -15,7 +15,7 @@ const RemotePushController = () => {
 
       // (required) Called when a remote or local notification is opened or received
       onNotification: function(notification) {
-        console.log('REMOTE NOTIFICATION ==>', notification)
+        // console.log('REMOTE NOTIFICATION ==>', notification)
 
         // process the notification here
       },

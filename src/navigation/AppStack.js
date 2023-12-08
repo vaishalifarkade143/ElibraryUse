@@ -49,12 +49,6 @@ const AppStack = () => {
         name="About"
         component={About}
         options={{ headerShown: false }} />
-       {/* <drawer.Screen
-        name='Login'
-        component={LoginNRegister}
-        options={{ headerShown: false }}
-      />   */}
-
       <drawer.Screen
         name="Terms"
         component={Terms}

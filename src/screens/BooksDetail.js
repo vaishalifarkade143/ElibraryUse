@@ -1197,7 +1197,6 @@ const BooksDetail = ({ navigation }) => {
 
   //==========================ADDED=====================================
   const [bookdetails, setBookDetails] = useState([]);
-  // const library = [{ id: 111, name: "dindayalupadhyay" }, { id: 222, name: "kundanlalgupta" }, { id: 333, name: "rashtramatakasturb" }]
   const [selectedLibrary, setSelectedLibrary] = useState(route.params.data.library_id);
   // console.log(selectedLibrary);
   const [initialDataFetched, setInitialDataFetched] = useState(false);
@@ -1352,11 +1351,8 @@ const BooksDetail = ({ navigation }) => {
       library_id:selectedLibrary
     };
 
-    console.log('data retrived butttttl::::', subscriptionData1,item[0]?.id);
-
-
-
-    const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item[0]?.id}/reserve-book`;
+    // console.log('data retrived butttttl::::', subscriptionData1,item[0]?.id);
+   const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books/${item[0]?.id}/reserve-book`;
 
     fetch(url, {
       method: 'POST',
@@ -1371,11 +1367,11 @@ const BooksDetail = ({ navigation }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log("responce is:", response);
+        // console.log("responce is:", response);
         return response.json();
       })
       .then((responseData) => {
-        console.log('Data stored successfully:', responseData);
+        // console.log('Data stored successfully:', responseData);
         navigation.navigate('subscribebookHistory');
       })
 
@@ -1394,10 +1390,8 @@ const BooksDetail = ({ navigation }) => {
     const member_id = userInfo.data.user.member_id;
     const id = book1[0]?.id;
     const library_id = selectedLibrary;
-    console.log('data testis::::',id,library_id);
+    // console.log('data testis::::',id,library_id);
     const subscriptionData = {
-
-
       issued_on: startDate,
       returned_on: endDate,
       ebook_id: id,
@@ -1422,11 +1416,11 @@ const BooksDetail = ({ navigation }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log("responce is:", response);
+        // console.log("responce is:", response);
         return response.json();
       })
       .then((responseData) => {
-        console.log('Data stored successfully:', responseData);
+        // console.log('Data stored successfully:', responseData);
 
         setModalVisible(!modalVisible);
         
@@ -1532,7 +1526,7 @@ const BooksDetail = ({ navigation }) => {
   useEffect(() => {
     
     const id=route.params.data.id;
-    console.log("search",id,selectedLibrary);
+    // console.log("search",id,selectedLibrary);
 
     const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/search-books?id=${id}&search_by_book=true&library_id=${selectedLibrary}`;
 
@@ -1727,9 +1721,6 @@ const [filterbook,setFilterBook]=useState(null);
             (<View style={styles.modalView}>
 
               <Text style={styles.modalText}>Book Reservation/Subscription</Text>
-
-
-
               <View style={{ marginBottom: 15, }}>
 
                 <View style={{ flexDirection: 'row' }}>
@@ -1829,7 +1820,7 @@ const [filterbook,setFilterBook]=useState(null);
               console.log(error);
             }}
             onPressLink={(uri) => {
-              console.log(`Link pressed: ${uri}`);
+              // console.log(`Link pressed: ${uri}`);
             }}
             // Use scale prop to control the scaling of pages
             scale={totalPages > 8 ? 8 / totalPages : 1}
@@ -1870,13 +1861,15 @@ const [filterbook,setFilterBook]=useState(null);
           </View>
         </View>
         <View style={{ flexDirection: 'row', marginTop: 50, marginLeft: 10, }}>
-          <Text style={styles.textHeading}>ISBN No:</Text><Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.isbn}</Text>
+          <Text style={styles.textHeading}>ISBN No:</Text><Text style={{ fontSize: 15,
+             marginLeft: 8 }}>{book1[0]?.book?.isbn}</Text>
         </View>
 
         
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Author:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.authors[0].first_name} {book1[0]?.book?.authors[0].last_name}</Text>
+          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.authors[0].first_name} 
+          {book1[0]?.book?.authors[0].last_name}</Text>
         </View>
         <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
           <Text style={styles.textHeading}>Format:</Text>

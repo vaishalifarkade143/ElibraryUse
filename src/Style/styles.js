@@ -5,6 +5,7 @@ import React from 'react'
 const styles =StyleSheet.create({
     container: {
       flex:1,
+      paddingBottom:100
     },
     terms: {
       flex: 1,
@@ -16,11 +17,12 @@ const styles =StyleSheet.create({
       fontWeight: '600',
       marginBottom: 10,
       textAlign:'center',
-      fontFamily:'Philosopher-Bold', fontSize: 29,
+      fontFamily:'Philosopher-Bold', 
+      fontSize: 29,
       color: '#000',
     },
     subHeading: {
-      fontSize: 20,
+      fontSize:18,
       fontWeight: 'bold',
       marginVertical: 10,
       color: '#000',

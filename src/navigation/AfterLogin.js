@@ -11,7 +11,6 @@ import Terms from '../screens/Terms';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Disclaimer from '../screens/Disclaimer';
 import Books from '../screens/Books';
-import Search from '../screens/Search';
 import HomeScreen from '../screens/HomeScreen';
 import Drawer from '../customComponent/Drawer';
 
@@ -34,12 +33,7 @@ const AfterLoginTab = () => {
                         <Ionicons name="home-outline" color={color} size={size}/>
                 }}
             />
-            <Tab.Screen name='Search' component={Search}
-                options={{
-                    tabBarIcon: ({color,size}) =>
-                        <Ionicons name="search-outline" color={color} size={size}/>
-               }}
-            />
+          
             <Tab.Screen name='Books' component={Books}
                 options={{
                     tabBarIcon: ({color,size}) =>

@@ -77,7 +77,7 @@ const Registration = ({ navigation }) => {
     const handleRegister = async (values) => {
         // Call the register function with the form values
         register(values.first_name, values.last_name, values.email, values.phone, values.password);
-    
+        navigation.goBack();
         // Send a foreground push notification
         messaging()
           .sendMessage({

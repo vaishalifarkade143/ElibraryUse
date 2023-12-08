@@ -57,11 +57,11 @@ const BookHistory = ({ navigation }) => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        console.log("responce is:", response);
+        // console.log("responce is:", response);
         return response.json();
       })
       .then((responseData) => {
-        console.log('Data stored successfully:', responseData);
+        // console.log('Data stored successfully:', responseData);
         setSelectedBook(responseData);
         setModalVisible(!modalVisible);
       })
@@ -162,18 +162,7 @@ const BookHistory = ({ navigation }) => {
           }}><Text style={{ padding: 6, textAlign: 'center', color: '#fff', fontSize: 15, fontWeight: 'bold' }}>UNRESERVE</Text></TouchableOpacity>)
       ]
     );
-    // const bookname=selectedBook.book_item.book.name;
-    // const bookcode=selectedBook.book_item.book_code;
-      
-  
-  
-  
-  
-  
-  
-  
-  
-  
+   
   
     return (
     <View style={{ flex: 1, backgroundColor: '#fff', }}>
@@ -202,19 +191,7 @@ const BookHistory = ({ navigation }) => {
               fontSize: 15
             }}>Unreserve a book</Text>
             <Text style={styles.modalText}>Are you sure you want to unreserve  </Text>
-            {/* <View style={{ flexDirection: 'row' }}>
-              <Text style={{
-                marginBottom: 10,
-                fontSize: 13
-              }}>"{bookname}
-              </Text>
-              <Text style={{
-                marginBottom: 10,
-                fontSize: 13
-              }}>({bookcode })"
-              </Text>
-            </View> */}
-
+           
             <View style={{ flexDirection: 'row', gap: 10 }}>
 
 

@@ -136,25 +136,21 @@ const ELibrary = ({ navigation }) => {
 
         <View style={{
           flexDirection: 'row', justifyContent: 'center',
-          alignItems: 'center', marginTop: 25, marginBottom: 30
+          alignItems: 'center', marginTop: 25, marginBottom: 30,
         }}>
 
-          <View>
+          <View style={{
+          borderRightColor:'#2826268a',borderRightWidth:1
+                  }}>
             <Text style={styles.reviewcount}>{totalBooksCount}</Text>
             <Text style={styles.review}>Books</Text>
-          </View>
-          <Image
-                source={require('../images/line.png')}
-                style={styles.line}
-              />
-          <View>
+          </View >
+          <View style={{
+          borderRightColor:'#2826268a',borderRightWidth:1
+                  }}> 
             <Text style={styles.reviewcount}>12500+</Text>
             <Text style={styles.review}>Total Views</Text>
           </View>
-          <Image
-                source={require('../images/line.png')}
-                style={styles.line}
-              />
           <View>
             <Text style={styles.reviewcount}>3</Text>
             <Text style={styles.review}>Award</Text>
@@ -189,7 +185,7 @@ const styles = {
     color: "#c27b7f",
   },
   subtitle: {
-    fontSize: 23,
+    fontSize: 20,
     marginBottom: 20,
     marginTop: 5,
     color: '#2f4858',
@@ -228,12 +224,12 @@ const styles = {
   review: {
     fontFamily: 'Philosopher-Bold',
     fontSize: 17,
-    marginLeft: 20,
+    marginLeft: 15,
     marginRight: 20,
   },
   reviewcount: {
     fontSize: 20,
-    marginLeft: 20,
+    marginLeft: 15,
     marginRight: 20,
     fontWeight: 'bold',
     color: '#876585'

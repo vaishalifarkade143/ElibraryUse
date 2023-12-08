@@ -2,7 +2,6 @@ import { View, Text, Image, StyleSheet } from 'react-native'
 import React, { useContext ,useState, useEffect} from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 
-import Search from '../screens/Search';
 import Books from '../screens/Books';
 import User from '../screens/User';
 import HomeScreen from '../screens/HomeScreen';
@@ -12,7 +11,6 @@ import Registration from '../screens/Registration';
 import ForgetPassword from '../screens/ForgetPassword';
 import LoginScreen from '../screens/LoginScreen';
 import BooksDetail from '../screens/BooksDetail';
-// import SubscribePage from '../screens/SubscribePage';
 import BookHistory from '../screens/BookHistory';
 import MyEBook from '../screens/MyEBook';
 import ReadEBook from '../screens/ReadEBook';
@@ -79,6 +77,24 @@ const BookDetails2 = () => {
     </Bookstack2.Navigator>
   );
 };
+
+//===================stack if the user dont have plan============================
+
+// const loginNplan = createNativeStackNavigator();
+// const planLogin = () => {
+//   return (
+//     <loginNplan.Navigator screenOptions={{ headerShown: false }}>
+//       <loginNplan.Screen name='login' component={LoginScreen} />
+//       <loginNplan.Screen name='userscreen' component={User} />
+//       <loginNplan.Screen name='homesc' component={HomeScreen} />
+//       <loginNplan.Screen name='subscribebookHistory' component={BookHistory} />
+//       <loginNplan.Screen name='myEBook' component={MyEBook} />
+//       <loginNplan.Screen name='ReadeBook' component={ReadEBook}/>
+//       <loginNplan.Screen name='Membershipplan' component={MembershipPlan}/>
+//       <loginNplan.Screen name='membershipscreen' component={MembershipScreen}/>
+//     </loginNplan.Navigator>
+//   );
+// };
   
 
   const Tab = createBottomTabNavigator();
@@ -102,7 +118,6 @@ const BookDetails2 = () => {
       headerShown: false,
       tabBarShowLabel: false,
       tabBarStyle: { backgroundColor: '#f5ebe6' },
-      //tabBarActiveBackgroundColor:'#c27b7f',
       tabBarInactiveTintColor: '#000',
       tabBarActiveTintColor: '#c27b7f',
       refresh: refresh,
@@ -117,12 +132,7 @@ const BookDetails2 = () => {
             <Ionicons name="home-outline" color={color} size={size} />
         }}
       />
-      {/* <Tab.Screen name='Search' component={Search}
-        options={{
-          tabBarIcon: ({ color, size }) =>
-            <Ionicons name="search-outline" color={color} size={size} />
-        }}
-      /> */}
+      
       <Tab.Screen name='Books' component={ BookDetails2 }//Books
         options={{
           tabBarIcon: ({ color, size }) =>

@@ -19,10 +19,6 @@ const MembershipScreen = ({ navigation }) => {
     widthArr: [200, 200, 200],
   };
 
-
- 
- 
- 
   // =================  for single data view ============================
   const fetchSinglePlan = () => {
     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
@@ -41,23 +37,18 @@ const MembershipScreen = ({ navigation }) => {
         return response.json();
       })
       .then((res) => {
-        console.log('Single Subscribed Plan Data:', res.data);
+        // console.log('Single Subscribed Plan Data:', res.data);
         setSingleSubscribedPlan(res.data);
         setIsLoading(false); // Data has been loaded
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
         setIsLoading(false); // Handle error and set isLoading to false
-
-
-
-        
+  
       });
   };
 
-
-
-  console.log(singleSubscribedPlan);
+  // console.log(singleSubscribedPlan);
   
   useEffect(() => {  
     fetchSinglePlan();
@@ -77,7 +68,7 @@ const MembershipScreen = ({ navigation }) => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log('AllSubscribedPlan Subscribed Plan Data:', data.data);
+          // console.log('AllSubscribedPlan Subscribed Plan Data:', data.data);
           setAllSubscribedPlan(data.data);
         })
         .catch((error) => {
@@ -86,10 +77,7 @@ const MembershipScreen = ({ navigation }) => {
     }
   }, [userToken,singleSubscribedPlan]);
 
-
-
-
-  //-----------------for convertion of date to personalized style date ----------------------------
+//-----------------for convertion of date to personalized style date ----------------------------
   function formatDate(inputDate) {
 
     const inputDateObj = new Date(inputDate);
@@ -135,9 +123,6 @@ const MembershipScreen = ({ navigation }) => {
   const formattedDate = singleSubscribedPlan ?formatDate(singleSubscribedPlan.start_date):null;
   const formattedDate1 = singleSubscribedPlan ?formatDate(singleSubscribedPlan.end_date):null;
   
-   
-  
-  
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
     .filter((item) => {
 
@@ -150,10 +135,6 @@ const MembershipScreen = ({ navigation }) => {
       item.amount,
       formatDate(item.created_at),
     ]) : [];
-
-
-
-
 
   return (
     <View style={{ flex: 1 }}>
@@ -177,9 +158,6 @@ const MembershipScreen = ({ navigation }) => {
         }}>Membership Plan</Text>
 
 
-
-
-
         <View style={{
           marginTop: 10,
           width: 150,
@@ -189,14 +167,7 @@ const MembershipScreen = ({ navigation }) => {
           marginLeft: 110,
         }}></View>
 
-        {/* {isLoading ? (
-          <Text style={styles.loadingText}>Loading...</Text>
-        )
-          : */}
-
-
-
-
+        
 {singleSubscribedPlan ?
         (isLoading  ? (<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#c27b7f" />): 
            (<View>
@@ -214,13 +185,10 @@ const MembershipScreen = ({ navigation }) => {
               alignItems: 'center'
             }} >
               {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
-                //textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
                 fontSize: 25,
                 fontWeight: '600',
                 color: '#000', 
-                //right: 23
-                
               }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 8? (<Text style={{
                 textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
@@ -296,15 +264,7 @@ const MembershipScreen = ({ navigation }) => {
             </View>
 
           </View>
-       
-
-
-
-
-
-
-
-      <Text style={{
+        <Text style={{
           fontFamily: 'Philosopher-Bold',
           fontSize: 27,
           fontWeight: '600',

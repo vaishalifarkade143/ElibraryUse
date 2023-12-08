@@ -7,8 +7,7 @@ import PushNotification from "react-native-push-notification";
 import notifee from '@notifee/react-native';
 import messaging from '@react-native-firebase/messaging'
 
-import { getDatabase, ref, set } from '@react-native-firebase/database';
-import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+// import { getDatabase, ref, push, onValue } from '@react-native-firebase/database';
 
 const stack = createNativeStackNavigator();
 const App = () => {
@@ -38,9 +37,6 @@ const App = () => {
   //   requestPermissions: true
   //   });
 
-
-
-
   // ========================notifee ======================
 
 //notifee.requestPermission()
@@ -67,44 +63,69 @@ const App = () => {
   //   },
   // });
 
-// ===============================get device token on load of app and     to store device token========================//
-  useEffect(() => {
-    getDeviceToken();
-}, []);
 
+  
+// =================== Important  need permition to send push notification in iso=========================
 
-// const getDeviceToken = async () => {
-//     try {
-//       const token = await messaging().getToken();
-//       console.log('Token is:', token);
-//       return token;
-//     } catch (error) {
-//       console.error('Error getting FCM token:', error);
-//       return null;
+// const requestUserPermission = async () => {
+//     const authStatus = await messaging().requestPermission();
+//     const enabled =
+//       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+//       authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  
+//     if (enabled) {
+//       console.log('Authorization status:', authStatus);
 //     }
 //   };
+  
+//   // Call the function when the component mounts
+//   useEffect(() => {
+//     requestUserPermission();
+//   }, []);
+    
+
+// ===============================Important get device token on load of app and to store device token========================//
+//   useEffect(() => {
+//     getDeviceToken();
+// }, []);
 
 
+//--------------------token is replacing===========================
+  // const getDeviceToken = async () => {
+  //   try {
+  //     const token = await messaging().getToken();
+  //     console.log('Token is:', token);
 
-  const getDeviceToken = async () => {
-    try {
-      const token = await messaging().getToken();
-      console.log('Token is:', token);
-
-      // Store the token in Firebase Realtime Database
-      const tokensRef = ref(getDatabase(), 'deviceTokens');
-      set(tokensRef, { [token]: true });
-      console.log('FCM token is stored successfully in firebase.');
-      return token;
-    } catch (error) {
-      console.error('Error storing FCM token:', error);
-      return null;
-    }
-  };
-
-  // ===============================================================
+  //     // Store the token in Firebase Realtime Database
+  //     const tokensRef = ref(getDatabase(), 'deviceTokens');
+  //     set(tokensRef, { [token]: true });
+  //     console.log('FCM token is stored successfully in firebase.');
+  //     return token;
+  //   } catch (error) {
+  //     console.error('Error storing FCM token:', error);
+  //     return null;
+  //   }
+  // };
 
 
+  //========================token is adding when app is open=================================================
+  // const getDeviceToken = async () => {
+  //   try {
+  //     const token = await messaging().getToken();
+  //     console.log('Token is:', token);
+
+  //     // Store the token in Firebase Realtime Database without replacing the previous tokens
+  //     const tokensRef = ref(getDatabase(), 'deviceTokens');
+  //     const newTokenRef = push(tokensRef);
+  //     newTokenRef.set({ token });
+      
+  //     console.log('FCM token is stored successfully in Firebase.');
+  //     return token;
+  //   } catch (error) {
+  //     console.error('Error storing FCM token:', error);
+  //     return null;
+  //   }
+  // };
 
 
 // =================to get alert in app ==========================
@@ -120,25 +141,6 @@ const App = () => {
 
 
 
-// ===================need permition to send push notification in iso=========================
-
-const requestUserPermission = async () => {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  
-    if (enabled) {
-      console.log('Authorization status:', authStatus);
-    }
-  };
-  
-  // Call the function when the component mounts
-  useEffect(() => {
-    requestUserPermission();
-  }, []);
-    
-  // ================================================================
   return (
     <AuthProvider>
       <AppNav /> 

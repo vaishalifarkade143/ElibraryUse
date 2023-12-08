@@ -4,13 +4,9 @@ import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from "../common/Header";
 import Pagination from "../components/pagination";
-// import { ScrollView } from "react-native-gesture-handler";
-// import { useSelector } from "react-redux";
-// import { useRoute } from "@react-navigation/native";
 const DimensionsWindowWidth = Dimensions.get("window").width;
 
 const Books = ({ navigation }) => {
-  // const scrollViewRef = useRef(null); // Create a reference to ScrollView
   const [selectedGenre, setSelectedGenre] = useState("Genre");
   const [genr, setGenr] = useState([]);
   const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
@@ -45,11 +41,7 @@ const Books = ({ navigation }) => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
         .then(res => res.json())
-        //  .then(responce => console.log(responce));
         .then(responce => {
-          // console.log(JSON.stringify(items) + ' ' +items.data.length);
-          //console.log(responce.data);
-          // console.log('Image : ' + responce.data.image);
           setBooks(responce.data);
           setFilteredBooks(responce.data);
           setTotalBooksCount(responce.data.length); // Set the total count
@@ -64,12 +56,8 @@ const Books = ({ navigation }) => {
 
   // ==========================working code for Filter books by selected genre ==========================
   useEffect(() => {
-    // Reset the current page to 1 whenever a dropdown is clicked
     setCurrentPage(1);
-
     let filteredBooksCopy = [...books];
- //single selected dropdown  by genre
-
     if (selectedGenre !== "Genre") { // Make sure a genre is selected
       filteredBooksCopy = books.filter((book) =>
         book.genres.some((genr) => genr.name === selectedGenre)
@@ -103,10 +91,7 @@ const Books = ({ navigation }) => {
         book.library_id === selectedLibrary
       );
     }
-
-
-
-    // double selected dropdown by genre
+// double selected dropdown by genre
     if (selectedGenre !== "Genre" && selectedAuthor !== "Author") { // Make sure a genre is selected
       filteredBooksCopy = books.filter((book) =>
         book.genres.some((genr) => genr.name === selectedGenre) &&
@@ -1112,10 +1097,6 @@ const Books = ({ navigation }) => {
                       }} numberOfLines={1}>
                         {item.name}
                       </Text>
-
-
-
-
                       {item.library_id === 111 ?
                         (<Text
                           style={{
@@ -1193,17 +1174,12 @@ const Books = ({ navigation }) => {
         leftIcon={require('../images/menu.png')}
         onClickLeftIcon={() => {
           navigation.openDrawer();
-
         }}
-
-      />
+          />
 
       {isLoaded ? (<ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
         size="large" color="#c27b7f" />) :
-
-
-
-        (<View style={{ flex: 3 }}>
+       (<View style={{ flex: 3 }}>
           <View style={styles.searchcontainer}>
             <View style={styles.searchBar}>
 
@@ -1235,7 +1211,6 @@ const Books = ({ navigation }) => {
 
           {/* Display search results */}
           {isLoading ?
-            // (<ActivityIndicator size="large" color="#c27b7f" />,
             (<Text style={styles.noBooksFound}>No books found</Text>) :
 
             (<FlatList

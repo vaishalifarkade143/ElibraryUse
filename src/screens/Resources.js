@@ -14,7 +14,6 @@ import Pdf from 'react-native-pdf';
 import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
-// import RNFS from 'react-native-fs';
 import RNFetchBlob from 'rn-fetch-blob';
 
 const Resources = () => {
@@ -56,10 +55,10 @@ const Resources = () => {
 
   //====================================Audio===========================================
 
-  const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; // URL for the XLSX file
+  const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; //download URL for the XLSX file
 
   
-  //===================for permition=============================
+  //=================== download for permition=============================
 
   const requestStoragePermission = async () => {
     try {
@@ -67,16 +66,12 @@ const Resources = () => {
         PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         {
           title: 'Storage Permission',
-          // message:
-          //   'Cool Photo App needs access to your camera ' +
-          //   'so you can take awesome pictures.',
           buttonNeutral: 'Ask Me Later',
           buttonNegative: 'Cancel',
           buttonPositive: 'OK',
         },
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        // console.log('You can use the camera');
         downloadFile();
       } else {
         console.log('Storage permission denied');
@@ -175,10 +170,10 @@ const Resources = () => {
         // Filter the data based on the selected genre
 
         let filteredData = data.data;
-        console.log("data is :", data.data);
+        // console.log("data is :", data.data);
 
         const selectedGenreInt = mapCategoryToInt(selectedGenre);
-        console.log("selected  selectedGenreInt:", typeof selectedGenreInt);
+        // console.log("selected  selectedGenreInt:", typeof selectedGenreInt);
 
         if (selectedGenre !== "Search By Genre") {
           filteredData = data.data.filter((item) =>
@@ -186,9 +181,9 @@ const Resources = () => {
           );
         }
 
-        console.log("selected genre type:", typeof selectedGenre);
-        console.log("selected genre:", selectedGenre);
-        console.log("Filtered Data:", filteredData);
+        // console.log("selected genre type:", typeof selectedGenre);
+        // console.log("selected genre:", selectedGenre);
+        // console.log("Filtered Data:", filteredData);
 
         setAllOption(filteredData);
       })
@@ -292,7 +287,7 @@ const Resources = () => {
               trustAllCerts={false}
               source={{ uri: pdfUrl }}
               onLoadComplete={(numberOfPages, filePath) => {
-                console.log(`Number of pages: ${numberOfPages}`);
+                // console.log(`Number of pages: ${numberOfPages}`);
               }}
               onPageChanged={(page, numberOfPages) => {
                 setCurrentPage(page);
@@ -301,7 +296,7 @@ const Resources = () => {
                 console.log(error);
               }}
               onPressLink={(uri) => {
-                console.log(`Link pressed: ${uri}`);
+                // console.log(`Link pressed: ${uri}`);
               }}
               style={styles.pdf}
             />
