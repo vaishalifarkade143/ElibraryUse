@@ -19,6 +19,8 @@ import MembershipScreen from '../screens/MembershipScreen';
 import Transaction from '../screens/Transaction';
 import Profile from '../screens/Profile';
 import Resources from '../screens/Resources';
+import Search from '../screens/Search';
+import FilterData from '../screens/FilterData';
 
 
 
@@ -67,6 +69,8 @@ const BookDetails2 = () => {
   return (
     <Bookstack2.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack2.Screen name='Book' component={Books} />
+      <Bookstack2.Screen name='search' component={Search} />
+      <Bookstack2.Screen name='filterData' component={FilterData} />
       <Bookstack2.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack2.Screen name='sLogin' component={LoginAndRegister} />
       <Bookstack2.Screen name='subscribebookHistory' component={BookHistory} />

@@ -14,7 +14,7 @@ const LoginScreen = ({ navigation }) => {
     const [rememberMe, setRememberMe] = useState(false);
     const { userInfo } = useContext(AuthContext);
 
-    // ===============================Important get device token on load of app and to store device token========================//
+    // ==================Important get device token on load of app and to store device token========================//
   
 
     const getDeviceToken = async () => {
@@ -73,12 +73,8 @@ const LoginScreen = ({ navigation }) => {
             email('Invalid email address').
             required('Please Enter Email Address'),
         password: Yup.string()
-            //  .min(8)
             .required('Please Enter password')
-        // .matches('Please Enter password'),
-        // .matches(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/, 'Must contain minimum 8 characters,at least one uppercase letter,at least one lowercase letter, one special character and one number'),
-
-    });
+        });
 
     //===============on click of login button=================================
 
