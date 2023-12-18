@@ -51,7 +51,7 @@ const BookDetails = () => {
   return (
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
-      <Bookstack.Screen name='Book' component={Books} />
+      <Bookstack2.Screen name='filterData' component={FilterData} />
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
       <Bookstack.Screen name='subscribebookHistory' component={BookHistory} />

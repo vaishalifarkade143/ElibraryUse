@@ -144,7 +144,7 @@ const Disclaimer = ({ navigation }) => {
               padding: 10,
               borderRadius: 5,marginTop:20,
             }}
-            onPress={handleDownload}
+            onPress={requestStoragePermission}
 
           >
             <Text style={{

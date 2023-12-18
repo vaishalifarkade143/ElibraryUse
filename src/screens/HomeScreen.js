@@ -43,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
         .then(res => res.json())
 
         .then(responce => {
-          setBooks(responce.data.splice(-20));
+          setBooks(responce.data.splice(-40));
           setisLoaded(false);
         });
     };
@@ -114,7 +114,7 @@ const HomeScreen = ({ navigation }) => {
           }}>
             <Text style={styles.coroselheading}>Recently Added</Text>
             <TouchableOpacity onPress={()=>{
-              navigation.navigate('Books')
+              navigation.navigate('filterData',{books})
             }}>
             <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
             </TouchableOpacity>
@@ -159,7 +159,8 @@ const HomeScreen = ({ navigation }) => {
                       color: '#000'
                     }}>
                    <Image
-                    source={item.image_path !== null ? { uri: item.image_path } : require('../images/book.png')}
+                    source={item.image_path !== null ? { uri: item.image_path } 
+                    : require('../images/book.png')}
                         style={{
                           aspectRatio: 0.6,
                           resizeMode: 'contain',
@@ -253,7 +254,7 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.coroselheading}>Featured Books</Text>
             
             <TouchableOpacity onPress={()=>{
-              navigation.navigate('Books')
+              navigation.navigate('filterData',{filterBooks})
             }}>
             <Text style={{ color: 'blue', fontSize: 15,marginTop:10 }}>See All</Text>
             </TouchableOpacity>
@@ -330,7 +331,7 @@ const HomeScreen = ({ navigation }) => {
           }}>
             <Text style={styles.coroselheading}>Featured E-Books</Text>
              <TouchableOpacity onPress={()=>{
-              navigation.navigate('Books')
+              navigation.navigate('filterData',{featuredEBooks})
             }}>
             <Text style={{ color: 'blue', fontSize: 15,marginTop:10  }}>See All</Text>
             </TouchableOpacity>

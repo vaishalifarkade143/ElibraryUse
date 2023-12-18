@@ -896,8 +896,7 @@ const [filterbook,setFilterBook]=useState(null);
            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => item.id}
             data={tredbooks}
-
-            renderItem={({ item }) =>
+             renderItem={({ item }) =>
               <TouchableOpacity 
               style={{
                 display: 'flex',

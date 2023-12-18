@@ -49,9 +49,7 @@ const Books = ({ navigation }) => {
     navigation.navigate('search', { languageList });
   };
   const handleNavigateToSearchFormat = () => {
-    const formatList = [...formats];  // Exclude the first item
-    console.log( formatList);
-    // navigation.navigate('search', { id:formats.id,name:formats.name});
+    const formatList = [...formats];  
     navigation.navigate('search', { formatList});
 
   };
