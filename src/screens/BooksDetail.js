@@ -671,12 +671,12 @@ const [filterbook,setFilterBook]=useState(null);
           width: Dimensions.get('window').width,
           height: 200,
           marginEnd: 22,
-          marginTop:20,
+          marginTop:30,
           alignItems:'center',
           justifyContent:'center',
         }}>
           <View style={{
-            width: 180,
+            width: 200,
             marginTop: 14 / 2,
             overflow: 'visible',
           }}>
@@ -685,7 +685,7 @@ const [filterbook,setFilterBook]=useState(null);
             }}
               style={{
                 aspectRatio: 0.8,
-                resizeMode: 'cover',borderRadius:20,
+                resizeMode: 'contain',borderRadius:20,
               }}
             />
           </View>

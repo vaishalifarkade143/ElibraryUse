@@ -1,35 +1,39 @@
 import { View, Text,StyleSheet,Image,ScrollView,TouchableOpacity,TextInput } from 'react-native'
-import React , { FC, ReactElement,useState } from 'react'
+import React , { useContext,useEffect,useState } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from '../context/AuthContext';
+import messaging from '@react-native-firebase/messaging';
 
 const ForgetPassword = () => {
     const navigation = useNavigation();
     const [email, setEmail] = useState('');
+    const { isLoading, forgotPassword ,useremail} = useContext(AuthContext);
 
-    // const doUserPasswordReset = async function (): Promise<boolean> {
-    //     // Note that this value come from state variables linked to your text input
-    //     const emailValue = email;
-    //     return await Parse.User.requestPasswordReset(emailValue)
-    //       .then(() => {
-    //         // logIn returns the corresponding ParseUser object
-    //         Alert.alert(
-    //           'Success!',
-    //           `Please check ${email} to proceed with password reset.`,
-    //         );
-    //         // Redirect user to your login screen
-    //         navigation.navigate('Login');
-    //         return true;
-    //       })
-    //       .catch((error) => {
-    //         // Error can be caused by lack of Internet connection
-    //         Alert.alert('Error!', error.message);
-    //         return false;
-    //       });
-    //   };
-  
-  
-  
+
+    const handleForgotPassword = async () => {
+        // Call the forgotPassword function with the form values
+        const resetPasswordUrl = 'https://dindayalupadhyay.smartcitylibrary.com/#/lms/reset-password'; // Replace with the actual URL
+        await forgotPassword(email, resetPasswordUrl);
+
+        console.log("email is:", email);
+        setEmail(email);
+        console.log("resetPasswordUrl is:", resetPasswordUrl);
+
+        // Send a foreground push notification
+        messaging()
+            .sendMessage({
+                notification: {
+                    title: 'Email sent successfully',
+                    body: 'Check your registered Email!',
+                },
+            })
+            .then(() => console.log('Notification sent successfully'))
+            .catch((error) => console.error('Error sending notification:', error));
+
+        navigation.navigate('goBackLogin');
+    };
+   
     return (
     <View style={styles.container}>
     <Header
@@ -39,7 +43,6 @@ const ForgetPassword = () => {
             navigation.goBack();
         }}
     />
-    <ScrollView>
     <View style={styles.floatView}>
 
         <Text style={{
@@ -80,8 +83,7 @@ const ForgetPassword = () => {
                     autoCompleteType="email"
                     keyboardType="email-address"
                     value={email}
-                    onChangeText={setEmail}
-
+                    onChangeText={(text) => setEmail(text)}
                 />
             </View>
 
@@ -96,7 +98,7 @@ const ForgetPassword = () => {
                     justifyContent: 'center',
                     marginLeft: 110
                 }}
-
+                onPress={handleForgotPassword }
             >
                 <Text style={{
                     color: '#fff',
@@ -133,7 +135,6 @@ const ForgetPassword = () => {
        
         </View>
     </View>
-    </ScrollView>
 </View>
   );
 };

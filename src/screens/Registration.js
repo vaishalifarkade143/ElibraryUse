@@ -14,12 +14,12 @@ import * as Yup from 'yup';
 import messaging from '@react-native-firebase/messaging';
 
 const Registration = ({ navigation }) => {
-    const [first_name, setFirstName] = useState('');
-    const [last_name, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [phone, setPhone] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmpassword, setConfirmPassword] = useState('');
+    // const [first_name, setFirstName] = useState('');
+    // const [last_name, setLastName] = useState('');
+    // const [email, setEmail] = useState('');
+    // const [phone, setPhone] = useState('');
+    // const [password, setPassword] = useState('');
+    // const [confirmpassword, setConfirmPassword] = useState('');
     const { isLoading, register } = useContext(AuthContext);
 
 

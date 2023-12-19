@@ -21,6 +21,7 @@ import Profile from '../screens/Profile';
 import Resources from '../screens/Resources';
 import Search from '../screens/Search';
 import FilterData from '../screens/FilterData';
+import GoBackLogin from '../screens/GoBackLogin';
 
 
 
@@ -34,7 +35,7 @@ const LoginAndRegister = () => {
       <stack.Screen name='Loginnn' component={LoginScreen} />
       <stack.Screen name='Registration' component={Registration} />
       <stack.Screen name='ForgetPassword' component={ForgetPassword}/>
-      
+      <stack.Screen name='goBackLogin' component={GoBackLogin}/>
       <stack.Screen name='MyeBook' component={MyEBook}/>
       <stack.Screen name='ReadEBook' component={ReadEBook}/>
       <stack.Screen name='Bookhistory' component={BookHistory}/>

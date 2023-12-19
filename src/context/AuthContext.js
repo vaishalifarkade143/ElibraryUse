@@ -13,7 +13,39 @@ export const AuthProvider = ({ children }) => {
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState('');
     const [userInfo, setUserInfo] = useState({});
-    // const [userMemPlan, setUserMemPlan] = useState({});
+
+    
+    const forgotPassword = (email, url) => {
+        console.log('Sending reset password link for email:', email);
+        setIsLoading(true);
+        axios.post(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/send-reset-member-password-link`, {
+            email,
+            url,
+        })
+        .then(res => {
+            let userInfo = res.data;
+            setUserInfo(userInfo);
+            AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
+            setIsLoading(false);
+            if (userInfo && userInfo.user && userInfo.user.email) {
+                console.log("Forgot Password success:", userInfo.user.email);
+            } else {
+                console.log("Forgot Password success: User information not available");
+                console.log("Response Object:", userInfo);
+            }
+            
+            console.log("Forgot Password success:", userInfo.user.email);
+        })
+        .catch(e => {
+            console.log('Forgot Password error:', e.response?.data || e.message || e);
+            setIsLoading(false);
+            if (e.response?.data?.email) {
+                console.log("Error Response Email:", e.response.data.email);
+            }
+        });
+    };
+
+
     const register = (first_name,
         last_name,
         email,
@@ -51,55 +83,6 @@ export const AuthProvider = ({ children }) => {
     };
 
 
-    // const login = (email, password) => {
-    //     setIsLoading(true);
-    //     //to call rest api we use axios package
-    //     axios.post(`${BASE_URL}/member-login`, {
-    //         email,
-    //         password
-    //     })
-    //         .then(async (res) => {
-    //             let userInfo = res.data;
-    //             setUserInfo(userInfo);
-    //             setUserToken(userInfo.data.token)
-    //             setUserEmail(userInfo.data.user.email)
-    //             // setUserMemPlan(userInfo.data.user.membership_plan_name)
-    //             //to check login state is store to the app we use Asynkstorage
-    //             AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-    //             AsyncStorage.setItem('userToken', userInfo.data.token);
-    //             AsyncStorage.setItem('userEmail', userInfo.data.user.email);
-    //             // AsyncStorage.setItem('userMemPlan', userInfo.data.user.membership_plan_name);
-    //             //console.log('User Token : ' + userInfo.data.token);
-    //             console.log(userInfo);
-
-    //             Alert.alert(
-    //                 'Success!',
-    //                 `User has successfully signed in!`,
-    //             )
-    //         })
-
-    //         //  })
-    //         .catch(e => {
-    //             // console.log(`Login error ${e}`);
-    //             console.log('Login error:', error);
-    //             if (error.response) {
-    //                 console.log('Response data:', error.response.data);
-    //                 console.log('Response status:', error.response.status);
-    //             }
-    //             Alert.alert(
-    //                 'Login fail',
-    //                 `Email Id and Password doesn't match !`,
-    //             );
-    //         })
-
-    //         .finally(() => {
-    //             setIsLoading(false); // Move this line inside the finally block
-    //         });
-    //     // setIsLoading(false);
-    // }
-
-    
-
     const login = async (email, password) => {
         setIsLoading(true);
         try {
@@ -121,7 +104,6 @@ export const AuthProvider = ({ children }) => {
                 'Success!',
                 `User has successfully signed in!`,
             );
-
             return result; // Return the result for further use if needed
         } catch (error) {
             console.error('Login error:', error);
@@ -141,7 +123,7 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
-    
+
 
 
 
@@ -164,24 +146,18 @@ export const AuthProvider = ({ children }) => {
             `User Logout successfully !`,
         );
     }
-
-
-    //Login code
-
-    const isLoggedIn = async () => {
+     const isLoggedIn = async () => {
         try {
             setIsLoading(true);
             let userInfo = await AsyncStorage.getItem('userInfo');
             let userToken = await AsyncStorage.getItem('userToken');
             let userEmail = await AsyncStorage.getItem('userEmail');
-            // let userMemPlan =  await AsyncStorage.getItem('userMemPlan');
             userInfo = JSON.parse(userInfo);
 
             if (userInfo) {
                 setUserToken(userToken);
                 setUserInfo(userInfo);
                 setUserEmail(userEmail);
-                // setUserMemPlan(userMemPlan);
             }
             setIsLoading(false);
         }
@@ -189,14 +165,11 @@ export const AuthProvider = ({ children }) => {
             console.log(`isLogged in error ${e}`);
         }
     }
-
     useEffect(() => {
         isLoggedIn();
+        // isForgotPass();
     }, []);
-
-
     return (
-        <AuthContext.Provider value={{ isLoading, userInfo, userToken, userEmail, register, login, logout, isLoggedIn }}>{children}</AuthContext.Provider>
-
-    );
+        <AuthContext.Provider value={{ isLoading, userInfo, userToken, userEmail, register, login, logout, isLoggedIn,forgotPassword }}>{children}</AuthContext.Provider>
+ );
 }

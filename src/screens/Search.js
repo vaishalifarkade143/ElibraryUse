@@ -1,6 +1,5 @@
 // import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native'
-// import React, { useEffect, useRef, useState } from 'react'
-// import { useRoute } from '@react-navigation/native';
+// import React, { useEffect, useRef, useState } from 'react';
 
 
 // const Search = ({ route,navigation }) => {
@@ -14,6 +13,8 @@
 //   const [language, setLanguage] = useState([]);
 //   const [selectedFormat, setSelectedFormat] = useState("Format");
 //   const [selectedLibrary, setSelectedLibrary] = useState("Library");
+
+//   const [books, setBooks] = useState([]);
 
 //   // Add state variables for genre filtering
 //   const [genreData, setGenreData] = useState('');
@@ -45,6 +46,8 @@
 //   const [libClicked, setLibClicked] = useState(false);
 //   const [libSearch, setLibSearch] = useState('');
 
+
+  
 
 //   // ===================to get list===============
 //   useEffect(() => {
@@ -136,67 +139,58 @@
 
 //   // =======================filter books==========================
 
-//   const [books, setBooks] = useState([]);
-//   const [isLoaded, setisLoaded] = useState(true);
-//   const [filteredBooks, setFilteredBooks] = useState([]);
-//   const [totalBooksCount, setTotalBooksCount] = useState(0);
-
 //   useEffect(() => {
 //       const getbooks = () => {
 //           fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
 //               .then(res => res.json())
 //               .then(responce => {
 //                   setBooks(responce.data);
-//                   setFilteredBooks(responce.data);
-//                   setTotalBooksCount(responce.data.length); // Set the total count
-//                   setisLoaded(false);
 //               });
 //       };
 //       getbooks();
-//   }, []);
+//   }, [books]);
+//   console.log("Selected books :", books);
+
+//   // useEffect(() => {
+//   //   let filteredBooksCopy = [...books];
+//   //   if (selectedGenre !== "Genre") { // Make sure a genre is selected
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       book.genres.some((genr) => genr.name === selectedGenre)
+//   //     );
+//   //     console.log("single selected dropdown  by genre")
+//   //   }
+//   //   if (selectedAuthor !== "Author") { // Make sure a genre is selected
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
+//   //     );
+//   //   }
+
+//   //   if (selectedPublisher !== "Publisher") { // Make sure a genre is selected
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
+//   //     );
+//   //   }
+//   //   if (selectedLanguage !== "Language") {
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+//   //     );
+//   //   }
+//   //   if (selectedFormat !== "Format") {
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+//   //     );
+//   //   }
+//   //   if (selectedLibrary !== "Library") {
+//   //     filteredBooksCopy = books.filter((book) =>
+//   //       book.library_id === selectedLibrary
+//   //     );
+//   //   }
 
 
-//   useEffect(() => {
-//     setCurrentPage(1);
-//     let filteredBooksCopy = [...books];
-//     if (selectedGenre !== "Genre") { // Make sure a genre is selected
-//       filteredBooksCopy = books.filter((book) =>
-//         book.genres.some((genr) => genr.name === selectedGenre)
-//       );
-//       console.log("single selected dropdown  by genre")
-//     }
-//     if (selectedAuthor !== "Author") { // Make sure a genre is selected
-//       filteredBooksCopy = books.filter((book) =>
-//         book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
-//       );
-//     }
+//   //   setTotalBooksCount(filteredBooksCopy.length);
 
-//     if (selectedPublisher !== "Publisher") { // Make sure a genre is selected
-//       filteredBooksCopy = books.filter((book) =>
-//         Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
-//       );
-//     }
-//     if (selectedLanguage !== "Language") {
-//       filteredBooksCopy = books.filter((book) =>
-//         Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
-//       );
-//     }
-//     if (selectedFormat !== "Format") {
-//       filteredBooksCopy = books.filter((book) =>
-//         Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
-//       );
-//     }
-//     if (selectedLibrary !== "Library") {
-//       filteredBooksCopy = books.filter((book) =>
-//         book.library_id === selectedLibrary
-//       );
-//     }
-
-
-//     setTotalBooksCount(filteredBooksCopy.length);
-
-//     setFilteredBooks(filteredBooksCopy);
-//   }, [books, selectedGenre, selectedAuthor, selectedPublisher, selectedLanguage, selectedFormat, selectedLibrary]);
+//   //   setFilteredBooks(filteredBooksCopy);
+//   // }, [books, selectedGenre, selectedAuthor, selectedPublisher, selectedLanguage, selectedFormat, selectedLibrary]);
 
 
 
@@ -241,12 +235,22 @@
 //                     borderBottomWidth: 0.5,
 //                     borderColor: '#8e8e8e',
 //                   }}
-//                   onPress={() => {
-//                     setSelectedGenre(item.name);
+//                   onPress={() => { 
+//                     console.log("Selected Genre (before update):", selectedGenre);
+//                   // Update the selectedGenre state with the new value
+//                   setSelectedGenre(item.name);
+//                   const filteredGenResults = item.name !== 'Genre' ? books.filter((book) =>
+//   book.genres.some((genr) => genr.name === item.name)
+// ) : [];
+//                   // Log the updated selectedGenre
+//                     console.log("Selected Genre (updated):", item.name);
+//                     console.log("Selected books :", books);
+//                   console.log("Genre Results:", filteredGenResults);
+//                     // setSelectedGenre(item.name);
 //                     setGenreClicked(!genreClicked);
 //                     onSearch('', 'genre');
 //                     setGenreSearch('');
-//                     navigation.navigate('filterData');
+//                     navigation.navigate('filterData',{ filteredGenResults });
 //                   }}
 //                 >
 //                   <Text style={{ fontWeight: "600" }}>{item.name}</Text>
@@ -523,7 +527,7 @@
 
 
 
-
+// ================sanjeev work======================================
 
 
 import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native'
@@ -532,7 +536,7 @@ import { useRoute } from '@react-navigation/native';
 
 
 const Search = ({ route, navigation }) => {
-  const { genreList, authorList, publisherList, languageList, formatList, libraryList } = route.params;
+  const { genreList, book,authorList, publisherList, languageList, formatList, libraryList } = route.params;
   const [selectedGenre, setSelectedGenre] = useState("Genre");
   const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
   const [publishr, setPublishr] = useState([]);
@@ -581,30 +585,32 @@ const Search = ({ route, navigation }) => {
 
 
   //=====================ALL BOOKS===============
-  useEffect(() => {
-    const getbooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-        .then(res => res.json())
+  // useEffect(() => {
+  //   const getbooks = () => {
+  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+  //       .then(res => res.json())
 
-        .then(responce => {
-          setBooks(responce.data);
-          setisLoaded(false);
-        });
-    };
-    getbooks();
-  }, [books]);
-  // console.log(books);
+  //       .then(responce => {
+  //         setBooks(responce.data);
+  //         setisLoaded(false);
+  //       });
+  //   };
+  //   getbooks();
+  // }, []);
+  // console.log(book);
+  
 
 
   // const  handleFilterBook=()=>{
   // if (selectedGenre) {
 
-  // const filteredGenResults = selectedGenre !== 'Genre' ? (books.filter((book) =>
-  //   book.genres.some((genr) => genr.name === selectedGenre)
-  // )) : [];
+  
+  let filteredGenResults = selectedGenre !== 'Genre' ? (book.filter((book) =>
+    book.genres.some((genr) => genr.name === selectedGenre)
+  )) : [];
 
 
-  // console.log(filteredGenResults);
+  
   // setFilteredBooks(filteredGenResults);
   // navigation.navigate('filterData',{filteredGenResults});
   // }
@@ -777,6 +783,8 @@ const Search = ({ route, navigation }) => {
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
               return (
+
+
                 <TouchableOpacity
                   style={{
                     width: '85%',
@@ -788,23 +796,25 @@ const Search = ({ route, navigation }) => {
                   }}
                   onPress={() => {
                     
-                    
-                    
-
-                    setSelectedGenre(item.name);
+                      setSelectedGenre(item.name);
                     // setGenreClicked(!genreClicked);
-                    const filteredGenResults = selectedGenre !== 'Genre' ? books.filter((book) =>
-    book.genres.some((genr) => genr.name === selectedGenre)
-  ) : [];
                     onSearch('', 'genre');
                     setGenreSearch('');
-                    navigation.navigate('filterData', { filteredGenResults });
+                    console.log('searchpage',filteredGenResults);
+                    navigation.navigate('filterData', {filteredGenResults });
                     // handleFilterBook;
                   }}
                 >
                  
                   <Text style={{ fontWeight: "600" }}>{item.name}</Text>
                 </TouchableOpacity>
+
+
+               
+              
+
+             
+             
               );
             }}
           />

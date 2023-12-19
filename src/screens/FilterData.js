@@ -1,11 +1,11 @@
+// ======================sanjeev work===========================
+
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, StatusBar } from 'react-native';
 
 
 
 const FilterData = ({ route, navigation }) => {
-
-
   const [filterByGenre, setFilterByGenre] = useState([]);
   const [filterBybooks, setFilterByBooks] = useState([]);
   const [filterByfilterBooks, setFilterByFilterBooks] = useState([]);
@@ -59,7 +59,7 @@ const FilterData = ({ route, navigation }) => {
   // }, [route.params.featuredEBooks]);
 
 
-
+  console.log('filterdata ::',route.params.filteredGenResults);
 
 
   if (!filterBybooks) {
@@ -71,14 +71,14 @@ const FilterData = ({ route, navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+    <View style={{ flex: 1 ,backgroundColor:'#fff'}}>
+      <View style={{ marginTop: 10, marginStart: 10, }}>
 
 
         {filterBybooks.length > 0 ? (
           <FlatList
             numColumns={2}
-            contentContainerStyle={{ columnGap: -10 }}
+            contentContainerStyle={{ columnGap: -25 }}
             keyExtractor={(item) => item.id.toString()}
             data={filterBybooks}
             renderItem={({ item }) => (
@@ -89,7 +89,7 @@ const FilterData = ({ route, navigation }) => {
                       source={{ uri: item.image_path }}
                       style={{
                         aspectRatio: 0.8,
-                        resizeMode: 'cover',
+                        resizeMode: 'contain',
                         borderRadius: 10,
                       }}
                     />
@@ -107,7 +107,7 @@ const FilterData = ({ route, navigation }) => {
                       {item.name}
                     </Text>
                     {item.library_id === 111 ? (
-                      <Text style={{ marginLeft: -10, fontSize: 12 }}>Dindayal UpadhyayLibrary</Text>
+                      <Text style={{ marginLeft: -10, fontSize: 12 }}>Dindayal Upadhyay Library</Text>
                     ) : item.library_id === 222 ? (
                       <Text style={{ marginLeft: -12, fontSize: 12 }}>Kundanlal Gupta Library</Text>
                     ) : (
@@ -115,9 +115,11 @@ const FilterData = ({ route, navigation }) => {
                     )}
 
                     {item.items?.[0]?.format === 3 ? (
-                      <Image source={require('../images/ebook.png')} style={{ height: 20, width: 20, marginLeft: -8 }} />
+                      <Image source={require('../images/ebook.png')} style={{ height: 20,
+                         width: 20, marginLeft: -8 }} />
                     ) : (
-                      <Image source={require('../images/bookfill.png')} style={{ height: 20, width: 20, marginLeft: -8 }} />
+                      <Image source={require('../images/bookfill.png')} style={{ height: 20,
+                         width: 20, marginLeft: -8 }} />
                     )}
                   </View>
                 </View>
@@ -267,37 +269,53 @@ export default FilterData;
 // import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, StatusBar, SafeAreaView } from 'react-native'
 // import React, { useEffect, useState } from 'react'
 
-// const FilterData = ({route, navigation }) => {
+// const FilterData = ({route, navigation }) =>{
+//     const [filterByBooks,setFilterByBooks]=useState([]);
 //     const [books, setBooks] = useState([]);
 //     const [isLoaded, setisLoaded] = useState(true);
 //     const [filteredBooks, setFilteredBooks] = useState([]);
 //     const [totalBooksCount, setTotalBooksCount] = useState(0);
-//     const {filteredGenResults,filteredAuthResults,filteredPublishResults,filteredLangResults,filteredformResults,filteredLibResults}=route.params
+//     const {filteredGenResults,filteredAuthResults,filteredPublishResults,filteredLangResults,filteredformResults,filteredLibResults}=route.params;
+   
+//     // useEffect(() => {
+//     //     const getbooks = () => {
+//     //         fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+//     //             .then(res => res.json())
+//     //             .then(responce => {
+//     //                 setBooks(responce.data);
+//     //                 setFilteredBooks(responce.data);
+//     //                 setTotalBooksCount(responce.data.length); // Set the total count
+//     //                 setisLoaded(false);
+//     //             });
+//     //     };
+//     //     getbooks();
+//     // }, []);
+
 //     useEffect(() => {
-//         const getbooks = () => {
-//             fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-//                 .then(res => res.json())
-//                 .then(responce => {
-//                     setBooks(responce.data);
-//                     setFilteredBooks(responce.data);
-//                     setTotalBooksCount(responce.data.length); // Set the total count
-//                     setisLoaded(false);
-//                 });
-//         };
-//         getbooks();
-//     }, []);
+//       let filteredData;
+  
+//       if (filteredGenResults) {
+//         filteredData = filteredGenResults;
+//         setFilterByBooks(filteredData);
+//       }
+//     }, [filteredGenResults, /* Other dependencies */]);
+  
 //  return (
-//         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff', flex:1}}>
+//   <View style={{ flex: 1 }}>
+//         <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff',}}>
+//         {filterByBooks.length > 0 ? (
 //             <FlatList
 //                 numColumns={2}
-//                 contentContainerStyle={{ columnGap: -10,marginLeft:20 }}
+//                 contentContainerStyle={{ columnGap: -10,
+//                   marginLeft:20 }}
 //                 keyExtractor={(item) => item.id.toString()}
-//                 data={books}
+//                 data={filterByBooks}
 
-//                 renderItem={({ item, id }) =>
+//                 renderItem={({ item, id }) =>(
 
 //                     <TouchableOpacity onPress={() => {
-//                         //   navigation.navigate('BooksDetailPage', { data: item })
+//                       navigation.navigate('BooksDetailPage', { data: item })
+//                       //   navigation.navigate('BooksDetailPage', { data: item })
 //                     }}>
 
 //                         <View style={{
@@ -318,41 +336,7 @@ export default FilterData;
 
 //                                     }}
 //                                 />
-//                                 {/* ------------------code for book_item_status----------------------------- */}
-//                                 {/* {item.items[0].status === 1 ?
-//                         (<Text style={{
-//                           position: 'absolute',
-//                           textAlign: 'center',
-//                           right: -10,
-//                           width: 80,
-//                           height: 20,
-//                           color: 'green',
-//                           marginTop: 5,
-//                           backgroundColor: '#B6FFC0',
-//                           fontSize: 13,
-//                           fontWeight: 'bold',
-//                           borderRadius: 10,
-//                           borderWidth: 1.5,
-//                           borderColor: 'green'
-//                         }}>
-//                           Available</Text>) :
-//                         (<Text style={{
-//                           position: 'absolute',
-//                           textAlign: 'center',
-//                           right: -10,
-//                           width: 80,
-//                           height: 20,
-//                           marginTop: 5,
-//                           color: '#990000',
-//                           backgroundColor: 'red',
-//                           fontSize: 13,
-//                           fontWeight: 'bold',
-//                           borderRadius: 10,
-//                           borderWidth: 1.5,
-//                           borderColor: '#990000'
-//                         }}>
-//                           Unavailable</Text>)} */}
-//                                 {/* ================================================================================== */}
+                                
 //                             </View>
 
 //                             <View style={{ padding: 10, }}>
@@ -363,31 +347,7 @@ export default FilterData;
 //                                 }} numberOfLines={1}>
 //                                     {item.name}
 //                                 </Text>
-//                                 {/* {item.library_id === 111 ?
-//                         (<Text
-//                           style={{
-//                             marginLeft: -10,
-//                             fontSize: 12
-//                           }}
-//                         >
-//                           Dindayal UpadhyayLibrary</Text>) :
-//                         (item.library_id === 222 ?
-//                           (<Text
-//                             style={{
-//                               marginLeft: -12,
-//                               fontSize: 12
-//                             }}
-//                           >
-//                             Kundanlal Gupta Library</Text>) :
-//                           (<Text
-//                             style={{
-//                               marginLeft: -8,
-//                               fontSize: 12
-
-//                             }}
-//                           >
-//                             Rashtramata Kasturba Library</Text>))} */}
-
+                               
 
 //                                 {item.items[0].format === 3 ?
 //                                     <Image
@@ -403,28 +363,17 @@ export default FilterData;
 //                             </View>
 //                         </View>
 //                     </TouchableOpacity>
-//                 }
-//             />
+//         )}
+//             />): (
+//               <View>
+//                 <Text>Not Available</Text>
+//               </View>
+//             )}
+//         </View>
 //         </View>
 //     );
 // };
 
-// const styles = StyleSheet.create({
-//     // container: {
-//     //     flex: 1,
-//     //     marginTop: StatusBar.currentHeight || 0,
-//     // },
-//     // item: {
-//     //     backgroundColor: '#f9c2ff',
-//     //     padding: 20,
-//     //     marginVertical: 8,
-//     //     marginHorizontal: 16,
-//     // },
-//     // title: {
-//     //     fontSize: 32,
-//     // },
-
-// });
 
 
 // export default FilterData;

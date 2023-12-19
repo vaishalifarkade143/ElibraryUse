@@ -86,7 +86,7 @@ const HomeScreen = ({ navigation }) => {
       {isLoaded ? (<ActivityIndicator style={{ flex: 1, marginTop: 10, marginStart: 10, justifyContent: 'center', alignItems: 'center' }}
         size="large" color="#c27b7f" />) :
 
-        (<ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
+        (<ScrollView showsVerticalScrollIndicator={false} >
           <View style={styles.bannar}>
             <View style={styles.mainImgNText}>
               <View >
@@ -110,13 +110,14 @@ const HomeScreen = ({ navigation }) => {
             marginVertical: 5,
             justifyContent: 'space-between',
             alignItems: 'center',
-            marginLeft: 15, marginRight: 15,
+            marginLeft: 15,
+            marginRight: 15,
           }}>
             <Text style={styles.coroselheading}>Recently Added</Text>
             <TouchableOpacity onPress={()=>{
               navigation.navigate('filterData',{books})
             }}>
-            <Text style={{ color: 'blue', fontSize: 15 }}>See All</Text>
+            <Text style={{ color: 'blue', fontSize: 15,fontFamily:'Roboto-Bold' }}>See All</Text>
             </TouchableOpacity>
           </View>
 
@@ -249,19 +250,21 @@ const HomeScreen = ({ navigation }) => {
           <View style={{
             flexDirection: 'row',
             marginVertical: 5, marginTop: 15,
-            justifyContent: 'space-between', marginLeft: 15, marginRight: 15,
+            justifyContent: 'space-between',
+             marginLeft: 15, marginRight: 15,
           }}>
             <Text style={styles.coroselheading}>Featured Books</Text>
             
             <TouchableOpacity onPress={()=>{
               navigation.navigate('filterData',{filterBooks})
             }}>
-            <Text style={{ color: 'blue', fontSize: 15,marginTop:10 }}>See All</Text>
+            <Text style={{ color: 'blue', fontSize: 15,
+            marginTop:10, fontFamily:'Roboto-Bold'}}>See All</Text>
             </TouchableOpacity>
           </View>
 
           <View style={{  marginTop: 10, marginStart: 10,
-            backgroundColor: '#fff',height:250 }}>
+            backgroundColor: '#fff',height:200 }}>
 
             <FlatList
               horizontal={true}
@@ -304,7 +307,7 @@ const HomeScreen = ({ navigation }) => {
                       <Image source={{ uri: item.image_path }}
                         style={{
                           aspectRatio: 0.8,
-                          resizeMode: 'cover',
+                          resizeMode: 'contain',
                           borderRadius: 10,
 
                         }}
@@ -327,18 +330,20 @@ const HomeScreen = ({ navigation }) => {
 
           <View style={{
             flexDirection: 'row', marginVertical: 5,
-            justifyContent: 'space-between', marginLeft: 15, marginRight: 15,
+            justifyContent: 'space-between',
+             marginLeft: 15, marginRight: 15,
           }}>
             <Text style={styles.coroselheading}>Featured E-Books</Text>
              <TouchableOpacity onPress={()=>{
               navigation.navigate('filterData',{featuredEBooks})
             }}>
-            <Text style={{ color: 'blue', fontSize: 15,marginTop:10  }}>See All</Text>
+            <Text style={{ color: 'blue', fontSize: 15,marginTop:10 ,fontFamily:'Roboto-Bold' }}>See All</Text>
             </TouchableOpacity>
           </View>
           <View style={{
-            marginTop: 10, marginStart: 10,
-            backgroundColor: '#fff',height:250
+             marginStart: 10,
+            backgroundColor: '#fff',
+            height:300
           }}>
 
             <FlatList
@@ -380,7 +385,7 @@ const HomeScreen = ({ navigation }) => {
                       <Image source={{ uri: item.image_path }}
                         style={{
                           aspectRatio: 0.8,
-                          resizeMode: 'cover',
+                          resizeMode: 'contain',
                           borderRadius: 10,
 
                         }}
@@ -443,7 +448,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Philosopher-Bold',
   },
   texth2: {
-    fontSize: 14,
+    fontSize: 15,
     marginTop: 8,
     color: '#676768',
     textAlign: 'center',

@@ -34,7 +34,11 @@ const Books = ({ navigation }) => {
   // ===================dropdown navigation to search screen==================
   const handleNavigateToSearchGenre = () => {
     const genreList = [...genr];
-    navigation.navigate('search', { genreList });
+    const book=[...books]
+     setTimeout(()=> {
+      navigation.navigate('search', { book,genreList, });
+     }, 1000);
+
   };
   const handleNavigateToSearchAuthor = () => {
     const authorList = [...authr];
@@ -1243,7 +1247,8 @@ const Books = ({ navigation }) => {
             :
             (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
 
-          <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+          <View style={{ marginTop: 10,
+             marginStart: 10, backgroundColor: '#fff' }}>
 
             <FlatList
               numColumns={2}
@@ -1270,7 +1275,7 @@ const Books = ({ navigation }) => {
                       <Image source={{ uri: item.image_path }}
                         style={{
                           aspectRatio: 0.8,
-                          resizeMode: 'cover',
+                          resizeMode: 'contain',
                           borderRadius: 10,
 
                         }}
