@@ -1,7 +1,6 @@
 
-
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity,TextInput } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
 import Header from '../common/Header';
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -14,7 +13,7 @@ const MyEBook = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
-  const { userToken,  userEmail,userMemPlan} = useContext(AuthContext);
+  const { userToken, userEmail, userMemPlan } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -24,14 +23,8 @@ const MyEBook = ({ navigation }) => {
     // ... your existing code
 
     const setupFirebaseMessaging = async () => {
-      // Get the FCM token
       const fcmToken = await messaging().getToken();
-      // console.log('FCM Token:', fcmToken);
-
-      // Listen for messages when the app is in the foreground
       const unsubscribeOnMessage = messaging().onMessage(async remoteMessage => {
-        // console.log('Foreground Message:', remoteMessage);
-        // Handle foreground messages here
       });
 
       // Listen for messages when the app is in the background or closed
@@ -49,7 +42,7 @@ const MyEBook = ({ navigation }) => {
 
     setupFirebaseMessaging();
   }, []);
-  
+
   useEffect(() => {
     const getbooks = () => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
@@ -79,11 +72,11 @@ const MyEBook = ({ navigation }) => {
 
   const state = {
     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
-    widthArr: [130, 130, 300, 130, 130, 130],
+    widthArr: [210, 130, 300, 130, 130, 130],
   };
 
 
-   const itemsValue =
+  const itemsValue =
     AllEbooks.length && Ebooks.length
       ? AllEbooks
         .filter((item, i) =>
@@ -95,35 +88,62 @@ const MyEBook = ({ navigation }) => {
               esub.email === userEmail
           )
         )
-        
+
       : [];
 
   const updatedTableData = itemsValue
-  .filter((item) => {
-    
-    const bookName = item.name.toLowerCase();
-    const bookCode = item.authors.toLowerCase();
-    const language = item.language_name.toLowerCase();
-    const query = searchQuery.toLowerCase();
-    return bookName.includes(query) || bookCode.includes(query) || language.includes(query);
-  })
-  
-  .map((item) =>
-    [
-      item.library_id,
-      item.isbn_no,
-      item.name,
-      item.authors,
-      item.language_name,
-      <TouchableOpacity onPress={()=>{navigation.navigate("ReadeBook",{data:item})
+    .filter((item) => {
 
-      }}>
-      <Text style={{ color: '#fff', textAlign: 'center',backgroundColor:'#c27b7f',marginLeft:20,marginRight:20,fontWeight:'bold',borderRadius:5,padding:5}}>Read</Text>
-      </TouchableOpacity>
-    ]
-  );
+      const bookName = item.name.toLowerCase();
+      const bookCode = item.authors.toLowerCase();
+      const language = item.language_name.toLowerCase();
+      const query = searchQuery.toLowerCase();
+      return bookName.includes(query) || bookCode.includes(query) || language.includes(query);
+    })
 
-  
+    .map((item) =>
+      [
+        item.library_id === 111 ?
+          (<Text
+            style={{
+              marginLeft: 10,
+              fontSize: 15,
+
+            }}
+          >
+            Dindayal UpadhyayLibrary</Text>) :
+          (item.library_id === 222 ?
+            (<Text
+              style={{
+                marginLeft: 10,
+                fontSize: 15
+              }}
+            >
+              Kundanlal Gupta Library</Text>) :
+            (<Text
+              style={{
+                marginLeft: 10,
+                fontSize: 15
+
+              }}
+            >
+              Rashtramata Kasturba Library</Text>)),
+
+        // item.library_id,
+        item.isbn_no,
+        item.name,
+        item.authors,
+        item.language_name,
+        <TouchableOpacity onPress={() => {
+          navigation.navigate("ReadeBook", { data: item })
+
+        }}>
+          <Text style={{ color: '#fff', textAlign: 'center', backgroundColor: '#c27b7f', marginLeft: 20, marginRight: 20, fontWeight: 'bold', borderRadius: 5, padding: 5 }}>Read</Text>
+        </TouchableOpacity>
+      ]
+    );
+
+
   if (userToken === null) {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
@@ -144,38 +164,40 @@ const MyEBook = ({ navigation }) => {
       <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
         <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
       </View>
-      <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd',
-       justifyContent: 'center' }}></View>
-     
+      <View style={{
+        marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd',
+        justifyContent: 'center'
+      }}></View>
+
       <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
 
-{/* ==================search======================= */}
-<View style={styles.searchcontainer}>
-            <View style={styles.searchBar}>
-              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search by Book Name, Author, Language"
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
+        {/* ==================search======================= */}
+        <View style={styles.searchcontainer}>
+          <View style={styles.searchBar}>
+            <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search by Book Name, Author, Language"
+              value={searchQuery}
+              onChangeText={setSearchQuery}
+            />
 
-              {searchQuery !== '' && (
-                <TouchableOpacity onPress={() => {
-                  setSearchQuery('');
+            {searchQuery !== '' && (
+              <TouchableOpacity onPress={() => {
+                setSearchQuery('');
 
-                }}>
-                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
-                </TouchableOpacity>)}
-            </View>
+              }}>
+                <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+              </TouchableOpacity>)}
           </View>
- {/* ===================================================================== */}    
+        </View>
+        {/* ===================================================================== */}
 
         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
             <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
-              textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
+                textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
             </Table>
             <ScrollView style={styles.dataWrapper}>
               <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -193,7 +215,7 @@ const MyEBook = ({ navigation }) => {
           </View>
         </ScrollView>
       </View>
-      
+
     </View>
   );
 };
@@ -214,8 +236,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   searchcontainer: {
-    marginTop:10,
-    marginLeft:10,
+    marginTop: 10,
+    marginLeft: 10,
     padding: 5,
     width: '95%',
     height: 50,

@@ -582,25 +582,6 @@ const Search = ({ route, navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState([]);
 
-
-
-  //=====================ALL BOOKS===============
-  // useEffect(() => {
-  //   const getbooks = () => {
-  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-  //       .then(res => res.json())
-
-  //       .then(responce => {
-  //         setBooks(responce.data);
-  //         setisLoaded(false);
-  //       });
-  //   };
-  //   getbooks();
-  // }, []);
-  // console.log(book);
-  
-
-
   const filteredGenResults=(item)=>{
     let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
     book.genres.some((genr) => genr.name === item)
@@ -622,6 +603,7 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredPublishResults=(item)=>{
+    console.log(item);
     let filteredPublisher = item !== 'Publisher' ? (book.filter((book) =>
     Array.isArray(book.items) &&
     book.items.some((item) => item.publisher && item.publisher.name === item)
@@ -634,7 +616,7 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredLangResults=(item)=>{
-    let filteredLanguage = item !== 'Languages' ? (books.filter((book) =>
+    let filteredLanguage = item !== 'Languages' ? (book.filter((book) =>
     Array.isArray(book.items) && book.items.some((item) => item.language.language_name === item)
   )) : [];
     navigation.navigate('filterData',{ filteredLanguage,book});
@@ -644,7 +626,7 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredformResults=(item)=>{
-    let filteredFormat = item !== 'Format' ? (books.filter((book) =>
+    let filteredFormat = item !== 'Format' ? (book.filter((book) =>
     Array.isArray(book.items) && book.items.some((item) => item.format === item)
   )) : [];
     navigation.navigate('filterData',{ filteredFormat,book});
@@ -652,14 +634,20 @@ const Search = ({ route, navigation }) => {
   }
 
   const filteredLibResults=(item)=>{
-    let filteredLibrary = item !== 'Library' ? (books.filter((book) =>
-    book.library_id === selectedLibrary
+    let filteredLibrary = item !== 'Library' ? (book.filter((book) =>
+    book.library_id ===  item
   )) : [];
     navigation.navigate('filterData',{ filteredLibrary,book});
     
   }
 
-
+  // const filteredGenResults=(item)=>{
+  //   let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
+  //   book.genres.some((genr) => genr.name === item)
+  // )) : [];
+  //   navigation.navigate('filterData',{filteredGenre,book});
+    
+  // }
 
 
 

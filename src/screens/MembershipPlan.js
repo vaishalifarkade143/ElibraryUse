@@ -64,8 +64,7 @@ const MembershipPlan = () => {
           <Text style={styles.sectionHeading}>Membership Plan</Text>
         </View>
         <View style={styles.separator}></View>
-        <Text style={styles.sectionHeading1}>We've Got a Plan For You</Text>
-        <Text style={styles.sectionHeading2}>Choose Your Plan</Text>
+        <Text style={styles.sectionHeading1}>We've Got a Plan For You Choose Your Plan</Text>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -121,17 +120,15 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop:10,
     color: '#000',
-    marginBottom: 8,
     textAlign: 'center'
   },
   sectionHeading1: {
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 28,
+    fontSize: 15,
     fontWeight: '600',
-    marginTop:25,
-    color: '#000',
+    marginTop:10,
+    color: 'grey',
     marginBottom: 8,
-    textAlign: 'center'
+    textAlign: 'center',fontWeight:'bold'
   },
   sectionHeading2: {
     fontFamily: 'Philosopher-Bold',
@@ -144,9 +141,11 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginTop: 10,
-    width: '100%',
-    height: 2,
-    backgroundColor: '#c27b7f',
+          width: 150,
+          height: 2,
+          backgroundColor: '#c27b7f',
+          alignItems: 'center',
+          marginLeft: 90,
   },
   scrollContainer: {
     paddingHorizontal: 10,

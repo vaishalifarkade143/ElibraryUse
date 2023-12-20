@@ -8,34 +8,48 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import messaging from '@react-native-firebase/messaging';
 import { getDatabase, ref, push, onValue } from '@react-native-firebase/database';
+import  logNRegStyle from '../Style/logNRegStyle';
 
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
-    const { userInfo } = useContext(AuthContext);
 
     // ==================Important get device token on load of app and to store device token========================//
   
 
     const getDeviceToken = async () => {
+        
+
         try {
             const token = await messaging().getToken();
             console.log('Token is:', token);
-
-            // Store the token in Firebase Realtime Database without replacing the previous tokens
+        
+            // Check if the token already exists in the database
             const tokensRef = ref(getDatabase(), 'deviceTokens');
+        
+            // Use onValue to check if the data exists at the specified location
+            const snapshot = await new Promise(resolve => {
+              onValue(tokensRef, snapshot => resolve(snapshot));
+            });
+        
+            if (!token || (snapshot.exists() && snapshot.val())) {
+              console.log('Token already exists or is empty. Not storing in Firebase.');
+              return token;
+            }
+        
+            // Store the token in Firebase Realtime Database without replacing the previous tokens
             const newTokenRef = push(tokensRef);
             newTokenRef.set({ token });
-
+        
             console.log('FCM token is stored successfully in Firebase.');
             return token;
-        } catch (error) {
+          } catch (error) {
             console.error('Error storing FCM token:', error);
             return null;
-        }
+          }
     };
 
-
+// =================permition code============================
     const requestUserPermission = async () => {
         const authStatus = await messaging().requestPermission();
         const enabled =
@@ -46,26 +60,9 @@ const LoginScreen = ({ navigation }) => {
             console.log('Authorization status:', authStatus);
         }
     };
-
-    // Call the function when the component mounts
     useEffect(() => {
         requestUserPermission();
     }, []);
-
-
-
-    // ====================imp  to get alert in app ==========================
-
-    // useEffect(() => {
-    //     const unsubscribe = messaging().onMessage(async remoteMessage => {
-    //         Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    //         console.log("A new FCM message arrived:", JSON.stringify(remoteMessage));
-    //     });
-
-    //     return unsubscribe;
-    // }, []);
-
-
     //   ===========================validtion code ========================================
 
     const validationSchema = Yup.object().shape({
@@ -75,13 +72,9 @@ const LoginScreen = ({ navigation }) => {
         password: Yup.string()
             .required('Please Enter password')
         });
-
     //===============on click of login button=================================
 
     const handleLogin = async (values) => {
-
-        // Call the login function with the form values
-
         login(values.email, values.password);  //imp 
         getDeviceToken();
 
@@ -96,8 +89,6 @@ const LoginScreen = ({ navigation }) => {
         //     navigation.navigate('Membershipplan');
         //     console.log("error");
         // }
-
-
 
         // ================for push notification======================
 
@@ -131,18 +122,21 @@ const LoginScreen = ({ navigation }) => {
             />
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
                 <Spinner visible={isLoading} />
-                <View style={styles.floatView}>
+                <View style={[logNRegStyle.floatView,{height: 500,}]}>
 
-                    <Text style={{
+                    <Text 
+                    style={
+                        {
                         fontSize: 36,
                         fontWeight: '500',
                         textAlign: 'center',
                         paddingHorizontal: 90,
                         fontFamily: 'Philosopher-Bold',
                         color: '#2f4858'
-                    }} >
+                    }
+                }
+                     >
                         Login</Text>
-
                     <Text style={{
                         marginTop: 10,
                         paddingHorizontal: 50,
@@ -244,19 +238,11 @@ const LoginScreen = ({ navigation }) => {
                                         }}>Remember Me</Text>
                                 </View>
                                 <TouchableOpacity
-                                    style={[styles.loginbtn, { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
-
-                                    // {/* on login button click */}
-                                    // onPress={() => { login(email, password) }}
+                                    style={[logNRegStyle.allbutton, { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
                                     onPress={handleSubmit}
                                     disabled={!isValid}
                                 >
-
-                                    <Text style={{
-                                        color: '#fff',
-                                        fontWeight: '700',
-                                        fontSize: 18
-                                    }}>Login</Text>
+                                     <Text style={logNRegStyle.allButtonText}>Login</Text>
 
                                 </TouchableOpacity>
 
@@ -269,13 +255,7 @@ const LoginScreen = ({ navigation }) => {
                                         onPress={() =>
                                             navigation.navigate('Registration')
                                         }>
-                                        <Text style={{
-                                            color: '#c27b7f',
-                                            margin: 15,
-                                            fontFamily: 'Poppin',
-                                            fontWeight: '700',
-                                            fontSize: 15
-                                        }}>
+                                        <Text style={logNRegStyle.forgotNRegister}>
                                             New Membership</Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
@@ -283,60 +263,26 @@ const LoginScreen = ({ navigation }) => {
                                             navigation.navigate('ForgetPassword')
                                         }
                                     >
-                                        <Text style={{
-                                            color: '#c27b7f',
-                                            margin: 15,
-                                            fontFamily: 'Poppin',
-                                            fontWeight: '700',
-                                            fontSize: 15,
-                                        }}>
+                                        <Text style={logNRegStyle.forgotNRegister}>
                                             Forgot Password ?</Text>
                                     </TouchableOpacity>
                                 </View>
                             </View>
-
                         )}
                     </Formik>
-
                 </View>
             </ScrollView>
         </View>
-
-
-
 
     );
 };
 
 export default LoginScreen;
 
-
-
-
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    floatView: {
-        height: 500,
-        backgroundColor: '#f5ebe6',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        marginLeft: 20,
-        marginRight: 20,
-        marginTop: 30,
-        margin: 30
-    },
-    loginbtn: {
-        //backgroundColor: '#c27b7f',
-        alignItems: 'center',
-        padding: 10,
-        borderRadius: 5,
-        width: '40%',
-        height: 60,
-        justifyContent: 'center',
-        marginLeft: 110
-    }
+   
 
 });

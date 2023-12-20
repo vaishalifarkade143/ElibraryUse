@@ -9,7 +9,6 @@ const ReadEBook = () => {
     const filename = route.params.data.file_name;
     const navigation = useNavigation();
     const [currentPage, setCurrentPage] = useState(1);
-
     const pdfUrl = `https://dindayalupadhyay.smartcitylibrary.com/public_uploads_ebooks/${filename.split(".")[0]}`;
 
     return (
@@ -21,7 +20,6 @@ const ReadEBook = () => {
                     navigation.navigate('MyeBook');
                 }}
             />
-            {pdfModalVisible && (
                 <Pdf
                     trustAllCerts={false}
                     source={{ uri: pdfUrl }}
@@ -39,10 +37,7 @@ const ReadEBook = () => {
                         // console.log(`Link pressed: ${uri}`);
                     }}
                     style={styles.pdf}
-                />)
-            }
-
-
+                />
             <View style={styles.pageButton}>
                 <Text style={styles.pageButtonText}> {currentPage}</Text>
             </View>

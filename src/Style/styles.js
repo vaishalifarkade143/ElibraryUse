@@ -27,7 +27,6 @@ const styles =StyleSheet.create({
       marginVertical: 10,
       color: '#000',
     },
-   
   });
 
 export default styles;

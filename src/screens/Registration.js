@@ -10,7 +10,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
+import  logNRegStyle from '../Style/logNRegStyle';
 import messaging from '@react-native-firebase/messaging';
 
 const Registration = ({ navigation }) => {
@@ -101,7 +101,7 @@ const Registration = ({ navigation }) => {
             />
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
             {isLoading && <Spinner visible={true} />}
-                <View style={styles.floatView}>
+                <View style={[logNRegStyle.floatView,{height: 800,}]}>
 
                     <Text style={{
                         fontSize: 36,
@@ -294,37 +294,22 @@ const Registration = ({ navigation }) => {
                                 </View>
 
                                 <TouchableOpacity
-                                    style={[styles.registerbtn,
+                                    style={[logNRegStyle.allbutton,
                                     { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
 
                                     onPress={handleSubmit}
                                     disabled={!isValid}
                                 >
-                                    <Text style={{
-                                        color: '#fff',
-                                        fontWeight: '700',
-                                        fontSize: 18
-                                    }}>Register</Text>
+                                    <Text style={logNRegStyle.allButtonText}>Register</Text>
                                 </TouchableOpacity>
 
                                 <TouchableOpacity
-                                    style={{
-                                        alignItems: 'center',
-                                        padding: 10,
-                                        width: '40%',
-                                        height: 50,
-                                        justifyContent: 'center',
-                                        marginLeft: 110
-                                    }}
+                                    style={logNRegStyle.cancel}
                                     onPress={() =>
                                         navigation.goBack()
                                     }
                                 >
-                                    <Text style={{
-                                        color: '#c27b7f',
-                                        fontWeight: '700',
-                                        fontSize: 18,
-                                    }}>Login</Text>
+                                    <Text style={logNRegStyle.loginText}>Login</Text>
 
                                 </TouchableOpacity>
 

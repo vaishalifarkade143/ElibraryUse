@@ -14,6 +14,8 @@ import { Alert } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import PushNotification from "react-native-push-notification";
 import messaging from '@react-native-firebase/messaging'
+import logNRegStyle from '../Style/logNRegStyle';
+
 
 const BooksDetail = ({ navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
@@ -531,9 +533,9 @@ const [filterbook,setFilterBook]=useState(null);
           setModalVisible(!modalVisible);
         }}>
 
-        <View style={styles.centeredView}>
+        <View style={logNRegStyle.centeredView}>
           {LibraryId.includes(selectedLibrary) ?
-            (<View style={styles.modalView}>
+            (<View style={logNRegStyle.modalView}>
 
               <Text style={styles.modalText}>The Book Will be Subscribed from</Text>
               <View style={{ flexDirection: 'row', marginBottom: 15, }}>
@@ -576,8 +578,6 @@ const [filterbook,setFilterBook]=useState(null);
                 </View>
 
               </View>
-
-
 
               <View style={{ flexDirection: 'row', gap: 10 }}>
                 <Pressable

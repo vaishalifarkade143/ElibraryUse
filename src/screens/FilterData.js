@@ -12,7 +12,7 @@ const FilterData = ({ route, navigation }) => {
   const [filterByfeaturedEBooks, setFilterByFeaturedEBooks] = useState([]);
   // const {book,filteredGenre}=route.params;
 
-// console.log('selectedGenre',item);
+console.log('selectedGenre', route.params.filteredPublisher,);
 
   // useEffect(() => {
   //   let filteredData = route.params.filteredGenResults;

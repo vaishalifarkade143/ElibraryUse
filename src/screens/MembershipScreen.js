@@ -272,12 +272,12 @@ const MembershipScreen = ({ navigation }) => {
           textAlign: 'center',
         }}>Transaction</Text>
         <View style={{
-          marginTop: 10,
-          width: 150,
+          marginTop: 5,
+          width: 100,
           height: 2,
           backgroundColor: '#c27b7f',
           alignItems: 'center',
-          marginLeft: 130,
+          marginLeft: 135,
         }}></View>
         <View style={{
           backgroundColor: '#fff3cd',

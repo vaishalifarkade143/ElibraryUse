@@ -35,10 +35,7 @@ const Books = ({ navigation }) => {
   const handleNavigateToSearchGenre = () => {
     const genreList = [...genr];
     const book=[...books];
-    //  setTimeout(()=> {
       navigation.navigate('search', { genreList,book });
-    //  }, 1000);
-
   };
   const handleNavigateToSearchAuthor = () => {
     const authorList = [...authr];
@@ -835,15 +832,7 @@ const Books = ({ navigation }) => {
                 <Text style={{ fontWeight: '600' }}>
                   {selectedLanguage == '' ? 'Select Language' : selectedLanguage}
                 </Text>
-                {/* {clicked ? (
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                  />
-                ) : (
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                  />
-                )} */}
+               
               </TouchableOpacity>
             </View>
 
@@ -1083,128 +1072,7 @@ const Books = ({ navigation }) => {
 
 
         <ScrollView>
-          {/* ================ verticle dropdown===================== */}
-
-          {/* <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{
-              marginLeft: 16,
-              marginTop: 10,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5 }}
-                selectedValue={selectedGenre}
-                onValueChange={(itemValue) => setSelectedGenre(itemValue)}
-              >
-                {genr.map((genres, index) => (
-                  <Picker.Item key={index} label={genres} value={genres} />
-                ))}
-              </Picker>
-            </View>
-
-            <View style={{
-              margin: 16,
-              marginTop: 10,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5 }}
-                selectedValue={selectedPublisher}
-                onValueChange={(itemValue) => setSelectedPublisher(itemValue)}
-              >
-                {publishr.map((publishers, index) => (
-                  <Picker.Item key={index} label={publishers} value={publishers} />
-                ))}
-              </Picker>
-            </View>
-          </View>
-
-
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{
-              marginLeft: 16,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5 }}
-                selectedValue={selectedAuthor}
-                onValueChange={(itemValue) => setSelectedAuthor(itemValue)}
-              >
-                {authr.map((author, index) => (
-                  <Picker.Item key={index} label={author} value={author} />
-                ))}
-              </Picker>
-            </View>
-            <View style={{
-              marginLeft: 16,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5 }}
-                selectedValue={selectedLanguage}
-                onValueChange={(itemValue) => setSelectedLanguage(itemValue)}
-              >
-                {language.map((language, index) => (
-                  <Picker.Item key={index} label={language} value={language} />
-                ))}
-              </Picker>
-            </View>
-          </View>
-
-          <View style={{ flex: 1, flexDirection: 'row' }}>
-            <View style={{
-              marginLeft: 16,
-              marginTop: 16,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5 }}
-                selectedValue={selectedFormat}
-                onValueChange={(itemValue) => setSelectedFormat(itemValue)}
-              >
-                {formats.map((format, index) => (
-                  <Picker.Item key={index} label={format.name} value={format.id} />
-                ))}
-              </Picker>
-            </View>
-
-            <View style={{
-              marginLeft: 16,
-              marginTop: 16,
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '43%',
-              height: 30
-            }}>
-              <Picker style={{ marginTop: -14, marginStart: 5, }}
-                selectedValue={selectedLibrary}
-                onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-              >
-                {libraries.map((library, index) => (
-                  <Picker.Item key={library.id} label={library.name} value={library.id} />
-                ))}
-              </Picker>
-            </View>
-          </View> */}
-          {/* ======================================================= */}
-
-
+         
           <View style={{ marginBottom: 15 }}>
             <TouchableOpacity
               style={{

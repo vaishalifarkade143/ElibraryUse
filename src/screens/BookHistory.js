@@ -119,12 +119,11 @@ const BookHistory = ({ navigation }) => {
   const state = {
     tableHead: ['LIBRARY', 'Book Name ', 'Book Code', 'Issue Date', 'Issue Due Date ', 'Reserve Data ',
       'Return Due Date', 'Return Date', 'Status', 'Action'],
-    widthArr: [190, 190, 120, 120, 130, 130, 130, 130, 130, 130],
+    widthArr: [210, 190, 120, 120, 130, 130, 130, 130, 130, 130],
   };
 
   const updatedTableData = booksHistory
     .filter((book) => {
-
       const bookName = book.book_item.book.name.toLowerCase();
       const bookCode = book.book_item.book_code.toLowerCase();
       const query = searchQuery.toLowerCase();
@@ -135,9 +134,9 @@ const BookHistory = ({ navigation }) => {
 
     .map((book) =>
       [
-        book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10, }}>Dindayal Upadhyay Library</Text>)
-          : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10, }}>Kundanlal Gupta Library</Text>) :
-            (<Text style={{ marginLeft: 10, }}>Rashtramata Kasturba Library</Text>)),
+        book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Dindayal Upadhyay Library</Text>)
+          : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Kundanlal Gupta Library</Text>) :
+            (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Rashtramata Kasturba Library</Text>)),
 
         book.book_item.book.name,
         book.book_item.book_code,
