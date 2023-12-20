@@ -601,24 +601,72 @@ const Search = ({ route, navigation }) => {
   
 
 
-  // const  handleFilterBook=()=>{
-  // if (selectedGenre) {
-
-  
-  let filteredGenResults = selectedGenre !== 'Genre' ? (book.filter((book) =>
-    book.genres.some((genr) => genr.name === selectedGenre)
+  const filteredGenResults=(item)=>{
+    let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
+    book.genres.some((genr) => genr.name === item)
   )) : [];
+    navigation.navigate('filterData',{filteredGenre,book});
+    
+  }
 
 
-  
-  // setFilteredBooks(filteredGenResults);
-  // navigation.navigate('filterData',{filteredGenResults});
-  // }
 
-  // if (selectedAuthor ) { 
-  let filteredAuthResults = books.filter((book) =>
-    book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
-  );
+
+  const filteredAuthResults=(item)=>{
+    let filteredAuthor = item !== 'Author' ? (book.filter((book) =>
+    book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
+  )) : [];
+    navigation.navigate('filterData',{ filteredAuthor,book});
+    
+  }
+
+
+  const filteredPublishResults=(item)=>{
+    let filteredPublisher = item !== 'Publisher' ? (book.filter((book) =>
+    Array.isArray(book.items) &&
+    book.items.some((item) => item.publisher && item.publisher.name === item)
+
+  )) : [];
+    navigation.navigate('filterData',{ filteredPublisher,book});
+    
+  }
+
+
+
+  const filteredLangResults=(item)=>{
+    let filteredLanguage = item !== 'Languages' ? (books.filter((book) =>
+    Array.isArray(book.items) && book.items.some((item) => item.language.language_name === item)
+  )) : [];
+    navigation.navigate('filterData',{ filteredLanguage,book});
+    
+  }
+
+
+
+  const filteredformResults=(item)=>{
+    let filteredFormat = item !== 'Format' ? (books.filter((book) =>
+    Array.isArray(book.items) && book.items.some((item) => item.format === item)
+  )) : [];
+    navigation.navigate('filterData',{ filteredFormat,book});
+    
+  }
+
+  const filteredLibResults=(item)=>{
+    let filteredLibrary = item !== 'Library' ? (books.filter((book) =>
+    book.library_id === selectedLibrary
+  )) : [];
+    navigation.navigate('filterData',{ filteredLibrary,book});
+    
+  }
+
+
+
+
+
+// if (selectedAuthor ) { 
+  // let filteredAuthResults = books.filter((book) =>
+  //   book.authors.some((authr) => authr.first_name + "" + authr.last_name === selectedAuthor)
+  // );
   //   setFilteredBooks(filteredAuthResults);
   // }
 
@@ -627,26 +675,26 @@ const Search = ({ route, navigation }) => {
   // let filteredPublishResults = books.filter((book) =>
   //   Array.isArray(book.items) && book.items.some((item) => item.publisher.name === selectedPublisher)
   // );
-  let filteredPublishResults = books.filter((book) =>
-    Array.isArray(book.items) &&
-    book.items.some((item) => item.publisher && item.publisher.name === selectedPublisher)
-  );
+  // let filteredPublishResults = books.filter((book) =>
+  //   Array.isArray(book.items) &&
+  //   book.items.some((item) => item.publisher && item.publisher.name === selectedPublisher)
+  // );
 
   // }
   // if (selectedLanguage !== "Language") {
-  let filteredLangResults = books.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
-  );
+  // let filteredLangResults = books.filter((book) =>
+  //   Array.isArray(book.items) && book.items.some((item) => item.language.language_name === selectedLanguage)
+  // );
   // }
   // if (selectedFormat !== "Format") {
-  let filteredformResults = books.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
-  );
+  // let filteredformResults = books.filter((book) =>
+  //   Array.isArray(book.items) && book.items.some((item) => item.format === selectedFormat)
+  // );
   // }
   // if (selectedLibrary !== "Library") {
-  let filteredLibResults = books.filter((book) =>
-    book.library_id === selectedLibrary
-  );
+  // let filteredLibResults = books.filter((book) =>
+  //   book.library_id === selectedLibrary
+  // );
   // }
   // }
   // console.log(filteredBooks);
@@ -800,9 +848,9 @@ const Search = ({ route, navigation }) => {
                     // setGenreClicked(!genreClicked);
                     onSearch('', 'genre');
                     setGenreSearch('');
-                    console.log('searchpage',filteredGenResults);
-                    navigation.navigate('filterData', {filteredGenResults });
-                    // handleFilterBook;
+                    
+                    // navigation.navigate('filterData', {selectedGenre,book});
+                    filteredGenResults(item.name);
                   }}
                 >
                  
@@ -861,7 +909,8 @@ const Search = ({ route, navigation }) => {
                     setAuthorClicked(!authorClicked);
                     onSearch('', 'author');
                     setAuthorSearch('');
-                    navigation.navigate('filterData', { filteredAuthResults });
+                    // navigation.navigate('filterData', { filteredAuthResults });
+                    filteredAuthResults(item.name);
                   }}
                 >
                   <Text style={{ fontWeight: "600" }}>{item.name}</Text>
@@ -913,7 +962,8 @@ const Search = ({ route, navigation }) => {
                     setPublisherClicked(!publisherClicked);
                     onSearch('', 'publisher');
                     setPublisherSearch('');
-                    navigation.navigate('filterData', { filteredPublishResults });
+                    // navigation.navigate('filterData', { filteredPublishResults });
+                    filteredPublishResults(item.name);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>
@@ -965,7 +1015,8 @@ const Search = ({ route, navigation }) => {
                     setLanguageClicked(!languageClicked);
                     onSearch('', 'language');
                     setLanguageSearch('');
-                    navigation.navigate('filterData', { filteredLangResults });
+                    // navigation.navigate('filterData', { filteredLangResults });
+                    filteredLangResults(item.name);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>
@@ -1017,7 +1068,8 @@ const Search = ({ route, navigation }) => {
                     setFormatClicked(!formatClicked);
                     onSearch('', 'formats');
                     setFormatSearch('');
-                    navigation.navigate('filterData', { filteredformResults });
+                    // navigation.navigate('filterData', { filteredformResults });
+                    filteredformResults(item.name);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>
@@ -1069,7 +1121,8 @@ const Search = ({ route, navigation }) => {
                     setLibClicked(!libClicked);
                     onSearch('', 'library');
                     setLibClicked('');
-                    navigation.navigate('filterData', { filteredLibResults });
+                    // navigation.navigate('filterData', { filteredLibResults });
+                    filteredLibResults(item.name);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>

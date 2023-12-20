@@ -34,32 +34,37 @@ const Books = ({ navigation }) => {
   // ===================dropdown navigation to search screen==================
   const handleNavigateToSearchGenre = () => {
     const genreList = [...genr];
-    const book=[...books]
-     setTimeout(()=> {
-      navigation.navigate('search', { book,genreList, });
-     }, 1000);
+    const book=[...books];
+    //  setTimeout(()=> {
+      navigation.navigate('search', { genreList,book });
+    //  }, 1000);
 
   };
   const handleNavigateToSearchAuthor = () => {
     const authorList = [...authr];
-    navigation.navigate('search', { authorList });
+    const book=[...books];
+    navigation.navigate('search', { authorList,book });
   };
   const handleNavigateToSearchPublisher = () => {
     const publisherList = [...publishr];
-    navigation.navigate('search', { publisherList });
+    const book=[...books];
+    navigation.navigate('search', { publisherList,book });
   };
   const handleNavigateToSearchLanguage = () => {
     const languageList = [...language];
-    navigation.navigate('search', { languageList });
+    const book=[...books];
+    navigation.navigate('search', { languageList,book });
   };
   const handleNavigateToSearchFormat = () => {
     const formatList = [...formats];  
-    navigation.navigate('search', { formatList});
+    const book=[...books];
+    navigation.navigate('search', { formatList,book});
 
   };
   const handleNavigateToSearchLibrary = () => {
     const libraryList = [...libraries];
-    navigation.navigate('search', { libraryList });
+    const book=[...books];
+    navigation.navigate('search', { libraryList,book });
   };
 
   // ==========================all books=========================

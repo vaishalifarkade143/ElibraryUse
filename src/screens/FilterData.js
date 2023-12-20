@@ -10,8 +10,9 @@ const FilterData = ({ route, navigation }) => {
   const [filterBybooks, setFilterByBooks] = useState([]);
   const [filterByfilterBooks, setFilterByFilterBooks] = useState([]);
   const [filterByfeaturedEBooks, setFilterByFeaturedEBooks] = useState([]);
+  // const {book,filteredGenre}=route.params;
 
-
+// console.log('selectedGenre',item);
 
   // useEffect(() => {
   //   let filteredData = route.params.filteredGenResults;
@@ -36,17 +37,44 @@ const FilterData = ({ route, navigation }) => {
       setFilterByBooks(filteredData);
     }
 
-    if(route.params.filteredGenResults)
+    if( route.params.filteredGenre)
     {
-      filteredData = route.params.filteredGenResults;
+      filteredData = route.params.filteredGenre;
       setFilterByBooks(filteredData);
     }
-  
 
+    if( route.params.filteredAuthor)
+    {
+      filteredData = route.params.filteredAuthor;
+      setFilterByBooks(filteredData);
+    }
 
+    if( route.params.filteredPublisher)
+    {
+      filteredData = route.params.filteredPublisher;
+      setFilterByBooks(filteredData);
+    }
 
-    
-  }, [route.params.books,route.params.filterBooks,route.params.featuredEBooks,route.params.filteredGenResults]);
+    if( route.params.filteredLanguage)
+    {
+      filteredData = route.params.filteredLanguage;
+      setFilterByBooks(filteredData);
+    }
+
+    if( route.params.filteredFormat)
+    {
+      filteredData = route.params.filteredFormat;
+      setFilterByBooks(filteredData);
+    }
+
+    if( route.params.filteredLibrary)
+    {
+      filteredData = route.params.filteredLibrary;
+      setFilterByBooks(filteredData);
+    }
+    }, [route.params.books,route.params.filterBooks,route.params.featuredEBooks, route.params.filteredGenre
+  , route.params.filteredAuthor,route.params.filteredPublisher,route.params.filteredLanguage,
+  route.params.filteredFormat,route.params.filteredLibrary]);
 
   // useEffect(() => {
   //   let filteredData = route.params.filterBooks;
@@ -59,7 +87,7 @@ const FilterData = ({ route, navigation }) => {
   // }, [route.params.featuredEBooks]);
 
 
-  console.log('filterdata ::',route.params.filteredGenResults);
+  console.log('filterdata ::',filterBybooks);
 
 
   if (!filterBybooks) {

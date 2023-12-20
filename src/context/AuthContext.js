@@ -39,9 +39,7 @@ export const AuthProvider = ({ children }) => {
         .catch(e => {
             console.log('Forgot Password error:', e.response?.data || e.message || e);
             setIsLoading(false);
-            if (e.response?.data?.email) {
-                console.log("Error Response Email:", e.response.data.email);
-            }
+            
         });
     };
 
