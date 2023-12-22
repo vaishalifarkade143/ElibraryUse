@@ -14,12 +14,6 @@ import  logNRegStyle from '../Style/logNRegStyle';
 import messaging from '@react-native-firebase/messaging';
 
 const Registration = ({ navigation }) => {
-    // const [first_name, setFirstName] = useState('');
-    // const [last_name, setLastName] = useState('');
-    // const [email, setEmail] = useState('');
-    // const [phone, setPhone] = useState('');
-    // const [password, setPassword] = useState('');
-    // const [confirmpassword, setConfirmPassword] = useState('');
     const { isLoading, register } = useContext(AuthContext);
 
 
@@ -77,6 +71,7 @@ const Registration = ({ navigation }) => {
     const handleRegister = async (values) => {
         // Call the register function with the form values
         register(values.first_name, values.last_name, values.email, values.phone, values.password);
+        userSignIn();
         navigation.goBack();
         // Send a foreground push notification
         messaging()

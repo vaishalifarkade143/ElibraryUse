@@ -582,6 +582,8 @@ const Search = ({ route, navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState([]);
 
+  
+  
   const filteredGenResults=(item)=>{
     let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
     book.genres.some((genr) => genr.name === item)
@@ -589,8 +591,6 @@ const Search = ({ route, navigation }) => {
     navigation.navigate('filterData',{filteredGenre,book});
     
   }
-
-
 
 
   const filteredAuthResults=(item)=>{
@@ -606,7 +606,7 @@ const Search = ({ route, navigation }) => {
     console.log(item);
     let filteredPublisher = item !== 'Publisher' ? (book.filter((book) =>
     Array.isArray(book.items) &&
-    book.items.some((item) => item.publisher && item.publisher.name === item)
+    book.items.some((item1) => item1.publisher && item1.publisher.name === item)
 
   )) : [];
     navigation.navigate('filterData',{ filteredPublisher,book});
@@ -617,7 +617,7 @@ const Search = ({ route, navigation }) => {
 
   const filteredLangResults=(item)=>{
     let filteredLanguage = item !== 'Languages' ? (book.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.language.language_name === item)
+    Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
   )) : [];
     navigation.navigate('filterData',{ filteredLanguage,book});
     
@@ -626,11 +626,13 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredformResults=(item)=>{
+    console.log(item);
+    
     let filteredFormat = item !== 'Format' ? (book.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item) => item.format === item)
+    Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
   )) : [];
     navigation.navigate('filterData',{ filteredFormat,book});
-    
+   // console.log(filteredFormat);
   }
 
   const filteredLibResults=(item)=>{
@@ -1057,7 +1059,7 @@ const Search = ({ route, navigation }) => {
                     onSearch('', 'formats');
                     setFormatSearch('');
                     // navigation.navigate('filterData', { filteredformResults });
-                    filteredformResults(item.name);
+                    filteredformResults(item.id);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>
@@ -1110,7 +1112,7 @@ const Search = ({ route, navigation }) => {
                     onSearch('', 'library');
                     setLibClicked('');
                     // navigation.navigate('filterData', { filteredLibResults });
-                    filteredLibResults(item.name);
+                    filteredLibResults(item.id);
                   }}
                 >
                   <Text style={{ fontWeight: '600' }}>{item.name}</Text>

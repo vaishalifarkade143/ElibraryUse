@@ -50,10 +50,6 @@ export const AuthProvider = ({ children }) => {
         phone,
         password, token) => {
         setIsLoading(true);
-        // console.log('Registering user:', { first_name, last_name, email, phone, password });
-        // console.log(email, first_name, last_name,password, phone);
-
-        // //to call rest api we use axios package
         axios.post(`${BASE_URL}/v1/register-member`,
             {
                 first_name,
@@ -123,8 +119,6 @@ export const AuthProvider = ({ children }) => {
     };
 
 
-
-
     // =========================
 
     const logout = () => {
@@ -134,11 +128,7 @@ export const AuthProvider = ({ children }) => {
         AsyncStorage.removeItem('userInfo');//login pr info remove hogi
         AsyncStorage.removeItem('userToken');
         AsyncStorage.removeItem('userEmail');
-
-        // console.log("Removed token")
-
         setIsLoading(false);
-        //Alert for logout//
         Alert.alert(
             'Success!',
             `User Logout successfully !`,
@@ -151,7 +141,7 @@ export const AuthProvider = ({ children }) => {
             let userToken = await AsyncStorage.getItem('userToken');
             let userEmail = await AsyncStorage.getItem('userEmail');
             userInfo = JSON.parse(userInfo);
-
+           
             if (userInfo) {
                 setUserToken(userToken);
                 setUserInfo(userInfo);
@@ -165,7 +155,6 @@ export const AuthProvider = ({ children }) => {
     }
     useEffect(() => {
         isLoggedIn();
-        // isForgotPass();
     }, []);
     return (
         <AuthContext.Provider value={{ isLoading, userInfo, userToken, userEmail, register, login, logout, isLoggedIn,forgotPassword }}>{children}</AuthContext.Provider>

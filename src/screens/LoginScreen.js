@@ -1,4 +1,4 @@
-import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert } from 'react-native'
+import { View, Image, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Alert, Modal } from 'react-native'
 import React, { useState, useContext, useEffect } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
@@ -8,48 +8,48 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import messaging from '@react-native-firebase/messaging';
 import { getDatabase, ref, push, onValue } from '@react-native-firebase/database';
-import  logNRegStyle from '../Style/logNRegStyle';
+import logNRegStyle from '../Style/logNRegStyle';
+import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
-
+    const { userToken } = useContext(AuthContext);
     // ==================Important get device token on load of app and to store device token========================//
-  
 
     const getDeviceToken = async () => {
-        
 
+        //================device token=========================
         try {
             const token = await messaging().getToken();
             console.log('Token is:', token);
-        
+
             // Check if the token already exists in the database
             const tokensRef = ref(getDatabase(), 'deviceTokens');
-        
+
             // Use onValue to check if the data exists at the specified location
             const snapshot = await new Promise(resolve => {
-              onValue(tokensRef, snapshot => resolve(snapshot));
+                onValue(tokensRef, snapshot => resolve(snapshot));
             });
-        
+
             if (!token || (snapshot.exists() && snapshot.val())) {
-              console.log('Token already exists or is empty. Not storing in Firebase.');
-              return token;
+                console.log('Token already exists or is empty. Not storing in Firebase.');
+                return token;
             }
-        
+
             // Store the token in Firebase Realtime Database without replacing the previous tokens
             const newTokenRef = push(tokensRef);
             newTokenRef.set({ token });
-        
+
             console.log('FCM token is stored successfully in Firebase.');
             return token;
-          } catch (error) {
+        } catch (error) {
             console.error('Error storing FCM token:', error);
             return null;
-          }
+        }
     };
 
-// =================permition code============================
+    // =================push notifiee permition code============================
     const requestUserPermission = async () => {
         const authStatus = await messaging().requestPermission();
         const enabled =
@@ -71,11 +71,30 @@ const LoginScreen = ({ navigation }) => {
             required('Please Enter Email Address'),
         password: Yup.string()
             .required('Please Enter password')
-        });
+    });
     //===============on click of login button=================================
 
     const handleLogin = async (values) => {
         login(values.email, values.password);  //imp 
+        // =================Imp dont remove to store login token in firebase authentication===================
+        // auth()
+        //     .createUserWithEmailAndPassword(values.email, values.password)
+        //     .then(() => {
+        //       console.log('User account created & signed in!');
+        //     })
+        //     .catch(error => {
+        //         if (error.code === 'auth/email-already-in-use') {
+        //             console.log('That email address is already in use!');
+        //         }
+
+        //         if (error.code === 'auth/invalid-email') {
+        //             console.log('That email address is invalid!');
+
+        //         }
+        //         console.error(error);
+        //     });
+            console.log("user Token is:",userToken)
+
         getDeviceToken();
 
         //-----------redirect to membershipplan screen-------------------------
@@ -120,22 +139,23 @@ const LoginScreen = ({ navigation }) => {
                     navigation.goBack();
                 }}
             />
+
             <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
                 <Spinner visible={isLoading} />
-                <View style={[logNRegStyle.floatView,{height: 500,}]}>
+                <View style={[logNRegStyle.floatView, { height: 500, }]}>
 
-                    <Text 
-                    style={
-                        {
-                        fontSize: 36,
-                        fontWeight: '500',
-                        textAlign: 'center',
-                        paddingHorizontal: 90,
-                        fontFamily: 'Philosopher-Bold',
-                        color: '#2f4858'
-                    }
-                }
-                     >
+                    <Text
+                        style={
+                            {
+                                fontSize: 36,
+                                fontWeight: '500',
+                                textAlign: 'center',
+                                paddingHorizontal: 90,
+                                fontFamily: 'Philosopher-Bold',
+                                color: '#2f4858'
+                            }
+                        }
+                    >
                         Login</Text>
                     <Text style={{
                         marginTop: 10,
@@ -242,7 +262,7 @@ const LoginScreen = ({ navigation }) => {
                                     onPress={handleSubmit}
                                     disabled={!isValid}
                                 >
-                                     <Text style={logNRegStyle.allButtonText}>Login</Text>
+                                    <Text style={logNRegStyle.allButtonText}>Login</Text>
 
                                 </TouchableOpacity>
 
@@ -283,6 +303,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-   
+
 
 });
