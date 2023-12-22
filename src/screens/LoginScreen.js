@@ -7,40 +7,42 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import messaging from '@react-native-firebase/messaging';
-import { getDatabase, ref, push, onValue } from '@react-native-firebase/database';
+import { getDatabase, ref, push, onValue ,get} from '@react-native-firebase/database';
 import logNRegStyle from '../Style/logNRegStyle';
+
 import auth from '@react-native-firebase/auth';
 
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
-    const { userToken } = useContext(AuthContext);
+
     // ==================Important get device token on load of app and to store device token========================//
 
     const getDeviceToken = async () => {
-
-        //================device token=========================
         try {
             const token = await messaging().getToken();
             console.log('Token is:', token);
-
+    
             // Check if the token already exists in the database
             const tokensRef = ref(getDatabase(), 'deviceTokens');
-
-            // Use onValue to check if the data exists at the specified location
-            const snapshot = await new Promise(resolve => {
-                onValue(tokensRef, snapshot => resolve(snapshot));
-            });
-
-            if (!token || (snapshot.exists() && snapshot.val())) {
-                console.log('Token already exists or is empty. Not storing in Firebase.');
-                return token;
+            const snapshot = await get(tokensRef);
+    
+            // Introduce a delay to ensure the existing tokens are retrieved before proceeding
+            await new Promise(resolve => setTimeout(resolve, 1000));
+    
+            if (snapshot.exists()) {
+                const existingTokens = Object.values(snapshot.val());
+    
+                if (existingTokens.includes(token)) {
+                    console.log('Token already exists. Not storing in Firebase.');
+                    return token;
+                }
             }
-
+    
             // Store the token in Firebase Realtime Database without replacing the previous tokens
             const newTokenRef = push(tokensRef);
-            newTokenRef.set({ token });
-
+            newTokenRef.set(token);
+    
             console.log('FCM token is stored successfully in Firebase.');
             return token;
         } catch (error) {
@@ -48,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
             return null;
         }
     };
+
 
     // =================push notifiee permition code============================
     const requestUserPermission = async () => {
@@ -93,7 +96,7 @@ const LoginScreen = ({ navigation }) => {
         //         }
         //         console.error(error);
         //     });
-            console.log("user Token is:",userToken)
+        // 
 
         getDeviceToken();
 

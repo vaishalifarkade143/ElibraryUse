@@ -2,8 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import React, { createContext, useState, useEffect } from "react";
 import { BASE_URL } from "../config";
-import HomeScreen from "../screens/HomeScreen";
-import AppStack from "../navigation/AppStack";
 import { Alert } from "react-native";
 
 export const AuthContext = createContext();
@@ -141,7 +139,7 @@ export const AuthProvider = ({ children }) => {
             let userToken = await AsyncStorage.getItem('userToken');
             let userEmail = await AsyncStorage.getItem('userEmail');
             userInfo = JSON.parse(userInfo);
-           
+            console.log("user Token is:",userToken)
             if (userInfo) {
                 setUserToken(userToken);
                 setUserInfo(userInfo);
