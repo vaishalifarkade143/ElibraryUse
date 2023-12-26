@@ -268,33 +268,13 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, ImageBackground } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import messaging from '@react-native-firebase/messaging';
+import axios from 'axios';
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
@@ -308,49 +288,109 @@ const User = ({ navigation }) => {
   const [profile, setProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+ 
   // const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    // Fetch user profile data on component load
+
+    const fetchProfileData = () => {
+      const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
+  
+      fetch(singleUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((res) => {
+          setProfile(res.data);
+          setFirstName(res.data.first_name);
+          setLastName(res.data.last_name);
+          setEmail(res.data.email);
+          setPhone(res.data.phone);
+          setImage(res.data.image_path);
+          setIsLoading(false);
+          saveDeviceToken();
+        })
+        .catch((error) => {
+         // console.error('Error fetching data:', error);
+          setIsLoading(false);
+        });
+    };
+
     fetchProfileData();
+    // saveDeviceToken();
   }, [userToken]);
 
 
-  const fetchProfileData = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
-
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+   const saveDeviceToken = async () => {
+        try {
+          const deviceToken = await messaging().getToken();
+            console.log('Saving device token:', deviceToken);
+           console.log("user Token in fire :",userToken)
+            const response = await axios.post(
+                'https://dindayalupadhyay.smartcitylibrary.com/api/m1/fcm-token',
+                { token: deviceToken },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${userToken}`,
+                    },
+                }
+            );
+            console.log('Full response:', response);
+            if (response) {
+                console.log('Device token saved successfully.', response.data);
+            } else {
+                console.error('Error saving device token:', response.status, response.data);
+            }
+        } catch (error) {
+            console.error('Error saving device token:', error.response?.data || error.message || error);
         }
-        return response.json();
-      })
-      .then((res) => {
-        setProfile(res.data);
-        setFirstName(res.data.first_name);
-        // console.log("first User Screen:", res.data.first_name);
-        setLastName(res.data.last_name);
-        // console.log("last User Screen:", res.data.last_name);
-        setEmail(res.data.email);
-        setPhone(res.data.phone);
-        // console.log("image User Screen:", res.data.image_path);
-        setImage(res.data.image_path);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        // console.error('Error fetching data:', error);
-        setIsLoading(false);
-      });
-  };
+    };
 
-  // console.log("user Info:", userInfo);
+
+
+  // const fetchProfileData = () => {
+  //   const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
+
+  //   fetch(singleUrl, {
+  //     method: 'GET',
+  //     headers: {
+  //       'Authorization': `Bearer ${userToken}`,
+  //       'Content-Type': 'application/json',
+  //     },
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error(`HTTP error! Status: ${response.status}`);
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((res) => {
+  //       setProfile(res.data);
+  //       setFirstName(res.data.first_name);
+  //       setLastName(res.data.last_name);
+  //       setEmail(res.data.email);
+  //       setPhone(res.data.phone);
+  //       setImage(res.data.image_path);
+  //       setIsLoading(false);
+  //       saveDeviceToken();
+  //     })
+  //     .catch((error) => {
+  //      // console.error('Error fetching data:', error);
+  //       setIsLoading(false);
+  //     });
+  // };
+
+    console.log("userToken:", userToken);
 
   return (
     <View style={{ flex: 1, }}>
@@ -513,9 +553,6 @@ const User = ({ navigation }) => {
               </TouchableOpacity>
 
 
-
-
-
               <TouchableOpacity onPress={() => {
                 navigation.navigate('Bookhistory')
               }}>
@@ -524,7 +561,6 @@ const User = ({ navigation }) => {
                   <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 211 }} />
                 </View>
               </TouchableOpacity>
-
 
 
               <TouchableOpacity onPress={(item) => {

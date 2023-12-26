@@ -21,11 +21,12 @@ const LoginScreen = ({ navigation }) => {
     const getDeviceToken = async () => {
         try {
             const token = await messaging().getToken();
-            console.log('Token is:', token);
+            // console.log('Token is:', token);
     
             // Check if the token already exists in the database
             const tokensRef = ref(getDatabase(), 'deviceTokens');
             const snapshot = await get(tokensRef);
+            // console.log('snapshot', snapshot);
     
             // Introduce a delay to ensure the existing tokens are retrieved before proceeding
             await new Promise(resolve => setTimeout(resolve, 1000));
@@ -78,7 +79,9 @@ const LoginScreen = ({ navigation }) => {
     //===============on click of login button=================================
 
     const handleLogin = async (values) => {
+        getDeviceToken();
         login(values.email, values.password);  //imp 
+        
         // =================Imp dont remove to store login token in firebase authentication===================
         // auth()
         //     .createUserWithEmailAndPassword(values.email, values.password)
@@ -98,7 +101,7 @@ const LoginScreen = ({ navigation }) => {
         //     });
         // 
 
-        getDeviceToken();
+        
 
         //-----------redirect to membershipplan screen-------------------------
 
