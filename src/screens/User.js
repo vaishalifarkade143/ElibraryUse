@@ -368,7 +368,7 @@ const User = ({ navigation }) => {
       {({ theme }) => {
         const styles = getStyles(theme);
         return (
-          <View style={{ flex: 1, }}>
+          <View style={styles.container}>
             <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
@@ -384,14 +384,14 @@ const User = ({ navigation }) => {
                 {userToken !== null ?
                   (<View
                     style={{
-                      height: 150,
-                      width: 150,
+                      height: 140,
+                      width: 140,
                       backgroundColor: '#cbb7b8',
                       borderRadius: 75,
                       justifyContent: 'center',
                       alignItems: 'center',
                       marginLeft: 10,
-                      marginTop: 10,
+                      marginTop: -20,
                     }}>
                     {image !== null ?
                       (<ImageBackground
@@ -440,19 +440,11 @@ const User = ({ navigation }) => {
                         {first_name} {last_name}
                       </Text>
                       <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 14,
-                          fontFamily: 'Poppin-Thin',
-                        }}>
+                        style={[styles.userpageText,{fontSize: 14,}]}>
                         {email}
                       </Text>
                       <Text
-                        style={{
-                          fontWeight: 'bold',
-                          fontSize: 15,
-                          fontFamily: 'Poppin-Thin',
-                        }}>
+                        style={[styles.userpageText,{fontSize: 15,}]}>
                         {phone}
                       </Text>
                     </View>
@@ -499,7 +491,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Profile </Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 258 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 258 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -510,7 +502,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>My E-Book </Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 225 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 225 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -520,7 +512,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Book History</Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 211 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 211 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -530,7 +522,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Membership Plans</Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 164 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 164 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -540,7 +532,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Transactions</Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 210 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 210 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -551,7 +543,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>MembershipScreen</Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 160 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 160 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -560,7 +552,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Resources</Text>
-                        <AntDesign name="right" color={'#000'} size={20} style={{ marginLeft: 230 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 230 }} />
                       </View>
                     </TouchableOpacity>
 

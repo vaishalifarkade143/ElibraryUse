@@ -28,6 +28,24 @@ const getStyles = (theme) => {
             fontWeight: '700',
             fontSize: 15
         },
+        lognregHead:{
+            paddingHorizontal: 60,
+            paddingVertical: 'auto',
+            fontFamily: 'Philosopher-Bold',
+             fontSize: 36,
+            fontWeight: '500',
+            textAlign: 'center',
+            paddingHorizontal: 90,
+            fontFamily: 'Philosopher-Bold',
+            color: theme === 'LIGHT' ? '#2f4858' : '#fff'
+        },
+        subHeadinglognregHead:{
+        marginTop: 10,
+        paddingHorizontal: 50,
+        textAlign: 'center',
+        fontSize: 16,
+        fontFamily: 'Poppin-Thin'
+        },
         floatView: {
             backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',
             justifyContent: 'center',
@@ -76,14 +94,14 @@ const getStyles = (theme) => {
         },
         userView: {
             marginTop: 2,
-            backgroundColor: '#fff',
+            backgroundColor:theme === 'LIGHT' ? '#fff' : '#000',
             flexDirection: 'row',
             alignItems: 'center',
         },
         userText: {
             fontWeight: '400',
             fontSize: 18,
-            color: '#000',
+            color: theme === 'LIGHT' ? '#000' : '#fff',
             paddingLeft: 10,
             paddingTop: 10,
             paddingBottom: 10
@@ -453,7 +471,13 @@ const getStyles = (theme) => {
             margin: 15,
             paddingLeft: 15,
             gap: 10
+        },
+        userpageText:{
+            fontWeight: 'bold',
+            color: '#000',
+            fontFamily: 'Poppin-Thin',
         }
+
     });
 };
 

@@ -13,7 +13,7 @@ import Theme from './Theme';
 const LoginScreen = ({ navigation }) => {
     const { isLoading, login } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
-   
+
     // ==================Important get device token on load of app and to store device token========================//
 
     const getDeviceToken = async () => {
@@ -130,16 +130,7 @@ const LoginScreen = ({ navigation }) => {
                             <View style={[styles.floatView, { height: 500, }]}>
 
                                 <Text
-                                    style={
-                                        {
-                                            fontSize: 36,
-                                            fontWeight: '500',
-                                            textAlign: 'center',
-                                            paddingHorizontal: 90,
-                                            fontFamily: 'Philosopher-Bold',
-                                            color: '#2f4858'
-                                        }
-                                    }
+                                    style={[styles.lognregHead,{paddingHorizontal: 90,}]}
                                 >
                                     Login</Text>
                                 <Text style={{
@@ -226,7 +217,7 @@ const LoginScreen = ({ navigation }) => {
                                                             marginRight: 10,
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
-                                                            margin: 20, 
+                                                            margin: 20,
                                                             backgroundColor: '#fff'
                                                         }}
                                                     >
@@ -238,7 +229,7 @@ const LoginScreen = ({ navigation }) => {
                                                 </TouchableOpacity>
                                                 <Text
                                                     style={{
-                                                        color: theme === 'LIGHT'?'#000':'#fff',
+                                                        color: theme === 'LIGHT' ? '#000' : '#fff',
                                                         fontFamily: 'Poppin',
                                                         fontWeight: '700',
                                                         fontSize: 15
