@@ -1,13 +1,8 @@
-import { View, Text ,StyleSheet} from 'react-native'
-import React,{useContext} from 'react'
-
-
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react'
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Drawer from '../customComponent/Drawer';
 import Contact from '../screens/Contact';
 import About from '../screens/About';
-import LoginScreen from '../screens/LoginScreen';
 import Terms from '../screens/Terms';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import Disclaimer from '../screens/Disclaimer';

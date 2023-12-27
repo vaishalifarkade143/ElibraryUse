@@ -1,4 +1,4 @@
-import { View, Text, Image, StyleSheet } from 'react-native'
+import {  StyleSheet } from 'react-native'
 import React, { useContext ,useState, useEffect} from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 

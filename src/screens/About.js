@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   ScrollView
 } from "react-native";
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const ELibrary = ({ navigation }) => {
   const [totalBooksCount, setTotalBooksCount] = useState(0);
@@ -25,220 +27,153 @@ const ELibrary = ({ navigation }) => {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/back.png')}
-        onClickLeftIcon={() => {
-          navigation.navigate('Home');
-        }}
-      />
-      <ScrollView>
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>ABOUTE  LIBRARY</Text>
-          <Text style={styles.subtitle}>Where Information Comes Alive</Text>
-          <View style={{
-            width: 150,
-            height: 2,
-            backgroundColor: '#c27b7f',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: -15,
-          }}></View>
-        </View>
+    <Theme>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/back.png')}
+              onClickLeftIcon={() => {
+                navigation.navigate('Home');
+              }}
+            />
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>ABOUTE  LIBRARY</Text>
+                <Text style={styles.subtitle}>Where Information Comes Alive</Text>
+                <View style={{
+                  width: 150,
+                  height: 2,
+                  backgroundColor: '#c27b7f',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: -15,
+                }}></View>
+              </View>
 
 
-        <View style={styles.imageContainer}>
-          <Image
-            source={{
-              uri:
-                "https://dindayalupadhyay.smartcitylibrary.com/images/achive.png"
-            }}
-            style={styles.image}
-            resizeMode="cover"
-          />
-        </View>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{
+                    uri:
+                      "https://dindayalupadhyay.smartcitylibrary.com/images/achive.png"
+                  }}
+                  style={styles.image}
+                  resizeMode="cover"
+                />
+              </View>
 
-        <View style={styles.textContainer}>
-          <Text style={{ marginTop: 30, marginLeft: 15, marginRight: 15 }}>
-            Smart City Digital Library is the online repository of knowledge,
-            where it is easy to discover the knowledge from available recourse with search/browse facilities.
-            It is an innovative project mentored by Nagpur Smart and Sustainable City Development Corporation
-            Limited under the Smart City Mission of Ministry of Housing and Urban Affairs (MoHUA),
-            Government of India. The objective of this ambitious solution is to ease the access of the readers
-            to the right resources on the go with minimum efforts.
-          </Text>
-          <Text style={{ marginTop: 20, marginLeft: 15, marginRight: 15 }}>
-            Smart City's Digital Library provides Study resources that benefit all age group users,
-            School and College students, aspirants preparing for competitive exams, Researchers and general
-            learners. This Digital Library is designed to hold content of English, Hindi, Marathi languages. Under this project traditional Libraries of Nagpur Municipal Corporation are being converted to Digital libraries with the facilities to have access to the resources worldwide. The library is equipped with
-            smart devices which facilitates differently-able learners to gain the knowledge of their choice
-          </Text>
+              <View style={styles.textContainer}>
+                <Text style={styles.aboutText}>
+                  Smart City Digital Library is the online repository of knowledge,
+                  where it is easy to discover the knowledge from available recourse with search/browse facilities.
+                  It is an innovative project mentored by Nagpur Smart and Sustainable City Development Corporation
+                  Limited under the Smart City Mission of Ministry of Housing and Urban Affairs (MoHUA),
+                  Government of India. The objective of this ambitious solution is to ease the access of the readers
+                  to the right resources on the go with minimum efforts.
+                </Text>
+                <Text style={styles.aboutText}>
+                  Smart City's Digital Library provides Study resources that benefit all age group users,
+                  School and College students, aspirants preparing for competitive exams, Researchers and general
+                  learners. This Digital Library is designed to hold content of English, Hindi, Marathi languages. Under this project traditional Libraries of Nagpur Municipal Corporation are being converted to Digital libraries with the facilities to have access to the resources worldwide. The library is equipped with
+                  smart devices which facilitates differently-able learners to gain the knowledge of their choice
+                </Text>
 
 
-          <View style={styles.socialIconsContainer}>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://www.facebook.com")}
-            >
-              <Image
-                source={require('../images/facebookk.png')}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://www.twitter.com")}
-            >
-              <Image
-                source={require('../images/twitterr.png')}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://www.linkedin.com")}
-            >
-              <Image
-                source={require('../images/linkedin.png')}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://www.youtube.com")}
-            >
-              <Image
-                source={require('../images/youtube.png')}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => Linking.openURL("https://www.whatsapp.com")}
-            >
-              <Image
-                source={require('../images/whatsapp.png')}
-                style={styles.socialIcon}
-              />
-            </TouchableOpacity>
+                <View style={styles.socialIconsContainer}>
+                 
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.twitter.com")}
+                  >
+                    <Image
+                      source={require('../images/twitterr.png')}
+                      style={styles.socialIcon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.facebook.com")}
+                  >
+                    <Image
+                      source={require('../images/facebookk.png')}
+                      style={styles.socialIcon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.linkedin.com")}
+                  >
+                    <Image
+                      source={require('../images/linkedin.png')}
+                      style={styles.socialIcon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.youtube.com")}
+                  >
+                    <Image
+                      source={require('../images/youtube.png')}
+                      style={styles.socialIcon}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => Linking.openURL("https://www.whatsapp.com")}
+                  >
+                    <Image
+                      source={require('../images/whatsapp.png')}
+                      style={styles.socialIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+              </View>
+
+              <View style={styles.titleContainer}>
+                <Text style={styles.title}>AWESOME STATUS</Text>
+                <Text style={styles.subtitle}>ALL MILESTONES ACHIEVED</Text>
+                <View style={{
+                  width: 150,
+                  height: 2,
+                  backgroundColor: '#c27b7f',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: -15,
+                }}></View>
+              </View>
+
+              <View style={{
+                flexDirection: 'row', justifyContent: 'center',
+                alignItems: 'center', marginTop: 25, marginBottom: 30,
+              }}>
+
+                <View style={{
+                  borderRightColor: '#2826268a', borderRightWidth: 1
+                }}>
+                  <Text style={styles.reviewcount}>{totalBooksCount}</Text>
+                  <Text style={styles.review}>Books</Text>
+                </View >
+                <View style={{
+                  borderRightColor: '#2826268a', borderRightWidth: 1
+                }}>
+                  <Text style={styles.reviewcount}>12500+</Text>
+                  <Text style={styles.review}>Total Views</Text>
+                </View>
+                <View>
+                  <Text style={styles.reviewcount}>3</Text>
+                  <Text style={styles.review}>Award</Text>
+                </View>
+
+              </View>
+
+
+            </ScrollView>
           </View>
+        );
+      }}
+    </Theme>
 
-        </View>
-
-        <View style={styles.titleContainer}>
-          <Text style={styles.title}>AWESOME STATUS</Text>
-          <Text style={styles.subtitle}>ALL MILESTONES ACHIEVED</Text>
-          <View style={{
-            width: 150,
-            height: 2,
-            backgroundColor: '#c27b7f',
-            justifyContent: 'center',
-            alignItems: 'center',
-            marginTop: -15,
-          }}></View>
-        </View>
-
-        <View style={{
-          flexDirection: 'row', justifyContent: 'center',
-          alignItems: 'center', marginTop: 25, marginBottom: 30,
-        }}>
-
-          <View style={{
-          borderRightColor:'#2826268a',borderRightWidth:1
-                  }}>
-            <Text style={styles.reviewcount}>{totalBooksCount}</Text>
-            <Text style={styles.review}>Books</Text>
-          </View >
-          <View style={{
-          borderRightColor:'#2826268a',borderRightWidth:1
-                  }}> 
-            <Text style={styles.reviewcount}>12500+</Text>
-            <Text style={styles.review}>Total Views</Text>
-          </View>
-          <View>
-            <Text style={styles.reviewcount}>3</Text>
-            <Text style={styles.review}>Award</Text>
-          </View>
-
-        </View>
-
-
-      </ScrollView>
-    </View>
   );
 };
 
-const styles = {
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-
-  },
-  socialIconsContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    justifyContent: "space-between"
-  },
-  titleContainer: {
-    alignItems: "center"
-  },
-  title: {
-    marginTop: 20,
-    fontSize: 18,
-    fontWeight: '500',
-    color: "#c27b7f",
-  },
-  subtitle: {
-    fontSize: 20,
-    marginBottom: 20,
-    marginTop: 5,
-    color: '#2f4858',
-    fontFamily: 'Philosopher-Bold',
-  },
-  divider: {
-    width: 20,
-    height: 3,
-    backgroundColor: "black",
-    marginVertical: 10
-  },
-   imageContainer: {
-    flex: 1,
-    alignItems: "center",
-    marginTop: 25,
-    width: "100%",
-    height: 200,
-    marginBottom: 10,
-  },
-  image: {
-    width: 300,
-    height: 200,
-    borderRadius: 10,
-  },
- textContainer: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  socialIcon: {
-    width: 35,
-    height: 35,
-    marginBottom: 30,
-    marginRight: 15,
-  },
-  review: {
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 17,
-    marginLeft: 15,
-    marginRight: 20,
-  },
-  reviewcount: {
-    fontSize: 20,
-    marginLeft: 15,
-    marginRight: 20,
-    fontWeight: 'bold',
-    color: '#876585'
-  },
-  line: {
-    width: 10,
-    height: 50,
-    
-  },
-};
 
 export default ELibrary;

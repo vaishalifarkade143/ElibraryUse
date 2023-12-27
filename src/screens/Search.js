@@ -6,7 +6,7 @@ import { useRoute } from '@react-navigation/native';
 
 
 const Search = ({ route, navigation }) => {
-  const { genreList, book,authorList, publisherList, languageList, formatList, libraryList } = route.params;
+  const { genreList, book, authorList, publisherList, languageList, formatList, libraryList } = route.params;
   const [selectedGenre, setSelectedGenre] = useState("Genre");
   const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
   const [publishr, setPublishr] = useState([]);
@@ -21,6 +21,8 @@ const Search = ({ route, navigation }) => {
   const [genreData, setGenreData] = useState('');
   const [genreClicked, setGenreClicked] = useState(false);
   const [genreSearch, setGenreSearch] = useState('');
+  const [genSearchResults, setGenSearchResults] = useState('');
+
 
   // Add state variables for author filtering
   const [authorData, setAuthorData] = useState('');
@@ -36,85 +38,88 @@ const Search = ({ route, navigation }) => {
   const [languageData, setLanguageData] = useState('');
   const [languageClicked, setLanguageClicked] = useState(false);
   const [languageSearch, setLanguageSearch] = useState('');
+  const [languageSearchResults, setLanguageSearchResults] = useState('');
+
 
   // Add state variables for genre filtering
   const [formatData, setFormatData] = useState([]);
   const [formatClicked, setFormatClicked] = useState(false);
   const [formatSearch, setFormatSearch] = useState('');
+  const [formatSearchResults, setFormatSearchResults] = useState('');
 
   // Add state variables for genre filtering
   const [libData, setLibData] = useState([]);
   const [libClicked, setLibClicked] = useState(false);
   const [libSearch, setLibSearch] = useState('');
-
+  const [libSearchResults, setLibSearchResults] = useState('');
 
   const [books, setBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const [filteredBooks, setFilteredBooks] = useState([]);
 
-  
-  
-  const filteredGenResults=(item)=>{
+
+
+  const filteredGenResults = (item) => {
     let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
-    book.genres.some((genr) => genr.name === item)
-  )) : [];
-    navigation.navigate('filterData',{filteredGenre,book});
-    
+      book.genres.some((genr) => genr.name === item)
+    )) : [];
+    navigation.navigate('filterData', { filteredGenre, book });
+
   }
 
 
-  const filteredAuthResults=(item)=>{
+  const filteredAuthResults = (item) => {
     let filteredAuthor = item !== 'Author' ? (book.filter((book) =>
-    book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
-  )) : [];
-    navigation.navigate('filterData',{ filteredAuthor,book});
-    
+      book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
+    )) : [];
+    navigation.navigate('filterData', { filteredAuthor, book });
+
   }
 
 
-  const filteredPublishResults=(item)=>{
+  const filteredPublishResults = (item) => {
     console.log(item);
     let filteredPublisher = item !== 'Publisher' ? (book.filter((book) =>
-    Array.isArray(book.items) &&
-    book.items.some((item1) => item1.publisher && item1.publisher.name === item)
+      Array.isArray(book.items) &&
+      book.items.some((item1) => item1.publisher && item1.publisher.name === item)
 
-  )) : [];
-    navigation.navigate('filterData',{ filteredPublisher,book});
-    
+    )) : [];
+    navigation.navigate('filterData', { filteredPublisher, book });
+
   }
 
 
 
-  const filteredLangResults=(item)=>{
+  const filteredLangResults = (item) => {
     let filteredLanguage = item !== 'Languages' ? (book.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
-  )) : [];
-    navigation.navigate('filterData',{ filteredLanguage,book});
-    
+      Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
+    )) : [];
+    navigation.navigate('filterData', { filteredLanguage, book });
+
   }
 
 
 
-  const filteredformResults=(item)=>{
+  const filteredformResults = (item) => {
     console.log(item);
-    
+
     let filteredFormat = item !== 'Format' ? (book.filter((book) =>
-    Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
-  )) : [];
-    navigation.navigate('filterData',{ filteredFormat,book});
-   // console.log(filteredFormat);
+      Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
+    )) : [];
+    navigation.navigate('filterData', { filteredFormat, book });
+    // console.log(filteredFormat);
   }
 
-  const filteredLibResults=(item)=>{
+  const filteredLibResults = (item) => {
     let filteredLibrary = item !== 'Library' ? (book.filter((book) =>
-    book.library_id ===  item
-  )) : [];
-    navigation.navigate('filterData',{ filteredLibrary,book});
-    
+      book.library_id === item
+    )) : [];
+    navigation.navigate('filterData', { filteredLibrary, book });
+
   }
 
-  
-  
+
+
 
   // ===================to get list OF category===============
   useEffect(() => {
@@ -160,12 +165,12 @@ const Search = ({ route, navigation }) => {
   }, [route.params?.libraryList]);
 
 
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
   // ================================search result===================================
   const searchRef = useRef();
   const onSearch = (search, type) => {
@@ -174,7 +179,7 @@ const Search = ({ route, navigation }) => {
         let tempData = genreList.filter(
           (item) => item.toLowerCase().indexOf(search.toLowerCase()) > -1
         );
-        setGenreData(tempData.map((genre) => ({ id: genre, name: genre })));
+        setGenSearchResults(tempData.map((genre) => ({ id: genre, name: genre })));
       }
       else if (type === 'author') {
         let tempauthor = authorList.filter(
@@ -192,19 +197,19 @@ const Search = ({ route, navigation }) => {
         let templang = languageList.filter(
           (item) => item.toLowerCase().indexOf(search.toLowerCase()) > -1
         );
-        setLanguageData(templang.map(language => ({ id: language, name: language })));
+        setLanguageSearchResults(templang.map(language => ({ id: language, name: language })));
       }
       else if (type === 'format') {
         let tempformat = formatList.filter(
-          (item) => item.toLowerCase().indexOf(search.toLowerCase()) > -1
+          (item) => item.name.toLowerCase().indexOf(search.toLowerCase()) > -1
         );
-        setFormatData(tempformat.map(format => ({ id: format, name: format })));
+        setFormatSearchResults(tempformat.map(format => ({ id: format.id, name: format.name })));
       }
       else if (type === 'library') {
         let templib = libraryList.filter(
-          (item) => item.toLowerCase().indexOf(search.toLowerCase()) > -1
+          (item) => item.name.toLowerCase().indexOf(search.toLowerCase()) > -1
         );
-        setLibData(templib.map(library => ({ id: library, name: library })));
+        setLibSearchResults(templib.map(library => ({ id: library.id, name: library.name })));
       }
 
     }
@@ -240,7 +245,7 @@ const Search = ({ route, navigation }) => {
           />
 
           <FlatList
-            data={genreData}
+            data={genreSearch == '' ? genreData : genSearchResults}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
               return (
@@ -256,14 +261,14 @@ const Search = ({ route, navigation }) => {
                     borderColor: '#8e8e8e',
                   }}
                   onPress={() => {
-                    
-                      setSelectedGenre(item.name);
+
+                    setSelectedGenre(item.name);
                     onSearch('', 'genre');
                     setGenreSearch('');
                     filteredGenResults(item.name);
                   }}
                 >
-                 
+
                   <Text style={{ fontWeight: "600" }}>{item.name}</Text>
                 </TouchableOpacity>
 
@@ -296,7 +301,7 @@ const Search = ({ route, navigation }) => {
 
           <FlatList
             data={authorData}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item, index) => item.id + index}
             renderItem={({ item, index }) => {
               return (
                 <TouchableOpacity
@@ -399,7 +404,7 @@ const Search = ({ route, navigation }) => {
           />
 
           <FlatList
-            data={languageData}
+            data={languageSearch == '' ? languageData : languageSearchResults}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
               return (
@@ -435,7 +440,7 @@ const Search = ({ route, navigation }) => {
             value={formatSearch}
             ref={searchRef}
             onChangeText={txt => {
-              onSearch(txt, 'formats');
+              onSearch(txt, 'format');
               setFormatSearch(txt);
             }}
             style={{
@@ -450,8 +455,9 @@ const Search = ({ route, navigation }) => {
             }}
           />
 
+
           <FlatList
-            data={formatData}
+            data={formatSearch == '' ? formatData : formatSearchResults}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
               return (
@@ -467,7 +473,7 @@ const Search = ({ route, navigation }) => {
                   onPress={() => {
                     setSelectedFormat(item.name);
                     setFormatClicked(!formatClicked);
-                    onSearch('', 'formats');
+                    onSearch('', 'format');
                     setFormatSearch('');
                     filteredformResults(item.id);
                   }}
@@ -479,6 +485,10 @@ const Search = ({ route, navigation }) => {
           />
         </View>
         )}
+
+
+
+
 
       {route.params?.libraryList &&
         (<View style={{ flex: 1 }}>
@@ -503,7 +513,7 @@ const Search = ({ route, navigation }) => {
           />
 
           <FlatList
-            data={libData}
+            data={libSearch == '' ? libData : libSearchResults}
             keyExtractor={(item) => item.id}
             renderItem={({ item, index }) => {
               return (
