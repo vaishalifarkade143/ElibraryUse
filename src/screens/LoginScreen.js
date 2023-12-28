@@ -133,14 +133,7 @@ const LoginScreen = ({ navigation }) => {
                                     style={[styles.lognregHead,{paddingHorizontal: 90,}]}
                                 >
                                     Login</Text>
-                                <Text style={{
-                                    marginTop: 10,
-                                    paddingHorizontal: 50,
-                                    textAlign: 'center',
-                                    fontSize: 16,
-                                    fontFamily: 'Poppin-Thin',
-                                    color: theme === 'LIGHT' ? '#000' : '#fff'
-                                }}>
+                                <Text style={styles.subHeadinglognregHead}>
                                     Sign In to your account</Text>
                                 <Formik
                                     initialValues={{ email: '', password: '' }}
@@ -153,17 +146,9 @@ const LoginScreen = ({ navigation }) => {
 
                                             <View>
                                                 <View
-                                                    style={{
-                                                        backgroundColor: '#fff',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        flexDirection: "row",
-                                                        margin: 15,
-                                                        paddingLeft: 15,
-                                                        gap: 10
-                                                    }}>
+                                                    style={styles.txtInputView}>
                                                     <Image source={require('../images/email.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Email"
                                                         autoCompleteType="email"
@@ -174,22 +159,15 @@ const LoginScreen = ({ navigation }) => {
 
                                                     />
                                                 </View>
-                                                {touched.email && errors.email && <Text style={{ color: 'red', marginLeft: 30 }}>{errors.email}</Text>}
+                                                {touched.email && errors.email && 
+                                                <Text style={styles.validation}>{errors.email}</Text>}
                                             </View>
 
 
                                             <View>
-                                                <View style={{
-                                                    backgroundColor: '#fff',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    flexDirection: "row",
-                                                    margin: 15,
-                                                    paddingLeft: 15,
-                                                    gap: 10,
-                                                }}>
+                                                <View style={styles.txtInputView}>
                                                     <Image source={require('../images/password.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Password"
                                                         autoCompleteType="password"
@@ -200,7 +178,8 @@ const LoginScreen = ({ navigation }) => {
                                                     />
 
                                                 </View>
-                                                {touched.password && errors.password && <Text style={{ color: 'red', marginLeft: 30 }}>{errors.password}</Text>}
+                                                {touched.password && errors.password &&
+                                                 <Text style={styles.validation}>{errors.password}</Text>}
                                             </View>
 
                                             <View

@@ -4,7 +4,8 @@ import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
-
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const BookHistory = ({ navigation }) => {
   const [booksHistory, setBooksHistory] = useState([]);
@@ -164,7 +165,11 @@ const BookHistory = ({ navigation }) => {
    
   
     return (
-    <View style={{ flex: 1, backgroundColor: '#fff', }}>
+      <Theme>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+    <View style={styles.container}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
@@ -215,16 +220,17 @@ const BookHistory = ({ navigation }) => {
 
 
       <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>Book History</Text>
+        <Text style={styles.sectionHeading}>Book History</Text>
       </View>
-      <View style={{ marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd', justifyContent: 'center' }}></View>
-      <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+      <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
+      <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
         {/* ==================search======================= */}
         <View style={styles.searchcontainer}>
           <View style={styles.searchBar}>
             <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
+              placeholderTextColor="#000" 
               placeholder="Search by Book Name or Book Code"
               value={searchQuery}
               onChangeText={setSearchQuery}
@@ -235,7 +241,7 @@ const BookHistory = ({ navigation }) => {
                 setSearchQuery('');
 
               }}>
-                <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon,]} />
               </TouchableOpacity>)}
           </View>
         </View>
@@ -243,16 +249,17 @@ const BookHistory = ({ navigation }) => {
         {/* ===================================================================== */}
 
         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-          <View style={{ backgroundColor: '#fff3cd', marginTop: 15 }}>
+          <View style={{ backgroundColor: '#f5ebe6', marginTop: 15 }}>
 
 
-            <View style={{ flex: 1, backgroundColor: '#fff3cd', paddingTop: -60 }}>
+            <View style={{ flex: 1, backgroundColor: '#f5ebe6', paddingTop: -60 }}>
 
 
               <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 }}>
 
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
+                  textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
@@ -261,8 +268,8 @@ const BookHistory = ({ navigation }) => {
                         key={index}
                         data={book}
                         widthArr={state.widthArr}
-                        style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                        textStyle={styles.text}
+                        style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                        textStyle={styles.texttt}
                       />
                     ))}
                   </Table>
@@ -275,93 +282,93 @@ const BookHistory = ({ navigation }) => {
 
         </ScrollView>
 
-
-
       </View>
 
-
     </View>
+     );
+    }}
+  </Theme>
   );
 };
 
 export default BookHistory;
-const styles = StyleSheet.create({
-  Details: {
-    fontWeight: 'bold',
-    paddingLeft: 80,
-    color: '#000'
-  },
-  container: { flex: 1, padding: 20, paddingTop: 30, backgroundColor: '#fff' },
-  header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
-  text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
-  dataWrapper: { marginTop: -1 },
-  row: { height: 40, backgroundColor: '#fff' },
+// const styles = StyleSheet.create({
+//   Details: {
+//     fontWeight: 'bold',
+//     paddingLeft: 80,
+//     color: '#000'
+//   },
+//   container: { flex: 1, padding: 20, paddingTop: 30, backgroundColor: '#fff' },
+//   header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
+//   text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
+//   dataWrapper: { marginTop: -1 },
+//   row: { height: 40, backgroundColor: '#fff' },
 
 
 
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
-    paddingLeft: 40,
-    paddingRight: 40,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 5,
-    padding: 10,
-    elevation: 2,
-    backgroundColor: '#c27b7f',
-  },
+//   centeredView: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     marginTop: 22,
+//   },
+//   modalView: {
+//     margin: 20,
+//     backgroundColor: 'white',
+//     borderRadius: 20,
+//     padding: 20,
+//     paddingLeft: 40,
+//     paddingRight: 40,
+//     alignItems: 'center',
+//     shadowColor: '#000',
+//     shadowOffset: {
+//       width: 0,
+//       height: 2,
+//     },
+//     shadowOpacity: 0.25,
+//     shadowRadius: 4,
+//     elevation: 5,
+//   },
+//   button: {
+//     borderRadius: 5,
+//     padding: 10,
+//     elevation: 2,
+//     backgroundColor: '#c27b7f',
+//   },
 
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  searchInput: {
-    fontSize: 15,
-  },
-  searchcontainer: {
-    marginTop: 10,
-    marginLeft: 10,
-    padding: 5,
-    width: '93%',
-    height: 50,
-    backgroundColor: '#fff3cd'
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: 'gray',
-    paddingHorizontal: 12,
+//   textStyle: {
+//     color: 'white',
+//     fontWeight: 'bold',
+//     textAlign: 'center',
+//   },
+//   modalText: {
+//     marginBottom: 5,
+//     textAlign: 'center',
+//   },
+//   searchIcon: {
+//     marginRight: 8,
+//   },
+//   searchInput: {
+//     fontSize: 15,
+//   },
+//   searchcontainer: {
+//     marginTop: 10,
+//     marginLeft: 10,
+//     padding: 5,
+//     width: '93%',
+//     height: 50,
+//     backgroundColor: '#fff3cd'
+//   },
+//   searchBar: {
+//     flexDirection: 'row',
+//     alignItems: 'center',
+//     backgroundColor: 'white',
+//     borderRadius: 8,
+//     borderColor: 'gray',
+//     paddingHorizontal: 12,
 
-  },
-})
+//   },
+// })
 
 
 

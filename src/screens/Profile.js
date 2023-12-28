@@ -1421,6 +1421,8 @@ import Header from '../common/Header';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
 import ImagePicker from 'react-native-image-crop-picker';
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const Profile = ({ navigation }) => {
 
@@ -1578,7 +1580,11 @@ const Profile = ({ navigation }) => {
 
 
     return (
-        <View style={{ flex: 1, }}>
+        <Theme>
+        {({ theme }) => {
+          const styles = getStyles(theme);
+          return (
+        <View style={styles.container}>
             <Header
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/menu.png')}
@@ -1588,24 +1594,10 @@ const Profile = ({ navigation }) => {
             />
             <ScrollView>
 
-                <Text style={{
-                    fontFamily: 'Philosopher-Bold',
-                    fontSize: 27,
-                    fontWeight: '600',
-                    color: '#000',
-                    textAlign: 'center',
-                    marginTop: 20
-                }}>Profile</Text>
+                <Text style={styles.sectionHeading}>Profile</Text>
 
                 {/* line starts ============== */}
-                <View style={{
-                    marginTop: 10,
-                    width: 150,
-                    height: 2,
-                    backgroundColor: '#c27b7f',
-                    alignItems: 'center',
-                    marginLeft: 130,
-                }}></View>
+                <View style={[styles.dividerView,{ width: 60, marginLeft: 150,}]}></View>
                 {/* line ends ============== */}
 
 
@@ -1615,27 +1607,12 @@ const Profile = ({ navigation }) => {
 
                     {/* <View style={{ marginTop: 20 }}> */}
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>First Name</Text>
-                        <Text style={{ color: 'red', fontSize: 20 }}>*</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>First Name</Text>
+                        <Text style={styles.profileStar}>*</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                            marginBottom: 15,
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             autoCompleteType="first_name"
                             keyboardType="name-phone-pad"
@@ -1644,25 +1621,12 @@ const Profile = ({ navigation }) => {
                         />
                     </View>
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Last Name</Text>
-                        <Text style={{ color: 'red', fontSize: 20 }}>*</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Last Name</Text>
+                        <Text style={styles.profileStar}>*</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             autoCompleteType="last_name"
                             keyboardType="name-phone-pad"
@@ -1673,26 +1637,12 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Email</Text>
-                        <Text style={{ color: 'red', fontSize: 20 }}>*</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Email</Text>
+                        <Text style={styles.profileStar}>*</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             autoCompleteType="last_name"
                             keyboardType="name-phone-pad"
@@ -1703,26 +1653,12 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Phone No.</Text>
-                        <Text style={{ color: 'red', fontSize: 20 }}>*</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Phone No.</Text>
+                        <Text style={styles.profileStar}>*</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             autoCompleteType="last_name"
                             keyboardType="name-phone-pad"
@@ -1741,11 +1677,7 @@ const Profile = ({ navigation }) => {
                             marginLeft: 15,
                             marginRight: 15,
                         }}>
-                        <Text style={{
-                            color: '#000',
-                            fontSize: 14,
-                            fontWeight: 'bold'
-                        }}>Member Profile</Text>
+                        <Text style={styles.profileText}>Member Profile</Text>
                     </View>
 
                     <View style={{
@@ -1789,94 +1721,39 @@ const Profile = ({ navigation }) => {
 
                         }}>
                             <TouchableOpacity
-                                style={{
-                                    width: '70%',
-                                    height: 70,
-                                    justifyContent: 'center',
-
-                                }}
+                                style={styles.profilePhotoToch}
                                 onPress={takePhotoFromCamera}
                             >
-                                <Text style={{
-                                    padding: 8,
-                                    color: '#fff',
-                                    backgroundColor: '#c27b7f',
-                                    fontWeight: '700',
-                                    fontSize: 18,
-                                    textAlign: 'center',
-                                    borderRadius: 5,
-                                    backgroundColor: '#c27b7f',
-
-                                }}>Take Photo</Text>
+                                <Text style={styles.profilePhoto}>Take Photo</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                style={{
-                                    width: '70%',
-                                    height: 70,
-                                    justifyContent: 'center',
-                                }}
+                                style={styles.profilePhotoToch}
                                 onPress=
                                 {choosePhotoFromLibrary}
                             >
-                                <Text style={{
-                                    marginTop:-20,
-                                    padding: 8,
-                                    color: '#fff',
-                                    backgroundColor: '#c27b7f',
-                                    fontWeight: '700',
-                                    fontSize: 17,
-                                    textAlign: 'center',
-                                    borderRadius: 5,
-                                }}>Choose from Gallary</Text>
+                                <Text style={styles.profilePhoto}>Choose from Gallary</Text>
                             </TouchableOpacity>
 
                             <TouchableOpacity
-                                style={{
-                                    width: '70%',
-                                    height: 70,
-                                    justifyContent: 'center',
-                                }}
+                                style={styles.profilePhotoToch}
                                 onPress={() => {
                                     setImage(''); // Reset the image when removing the profile
                                     setRemoveImage(1); // Set removeImage to 1 when removing the profile
                                   }}
                             >
-                                <Text style={{
-                                    marginTop:-20,
-                                    padding: 8,
-                                    color: '#fff',
-                                    backgroundColor: '#c27b7f',
-                                    fontWeight: '700',
-                                    fontSize: 17,
-                                    textAlign: 'center',
-                                    borderRadius: 5,
-                                }}>Remove Profile</Text>
+                                <Text style={styles.profilePhoto}>Remove Profile</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
 
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Address1</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Address1</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             keyboardType="name-phone-pad"
                             value={address_1}
@@ -1886,26 +1763,11 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Address2</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Address2</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                            marginBottom: 15
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             keyboardType="name-phone-pad"
                             value={address_2}
@@ -1915,26 +1777,11 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>State</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>State</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                            marginBottom: 15
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             keyboardType="name-phone-pad"
                             value={state}
@@ -1944,26 +1791,11 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>City</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>City</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                            marginBottom: 15
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             keyboardType="name-phone-pad"
                             value={city}
@@ -1973,109 +1805,52 @@ const Profile = ({ navigation }) => {
                     </View>
 
                     <View
-                        style={{
-                            gap: 5,
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                        }}>
-                        <Text style={{ color: '#000', fontSize: 14, fontWeight: 'bold' }}>Zip Code</Text>
+                        style={styles.profileView}>
+                        <Text style={styles.profileText}>Zip Code</Text>
                     </View>
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            marginTop: 15,
-                            marginLeft: 15,
-                            marginRight: 15,
-                            marginBottom: 15
-                        }}>
+                        style={styles.profileTextView}>
                         <TextInput
                             keyboardType="number-pad"
                             value={zip.toString()}
                             onChangeText={setZip}
                         />
 
-                    </View><View style={{
+                    </View>
+                    <View style={{
                         marginTop: 5,
                         marginLeft: 15,
                         flexDirection: 'row',
                         gap: 10
                     }}>
                         <TouchableOpacity
-                            style={{
-                                width: '40%',
-                                height: 70,
-                                justifyContent: 'center',
-                            }}
+                            style={styles.saveTouch}
                             onPress={handleSave}
 
                         // disabled={!isData}
                         >
                             {/* { isData?( */}
-                            <Text style={{
-                                padding: 10,
-                                color: '#fff',
-                                backgroundColor: '#c27b7f',
-                                fontWeight: '700',
-                                fontSize: 18,
-                                textAlign: 'center',
-                                borderRadius: 5,
-                            }}>Save</Text>
-                            {/* )
-                            :(<Text style={{
-                                padding: 10,
-                                color: '#fff',
-                                backgroundColor: 'grey',
-                                fontWeight: '700',
-                                fontSize: 18,
-                                textAlign: 'center',
-                                borderRadius: 5,
-                            }}>Save</Text>)} */}
+                            <Text style={styles.profileButtons}>Save</Text>
+                            
                         </TouchableOpacity>
 
                         <TouchableOpacity
-                            style={{
-                                width: '40%',
-                                height: 70,
-                                justifyContent: 'center',
-                            }}
+                            style={styles.saveTouch}
                             //    
                             onPress={() =>
                                 navigation.goBack()
                             }
                         >
-                            <Text style={{
-                                padding: 10,
-                                color: '#fff',
-                                backgroundColor: '#c27b7f',
-                                fontWeight: '700',
-                                fontSize: 18,
-                                textAlign: 'center',
-                                borderRadius: 5,
-                            }}>Cancel</Text>
+                            <Text style={styles.profileButtons}>Cancel</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>
         </View>
+         );
+        }}
+      </Theme>
     );
 };
 
 export default Profile;
-const styles = StyleSheet.create({
-
-    floatView: {
-        backgroundColor: '#fff3cd',
-        justifyContent: 'center',
-        flexDirection: 'column',
-        marginLeft: 10,
-        marginRight: 10,
-        marginTop: 30,
-        marginBottom: 30
-    }
-
-});

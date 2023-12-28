@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, TextInput, Modal } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import { View, Text, Image, TouchableOpacity, TextInput, Modal } from 'react-native'
+import React, { useContext,  useState } from 'react'
 import Header from '../common/Header';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import messaging from '@react-native-firebase/messaging';
-import logNRegStyle from '../Style/logNRegStyle';
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const ForgetPassword = () => {
     const navigation = useNavigation();
@@ -35,7 +36,11 @@ const ForgetPassword = () => {
     };
 
     return (
-        <View style={logNRegStyle.container}>
+        <Theme>
+        {({ theme }) => {
+          const styles = getStyles(theme);
+          return (
+        <View style={styles.container}>
             <Header
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
@@ -52,8 +57,8 @@ const ForgetPassword = () => {
                     setModalVisible(!modalVisible);
                 }}>
 
-                <View style={logNRegStyle.centeredView}>
-                    <View style={logNRegStyle.modalView}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
                         <Text style={{
                             marginTop: 10,
                             paddingHorizontal: 50,
@@ -64,54 +69,35 @@ const ForgetPassword = () => {
                         <TouchableOpacity onPress={() => {
                             navigation.navigate('Loginnn');
                         }}>
-                            <Text style={{
-                                marginTop: 15,
-                                paddingHorizontal: 50,
-                                textAlign: 'center',
-                                fontSize: 18,
-                                fontFamily: 'Roboto-Bold',
-                                color: '#c27b7f'
-                            }}>Go Back To Login</Text>
+                            <Text style={
+                                styles.cancel
+                            //     {
+                            //     marginTop: 15,
+                            //     paddingHorizontal: 50,
+                            //     textAlign: 'center',
+                            //     fontSize: 18,
+                            //     fontFamily: 'Roboto-Bold',
+                            //     color: '#c27b7f'
+                            // }
+                            }>Go Back To Login</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
 
-            <View style={[logNRegStyle.floatView, { height: 400 },]}>
+            <View style={[styles.floatView, { height: 400 },]}>
 
-                <Text style={{
-                    fontSize: 36,
-                    fontWeight: '500',
-                    textAlign: 'center',
-                    paddingHorizontal: 80,
-                    paddingVertical: 'auto',
-                    fontFamily: 'Philosopher-Bold',
-                    color: '#2f4858'
-                }} >
+                <Text style={[styles.lognregHead,{paddingHorizontal: 80,}]} >
                     Forgot Password</Text>
-                <Text style={{
-                    marginTop: 10,
-                    paddingHorizontal: 50,
-                    textAlign: 'center',
-                    fontSize: 16,
-                    fontFamily: 'Poppin-Thin'
-                }}>
+                <Text style={styles.subHeadinglognregHead}>
                     Enter Your email for reset your password</Text>
                 <View style={{ marginTop: 20 }}>
 
 
                     <View
-                        style={{
-                            backgroundColor: '#fff',
-                            display: 'flex',
-                            alignItems: 'center',
-                            flexDirection: "row",
-                            margin: 15,
-                            paddingLeft: 15,
-                            gap: 10
-                        }}>
+                        style={styles.txtInputView}>
                         <Image source={require('../images/email.png')}
-                            style={{ width: 15, height: 15, }} />
+                            style={styles.vectorIcon} />
                         <TextInput
                             placeholder="Email"
                             autoCompleteType="email"
@@ -122,31 +108,32 @@ const ForgetPassword = () => {
                     </View>
 
                     <TouchableOpacity
-                        style={[logNRegStyle.allbutton, { backgroundColor: '#c27b7f' }]}
+                        style={[styles.allbutton, { backgroundColor: '#c27b7f' }]}
 
                         onPress={() => {
                             handleForgotPassword();
                             setModalVisible(!modalVisible);
                         }}
                     >
-                        <Text style={logNRegStyle.allButtonText}>submit</Text>
+                        <Text style={styles.allButtonText}>submit</Text>
 
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={logNRegStyle.cancel}
+                        style={styles.cancel}
                         onPress={() =>
                             navigation.navigate('Loginnn')
-                        }
-                    >
-                        <Text style={logNRegStyle.loginText}>Cancel</Text>
-
+                        }>
+                        <Text style={styles.loginText}>Cancel</Text>
                     </TouchableOpacity>
 
 
                 </View>
             </View>
         </View>
+          );
+        }}
+      </Theme>
     );
 };
 

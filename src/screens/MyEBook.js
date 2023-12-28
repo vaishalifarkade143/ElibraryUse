@@ -7,6 +7,8 @@ import { AuthContext } from '../context/AuthContext';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
 import messaging from '@react-native-firebase/messaging';
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const MyEBook = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -108,7 +110,7 @@ const MyEBook = ({ navigation }) => {
             style={{
               marginLeft: 10,
               fontSize: 15,
-
+              color: '#2f4858'
             }}
           >
             Dindayal UpadhyayLibrary</Text>) :
@@ -116,15 +118,16 @@ const MyEBook = ({ navigation }) => {
             (<Text
               style={{
                 marginLeft: 10,
-                fontSize: 15
+                fontSize: 15,
+                color: '#2f4858'
               }}
             >
               Kundanlal Gupta Library</Text>) :
             (<Text
               style={{
                 marginLeft: 10,
-                fontSize: 15
-
+                fontSize: 15,
+                color: '#2f4858'
               }}
             >
               Rashtramata Kasturba Library</Text>)),
@@ -138,7 +141,11 @@ const MyEBook = ({ navigation }) => {
           navigation.navigate("ReadeBook", { data: item })
 
         }}>
-          <Text style={{ color: '#fff', textAlign: 'center', backgroundColor: '#c27b7f', marginLeft: 20, marginRight: 20, fontWeight: 'bold', borderRadius: 5, padding: 5 }}>Read</Text>
+          <Text style={{
+            color: '#fff', textAlign: 'center',
+            backgroundColor: '#c27b7f', marginLeft: 20, marginRight: 20,
+            fontWeight: 'bold', borderRadius: 5, padding: 5
+          }}>Read</Text>
         </TouchableOpacity>
       ]
     );
@@ -153,103 +160,80 @@ const MyEBook = ({ navigation }) => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff' }}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/menu.png')}
-        onClickLeftIcon={() => {
-          navigation.openDrawer();
-        }}
-      />
-      <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={{ fontSize: 20, fontFamily: 'Philosopher-Bold', color: '#000' }}>E-Books</Text>
-      </View>
-      <View style={{
-        marginTop: 8, marginLeft: 130, width: 100, height: 3, backgroundColor: '#fff3cd',
-        justifyContent: 'center'
-      }}></View>
-
-      <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
-
-        {/* ==================search======================= */}
-        <View style={styles.searchcontainer}>
-          <View style={styles.searchBar}>
-            <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholder="Search by Book Name, Author, Language"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
+    <Theme>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/menu.png')}
+              onClickLeftIcon={() => {
+                navigation.openDrawer();
+              }}
             />
+            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={styles.sectionHeading}>E-Books</Text>
+            </View>
+            <View style={[styles.dividerView,{ width: 80, marginLeft: 140,}]}></View>
 
-            {searchQuery !== '' && (
-              <TouchableOpacity onPress={() => {
-                setSearchQuery('');
+            <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
 
-              }}>
-                <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
-              </TouchableOpacity>)}
-          </View>
-        </View>
-        {/* ===================================================================== */}
-
-        <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-          <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
-            <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-              <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
-                textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-            </Table>
-            <ScrollView style={styles.dataWrapper}>
-              <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                {updatedTableData.map((item, index) => (
-                  <Row
-                    key={index}
-                    data={item}
-                    widthArr={state.widthArr}
-                    style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                    textStyle={styles.text}
+              {/* ==================search======================= */}
+              <View style={styles.searchcontainer}>
+                <View style={styles.searchBar}>
+                  <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholderTextColor="#000"
+                    placeholder="Search by Book Name, Author, Language"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
                   />
-                ))}
-              </Table>
-            </ScrollView>
-          </View>
-        </ScrollView>
-      </View>
 
-    </View>
+                  {searchQuery !== '' && (
+                    <TouchableOpacity onPress={() => {
+                      setSearchQuery('');
+
+                    }}>
+                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: -25 }]} />
+                    </TouchableOpacity>)}
+                </View>
+              </View>
+              {/* ===================================================================== */}
+
+
+
+              <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+                <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+                  <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                      <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
+                        textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                    </Table>
+                    <ScrollView style={styles.dataWrapper}>
+                      <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                        {updatedTableData.map((item, index) => (
+                          <Row
+                            key={index}
+                            data={item}
+                            widthArr={state.widthArr}
+                            style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                            textStyle={styles.texttt}
+                          />
+                        ))}
+                      </Table>
+                    </ScrollView>
+                  </View>
+                </ScrollView>
+              </View>
+            </View>
+
+          </View>
+        );
+      }}
+    </Theme>
   );
 };
 
 export default MyEBook;
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
-  header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
-  text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
-  dataWrapper: { marginTop: -1 },
-  row: { height: 40, backgroundColor: '#fff' },
-
-  searchIcon: {
-    marginRight: 5,
-  },
-  searchInput: {
-    fontSize: 15,
-  },
-  searchcontainer: {
-    marginTop: 10,
-    marginLeft: 10,
-    padding: 5,
-    width: '95%',
-    height: 50,
-    backgroundColor: '#fff3cd'
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: 'gray',
-    paddingHorizontal: 3,
-
-  },
-}); 

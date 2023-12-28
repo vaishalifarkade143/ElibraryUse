@@ -4,8 +4,6 @@ import React, { useContext, useEffect, useRef, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import WebView from 'react-native-webview';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import logNRegStyle from '../Style/logNRegStyle';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 

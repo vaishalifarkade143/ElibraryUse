@@ -6,7 +6,8 @@ import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
-
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 
 const Transaction = ({ navigation }) => {
@@ -113,7 +114,11 @@ const Transaction = ({ navigation }) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <Theme>
+    {({ theme }) => {
+      const styles = getStyles(theme);
+      return (
+    <View style={styles.container}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
@@ -122,24 +127,10 @@ const Transaction = ({ navigation }) => {
         }}
       />
       <ScrollView>
-        <Text style={{
-          fontFamily: 'Philosopher-Bold',
-          fontSize: 27,
-          fontWeight: '600',
-          color: '#000',
-          textAlign: 'center',
-          marginTop: 20
-        }}>Transaction</Text>
+        <Text style={styles.sectionHeading}>Transaction</Text>
+        <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
         <View style={{
-          marginTop: 10,
-          width: 150,
-          height: 2,
-          backgroundColor: '#c27b7f',
-          alignItems: 'center',
-          marginLeft: 130,
-        }}></View>
-        <View style={{
-          backgroundColor: '#fff3cd',
+          backgroundColor: '#f5ebe6',
           marginTop: 20,
           flexDirection: 'column',
           marginBottom: 50,
@@ -153,6 +144,7 @@ const Transaction = ({ navigation }) => {
               <TextInput
                 style={styles.searchInput}
                 placeholder="Search by Plan Name"
+                placeholderTextColor="#000" 
                 value={searchQuery}
                 onChangeText={setSearchQuery}
               />
@@ -162,7 +154,7 @@ const Transaction = ({ navigation }) => {
                   setSearchQuery('');
 
                 }}>
-                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
+                  <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
                 </TouchableOpacity>)}
             </View>
           </View>
@@ -170,11 +162,12 @@ const Transaction = ({ navigation }) => {
 
 
           {/* table */}
-          <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+          <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
             <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
               <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
+                  textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -183,8 +176,8 @@ const Transaction = ({ navigation }) => {
                         key={index}
                         data={item}
                         widthArr={state.widthArr}
-                        style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                        textStyle={styles.text}
+                        style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                        textStyle={styles.texttt}
                       />
                     ))}
                   </Table>
@@ -201,43 +194,11 @@ const Transaction = ({ navigation }) => {
       </ScrollView>
 
     </View>
+     );
+    }}
+  </Theme>
 
   );
 };
 
 export default Transaction;
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
-  header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
-  text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
-  dataWrapper: { marginTop: -1 },
-  row: { height: 40, backgroundColor: '#fff' },
-  loadingText: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
-
-  searchIcon: {
-    marginRight: 27,
-  },
-  searchInput: {
-    fontSize: 15,
-  },
-  searchcontainer: {
-    marginTop: 10,
-    marginLeft: 10,
-    padding: 5,
-    width: '70%',
-    height: 50,
-    backgroundColor: '#fff3cd'
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: 'gray',
-    paddingHorizontal: 12,
-
-  },
-}); 

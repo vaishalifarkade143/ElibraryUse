@@ -15,6 +15,8 @@ import Video from 'react-native-video';
 import Slider from '@react-native-community/slider';
 import Orientation from 'react-native-orientation-locker';
 import RNFetchBlob from 'rn-fetch-blob';
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const Resources = () => {
   const navigation = useNavigation();
@@ -57,7 +59,7 @@ const Resources = () => {
 
   const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; //download URL for the XLSX file
 
-  
+
   //=================== download for permition=============================
 
   const requestStoragePermission = async () => {
@@ -89,19 +91,19 @@ const Resources = () => {
 
     //file download code =================
 
-      config({
-        // add this option that makes response data to be stored as a file,
-        // this is much more performant.
-        fileCache: true,
-        //=========filedownload manager code===================
-        addAndroidDownloads:{
-          useDownloadManager:true,
-          notification:true,
-          path:fileDir + "/download_"+Math.floor(data.getDate()+data.getSeconds() / 2)+'.xlsx',//mix of date n time to get random no.
-          description:'file download'
-        }
-        //=======================================
-      })
+    config({
+      // add this option that makes response data to be stored as a file,
+      // this is much more performant.
+      fileCache: true,
+      //=========filedownload manager code===================
+      addAndroidDownloads: {
+        useDownloadManager: true,
+        notification: true,
+        path: fileDir + "/download_" + Math.floor(data.getDate() + data.getSeconds() / 2) + '.xlsx',//mix of date n time to get random no.
+        description: 'file download'
+      }
+      //=======================================
+    })
       .fetch('GET', xlsxUrl, {
         //some headers ..
       })
@@ -167,24 +169,15 @@ const Resources = () => {
         return response.json();
       })
       .then((data) => {
-        // Filter the data based on the selected genre
-
         let filteredData = data.data;
-        // console.log("data is :", data.data);
 
         const selectedGenreInt = mapCategoryToInt(selectedGenre);
-        // console.log("selected  selectedGenreInt:", typeof selectedGenreInt);
 
         if (selectedGenre !== "Search By Genre") {
           filteredData = data.data.filter((item) =>
             item.category_id === selectedGenreInt
           );
         }
-
-        // console.log("selected genre type:", typeof selectedGenre);
-        // console.log("selected genre:", selectedGenre);
-        // console.log("Filtered Data:", filteredData);
-
         setAllOption(filteredData);
       })
       .catch((error) => {
@@ -248,7 +241,7 @@ const Resources = () => {
     .map((item) => [
       item.title,
       item.category_id,
-      item.url === null ? (<Text style={{ textAlign: 'center' }}>N/A</Text>) : (<Text>null</Text>),
+      item.url === null ? (<Text style={{ textAlign: 'center', color: '#2f4858' }}>N/A</Text>) : (<Text>null</Text>),
       item.note,
       getCategoryText(item.category_id),
 
@@ -263,384 +256,379 @@ const Resources = () => {
 
 
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/menu.png')}
-        onClickLeftIcon={() => {
-          navigation.openDrawer();
-        }}
-      />
-      {/* ====================pdf modal======================= */}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={pdfModalVisible}
-        onRequestClose={() => {
-          setPdfModalVisible(false);
-
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Pdf
-              trustAllCerts={false}
-              source={{ uri: pdfUrl }}
-              onLoadComplete={(numberOfPages, filePath) => {
-                // console.log(`Number of pages: ${numberOfPages}`);
+    <Theme>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/menu.png')}
+              onClickLeftIcon={() => {
+                navigation.openDrawer();
               }}
-              onPageChanged={(page, numberOfPages) => {
-                setCurrentPage(page);
-              }}
-              onError={(error) => {
-                console.log(error);
-              }}
-              onPressLink={(uri) => {
-                // console.log(`Link pressed: ${uri}`);
-              }}
-              style={styles.pdf}
             />
+            {/* ====================pdf modal======================= */}
 
-            <View style={styles.pageButton}>
-              <Text style={styles.pageButtonText}> {currentPage}</Text>
-            </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={pdfModalVisible}
+              onRequestClose={() => {
+                setPdfModalVisible(false);
 
-          </View>
-        </View>
-      </Modal>
-
-
-
-
-      {/* =================video modal=================== */}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={videoModalVisible}
-        onRequestClose={() => {
-          setVideoModalVisible(false);
-
-        }}>
-
-
-
-        <View style={{ flex: 1 }}>
-          <TouchableOpacity
-            style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
-            onPress={() => {
-              setClicked(true);
-            }}>
-            <Video
-              paused={puased}
-              source={{ uri: videoUrl }}
-              ref={ref}
-              onProgress={x => {
-                console.log(x);
-                setProgress(x);
-
-              }}
-              onLoad={data => {
-                setVideoDuration(data.duration);
-              }}
-
-              muted
-              style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
-              resizeMode="contain"
-            />
-            {clicked && (
-              <TouchableOpacity
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  position: 'absolute',
-                  backgroundColor: 'rgba(0,0,0,.5)',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity
-                    onPress={() => {
-                      ref.current.seek(parseInt(progress.currentTime) - 10);
-                    }}>
-                    <Image
-                      source={require('../images/backward.png')}
-                      style={{ width: 30, height: 30, tintColor: 'white' }}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      setPaused(!puased);
-                    }}>
-                    <Image
-                      source={
-                        puased
-                          ? require('../images/play-button.png')
-                          : require('../images/pause.png')
-                      }
-                      style={{
-                        width: 30,
-                        height: 30,
-                        tintColor: 'white',
-                        marginLeft: 50,
-                      }}
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      ref.current.seek(parseInt(progress.currentTime) + 10);
-                    }}>
-                    <Image
-                      source={require('../images/forward.png')}
-                      style={{
-                        width: 30,
-                        height: 30,
-                        tintColor: 'white',
-                        marginLeft: 50,
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    position: 'absolute',
-                    bottom: 0,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    alignItems: 'center'
-                  }}>
-                  <Text style={{ color: 'white' }}>
-                    {format(progress.currentTime)}
-                  </Text>
-                  <Slider
-                    style={{ width: '80%', height: 40 }}
-                    minimumValue={0}
-                    maximumValue={videoDuration}
-                    minimumTrackTintColor="#FFFFFF"
-                    maximumTrackTintColor="#fff"
-                    onValueChange={(x) => {
-                      ref.current.seek(x);
+              }}>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Pdf
+                    trustAllCerts={false}
+                    source={{ uri: pdfUrl }}
+                    onLoadComplete={(numberOfPages, filePath) => {
+                      // console.log(`Number of pages: ${numberOfPages}`);
                     }}
-                    value={progress.currentTime}
+                    onPageChanged={(page, numberOfPages) => {
+                      setCurrentPage(page);
+                    }}
+                    onError={(error) => {
+                      console.log(error);
+                    }}
+                    onPressLink={(uri) => {
+                      // console.log(`Link pressed: ${uri}`);
+                    }}
+                    style={styles.pdf}
                   />
 
-                  <Text style={{ color: 'white' }}>
-                    {format(progress.seekableDuration)}
-                  </Text>
+                  <View style={styles.pageButton}>
+                    <Text style={styles.pageButtonText}> {currentPage}</Text>
+                  </View>
+
                 </View>
-                <View
+              </View>
+            </Modal>
+
+
+
+
+            {/* =================video modal=================== */}
+
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={videoModalVisible}
+              onRequestClose={() => {
+                setVideoModalVisible(false);
+
+              }}>
+
+
+
+              <View style={{ flex: 1 }}>
+                <TouchableOpacity
+                  style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+                  onPress={() => {
+                    setClicked(true);
+                  }}>
+                  <Video
+                    paused={puased}
+                    source={{ uri: videoUrl }}
+                    ref={ref}
+                    onProgress={x => {
+                      console.log(x);
+                      setProgress(x);
+
+                    }}
+                    onLoad={data => {
+                      setVideoDuration(data.duration);
+                    }}
+
+                    muted
+                    style={{ width: '100%', height: fullScreen ? '100%' : 200 }}
+                    resizeMode="contain"
+                  />
+                  {clicked && (
+                    <TouchableOpacity
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        position: 'absolute',
+                        backgroundColor: 'rgba(0,0,0,.5)',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                      }}>
+                      <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            ref.current.seek(parseInt(progress.currentTime) - 10);
+                          }}>
+                          <Image
+                            source={require('../images/backward.png')}
+                            style={{ width: 30, height: 30, tintColor: 'white' }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            setPaused(!puased);
+                          }}>
+                          <Image
+                            source={
+                              puased
+                                ? require('../images/play-button.png')
+                                : require('../images/pause.png')
+                            }
+                            style={{
+                              width: 30,
+                              height: 30,
+                              tintColor: 'white',
+                              marginLeft: 50,
+                            }}
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          onPress={() => {
+                            ref.current.seek(parseInt(progress.currentTime) + 10);
+                          }}>
+                          <Image
+                            source={require('../images/forward.png')}
+                            style={{
+                              width: 30,
+                              height: 30,
+                              tintColor: 'white',
+                              marginLeft: 50,
+                            }}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <View
+                        style={{
+                          width: '100%',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          position: 'absolute',
+                          bottom: 0,
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          alignItems: 'center'
+                        }}>
+                        <Text style={{ color: 'white' }}>
+                          {format(progress.currentTime)}
+                        </Text>
+                        <Slider
+                          style={{ width: '80%', height: 40 }}
+                          minimumValue={0}
+                          maximumValue={videoDuration}
+                          minimumTrackTintColor="#FFFFFF"
+                          maximumTrackTintColor="#fff"
+                          onValueChange={(x) => {
+                            ref.current.seek(x);
+                          }}
+                          value={progress.currentTime}
+                        />
+
+                        <Text style={{ color: 'white' }}>
+                          {format(progress.seekableDuration)}
+                        </Text>
+                      </View>
+                      <View
+                        style={{
+                          width: '100%',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          position: 'absolute',
+                          top: 10,
+                          paddingLeft: 20,
+                          paddingRight: 20,
+                          alignItems: 'center'
+                        }}>
+                        <TouchableOpacity onPress={() => {
+                          if (fullScreen) {
+                            Orientation.lockToPortrait();
+                          } else {
+                            Orientation.lockToLandscape();
+                          }
+                          setFullScreen(!fullScreen)
+                        }}>
+                          <Image source={fullScreen ? require('../images/minimize.png') : require('../images/full-size.png')}
+                            style={{ width: 24, height: 24, tintColor: 'white' }} />
+                        </TouchableOpacity>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </TouchableOpacity>
+              </View>
+            </Modal>
+
+            {/* ============================audio=============================== */}
+
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={audioModalVisible}
+              onRequestClose={() => {
+                setAudioModalVisible(false);
+
+              }}>
+
+              <View style={{
+                marginTop: 250,
+                marginLeft: 10,
+                marginRight: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: '#fff3cd',
+                paddingBottom: 30,
+                paddingTop: 30,
+                borderRadius: 15,
+              }}>
+                <Text style={{
+                  marginBottom: 15,
+                  fontSize: 15,
+                  fontWeight: 'bold',
+                  color: '#000',
+                  textAlign: 'center',
+                  fontFamily: 'Philosopher-Bold',
+                }}>Preview</Text>
+                <Video
+                  source={{ uri: audioUrl }}
                   style={{
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    position: 'absolute',
-                    top: 10,
-                    paddingLeft: 20,
-                    paddingRight: 20,
-                    alignItems: 'center'
+                    width: 300,
+                    height: 100,
+                    borderRadius: 15,
+                    paddingLeft: 10,
+                    paddingRight: 10,
+                  }}
+                  controls={true} // Show audio controls (play, pause, etc.)
+                  resizeMode="contain"
+                  onEnd={() => setAudioModalVisible(false)}
+                />
+              </View>
+
+            </Modal>
+
+            <ScrollView>
+              <Text style={styles.sectionHeading}>Resources</Text>
+              <View style={[styles.dividerView,{ width: 110, marginLeft: 125,}]}></View>
+
+              <View style={{
+                backgroundColor: '#f5ebe6',
+                marginTop: 20,
+                flexDirection: 'column',
+                marginBottom: 50,
+                paddingBottom: 20,
+              }}>
+
+                <View style={{
+                  marginTop: 20,
+                  marginLeft: 15,
+                  marginRight: 10,
+                  flexDirection: 'row'
+                }}>
+
+                  <View style={{
+                    borderColor: '#000',
+                    borderWidth: 0.5,
+                    borderRadius: 8,
+                    width: '60%',
+                    height: 40,
+                    backgroundColor: "#fff",
+                    // color: theme === 'LIGHT' ? '#2f4858' : '#000',
                   }}>
-                  <TouchableOpacity onPress={() => {
-                    if (fullScreen) {
-                      Orientation.lockToPortrait();
-                    } else {
-                      Orientation.lockToLandscape();
-                    }
-                    setFullScreen(!fullScreen)
-                  }}>
-                    <Image source={fullScreen ? require('../images/minimize.png') : require('../images/full-size.png')}
-                      style={{ width: 24, height: 24, tintColor: 'white' }} />
+
+                    <Picker style={{ marginTop: -5, color: theme === 'LIGHT' ? '#2f4858' : '#000', }}
+                      selectedValue={selectedGenre}
+                      onValueChange={(itemValue) => setSelectedGenre(itemValue)}
+                    >
+
+                      {genr.map((genres, index) => (
+                        <Picker.Item key={index} label={genres} value={genres} />
+                      ))}
+                    </Picker>
+
+
+                  </View>
+
+
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#c27b7f',
+                      alignItems: 'center',
+                      padding: 5,
+                      borderRadius: 5,
+                      width: '30%',
+                      height: 40,
+                      marginLeft: 15,
+
+                    }}
+                    onPress={resetGenre}
+                  >
+                    <Text style={{
+                      color: '#fff',
+                      fontWeight: '700',
+                      fontSize: 18
+                    }}>Reset</Text>
+
                   </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            )}
-          </TouchableOpacity>
-        </View>
-      </Modal>
-
-      {/* ============================audio=============================== */}
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={audioModalVisible}
-        onRequestClose={() => {
-          setAudioModalVisible(false);
-
-        }}>
-
-        <View style={{
-          marginTop: 250,
-          marginLeft: 10,
-          marginRight: 10,
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#fff3cd',
-          paddingBottom: 30,
-          paddingTop: 30,
-          borderRadius: 15,
-        }}>
-          <Text style={{
-            marginBottom: 15,
-            fontSize: 15,
-            fontWeight: 'bold',
-            color: '#000',
-            textAlign: 'center',
-            fontFamily: 'Philosopher-Bold',
-          }}>Preview</Text>
-          <Video
-            source={{ uri: audioUrl }}
-            style={{
-              width: 300,
-              height: 100,
-              borderRadius: 15,
-              paddingLeft: 10,
-              paddingRight: 10,
-            }}
-            controls={true} // Show audio controls (play, pause, etc.)
-            resizeMode="contain"
-            onEnd={() => setAudioModalVisible(false)}
-          />
-        </View>
-
-      </Modal>
-
-      <ScrollView>
-        <Text style={{
-          fontFamily: 'Philosopher-Bold',
-          fontSize: 27,
-          fontWeight: '600',
-          color: '#000',
-          textAlign: 'center',
-          marginTop: 20
-        }}>Resources</Text>
-        <View style={{
-          marginTop: 0,
-          width: 110,
-          height: 2,
-          backgroundColor: '#c27b7f',
-          alignItems: 'center',
-          marginLeft: 125,
-        }}></View>
-
-        <View style={{
-          backgroundColor: '#fff3cd',
-          marginTop: 20,
-          flexDirection: 'column',
-          marginBottom: 50,
-          paddingBottom: 20,
-        }}>
-
-          <View style={{
-            marginTop: 20,
-            marginLeft: 15,
-            marginRight: 10,
-            flexDirection: 'row'
-          }}>
-
-            <View style={{
-              borderColor: '#000',
-              borderWidth: 0.5,
-              borderRadius: 8,
-              width: '60%',
-              height: 40, backgroundColor: "#fff"
-            }}>
-
-              <Picker style={{ marginTop: -5 }}
-                selectedValue={selectedGenre}
-                onValueChange={(itemValue) => setSelectedGenre(itemValue)}
-              >
-
-                {genr.map((genres, index) => (
-                  <Picker.Item key={index} label={genres} value={genres} />
-                ))}
-              </Picker>
 
 
-            </View>
+                <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 10 }}>
 
+                  {/* ==================search======================= */}
+                  <View style={styles.searchcontainer}>
+                    <View style={styles.searchBar}>
+                      <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                      <TextInput
+                        style={styles.searchInput}
+                        placeholder="Search by Title"
+                        placeholderTextColor="#000" 
+                        value={searchQuery}
+                        onChangeText={setSearchQuery}
+                      />
 
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#c27b7f',
-                alignItems: 'center',
-                padding: 5,
-                borderRadius: 5,
-                width: '30%',
-                height: 40,
-                marginLeft: 15,
+                      {searchQuery !== '' && (
+                        <TouchableOpacity onPress={() => {
+                          setSearchQuery('');
 
-              }}
-              onPress={resetGenre}
-            >
-              <Text style={{
-                color: '#fff',
-                fontWeight: '700',
-                fontSize: 18
-              }}>Reset</Text>
+                        }}>
+                          <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 80 }]} />
+                        </TouchableOpacity>)}
+                    </View>
+                  </View>
+                  {/* ===================================================================== */}
 
-            </TouchableOpacity>
-          </View>
+                  {/* table */}
+                  <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+                    <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+                      <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+                        <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                          <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                        </Table>
+                        <ScrollView style={styles.dataWrapper}>
+                          <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
 
+                            {updatedTableData.map((item, index) => (
+                              <Row
+                                key={index}
+                                data={item}
+                                widthArr={state.widthArr}
+                                style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                                textStyle={styles.texttt}
+                              />
+                            ))}
 
-          <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 10 }}>
-
-            {/* ==================search======================= */}
-            <View style={styles.searchcontainer}>
-              <View style={styles.searchBar}>
-                <Feather name="search" color={"gray"} size={20} style={styles.searchIcon1} />
-                <TextInput
-                  style={styles.searchInput}
-                  placeholder="Search by Title"
-                  value={searchQuery}
-                  onChangeText={setSearchQuery}
-                />
-
-                {searchQuery !== '' && (
-                  <TouchableOpacity onPress={() => {
-                    setSearchQuery('');
-
-                  }}>
-                    <Feather name="x" color={"gray"} size={20} style={styles.searchIcon1} />
-                  </TouchableOpacity>)}
-              </View>
-            </View>
-            {/* ===================================================================== */}
-
-            {/* table */}
-            <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
-              <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-                <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
-                  <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                    <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-                  </Table>
-                  <ScrollView style={styles.dataWrapper}>
-                    <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
-
-                      {updatedTableData.map((item, index) => (
-                        <Row
-                          key={index}
-                          data={item}
-                          widthArr={state.widthArr}
-                          style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                          textStyle={styles.text}
-                        />
-                      ))}
-
-                    </Table>
-                  </ScrollView>
+                          </Table>
+                        </ScrollView>
+                      </View>
+                    </ScrollView>
+                  </View>
                 </View>
-              </ScrollView>
-            </View>
+
+              </View>
+            </ScrollView>
+
           </View>
-
-        </View>
-      </ScrollView>
-
-    </View>
-
+        );
+      }}
+    </Theme>
   );
 };
 
@@ -649,15 +637,7 @@ export default Resources;
 
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
-  header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
-  text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
-  dataWrapper: { marginTop: -1 },
-  row: { height: 40, backgroundColor: '#fff', marginRight: 20, },
-  loadingText: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
+
   categoryText: {
     textAlign: 'center',
     color: '#fff',
@@ -676,109 +656,11 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: 'center',
   },
-  pdf: {
-    flex: 1,
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').height,
-  },
-  pageButton: {
-    position: 'absolute',
-    bottom: 210,
-    right: 0,
-    backgroundColor: 'black',
-    borderRadius: 10,
-    padding: 10,
-  },
-  pageButtonText: {
-    color: 'white',
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 20,
-    paddingLeft: 40,
-    paddingRight: 40,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  button: {
-    borderRadius: 5,
-    padding: 10,
-    elevation: 2,
-    backgroundColor: '#c27b7f',
-  },
 
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  modalText: {
-    marginBottom: 5,
-    textAlign: 'center',
-  },
-  videoPlayer: {
-    width: Dimensions.get('window').width,
-    height: Dimensions.get('window').width * (9 / 16),
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-  },
-  controlsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-  },
-  controlButton: {
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    backgroundColor: '#c27b7f',
-    color: 'white',
-    borderRadius: 5,
-    margin: 5,
-  },
 
-  searchIcon1: {
-    marginRight: 5,
-  },
-  searchInput: {
-    fontSize: 15,
-  },
-  searchcontainer: {
-    marginTop: 5,
-    marginLeft: 10,
-    padding: 5,
-    width: '90%',
-    height: 50,
-    backgroundColor: '#fff3cd'
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderColor: 'gray',
-    paddingHorizontal: 12,
 
-  },
+
+
 
 
 });

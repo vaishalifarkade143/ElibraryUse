@@ -105,15 +105,7 @@ const Registration = ({ navigation }) => {
 
                                 <Text style={[styles.lognregHead,{paddingHorizontal: 60,}]} >
                                     Registration</Text>
-                                <Text style={{
-                                    marginTop: 10,
-                                    paddingHorizontal: 50,
-                                    textAlign: 'center',
-                                    fontSize: 16,
-                                    fontFamily: 'Poppin-Thin',
-                                    color: theme === 'LIGHT' ? '#000' : '#fff'
-
-                                }}>
+                                <Text style={styles.subHeadinglognregHead}>
                                     Register your membership</Text>
 
                                 <Formik
@@ -133,17 +125,9 @@ const Registration = ({ navigation }) => {
                                         <View style={{ marginTop: 20 }}>
                                             <View>
                                                 <View
-                                                    style={{
-                                                        backgroundColor: '#fff',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        flexDirection: "row",
-                                                        margin: 15,
-                                                        paddingLeft: 15,
-                                                        gap: 10
-                                                    }}>
+                                                    style={styles.txtInputView}>
                                                     <Image source={require('../images/user.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="First Name"
                                                         autoCompleteType="first_name"
@@ -154,22 +138,14 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.first_name && errors.first_name &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>{errors.first_name}</Text>}
+                                                    <Text style={styles.validation}>{errors.first_name}</Text>}
                                             </View>
 
                                             <View>
                                                 <View
-                                                    style={{
-                                                        backgroundColor: '#fff',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        flexDirection: "row",
-                                                        margin: 15,
-                                                        paddingLeft: 15,
-                                                        gap: 10
-                                                    }}>
+                                                    style={styles.txtInputView}>
                                                     <Image source={require('../images/user.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Last Name"
                                                         autoCompleteType="last_name"
@@ -180,22 +156,14 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.last_name && errors.last_name &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>{errors.last_name}</Text>}
+                                                    <Text style={styles.validation}>{errors.last_name}</Text>}
                                             </View>
 
                                             <View>
                                                 <View
-                                                    style={{
-                                                        backgroundColor: '#fff',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        flexDirection: "row",
-                                                        margin: 15,
-                                                        paddingLeft: 15,
-                                                        gap: 10
-                                                    }}>
+                                                    style={styles.txtInputView}>
                                                     <Image source={require('../images/email.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Email"
                                                         autoCompleteType="email"
@@ -206,22 +174,14 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.email && errors.email &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>{errors.email}</Text>}
+                                                    <Text style={styles.validation}>{errors.email}</Text>}
                                             </View>
 
                                             <View>
                                                 <View
-                                                    style={{
-                                                        backgroundColor: '#fff',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        flexDirection: "row",
-                                                        margin: 15,
-                                                        paddingLeft: 15,
-                                                        gap: 10
-                                                    }}>
+                                                    style={styles.txtInputView}>
                                                     <Image source={require('../images/telephone.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Phone"
                                                         autoCompleteType="phone"
@@ -232,21 +192,13 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.phone && errors.phone &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>{errors.phone}</Text>}
+                                                    <Text style={styles.validation}>{errors.phone}</Text>}
                                             </View>
 
                                             <View>
-                                                <View style={{
-                                                    backgroundColor: '#fff',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    flexDirection: "row",
-                                                    margin: 15,
-                                                    paddingLeft: 15,
-                                                    gap: 10,
-                                                }}>
+                                                <View style={styles.txtInputView}>
                                                     <Image source={require('../images/password.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Password"
                                                         autoCompleteType="password"
@@ -257,22 +209,14 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.password && errors.password &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>
+                                                    <Text style={styles.validation}>
                                                         {errors.password}</Text>}
                                             </View>
 
                                             <View>
-                                                <View style={{
-                                                    backgroundColor: '#fff',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    flexDirection: "row",
-                                                    margin: 15,
-                                                    paddingLeft: 15,
-                                                    gap: 10,
-                                                }}>
+                                                <View style={styles.txtInputView}>
                                                     <Image source={require('../images/password.png')}
-                                                        style={{ width: 15, height: 15, }} />
+                                                        style={styles.vectorIcon} />
                                                     <TextInput
                                                         placeholder="Confirm Password"
                                                         autoCompleteType="confirmpassword"
@@ -283,7 +227,7 @@ const Registration = ({ navigation }) => {
                                                     />
                                                 </View>
                                                 {touched.confirmpassword && errors.confirmpassword &&
-                                                    <Text style={{ color: 'red', marginLeft: 30 }}>
+                                                    <Text style={styles.validation}>
                                                         {errors.confirmpassword}</Text>}
                                             </View>
 

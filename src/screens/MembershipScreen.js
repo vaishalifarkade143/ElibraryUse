@@ -4,7 +4,8 @@ import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
-
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const MembershipScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -137,7 +138,11 @@ const MembershipScreen = ({ navigation }) => {
     ]) : [];
 
   return (
-    <View style={{ flex: 1 }}>
+    <Theme>
+    {({ theme }) => {
+      const styles = getStyles(theme);
+      return (
+    <View style={styles.container}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/menu.png')}
@@ -148,24 +153,8 @@ const MembershipScreen = ({ navigation }) => {
       
       <ScrollView>
      
-        <Text style={{
-          fontFamily: 'Philosopher-Bold',
-          fontSize: 27,
-          fontWeight: '600',
-          color: '#000',
-          textAlign: 'center',
-          marginTop: 20
-        }}>Membership Plan</Text>
-
-
-        <View style={{
-          marginTop: 10,
-          width: 150,
-          height: 2,
-          backgroundColor: '#c27b7f',
-          alignItems: 'center',
-          marginLeft: 110,
-        }}></View>
+        <Text style={styles.sectionHeading}>Membership Plan</Text>
+        <View style={[styles.dividerView,{ width: 170, marginLeft: 100,}]}></View>
 
         
 {singleSubscribedPlan ?
@@ -185,6 +174,7 @@ const MembershipScreen = ({ navigation }) => {
               alignItems: 'center'
             }} >
               {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
+                textAlign: 'center',
                 fontFamily: 'Philosopher-Bold',
                 fontSize: 25,
                 fontWeight: '600',
@@ -199,10 +189,11 @@ const MembershipScreen = ({ navigation }) => {
               }}>Long Term</Text>) : (<Text style={styles.loadingText}>Loading...</Text>))}
 
               <Text style={{
-                fontWeight: 'bold',
                 paddingTop: 5,
                 marginTop: 5,
-                fontSize: 15, fontFamily: 'Philosopher-Bold',
+                fontSize: 15,
+                fontFamily: 'Philosopher-Bold',
+                color:'#2f4858'
               }}>Active till:  {formattedDate1}  </Text>
 
               <View style={{
@@ -222,27 +213,31 @@ const MembershipScreen = ({ navigation }) => {
                   }} />
 
                 <Text style={{
-                  fontWeight: 'bold',
                   color: 'black',
                   paddingTop: 5,
                   marginTop: 5,
-                  fontSize: 30, fontFamily: 'Philosopher-Bold', right: -35
+                  fontSize: 30,
+                   fontFamily: 'Philosopher-Bold',
+                    right: -35
                 }}>{singleSubscribedPlan.plan_amount}</Text>
                 <Text style={{
-                  fontWeight: 'bold',
                   marginRight: 40,
                   paddingTop: 5,
                   marginTop: 5,
-                  fontSize: 15, fontFamily: 'Philosopher-Bold', right: -35
+                  fontSize: 15,
+                   fontFamily: 'Philosopher-Bold', 
+                   right: -35,
+                   color:'#2f4858'
                 }}>/yearly</Text>
               </View>
 
               <Text style={{
                 textAlign: 'center',
-                fontWeight: 'bold',
+                fontFamily: 'Philosopher-Bold', 
                 marginTop: 10,
                 marginBottom: 10,
-                fontWeight: 'bold', right: -10
+                 right: -10,
+                 color:'#2f4858'
               }}>Subscribed Date:{formattedDate}</Text>
             </View>
             <View style={{ justifyContent: 'center', alignItems: 'center' ,}}>
@@ -251,7 +246,8 @@ const MembershipScreen = ({ navigation }) => {
 
 
                 }}>
-                <Text style={{
+                <Text style={
+                  {
                   marginLeft: 20,
                   padding: 10,
                   backgroundColor: '#c27b7f',
@@ -259,26 +255,14 @@ const MembershipScreen = ({ navigation }) => {
                   fontSize: 15,
                   color: "#fff",
                   borderRadius: 8,
-                }}>Upgrade Plan</Text>
+                }
+                }>Upgrade Plan</Text>
               </TouchableOpacity>
             </View>
 
           </View>
-        <Text style={{
-          fontFamily: 'Philosopher-Bold',
-          fontSize: 27,
-          fontWeight: '600',
-          color: '#000',
-          textAlign: 'center',
-        }}>Transaction</Text>
-        <View style={{
-          marginTop: 5,
-          width: 100,
-          height: 2,
-          backgroundColor: '#c27b7f',
-          alignItems: 'center',
-          marginLeft: 135,
-        }}></View>
+        <Text style={styles.sectionHeading}>Transaction</Text>
+        <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
         <View style={{
           backgroundColor: '#fff3cd',
           marginTop: 20,
@@ -293,6 +277,7 @@ const MembershipScreen = ({ navigation }) => {
 <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
 <TextInput
   style={styles.searchInput}
+  placeholderTextColor="blue"
   placeholder="Search by Plan Name "
   value={searchQuery}
   onChangeText={setSearchQuery}
@@ -314,7 +299,8 @@ const MembershipScreen = ({ navigation }) => {
             <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
               <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
+                  textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                 </Table>
                 <ScrollView style={styles.dataWrapper}>
                   <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -323,8 +309,8 @@ const MembershipScreen = ({ navigation }) => {
                         key={index}
                         data={item}
                         widthArr={state.widthArr}
-                        style={[styles.row, index % 2 && { backgroundColor: '#fff' }]}
-                        textStyle={styles.text}
+                        style={[styles.row1, index % 2 && { backgroundColor: '#fff', }]}
+                        textStyle={styles.texttt}
                       />
                     ))}
                   </Table>
@@ -341,50 +327,10 @@ const MembershipScreen = ({ navigation }) => {
       </ScrollView>
 
     </View>
-
+  );
+}}
+</Theme>
   );
 };
 
 export default MembershipScreen;
-const styles = StyleSheet.create({
-    container: { flex: 1, padding: 17, paddingTop: 30, backgroundColor: '#fff' },
-    header: { height: 50, backgroundColor: '#fff', fontWeight: 'bold' },
-    text: { textAlign: 'center', fontWeight: '400', fontSize: 15 },
-    dataWrapper: { marginTop: -1 },
-    row: { height: 40, backgroundColor: '#fff' },
-    loadingText: {
-      flex: 1,
-      fontSize: 20,
-      textAlign: 'center',
-      justifyContent: 'center'
-    },
-    searchIcon: {
-      marginRight: 20,
-    },
-    searchInput: {
-      fontSize: 15,
-    },
-    searchcontainer: {
-      marginTop: 10,
-      marginLeft: 10,
-      padding: 5,
-      width: '75%',
-      height: 50,
-      backgroundColor: '#fff3cd'
-    },
-    searchBar: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: 'white',
-      borderRadius: 8,
-      borderColor: 'gray',
-      paddingHorizontal: 12,
-  
-    },
-  
-  });
-
-
-
-
-
