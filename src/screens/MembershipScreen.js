@@ -161,7 +161,7 @@ const MembershipScreen = ({ navigation }) => {
         (isLoading  ? (<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#c27b7f" />): 
            (<View>
             <View style={{
-            backgroundColor: '#fff3cd',
+            backgroundColor: '#f5ebe6',
             marginTop: 20,
             flexDirection: 'row',
             marginBottom: 50,
@@ -264,7 +264,7 @@ const MembershipScreen = ({ navigation }) => {
         <Text style={styles.sectionHeading}>Transaction</Text>
         <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
         <View style={{
-          backgroundColor: '#fff3cd',
+          backgroundColor:  '#f5ebe6',
           marginTop: 20,
           flexDirection: 'column',
           marginBottom: 50,
@@ -277,7 +277,7 @@ const MembershipScreen = ({ navigation }) => {
 <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
 <TextInput
   style={styles.searchInput}
-  placeholderTextColor="blue"
+  placeholderTextColor="#000"
   placeholder="Search by Plan Name "
   value={searchQuery}
   onChangeText={setSearchQuery}
@@ -295,7 +295,7 @@ const MembershipScreen = ({ navigation }) => {
           {/* Display search results */}
 
           {/* table */}
-          <View style={{ flex: 1, backgroundColor: '#fff3cd', marginTop: 15 }}>
+          <View style={styles.alltableView}>
             <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
               <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                 <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>

@@ -4,7 +4,8 @@ import { Picker } from '@react-native-picker/picker';
 import Feather from 'react-native-vector-icons/Feather';
 import Header from "../common/Header";
 import Pagination from "../components/pagination";
-
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 
 const Books = ({ navigation }) => {
@@ -34,34 +35,34 @@ const Books = ({ navigation }) => {
   // ===================dropdown navigation to search screen==================
   const handleNavigateToSearchGenre = () => {
     const genreList = [...genr];
-    const book=[...books];
-      navigation.navigate('search', { genreList,book });
+    const book = [...books];
+    navigation.navigate('search', { genreList, book });
   };
   const handleNavigateToSearchAuthor = () => {
     const authorList = [...authr];
-    const book=[...books];
-    navigation.navigate('search', { authorList,book });
+    const book = [...books];
+    navigation.navigate('search', { authorList, book });
   };
   const handleNavigateToSearchPublisher = () => {
     const publisherList = [...publishr];
-    const book=[...books];
-    navigation.navigate('search', { publisherList,book });
+    const book = [...books];
+    navigation.navigate('search', { publisherList, book });
   };
   const handleNavigateToSearchLanguage = () => {
     const languageList = [...language];
-    const book=[...books];
-    navigation.navigate('search', { languageList,book });
+    const book = [...books];
+    navigation.navigate('search', { languageList, book });
   };
   const handleNavigateToSearchFormat = () => {
-    const formatList = [...formats];  
-    const book=[...books];
-    navigation.navigate('search', { formatList,book});
+    const formatList = [...formats];
+    const book = [...books];
+    navigation.navigate('search', { formatList, book });
 
   };
   const handleNavigateToSearchLibrary = () => {
     const libraryList = [...libraries];
-    const book=[...books];
-    navigation.navigate('search', { libraryList,book });
+    const book = [...books];
+    navigation.navigate('search', { libraryList, book });
   };
 
   // ==========================all books=========================
@@ -716,90 +717,54 @@ const Books = ({ navigation }) => {
   const AllBooks = () => {
     const scrollViewRef = useRef(null); // Create a ref for ScrollView
     return (
+      <Theme>
+        {({ theme }) => {
+          const styles = getStyles(theme);
+          return (
+            <View style={{ flex: 1, backgroundColor: theme === 'DARK' ? '#000' : '#fff' }}>
 
-      <View style={{ flex: 1, }}>
-
-        {/*========================== dropdown with searchbar========================= */}
-        <ScrollView ref={scrollViewRef}
-          horizontal={true} contentContainerStyle={{ columnGap: -10 }}
-          showsHorizontalScrollIndicator={false}
-        >
-          <View style={{
-            flexDirection: 'row',
-            paddingTop: 10,
-            paddingBottom: 10
-          }}>
-
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
-
-                }}
-                onPress={handleNavigateToSearchGenre}
+              {/*========================== dropdown with searchbar========================= */}
+              <ScrollView ref={scrollViewRef}
+                horizontal={true} contentContainerStyle={{ columnGap: -10 }}
+                showsHorizontalScrollIndicator={false}
               >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedGenre == '' ? 'Select Genre' : selectedGenre}
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
+                <View style={{
                   flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
+                  paddingTop: 10,
+                  paddingBottom: 10
+                }}>
 
-                }}
-                onPress={handleNavigateToSearchAuthor}
-              >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedAuthor == '' ? 'Select Author' : selectedAuthor}
-                </Text>
-              </TouchableOpacity>
-            </View>
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchGenre}
+                    >
+                      <Text style={styles.category}>
+                        {selectedGenre == '' ? 'Select Genre' : selectedGenre}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
 
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchAuthor}
+                    >
+                      <Text style={styles.category}>
+                        {selectedAuthor == '' ? 'Select Author' : selectedAuthor}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
 
-                }}
-                onPress={handleNavigateToSearchPublisher}
-              >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedPublisher == '' ? 'Select Publisher' : selectedPublisher}
-                </Text>
-                {/* {clicked ? (
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchPublisher}
+                    >
+                      <Text style={styles.category}>
+                        {selectedPublisher == '' ? 'Select Publisher' : selectedPublisher}
+                      </Text>
+                      {/* {clicked ? (
                   <Image
                     style={{ width: 20, height: 20 }}
                   />
@@ -808,56 +773,42 @@ const Books = ({ navigation }) => {
                     style={{ width: 20, height: 20 }}
                   />
                 )} */}
-              </TouchableOpacity>
-            </View>
+                    </TouchableOpacity>
+                  </View>
 
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchLanguage}
+                    >
+                      <Text style={styles.category}>
+                        {selectedLanguage == '' ? 'Select Language' : selectedLanguage}
+                      </Text>
 
-                }}
-                onPress={handleNavigateToSearchLanguage}
-              >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedLanguage == '' ? 'Select Language' : selectedLanguage}
-                </Text>
-               
-              </TouchableOpacity>
-            </View>
+                    </TouchableOpacity>
+                  </View>
 
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchFormat}
+                    >
+                      <Text style={styles.category}>
+                        {selectedFormat == '' ? 'Select Format' : selectedFormat}
+                      </Text>
 
-                }}
-                onPress={handleNavigateToSearchFormat}
-              >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedFormat == '' ? 'Select Format' : selectedFormat}
-                </Text>
-                {/* {formatClicked ? (
+                    </TouchableOpacity>
+                  </View>
+
+                  <View style={styles.categoryView}>
+                    <TouchableOpacity
+                      style={styles.categorytouch}
+                      onPress={handleNavigateToSearchLibrary}
+                    >
+                      <Text style={styles.category}>
+                        {selectedLibrary == '' ? 'Select Library' : selectedLibrary}
+                      </Text>
+                      {/* {clicked ? (
                   <Image
                     style={{ width: 20, height: 20 }}
                   />
@@ -866,49 +817,16 @@ const Books = ({ navigation }) => {
                     style={{ width: 20, height: 20 }}
                   />
                 )} */}
-              </TouchableOpacity>
-            </View>
-
-            <View style={{ marginLeft: 10, marginRight: 10 }}>
-              <TouchableOpacity
-                style={{
-                  width: 130,
-                  height: 65,
-                  borderRadius: 10,
-                  borderWidth: 0.5,
-                  alignSelf: 'center',
-                  marginTop: 10,
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingLeft: 15,
-                  paddingRight: 15,
-
-                }}
-                onPress={handleNavigateToSearchLibrary}
-              >
-                <Text style={{ fontWeight: '600' }}>
-                  {selectedLibrary == '' ? 'Select Library' : selectedLibrary}
-                </Text>
-                {/* {clicked ? (
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                  />
-                ) : (
-                  <Image
-                    style={{ width: 20, height: 20 }}
-                  />
-                )} */}
-              </TouchableOpacity>
-            </View>
+                    </TouchableOpacity>
+                  </View>
 
 
-          </View>
+                </View>
 
-        </ScrollView>
+              </ScrollView>
 
-        {/* ================horizontal dropdown==================== */}
-
+              {/* ================horizontal dropdown==================== */}
+              {/* 
         <ScrollView ref={scrollViewRef}
           horizontal={true} contentContainerStyle={{ columnGap: -10 }}
           showsHorizontalScrollIndicator={false}
@@ -1067,200 +985,190 @@ const Books = ({ navigation }) => {
 
 
 
-        </ScrollView>
-        {/* ==================================================== */}
+        </ScrollView> */}
+              {/* ==================================================== */}
 
 
-        <ScrollView>
-         
-          <View style={{ marginBottom: 15 }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#c27b7f',
-                alignItems: 'center',
-                padding: 5,
-                borderRadius: 5,
-                width: '30%',
-                height: 50,
-                justifyContent: 'center',
-                marginLeft: 130,
-                marginTop: 15
-              }}
-              onPress={() => {
+              <ScrollView>
 
-                setFilteredBooks(books);
-                setSelectedAuthor("Author");
-                setSelectedFormat("Format");
-                setSelectedGenre("Genre");
-                setSelectedLanguage("Language");
-                setSelectedLibrary("Library");
-                setSelectedPublisher("Publisher");
+                <View style={{ marginBottom: 15 }}>
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#c27b7f',
+                      alignItems: 'center',
+                      padding: 5,
+                      borderRadius: 5,
+                      width: '30%',
+                      height: 50,
+                      justifyContent: 'center',
+                      marginLeft: 130,
+                      marginTop: 15
+                    }}
+                    onPress={() => {
 
-              }}
-            >
-              <Text style={{
-                color: '#fff',
-                fontWeight: '700',
-                fontSize: 18
-              }}>Reset</Text>
+                      setFilteredBooks(books);
+                      setSelectedAuthor("Author");
+                      setSelectedFormat("Format");
+                      setSelectedGenre("Genre");
+                      setSelectedLanguage("Language");
+                      setSelectedLibrary("Library");
+                      setSelectedPublisher("Publisher");
 
-            </TouchableOpacity>
-          </View>
+                    }}
+                  >
+                    <Text style={{
+                      color: '#fff',
+                      fontWeight: '700',
+                      fontSize: 18
+                    }}>Reset</Text>
+
+                  </TouchableOpacity>
+                </View>
 
 
-          {/* ==========================All books=========================== */}
+                {/* ==========================All books=========================== */}
 
-          <View style={{
-            flexDirection: 'row', marginVertical: 5,
-            justifyContent: 'center', marginLeft: 15, marginRight: 15,
-          }}>
-            <Text style={styles.coroselheading}>Our Books Collection</Text>
-          </View>
-          {totalBooksCount < 10 ? (<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>)
-            :
-            (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
+                <View style={{
+                  flexDirection: 'row', marginVertical: 5,
+                  justifyContent: 'center', marginLeft: 15, marginRight: 15,
+                }}>
+                  <Text style={styles.coroselheading}>Our Books Collection</Text>
+                </View>
+                {totalBooksCount < 10 ? (<Text style={styles.totalBooksCount}>Showing {totalBooksCount} of {totalBooksCount} Books</Text>)
+                  :
+                  (<Text style={styles.totalBooksCount}>Showing 10 of {totalBooksCount} Books</Text>)}
 
-          <View style={{ marginTop: 10,
-             marginStart: 10, backgroundColor: '#fff' }}>
-
-            <FlatList
-              numColumns={2}
-              contentContainerStyle={{ columnGap: -10 }}
-              keyExtractor={(item) => item.id.toString()}
-              data={filteredBooks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
-
-              renderItem={({ item, id }) =>
-
-                <TouchableOpacity onPress={() => {
-                  navigation.navigate('BooksDetailPage', { data: item })
+                <View style={{
+                  marginTop: 10,
+                  marginStart: 10, backgroundColor: theme === 'DARK' ? '#000' : '#fff',
                 }}>
 
-                  <View style={{
-                    width: 145,
-                    height: 280,
-                    marginEnd: 50,
-                  }}>
-                    <View style={{
-                      elevation: 5,
-                      borderRadius: 5,
-                      color: '#000'
-                    }}>
-                      <Image source={{ uri: item.image_path }}
-                        style={{
-                          aspectRatio: 0.8,
-                          resizeMode: 'contain',
-                          borderRadius: 10,
+                  <FlatList
+                    numColumns={2}
+                    contentContainerStyle={{ columnGap: -10 }}
+                    keyExtractor={(item) => item.id.toString()}
+                    data={filteredBooks.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)}
 
-                        }}
-                      />
-                      {/* ------------------code for book_item_status----------------------------- */}
-                      {item.items[0].status === 1 ?
-                        (<Text style={{
-                          position: 'absolute',
-                          textAlign: 'center',
-                          right: -10,
-                          width: 80,
-                          height: 20,
-                          color: 'green',
-                          marginTop: 5,
-                          backgroundColor: '#B6FFC0',
-                          fontSize: 13,
-                          fontWeight: 'bold',
-                          borderRadius: 10,
-                          borderWidth: 1.5,
-                          borderColor: 'green'
+                    renderItem={({ item, id }) =>
+
+                      <TouchableOpacity onPress={() => {
+                        navigation.navigate('BooksDetailPage', { data: item })
+                      }}>
+
+                        <View style={{
+                          width: 145,
+                          height: 280,
+                          marginEnd: 50,
                         }}>
-                          Available</Text>) :
-                        (<Text style={{
-                          position: 'absolute',
-                          textAlign: 'center',
-                          right: -10,
-                          width: 80,
-                          height: 20,
-                          marginTop: 5,
-                          color: '#990000',
-                          backgroundColor: 'red',
-                          fontSize: 13,
-                          fontWeight: 'bold',
-                          borderRadius: 10,
-                          borderWidth: 1.5,
-                          borderColor: '#990000'
-                        }}>
-                          Unavailable</Text>)}
-                      {/* ================================================================================== */}
-                    </View>
+                          <View style={{
+                            elevation: 5,
+                            borderRadius: 5,
+                            color: '#000'
+                          }}>
+                            <Image source={{ uri: item.image_path }}
+                              style={{
+                                aspectRatio: 0.8,
+                                resizeMode: 'contain',
+                                borderRadius: 10,
 
-                    <View style={{ padding: 10, }}>
-                      <Text style={{
-                        fontSize: 15,
-                        marginLeft: -10,
-                        fontFamily: 'philosopher-bold',
-                      }} numberOfLines={1}>
-                        {item.name}
-                      </Text>
-                      {item.library_id === 111 ?
-                        (<Text
-                          style={{
-                            marginLeft: -10,
-                            fontSize: 12
-                          }}
-                        >
-                          Dindayal UpadhyayLibrary</Text>) :
-                        (item.library_id === 222 ?
-                          (<Text
-                            style={{
-                              marginLeft: -12,
-                              fontSize: 12
-                            }}
-                          >
-                            Kundanlal Gupta Library</Text>) :
-                          (<Text
-                            style={{
-                              marginLeft: -8,
-                              fontSize: 12
+                              }}
+                            />
+                            {/* ------------------code for book_item_status----------------------------- */}
+                            {item.items[0].status === 1 ?
+                              (<Text style={[styles.batch,
+                              {
+                                color: 'green',
+                                backgroundColor: '#B6FFC0',
+                                borderColor: 'green',
+                              }]}>
+                                Available</Text>) :
+                              (<Text style={[styles.batch,
+                              {
+                                borderColor: '#990000',
+                                color: '#990000',
+                                backgroundColor: 'red',
+                              }]}>
+                                Unavailable</Text>)}
+                            {/* ================================================================================== */}
+                          </View>
 
-                            }}
-                          >
-                            Rashtramata Kasturba Library</Text>))}
+                          <View style={{ padding: 10, }}>
+                            <Text style={{
+                              fontSize: 15,
+                              marginLeft: -10,
+                              fontFamily: 'philosopher-bold',
+                              color: theme === 'DARK' ? '#fff' : '#000'
+                            }} numberOfLines={1}>
+                              {item.name}
+                            </Text>
+                            {item.library_id === 111 ?
+                              (<Text
+                                style={{
+                                  marginLeft: -10,
+                                  fontSize: 12,
+                                  color: theme === 'DARK' ? '#fff' : '#000'
+                                }}
+                              >
+                                Dindayal UpadhyayLibrary</Text>) :
+                              (item.library_id === 222 ?
+                                (<Text
+                                  style={{
+                                    marginLeft: -12,
+                                    fontSize: 12,
+                                    color: theme === 'DARK' ? '#fff' : '#000'
+                                  }}
+                                >
+                                  Kundanlal Gupta Library</Text>) :
+                                (<Text
+                                  style={{
+                                    marginLeft: -8,
+                                    fontSize: 12,
+                                    color: theme === 'DARK' ? '#fff' : '#000'
 
-
-                      {item.items[0].format === 3 ?
-
-                        <Image
-                          source={require('../images/ebook.png')}
-                          style={{ height: 20, width: 20, marginLeft: -8, }}
-                        />
-                        :
-
-                        <Image
-                          source={require('../images/bookfill.png')}
-                          style={{ height: 20, width: 20, marginLeft: -8, }}
-                        />
-                      }
-                    </View>
-
-                  </View>
-
-                </TouchableOpacity>
-
-              }
-            />
-
-          </View>
+                                  }}
+                                >
+                                  Rashtramata Kasturba Library</Text>))}
 
 
+                            {item.items[0].format === 3 ?
 
-          {/* // =====================pagination controls to navigate between pages===================  */}
-          <Pagination
-            currentPage={currentPage}
-            totalPages={Math.ceil(totalBooksCount / itemsPerPage)}
-            onPageChange={(page) => setCurrentPage(page)}
+                              <Image
+                                source={require('../images/ebook.png')}
+                                style={styles.bookicon}
+                              />
+                              :
 
-          />
+                              <Image
+                                source={require('../images/bookfill.png')}
+                                style={styles.bookicon}
+                              />
+                            }
+                          </View>
 
-        </ScrollView>
-      </View>
+                        </View>
 
+                      </TouchableOpacity>
+
+                    }
+                  />
+
+                </View>
+
+
+
+                {/* // =====================pagination controls to navigate between pages===================  */}
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={Math.ceil(totalBooksCount / itemsPerPage)}
+                  onPageChange={(page) => setCurrentPage(page)}
+
+                />
+
+              </ScrollView>
+            </View>
+          );
+        }}
+      </Theme>
 
     );
   };
@@ -1269,168 +1177,99 @@ const Books = ({ navigation }) => {
 
 
   return (
-    <View style={styles.container}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/menu.png')}
-        onClickLeftIcon={() => {
-          navigation.openDrawer();
-        }}
-      />
-
-      {isLoaded ? (<ActivityIndicator style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-        size="large" color="#c27b7f" />) :
-        (<View style={{ flex: 3 }}>
-          <View style={styles.searchcontainer}>
-            <View style={styles.searchBar}>
-
-              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-              <TextInput
-                style={styles.input}
-                placeholder="Search a Book"
-                spellCheck={false}
-                value={searchQuery}
-                onChangeText={(Text) => {
-                  setSearchQuery(Text);
-                  handleSearch();
-
-                }}
-              />
-
-              {searchQuery !== '' && (
-                <TouchableOpacity onPress={() => {
-                  setSearchQuery('');
-                  setSearchResults('');
-
-                }}>
-                  <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
-                </TouchableOpacity>)}
-
-            </View>
-          </View>
-
-
-          {/* Display search results */}
-          {isLoading ?
-            (<Text style={styles.noBooksFound}>No books found</Text>) :
-
-            (<FlatList
-              style={{ marginBottom: 10 }}
-              keyExtractor={(item) => item.id.toString()}
-              data={searchResults}
-              ListFooterComponent={<AllBooks />}
-              renderItem={({ item }) => (
-
-                // Render each search result item here
-                <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
-                  <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
-                    <Image source={require('../images/bookfill.png')} style={styles.image} />
-
-                    <Text style={{ fontSize: 15, fontWeight: 'bold', color: '#000', marginBottom: 10, marginLeft: 5 }} >
-                      {item.name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              )}
-              numColumns={1}
-              contentContainerStyle={{ columnGap: 10 }}
-              ListEmptyComponent={
-                searchQuery !== '' ? (
-                  <Text style={styles.noBooksFound}>No book found</Text>
-                ) : null
-              }
+    <Theme>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/menu.png')}
+              onClickLeftIcon={() => {
+                navigation.openDrawer();
+              }}
             />
-            )}
-        </View>
-        )
-      }
-    </View>
 
+            {isLoaded ? (<ActivityIndicator
+              style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+              size="large" color="#c27b7f" />) :
+              (<View style={{ flex: 3 }}>
+                <View style={styles.booksearchcontainer}>
+                  <View style={styles.searchBar}>
+
+                    <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                    <TextInput
+                      style={styles.bookinput}
+                      placeholderTextColor='#000'
+                      placeholder="Search a Book"
+                      spellCheck={false}
+                      value={searchQuery}
+                      onChangeText={(Text) => {
+                        setSearchQuery(Text);
+                        handleSearch();
+
+                      }}
+                    />
+
+                    {searchQuery !== '' && (
+                      <TouchableOpacity onPress={() => {
+                        setSearchQuery('');
+                        setSearchResults('');
+
+                      }}>
+                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 70 }]} />
+                      </TouchableOpacity>)}
+
+                  </View>
+                </View>
+
+
+                {/* Display search results */}
+                {isLoading ?
+                  (<Text style={styles.noBooksFound}>No books found</Text>) :
+
+                  (<FlatList
+                    style={{ marginBottom: 10, }}
+                    keyExtractor={(item) => item.id.toString()}
+                    data={searchResults}
+                    ListFooterComponent={<AllBooks />}
+                    renderItem={({ item }) => (
+
+                      // Render each search result item here
+                      <TouchableOpacity onPress={() =>
+                        navigation.navigate('BooksDetailPage', { data: item })}>
+                        <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
+                          <Image source={require('../images/bookfill.png')} style={styles.image} />
+
+                          <Text style={{
+                            fontSize: 15, fontWeight: 'bold',
+                            color: theme === 'LIGHT' ? '#000' : '#fff',
+                            marginBottom: 10, marginLeft: 5
+                          }} >
+                            {item.name}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    )}
+                    numColumns={1}
+                    contentContainerStyle={{ columnGap: 10 }}
+                    ListEmptyComponent={
+                      searchQuery !== '' ? (
+                        <Text style={styles.noBooksFound}>No book found</Text>
+                      ) : null
+                    }
+                  />
+                  )}
+              </View>
+              )
+            }
+          </View>
+        );
+      }}
+    </Theme>
   );
 };
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  searchcontainer: {
-    padding: 5,
-    width: '100%',
-    height: 50,
-    backgroundColor: '#f5ebe6'
-  },
-  searchBar: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderRadius: 8,
-    borderWidth: 1,
-    borderColor: 'gray',
-    paddingHorizontal: 12,
-
-  },
-  searchIcon: {
-    marginRight: 8,
-  },
-  input: {
-    flex: 1,
-    fontSize: 16,
-  },
-  coroselheading: {
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 25,
-    fontWeight: '600',
-    color: '#000',
-    // marginLeft:50
-  },
-  image: {
-    width: 20,
-    height: 20,
-    borderRadius: 25
-  },
-
-
-  //styles for pagination
-  paginationContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 10,
-  },
-  paginationButton: {
-    backgroundColor: '#c27b7f',
-    padding: 10,
-    borderRadius: 5,
-  },
-  paginationText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  noBooksFound: {
-    fontWeight: '900',
-    marginLeft: 140
-  },
-  totalBooksCount: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#000',
-    marginLeft: 10,
-    marginBottom: 10,
-    textAlign: 'center'
-  },
-  scrollContainer: {
-    flexGrow: 1,
-  },
-
-  pickerContainer: {
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
-
-});
 
 
 export default Books;

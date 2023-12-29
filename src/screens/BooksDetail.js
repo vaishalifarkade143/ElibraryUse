@@ -12,9 +12,8 @@ import { AuthContext } from '../context/AuthContext';
 import Pdf from 'react-native-pdf';
 import { Alert } from "react-native";
 import { Picker } from '@react-native-picker/picker';
-import PushNotification from "react-native-push-notification";
-import messaging from '@react-native-firebase/messaging'
-import logNRegStyle from '../Style/logNRegStyle';
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 
 const BooksDetail = ({ navigation }) => {
@@ -22,10 +21,7 @@ const BooksDetail = ({ navigation }) => {
   const route = useRoute();
   const [tredbooks, setTredBooks] = useState([]);
   const { userToken, userInfo, userEmail } = useContext(AuthContext);
-  const [isSubscribed, setIsSubscribed] = useState(false);
-  const [Ebooks, setEbooks] = useState([]);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
-  const [subscribe, setSubscribe] = useState([]);
 
   //==========================ADDED=====================================
   const [bookdetails, setBookDetails] = useState([]);
@@ -171,9 +167,6 @@ const BooksDetail = ({ navigation }) => {
   const endingDate = formatDate(endDate);
  
  
- 
- 
- 
   //------------------handle of navigation to book history page---------------------------
   const handleBookHistory = (item) => {
 
@@ -255,10 +248,8 @@ const BooksDetail = ({ navigation }) => {
         // console.log('Data stored successfully:', responseData);
 
         setModalVisible(!modalVisible);
-        
         navigation.navigate('myEBook');
       })
-
       .catch((error) => {
         console.error('Error storing data:', error);
       });
@@ -353,8 +344,6 @@ const BooksDetail = ({ navigation }) => {
  
  
  
- 
- 
   useEffect(() => {
     
     const id=route.params.data.id;
@@ -434,10 +423,6 @@ const [filterbook,setFilterBook]=useState(null);
     setInitialDataFetched(false);
   },[selectedLibrary])
   
-  
-  
-
-
 
   //===================API CALL FOR DIFFERENT LIBRARY WHEATHER THE MEMBER IS REGISTERED OR NOT=======================
 
@@ -516,7 +501,11 @@ const [filterbook,setFilterBook]=useState(null);
 
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#fff', flexDirection: 'column' }}>
+    <Theme>
+    {({ theme }) => {
+      const styles = getStyles(theme);
+      return (
+    <View style={styles.container}>
       <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/back.png')}
@@ -533,15 +522,15 @@ const [filterbook,setFilterBook]=useState(null);
           setModalVisible(!modalVisible);
         }}>
 
-        <View style={logNRegStyle.centeredView}>
+        <View style={styles.centeredView}>
           {LibraryId.includes(selectedLibrary) ?
-            (<View style={logNRegStyle.modalView}>
+            (<View style={styles.modalView}>
 
-              <Text style={styles.modalText}>The Book Will be Subscribed from</Text>
+              <Text style={styles.subscribeText}>The Book Will be Subscribed from</Text>
               <View style={{ flexDirection: 'row', marginBottom: 15, }}>
-                <Text style={{ color: 'blue', fontSize: 15, fontWeight: 'bold', }}>{startDate}</Text>
-                <Text style={{ fontSize: 15, fontWeight: 'bold', }}>  to  </Text>
-                <Text style={{ color: 'blue', fontSize: 15, fontWeight: 'bold', }}>{endingDate}</Text>
+                <Text style={styles.subscribeDate}>{startDate}</Text>
+                <Text style={styles.subscribeText}>  to  </Text>
+                <Text style={styles.subscribeDate}>{endingDate}</Text>
               </View>
               <Pressable
                 style={styles.button}
@@ -690,41 +679,42 @@ const [filterbook,setFilterBook]=useState(null);
             />
           </View>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 50, marginLeft: 10, }}>
-          <Text style={styles.textHeading}>ISBN No:</Text><Text style={{ fontSize: 15,
-             marginLeft: 8 }}>{book1[0]?.book?.isbn}</Text>
+        <View style={[styles.textHeadingView,{marginTop:35}]}>
+          <Text style={styles.textHeading}>ISBN No:</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.isbn}</Text>
         </View>
 
         
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Author:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.authors[0].first_name} 
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.authors[0].first_name} 
           {book1[0]?.book?.authors[0].last_name}</Text>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Format:</Text>
           {book1[0]?.format === 3 ?
-            (<Text style={{ fontSize: 15, marginLeft: 8 }}>E-Book</Text>)
+            (<Text style={styles.textHeadingOutput}>E-Book</Text>)
             : book1[0]?.format === 1 ?
-              (<Text style={{ fontSize: 15, marginLeft: 8 }}>hardcover</Text>) :
-              (<Text style={{ fontSize: 15, marginLeft: 8 }}>Book</Text>)}
+              (<Text style={styles.textHeadingOutput}>hardcover</Text>) :
+              (<Text style={styles.textHeadingOutput}>Book</Text>)}
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Edition</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.edition}</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.edition}</Text>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Genre:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.book?.genres[0].name}</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.genres[0].name}</Text>
         </View>
-        <View style={{ flexDirection: 'row', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Publisher:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 8 }}>{book1[0]?.publisher?.name}</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
         </View>
 
         <Text style={[styles.textHeading,{marginLeft:10,marginTop:10,marginBottom:5}]}>Belongs To:</Text>
 
-<View style={{ flexDirection: 'column', 
+<View style={{ 
+               flexDirection: 'column', 
                 marginLeft: 10,
                  marginBottom:5,
                  marginRight:10,
@@ -745,9 +735,9 @@ const [filterbook,setFilterBook]=useState(null);
       </Picker>
  </View>
 
-        <View style={{ flexDirection: 'column', marginTop: 10, marginLeft: 10, }}>
+        <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Description:</Text>
-          <Text style={{ fontSize: 15, marginLeft: 3 }} numberOfLines={3}>{book1[0]?.book?.description}</Text>
+          <Text style={styles.textHeadingOutput} numberOfLines={3}>{book1[0]?.book?.description}</Text>
         </View>
           
  {book1[0]?.status === 1 ?
@@ -793,7 +783,6 @@ const [filterbook,setFilterBook]=useState(null);
 
                     }}
                     onPress={() => {
-
                       if (userToken !== null && userInfo.data.user.membership_plan_name === null) {
                       
                         Alert.alert(
@@ -884,7 +873,7 @@ const [filterbook,setFilterBook]=useState(null);
         </View>
         
 
-        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: '#fff' }}>
+        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: theme === 'Dark'?'#fff':'#000' }}>
           <FlatList
            horizontal={true}
            snapToInterval={200} // Adjust the interval based on your design
@@ -930,7 +919,7 @@ const [filterbook,setFilterBook]=useState(null);
                       marginTop: 10,
                       fontSize: 15,
                       fontFamily:'Philosopher-bold',
-                      color: '#000',
+                      color:  theme === 'LIGHT'?'#000':'#fff',
                       flexDirection: 'column'
                     }} numberOfLines={1}>
                       {item.name}
@@ -942,43 +931,15 @@ const [filterbook,setFilterBook]=useState(null);
         </View>
       </ScrollView>
     </View>
+     );
+    }}
+  </Theme>
   );
 };
 
 export default BooksDetail;
 const styles = StyleSheet.create({
-  textHeading: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#000'
-  }, coroselheading: {
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 25,
-    fontWeight: '600',
-    color: '#000',
-    textAlign: 'center'
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
 
-  },
-  modalView: {
-    margin: 10,
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    padding: 15,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
   button: {
     borderRadius: 5,
     padding: 10,
@@ -1020,10 +981,7 @@ const styles = StyleSheet.create({
   pageButtonText: {
     color: 'white',
   },
-  libraryName: {
-    fontWeight: 'bold', // Add other styling properties as needed
-    color: '#000'
-  },
+ 
 });
 
 

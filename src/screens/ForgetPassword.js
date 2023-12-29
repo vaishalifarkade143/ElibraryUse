@@ -99,6 +99,8 @@ const ForgetPassword = () => {
                         <Image source={require('../images/email.png')}
                             style={styles.vectorIcon} />
                         <TextInput
+                         style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                            placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                             placeholder="Email"
                             autoCompleteType="email"
                             keyboardType="email-address"

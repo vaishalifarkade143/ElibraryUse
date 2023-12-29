@@ -530,7 +530,6 @@ const Resources = () => {
                     width: '60%',
                     height: 40,
                     backgroundColor: "#fff",
-                    // color: theme === 'LIGHT' ? '#2f4858' : '#000',
                   }}>
 
                     <Picker style={{ marginTop: -5, color: theme === 'LIGHT' ? '#2f4858' : '#000', }}
@@ -656,11 +655,5 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     textAlign: 'center',
   },
-
-
-
-
-
-
 
 });

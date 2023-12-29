@@ -150,6 +150,8 @@ const LoginScreen = ({ navigation }) => {
                                                     <Image source={require('../images/email.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Email"
                                                         autoCompleteType="email"
                                                         keyboardType="email-address"
@@ -169,6 +171,8 @@ const LoginScreen = ({ navigation }) => {
                                                     <Image source={require('../images/password.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Password"
                                                         autoCompleteType="password"
                                                         secureTextEntry={true}

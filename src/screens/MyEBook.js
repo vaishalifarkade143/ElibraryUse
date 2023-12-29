@@ -204,8 +204,9 @@ const MyEBook = ({ navigation }) => {
 
 
 
-              <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+              <View style={styles.alltableView}>
                 <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+                  
                   <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                     <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
                       <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}

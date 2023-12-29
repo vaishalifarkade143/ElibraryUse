@@ -129,6 +129,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/user.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="First Name"
                                                         autoCompleteType="first_name"
                                                         keyboardType="name-phone-pad"
@@ -147,6 +149,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/user.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Last Name"
                                                         autoCompleteType="last_name"
                                                         keyboardType="name-phone-pad"
@@ -165,6 +169,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/email.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Email"
                                                         autoCompleteType="email"
                                                         keyboardType="email-address"
@@ -183,6 +189,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/telephone.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Phone"
                                                         autoCompleteType="phone"
                                                         keyboardType="number-pad"
@@ -200,6 +208,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/password.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Password"
                                                         autoCompleteType="password"
                                                         secureTextEntry={true}
@@ -218,6 +228,8 @@ const Registration = ({ navigation }) => {
                                                     <Image source={require('../images/password.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
+                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
+                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
                                                         placeholder="Confirm Password"
                                                         autoCompleteType="confirmpassword"
                                                         secureTextEntry={true}

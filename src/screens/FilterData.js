@@ -2,22 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, TouchableOpacity, Image, StyleSheet, StatusBar } from 'react-native';
-
-
+import getStyles from '../Style/logNRegStyle';
+import Theme from './Theme';
 
 const FilterData = ({ route, navigation }) => {
-  const [filterByGenre, setFilterByGenre] = useState([]);
   const [filterBybooks, setFilterByBooks] = useState([]);
-  const [filterByfilterBooks, setFilterByFilterBooks] = useState([]);
-  const [filterByfeaturedEBooks, setFilterByFeaturedEBooks] = useState([]);
-  // const {book,filteredGenre}=route.params;
 
 console.log('selectedGenre', route.params.filteredPublisher,);
-
-  // useEffect(() => {
-  //   let filteredData = route.params.filteredGenResults;
-  //   setFilterByGenre(filteredData);
-  // }, [route.params.filteredGenResults]);
 
 
   useEffect(() => {
@@ -76,16 +67,6 @@ console.log('selectedGenre', route.params.filteredPublisher,);
   , route.params.filteredAuthor,route.params.filteredPublisher,route.params.filteredLanguage,
   route.params.filteredFormat,route.params.filteredLibrary]);
 
-  // useEffect(() => {
-  //   let filteredData = route.params.filterBooks;
-  //   setFilterByFilterBooks(filteredData);
-  // }, [route.params.filterBooks]);
-
-  // useEffect(() => {
-  //   let filteredData = route.params.featuredEBooks;
-  //   setFilterByFeaturedEBooks(filteredData);
-  // }, [route.params.featuredEBooks]);
-
 
   console.log('filterdata ::',filterBybooks);
 
@@ -99,7 +80,11 @@ console.log('selectedGenre', route.params.filteredPublisher,);
   }
 
   return (
-    <View style={{ flex: 1 ,backgroundColor:'#fff'}}>
+    <Theme>
+    {({ theme }) => {
+      const styles = getStyles(theme);
+      return (
+    <View style={styles.container}>
       <View style={{ marginTop: 10, marginStart: 10, }}>
 
 
@@ -129,17 +114,18 @@ console.log('selectedGenre', route.params.filteredPublisher,);
                         fontSize: 15,
                         marginLeft: -10,
                         fontFamily: 'philosopher-bold',
+                        color: theme === 'LIGHT'? '#000' : '#fff',
                       }}
                       numberOfLines={1}
                     >
                       {item.name}
                     </Text>
                     {item.library_id === 111 ? (
-                      <Text style={{ marginLeft: -10, fontSize: 12 }}>Dindayal Upadhyay Library</Text>
+                      <Text style={{ marginLeft: -10, fontSize: 12,color: theme === 'LIGHT'? '#000' : '#fff', }}>Dindayal Upadhyay Library</Text>
                     ) : item.library_id === 222 ? (
-                      <Text style={{ marginLeft: -12, fontSize: 12 }}>Kundanlal Gupta Library</Text>
+                      <Text style={{ marginLeft: -12, fontSize: 12,color: theme === 'LIGHT'? '#000' : '#fff', }}>Kundanlal Gupta Library</Text>
                     ) : (
-                      <Text style={{ marginLeft: -8, fontSize: 12 }}>Rashtramata Kasturba Library</Text>
+                      <Text style={{ marginLeft: -8, fontSize: 12,color: theme === 'LIGHT'? '#000' : '#fff', }}>Rashtramata Kasturba Library</Text>
                     )}
 
                     {item.items?.[0]?.format === 3 ? (
@@ -159,12 +145,6 @@ console.log('selectedGenre', route.params.filteredPublisher,);
             <Text>Not Available </Text>
           </View>
         )}
-
-
-
-
-
-
 
         {/* {filterBybooks.length > 0 ? (
           <FlatList
@@ -231,6 +211,9 @@ console.log('selectedGenre', route.params.filteredPublisher,);
 
       </View>
     </View>
+     );
+    }}
+  </Theme>
   );
 };
 

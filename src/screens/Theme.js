@@ -5,9 +5,9 @@ const Theme = (props) => {
     const [theme, setTheme] = useState('LIGHT');
     useEffect(() => {
         const colorScheme = Appearance.getColorScheme()
-        //console.log("colorTheme is:", colorScheme);
+        console.log("colorTheme is:", colorScheme);
         const listner = Appearance.addChangeListener(colorTheme => {
-            //console.log("theme is-----------", colorTheme)
+            console.log("theme is-----------", colorTheme)
 
             if (colorTheme.colorScheme === 'dark') {
                 setTheme('DARK');

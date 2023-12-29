@@ -135,9 +135,9 @@ const BookHistory = ({ navigation }) => {
 
     .map((book) =>
       [
-        book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Dindayal Upadhyay Library</Text>)
-          : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Kundanlal Gupta Library</Text>) :
-            (<Text style={{ marginLeft: 10,  fontSize: 15,}}>Rashtramata Kasturba Library</Text>)),
+        book.book_item.book.library_id === 111 ? (<Text style={{ marginLeft: 10, fontSize: 15, }}>Dindayal Upadhyay Library</Text>)
+          : (book.book_item.book.library_id === 222 ? (<Text style={{ marginLeft: 10, fontSize: 15, }}>Kundanlal Gupta Library</Text>) :
+            (<Text style={{ marginLeft: 10, fontSize: 15, }}>Rashtramata Kasturba Library</Text>)),
 
         book.book_item.book.name,
         book.book_item.book_code,
@@ -162,132 +162,129 @@ const BookHistory = ({ navigation }) => {
           }}><Text style={{ padding: 6, textAlign: 'center', color: '#fff', fontSize: 15, fontWeight: 'bold' }}>UNRESERVE</Text></TouchableOpacity>)
       ]
     );
-   
-  
-    return (
-      <Theme>
+
+
+  return (
+    <Theme>
       {({ theme }) => {
         const styles = getStyles(theme);
         return (
-    <View style={styles.container}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/menu.png')}
-        onClickLeftIcon={() => {
-          navigation.openDrawer();
-        }}
-      />
-
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-
-          setModalVisible(!modalVisible);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <Text style={{
-              marginBottom: 5,
-              textAlign: 'center',
-              fontFamily: 'Philosopher-Bold',
-              fontSize: 15
-            }}>Unreserve a book</Text>
-            <Text style={styles.modalText}>Are you sure you want to unreserve  </Text>
-           
-            <View style={{ flexDirection: 'row', gap: 10 }}>
-
-
-              <Pressable
-                style={styles.button}
-                onPress={() => handleUnreserve(selectedBook)}>
-                <Text style={styles.textStyle}>Yes</Text>
-              </Pressable>
-
-              <Pressable
-                style={styles.button}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>No</Text>
-              </Pressable>
-            </View>
-
-
-          </View>
-        </View>
-      </Modal>
-
-
-
-      <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
-        <Text style={styles.sectionHeading}>Book History</Text>
-      </View>
-      <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
-      <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
-        {/* ==================search======================= */}
-        <View style={styles.searchcontainer}>
-          <View style={styles.searchBar}>
-            <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-            <TextInput
-              style={styles.searchInput}
-              placeholderTextColor="#000" 
-              placeholder="Search by Book Name or Book Code"
-              value={searchQuery}
-              onChangeText={setSearchQuery}
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/menu.png')}
+              onClickLeftIcon={() => {
+                navigation.openDrawer();
+              }}
             />
 
-            {searchQuery !== '' && (
-              <TouchableOpacity onPress={() => {
-                setSearchQuery('');
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
 
+                setModalVisible(!modalVisible);
               }}>
-                <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon,]} />
-              </TouchableOpacity>)}
-          </View>
-        </View>
+              <View style={styles.centeredView}>
+                <View style={styles.modalView}>
+                  <Text style={{
+                    marginBottom: 5,
+                    textAlign: 'center',
+                    fontFamily: 'Philosopher-Bold',
+                    fontSize: 15
+                  }}>Unreserve a book</Text>
+                  <Text style={styles.modalText}>Are you sure you want to unreserve  </Text>
 
-        {/* ===================================================================== */}
-
-        <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-          <View style={{ backgroundColor: '#f5ebe6', marginTop: 15 }}>
+                  <View style={{ flexDirection: 'row', gap: 10 }}>
 
 
-            <View style={{ flex: 1, backgroundColor: '#f5ebe6', paddingTop: -60 }}>
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => handleUnreserve(selectedBook)}>
+                      <Text style={styles.textStyle}>Yes</Text>
+                    </Pressable>
+
+                    <Pressable
+                      style={styles.button}
+                      onPress={() => setModalVisible(!modalVisible)}>
+                      <Text style={styles.textStyle}>No</Text>
+                    </Pressable>
+                  </View>
 
 
-              <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 }}>
+                </View>
+              </View>
+            </Modal>
 
-                <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
-                  textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-                </Table>
-                <ScrollView style={styles.dataWrapper}>
-                  <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
-                    {updatedTableData.map((book, index) => (
-                      <Row
-                        key={index}
-                        data={book}
-                        widthArr={state.widthArr}
-                        style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
-                        textStyle={styles.texttt}
-                      />
-                    ))}
-                  </Table>
+
+
+            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={styles.sectionHeading}>Book History</Text>
+            </View>
+            <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View>
+            <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+              {/* ==================search======================= */}
+              <View style={styles.searchcontainer}>
+                <View style={styles.searchBar}>
+                  <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                  <TextInput
+                    style={styles.searchInput}
+                    placeholderTextColor="#000"
+                    placeholder="Search by Book Name or Book Code"
+                    value={searchQuery}
+                    onChangeText={setSearchQuery}
+                  />
+
+                  {searchQuery !== '' && (
+                    <TouchableOpacity onPress={() => {
+                      setSearchQuery('');
+
+                    }}>
+                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon,]} />
+                    </TouchableOpacity>)}
+                </View>
+              </View>
+
+              {/* ===================================================================== */}
+
+
+
+              <View style={styles.alltableView}>
+                <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+
+                  <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+
+                    <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                      <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
+                        textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                    </Table>
+                    <ScrollView style={styles.dataWrapper}>
+                      <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
+                        {updatedTableData.map((book, index) => (
+                          <Row
+                            key={index}
+                            data={book}
+                            widthArr={state.widthArr}
+                            style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                            textStyle={styles.texttt}
+                          />
+                        ))}
+                      </Table>
+                    </ScrollView>
+
+                  </View>
                 </ScrollView>
               </View>
 
+
+
             </View>
 
           </View>
-
-        </ScrollView>
-
-      </View>
-
-    </View>
-     );
-    }}
-  </Theme>
+        );
+      }}
+    </Theme>
   );
 };
 

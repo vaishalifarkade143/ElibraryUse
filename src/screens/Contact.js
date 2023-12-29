@@ -47,8 +47,10 @@ const ContactForm = ({ navigation }) => {
                 <View
                   style={styles.contactTxtInput}>
                   <Image source={require('../images/user.png')}
-                    style={{ width: 15, height: 15, }} />
+                    style={styles.vectorIcon} />
                   <TextInput
+                    style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                    placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                     placeholder="Your Name"
                     autoCompleteType="name"
                     keyboardType="name-phone-pad"
@@ -59,8 +61,10 @@ const ContactForm = ({ navigation }) => {
                 <View
                   style={styles.contactTxtInput}>
                   <Image source={require('../images/email.png')}
-                    style={{ width: 15, height: 15, }} />
+                    style={styles.vectorIcon} />
                   <TextInput
+                    style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                    placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                     placeholder="Email"
                     autoCompleteType="email"
                     keyboardType="email-address"
@@ -71,8 +75,10 @@ const ContactForm = ({ navigation }) => {
                 <View
                   style={styles.contactTxtInput}>
                   <Image source={require('../images/goal.png')}
-                    style={{ width: 15, height: 15, }} />
+                    style={styles.vectorIcon} />
                   <TextInput
+                    style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                    placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                     placeholder="Subject"
                     autoCompleteType="subject"
                     keyboardType="name-phone-pad"
@@ -83,8 +89,10 @@ const ContactForm = ({ navigation }) => {
                 <View
                   style={styles.contactTxtInput}>
                   <Image source={require('../images/send.png')}
-                    style={{ width: 15, height: 15, }} />
+                    style={styles.vectorIcon} />
                   <TextInput
+                    style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                    placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                     placeholder="Your Message"
                     autoCompleteType="message"
                     keyboardType="name-phone-pad"
@@ -96,7 +104,15 @@ const ContactForm = ({ navigation }) => {
                 <TouchableOpacity
                   style={[styles.loginbtn, { backgroundColor: '#c27b7f', }]}
                   //: '#e4e7ea'
-                  onPress={handleSubmit}
+                  // onPress={handleSubmit}
+                  onPress={() => {
+                    handleSubmit();
+                    setemail('');
+                    setmessage('');
+                    setname('');
+                    setsubject('');
+                  }}
+
                   disabled={!name || !email}
                 >
                   <Text style={{
@@ -121,7 +137,7 @@ const ContactForm = ({ navigation }) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.subtitle}>Reach out to us on social media</Text>
                 <View style={styles.socialIcons}>
-                 
+
                   <TouchableOpacity onPress={() => Linking.openURL('https://www.twitter.com')}>
                     <Image
                       source={require('../images/twitterr.png')}

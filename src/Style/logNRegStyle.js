@@ -93,7 +93,7 @@ const getStyles = (theme) => {
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 22,
-
+      //backgroundColor: theme === 'LIGHT' ? '#fff' : '#000',
     },
     // modalView: {
     //   margin: 10,
@@ -637,7 +637,7 @@ const getStyles = (theme) => {
     // },
     modalView: {
       margin: 20,
-      backgroundColor: 'white',
+      backgroundColor:  theme === 'LIGHT' ? '#fff' : '#000',
       borderRadius: 20,
       padding: 20,
       paddingLeft: 40,
@@ -706,7 +706,7 @@ const getStyles = (theme) => {
       justifyContent: 'center',
     },
     profileText: {
-      color: theme === 'LIGHT'?'#000':'#fff',
+      color: theme === 'LIGHT' ? '#000' : '#fff',
       fontSize: 14,
       fontWeight: 'bold'
     },
@@ -745,8 +745,175 @@ const getStyles = (theme) => {
       width: '70%',
       height: 70,
       justifyContent: 'center',
-    }
+    },
+    image: {
+      width: 20,
+      height: 20,
+      borderRadius: 25
+    },
+    booksearchcontainer: {
+      padding: 5,
+      width: '100%',
+      height: 50,
+      backgroundColor: '#f5ebe6'
+    },
+    booksearchBar: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: 'white',
+      borderRadius: 8,
+      borderWidth: 1,
+      borderColor: 'gray',
+      paddingHorizontal: 12,
+
+    },
+    booksearchIcon: {
+      marginRight: 8,
+    },
+    // bookinput: {
+    //   flex: 1,
+    //   fontSize: 16,
+    // },
+
+    paginationContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      padding: 10,
+    },
+    paginationButton: {
+      backgroundColor: '#c27b7f',
+      padding: 10,
+      borderRadius: 5,
+    },
+    paginationText: {
+      color: '#fff',
+      fontWeight: 'bold',
+    },
+    noBooksFound: {
+      fontWeight: '900',
+      marginLeft: 140,
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+    },
+    totalBooksCount: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      marginLeft: 10,
+      marginBottom: 10,
+      textAlign: 'center'
+    },
+    scrollContainer: {
+      flexGrow: 1,
+    },
+
+    pickerContainer: {
+      flexDirection: 'row',
+      paddingHorizontal: 10,
+      paddingVertical: 10,
+    },
+    libraryName: {
+      fontWeight: 'bold', // Add other styling properties as needed
+      color: theme === 'LIGHT' ? '#000' : '#fff'
+    },
+    textHeading: {
+      fontSize: 15,
+      fontWeight: 'bold',
+      color: theme === 'LIGHT' ? '#000' : '#fff'
+    },
+    textHeadingOutput: {
+      fontSize: 15,
+      marginLeft: 8, color: theme === 'LIGHT' ? '#000' : '#fff'
+    },
+    textHeadingView:
+    {
+      flexDirection: 'row',
+      marginTop: 10,
+      marginLeft: 10,
+    },
+    subscribeText:{
+         fontSize: 15, 
+         fontWeight: 'bold', 
+         color: theme === 'LIGHT'?'#000':'#fff'
+    },
+    subscribeDate:{
+      color: 'blue', fontSize: 15, fontWeight: 'bold',
+    },
+    button: {
+      borderRadius: 5,
+      padding: 10,
+      elevation: 2,
+      backgroundColor: '#c27b7f',
+    },
+    buttonOpen: {
+      backgroundColor: '#F194FF',
+    },
+    buttonClose: {
+      backgroundColor: '#2196F3',
+    },
+    textStyle: {
+      color: 'white',
+      fontWeight: 'bold',
+      textAlign: 'center',
+  
+    },
+    modalText: {
+      marginBottom: 5,
+      textAlign: 'center',
+      fontSize: 25,
+      fontFamily: 'Philosopher-Bold',
+      color: '#000'
+    },
+    pdf: {
+      flex: 1,
+      width: Dimensions.get('window').width,
+      height: Dimensions.get('window').height,
+    },
+    pageButton: {
+      position: 'absolute',
+      bottom: 210,
+      right: 0,
+      backgroundColor: 'black',
+      borderRadius: 10,
+      padding: 10,
+    },
+    pageButtonText: {
+      color: 'white',
+    },
+    alltableView:
+    { backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 },
+    category :{ fontWeight: '600', color: theme === 'LIGHT' ? '#2f4858' : '#000' },
+    categoryView:{ marginLeft: 10, marginRight: 10 },
+    categorytouch:{
+      width: 130,
+      height: 65,
+      borderRadius: 10,
+      borderWidth: 0.5,
+      alignSelf: 'center',
+      marginTop: 10,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      paddingLeft: 15,
+      paddingRight: 15,
+      backgroundColor: '#fff',
+    },
+    batch: {
+    position: 'absolute',
+    textAlign: 'center',
+    right: -10,
+    width: 80,
+    height: 20,
+    marginTop: 5,
+    fontSize: 13,
+    fontWeight: 'bold',
+    borderRadius: 10,
+    borderWidth: 1.5,
+   },
+   bookicon:{ height: 20, width: 20, marginLeft: -8, },
+
   });
+
 };
 
 export default getStyles;

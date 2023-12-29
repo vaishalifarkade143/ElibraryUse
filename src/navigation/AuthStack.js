@@ -26,6 +26,7 @@ const stack = createNativeStackNavigator();
 const AuthStack = () => {
     return (
         // add bottomtab n drawer
+        
         <NavigationContainer independent={true}>
             <stack.Navigator screenOptions={{headerShown:false}}>
             <stack.Screen name='Splash' component={SplashScreen} />
