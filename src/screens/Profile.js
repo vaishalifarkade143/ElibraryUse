@@ -1522,11 +1522,11 @@ const Profile = ({ navigation }) => {
             });
     };
 
-    handleUserProfile = () => {
-        // const updateProfile = [updateData];
-        // console.log("update data sensd to user:",updateProfile);
-        navigation.navigate('Userr');
-    }
+    // handleUserProfile = () => {
+    //     // const updateProfile = [updateData];
+    //     // console.log("update data sensd to user:",updateProfile);
+    //     navigation.navigate('Userr');
+    // }
 
     const handleSave = async () => {
         const urlUpdate = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/update-member-profile';
@@ -1573,8 +1573,8 @@ const Profile = ({ navigation }) => {
 
             console.log('Data updated successfully:', response.json());
             // After successfully updating, fetch the updated profile data
-            
-            fetchProfileData();
+
+            await fetchProfileData();
 
             setIsData(false);
             Alert.alert(
@@ -1623,6 +1623,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="first_name"
                                         keyboardType="name-phone-pad"
                                         value={first_name}
@@ -1637,6 +1639,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
                                         keyboardType="name-phone-pad"
                                         value={last_name}
@@ -1653,6 +1657,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
                                         keyboardType="name-phone-pad"
                                         value={email}
@@ -1669,6 +1675,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
                                         keyboardType="name-phone-pad"
                                         value={phone}
@@ -1764,6 +1772,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
                                         value={address_1}
                                         onChangeText={setAddress1}
@@ -1778,6 +1788,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
                                         value={address_2}
                                         onChangeText={setAddress2}
@@ -1792,6 +1804,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
                                         value={state}
                                         onChangeText={setState}
@@ -1806,6 +1820,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
                                         value={city}
                                         onChangeText={setCity}
@@ -1820,6 +1836,8 @@ const Profile = ({ navigation }) => {
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="number-pad"
                                         value={zip.toString()}
                                         onChangeText={setZip}
@@ -1838,7 +1856,7 @@ const Profile = ({ navigation }) => {
 
                                         onPress={() => {
                                             handleSave();
-                                            handleUserProfile();
+                                            navigation.navigate('Userr');
                                         }}
                                     // disabled={!isData}
                                     >

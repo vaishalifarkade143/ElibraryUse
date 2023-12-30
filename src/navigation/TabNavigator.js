@@ -158,17 +158,3 @@ const BookDetails2 = () => {
 };
 
 export default TabNavigator;
-
-
-const styles = StyleSheet.create({
-  bottomView: {
-    position: 'absolute',
-    bottom: 0,
-    width: '20%',
-    height: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    backgroundColor: 'white'
-  },
-});

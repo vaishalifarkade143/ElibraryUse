@@ -317,7 +317,7 @@ const getStyles = (theme) => {
       backgroundColor: "black",
       marginVertical: 10
     },
-    image: {
+    image1: {
       width: 300,
       height: 200,
       borderRadius: 10,

@@ -14,10 +14,7 @@ const Theme = (props) => {
             } else {
                 setTheme('LIGHT');
             }
-
         });
-
-       
         return () => {
             listner;
         }
