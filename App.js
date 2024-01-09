@@ -1,21 +1,20 @@
 
-import React, { useEffect } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React, { useEffect, useState } from 'react'
 import { AuthProvider } from './src/context/AuthContext';
 import AppNav from './src/navigation/AppNav';
-import NavigationContainerWithDarkMode from './src/navigation/NavigationContainerWithDarkMode';
+import { Appearance } from 'react-native';
+import Theme from './src/screens/Theme';
 
-const stack = createNativeStackNavigator();
 const App = () => {
 
   return (
-
-    <AuthProvider>
-      {/* <NavigationContainerWithDarkMode> */}
-        <AppNav/>
-      {/* </NavigationContainerWithDarkMode> */}
+ 
+    <AuthProvider  >
+      
+        <AppNav />
+     
     </AuthProvider>
-
+           
   );
 };
 

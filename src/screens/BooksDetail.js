@@ -5,7 +5,7 @@
 // ========================================23rd nov=================================
 
 import { View, Text, StyleSheet, Dimensions, Image, ScrollView, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native'
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useCallback } from 'react'
 import { useRoute, useNavigation } from '@react-navigation/native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
@@ -22,6 +22,19 @@ const BooksDetail = ({ navigation }) => {
   const [tredbooks, setTredBooks] = useState([]);
   const { userToken, userInfo, userEmail } = useContext(AuthContext);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
+  const [genre, setGenre] = useState([]);
+
+  const [textShown, setTextShown] = useState(false); //To show ur remaining Text
+  const [lengthMore,setLengthMore] = useState(false); //to show the "Read more & Less Line"
+  const toggleNumberOfLines = () => { //To toggle the show text or hide it
+      setTextShown(!textShown);
+  }
+  
+  const onTextLayout = useCallback(e =>{
+      setLengthMore(e.nativeEvent.lines.length >=4); //to check the text is more than 4 lines or not
+      // console.log(e.nativeEvent);
+  },[]);
+
 
   //==========================ADDED=====================================
   const [bookdetails, setBookDetails] = useState([]);
@@ -264,11 +277,14 @@ const BooksDetail = ({ navigation }) => {
         .then(res => res.json())
         .then(responce => {
           setTredBooks(responce.data.splice(-20));
+          setGenre(responce.data);
           setisLoaded(false);
         });
     };
     tredingbooks();
   },[]);
+
+  
 
 // ======================================================================================
   userToken !== null ?
@@ -300,8 +316,14 @@ const BooksDetail = ({ navigation }) => {
     }, [])) : (null);
  
  
- 
- 
+    const artBooks = genre.filter((item) => 
+    item.genres.some(genre => genre.name === "Art")
+  );
+
+  const comicBooks = genre.filter((item) => 
+  item.genres.some(comic => comic.name === "Comics")
+);
+
  
     useEffect(() => {
 
@@ -474,11 +496,9 @@ const [filterbook,setFilterBook]=useState(null);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
-        // console.log("responce is:", response);
         return response.json();
       })
       .then((responseData) => {
-        // console.log('Data stored successfully:', responseData);
 
         setModalVisible(!modalVisible);
 
@@ -711,7 +731,9 @@ const [filterbook,setFilterBook]=useState(null);
           <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
         </View>
 
-        <Text style={[styles.textHeading,{marginLeft:10,marginTop:10,marginBottom:5}]}>Belongs To:</Text>
+        <Text style={[styles.textHeading,{marginLeft:10,
+          marginTop:10,
+          marginBottom:5}]}>Belongs To:</Text>
 
 <View style={{ 
                flexDirection: 'column', 
@@ -725,10 +747,16 @@ const [filterbook,setFilterBook]=useState(null);
       <Picker
         selectedValue={selectedLibrary}
         onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-        style={{ height: 40, marginTop: -12, textAlign: 'center',padding:5 }}
+        style={{ height: 45, marginTop: -12, textAlign: 'center',padding:5,  }}
+        
+        itemStyle={{ fontFamily: 'Philosopher-Bold' }}
       >
         {libraries.map((library) => (
-          <Picker.Item key={library.id} label={library.name} value={library.id}
+          <Picker.Item 
+          
+          key={library.id}
+           label={library.name} 
+           value={library.id}
           enabled={bookdetails.some((book) => book.book.library_id === library.id)}
           />
         ))}
@@ -737,8 +765,26 @@ const [filterbook,setFilterBook]=useState(null);
 
         <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Description:</Text>
-          <Text style={styles.textHeadingOutput} numberOfLines={3}>{book1[0]?.book?.description}</Text>
+          </View>
+         
+          <View>
+          <Text onTextLayout={onTextLayout}
+              numberOfLines={textShown ? undefined : 3}
+              style={styles.textHeadingOutput}
+            >{book1[0]?.book?.description}</Text>
+            
+          {
+                  lengthMore ?
+                   <Text
+                  onPress={toggleNumberOfLines}
+                  style={{ marginStart:10,
+                           fontFamily:'Roboto-Bold' }}>
+                    {textShown ? 'Read less...' : 'Read more...'}
+                    </Text>
+                  :null
+              }
         </View>
+
           
  {book1[0]?.status === 1 ?
           (<View style={{ flexDirection: 'column' }}>
@@ -837,7 +883,6 @@ const [filterbook,setFilterBook]=useState(null);
                         marginTop: 20,
                         marginLeft: 20,
                         marginBottom: 20,
-
                       }}
                       onPress={() => {
                         setPdfModalVisible(true);
@@ -873,7 +918,9 @@ const [filterbook,setFilterBook]=useState(null);
         </View>
         
 
-        <View style={{ marginTop: 10, marginStart: 10, backgroundColor: theme === 'Dark'?'#fff':'#000' }}>
+        <View style={{ marginTop: 10,
+           marginStart: 10, 
+           backgroundColor: theme === 'light'?'#000':'#fff' }}>
           <FlatList
            horizontal={true}
            snapToInterval={200} // Adjust the interval based on your design
@@ -899,8 +946,8 @@ const [filterbook,setFilterBook]=useState(null);
                 navigation.navigate('BooksDetailPage', { data: item })
               }}>
                 <View style={{
-                    width: 145,
-                    height: 280,
+                    width: 155,
+                    height: 300,
                     marginEnd: 50,
                   }}>
                     <View style={{
@@ -910,16 +957,16 @@ const [filterbook,setFilterBook]=useState(null);
                     }}>
                     <Image source={{ uri: item.image_path }}
                       style={{
-                        aspectRatio: 0.8,
-                        resizeMode: 'cover',
+                        aspectRatio: 0.7,
+                        resizeMode: 'contain',
                         borderRadius: 10,
                       }} />
                       </View>
                     <Text  style={{
                       marginTop: 10,
                       fontSize: 15,
-                      fontFamily:'Philosopher-bold',
-                      color:  theme === 'LIGHT'?'#000':'#fff',
+                      fontFamily:'Philosopher-Bold',
+                      color:  theme === 'LIGHT'? '#34495E':'#fff',
                       flexDirection: 'column'
                     }} numberOfLines={1}>
                       {item.name}

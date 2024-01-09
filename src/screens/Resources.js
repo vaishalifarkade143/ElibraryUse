@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState, useContext, useRef } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions, PermissionsAndroid } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, StyleSheet, Modal, FlatList, Dimensions, PermissionsAndroid, Button } from 'react-native';
 import Header from '../common/Header';
 import { Table, Row } from 'react-native-table-component';
 import { Picker } from '@react-native-picker/picker';
@@ -45,6 +45,7 @@ const Resources = () => {
   const [puased, setPaused] = useState(false);
   const [progress, setProgress] = useState(null);
   const [fullScreen, setFullScreen] = useState(false)
+  const [data, setData] = useState('');
   const ref = useRef();
   const format = seconds => {
     let mins = parseInt(seconds / 60)
@@ -148,6 +149,20 @@ const Resources = () => {
       .catch(error => console.error('Error fetching genres:', error));
   }, []);
 
+  //////////////////////=================get data in flatlist=================================
+
+
+  useEffect(() => {
+    const getDummyData = () => {
+      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/resources")
+        .then(res => res.json())
+
+        .then(responce => {
+          setData(responce.data);
+        });
+    };
+    getDummyData();
+  }, []);
 
   // =================================get data in table=================================================
 
@@ -231,21 +246,21 @@ const Resources = () => {
     }
   }
 
-  const updatedTableData = AllOption ? AllOption
-    .filter((item) => {
+  // const updatedTableData = AllOption ? AllOption
+  //   .filter((item) => {
 
-      const title = item.title.toLowerCase();
-      const query = searchQuery.toLowerCase();
-      return title.includes(query);
-    })
-    .map((item) => [
-      item.title,
-      item.category_id,
-      item.url === null ? (<Text style={{ textAlign: 'center', color: '#2f4858' }}>N/A</Text>) : (<Text>null</Text>),
-      item.note,
-      getCategoryText(item.category_id),
+  //     const title = item.title.toLowerCase();
+  //     const query = searchQuery.toLowerCase();
+  //     return title.includes(query);
+  //   })
+  //   .map((item) => [
+  //     item.title,
+  //     item.category_id,
+  //     item.url === null ? (<Text style={{ textAlign: 'center', color: '#2f4858' }}>N/A</Text>) : (<Text>null</Text>),
+  //     item.note,
+  //     getCategoryText(item.category_id),
 
-    ]) : [];
+  //   ]) : [];
 
   const resetGenre = () => {
     setSelectedGenre("Search By Genre");
@@ -305,9 +320,6 @@ const Resources = () => {
                 </View>
               </View>
             </Modal>
-
-
-
 
             {/* =================video modal=================== */}
 
@@ -504,25 +516,24 @@ const Resources = () => {
 
             </Modal>
 
-            <ScrollView>
-              <Text style={styles.sectionHeading}>Resources</Text>
-              <View style={[styles.dividerView,{ width: 110, marginLeft: 125,}]}></View>
+            {/* <ScrollView> */}
+            <Text style={styles.sectionHeading}>Resources</Text>
+            <View style={[styles.dividerView, { width: 90, marginLeft: 140, }]}></View>
 
-              <View style={{
+            {/* <View style={{
                 backgroundColor: '#f5ebe6',
                 marginTop: 20,
                 flexDirection: 'column',
                 marginBottom: 50,
                 paddingBottom: 20,
-              }}>
+              }}> */}
 
-                <View style={{
+            {/* <View style={{
                   marginTop: 20,
                   marginLeft: 15,
                   marginRight: 10,
                   flexDirection: 'row'
                 }}>
-
                   <View style={{
                     borderColor: '#000',
                     borderWidth: 0.5,
@@ -531,18 +542,14 @@ const Resources = () => {
                     height: 40,
                     backgroundColor: "#fff",
                   }}>
-
                     <Picker style={{ marginTop: -5, color: theme === 'LIGHT' ? '#2f4858' : '#000', }}
                       selectedValue={selectedGenre}
                       onValueChange={(itemValue) => setSelectedGenre(itemValue)}
                     >
-
                       {genr.map((genres, index) => (
                         <Picker.Item key={index} label={genres} value={genres} />
                       ))}
                     </Picker>
-
-
                   </View>
 
 
@@ -566,19 +573,19 @@ const Resources = () => {
                     }}>Reset</Text>
 
                   </TouchableOpacity>
-                </View>
+                </View> */}
 
 
-                <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 10 }}>
+            {/* <View style={{ flex: 1,  marginTop: 10 }}> */}
 
-                  {/* ==================search======================= */}
-                  <View style={styles.searchcontainer}>
+            {/* ==================search======================= */}
+            {/* <View style={styles.searchcontainer}>
                     <View style={styles.searchBar}>
                       <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                       <TextInput
                         style={styles.searchInput}
                         placeholder="Search by Title"
-                        placeholderTextColor="#000" 
+                        placeholderTextColor="#000"
                         value={searchQuery}
                         onChangeText={setSearchQuery}
                       />
@@ -591,15 +598,72 @@ const Resources = () => {
                           <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 80 }]} />
                         </TouchableOpacity>)}
                     </View>
-                  </View>
-                  {/* ===================================================================== */}
+                  </View> */}
 
-                  {/* table */}
-                  <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+            {/* ===================================================================== */}
+
+            <View style={{
+              flex: 1,
+              marginStart: 10,
+              marginEnd: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 30,
+              marginBottom: 30,
+
+            }}>
+              <FlatList
+                showsVerticalScrollIndicator={false}
+                data={data}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) =>
+
+                  <View style={{
+                    marginTop: 5,
+                    backgroundColor: '#FBFCFC',
+                    paddingBottom: 15,
+                    width: 300,
+                    borderRadius: 10,
+                    marginBottom: 15,
+                    alignItems: 'center',
+                    elevation: 5
+                  }}>
+                    <Text style={{
+                      color: '#000',
+                      fontFamily: 'Philosopher-Bold',
+                      fontSize: 15,
+                      padding: 15
+                    }}
+                    >
+                      {item.title}
+                    </Text>
+                    <Text style={{
+                      color: '#34495E',
+                      fontFamily: 'Philosopher-Bold',
+                      fontSize: 13,
+                      textAlign: 'center',
+                      paddingLeft: 10,
+                      paddingRight: 10
+                    }}
+                    >
+                      {item.note}
+                    </Text>
+                    <View>{getCategoryText(item.category_id)}</View>
+                  </View>
+
+                }
+              />
+
+
+            </View>
+
+            {/* table */}
+            {/* <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
                     <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
                       <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                         <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                          <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                          <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
+                          textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                         </Table>
                         <ScrollView style={styles.dataWrapper}>
                           <Table borderStyle={{ borderWidth: 1, borderColor: '#fff', }}>
@@ -618,11 +682,12 @@ const Resources = () => {
                         </ScrollView>
                       </View>
                     </ScrollView>
-                  </View>
-                </View>
+                  </View> */}
 
-              </View>
-            </ScrollView>
+            {/* </View> */}
+
+            {/* </View> */}
+            {/* </ScrollView> */}
 
           </View>
         );
@@ -637,23 +702,43 @@ export default Resources;
 
 const styles = StyleSheet.create({
 
+  // categoryText: {
+  //   textAlign: 'center',
+  //   color: '#fff',
+  //   fontWeight: 'bold',
+  //   backgroundColor: '#c27b7f',
+  //   marginLeft: 15,
+  //   padding: 8,
+  //   borderRadius: 5,
+  // },
+  // searchIcon: {
+  //   marginRight: 8,
+  //   backgroundColor: '#c27b7f',
+  //   borderRadius: 5,
+  //   marginLeft: 25,
+  //   paddingBottom: 5,
+  //   paddingTop: 5,
+  //   textAlign: 'center',
+  // },
+
+  searchIcon: {
+    backgroundColor: '#c27b7f',
+    borderRadius: 20,
+    padding: 10,
+    paddingLeft: 40,
+    paddingRight: 40,
+    marginTop: 10,
+    textAlign: 'center',
+  },
   categoryText: {
     textAlign: 'center',
     color: '#fff',
     fontWeight: 'bold',
     backgroundColor: '#c27b7f',
-    marginLeft: 15,
-    padding: 8,
-    borderRadius: 5,
+    borderRadius: 20,
+    padding: 10,
+    paddingLeft: 40,
+    paddingRight: 40,
+    marginTop: 10,
   },
-  searchIcon: {
-    marginRight: 8,
-    backgroundColor: '#c27b7f',
-    borderRadius: 5,
-    marginLeft: 25,
-    paddingBottom: 5,
-    paddingTop: 5,
-    textAlign: 'center',
-  },
-
 });

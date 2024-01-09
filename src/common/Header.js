@@ -1,7 +1,6 @@
-import { View, Text, Image, TouchableOpacity, Dimensions,StyleSheet } from 'react-native'
+import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 
-const { height, width } = Dimensions.get('window');
 
 const Header = ({ leftIcon, rightIcon, onClickLeftIcon }) => {
     return (
@@ -22,7 +21,6 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
-        width: width,
         height: 70,
         backgroundColor: '#f5ebe6',
         flexDirection: 'row',

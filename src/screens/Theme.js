@@ -6,18 +6,19 @@ const Theme = (props) => {
     useEffect(() => {
         const colorScheme = Appearance.getColorScheme()
         console.log("colorTheme is:", colorScheme);
-        const listner = Appearance.addChangeListener(colorTheme => {
-            console.log("theme is-----------", colorTheme)
+        // const listner = Appearance.addChangeListener(colorTheme => {
+        //     console.log("theme is-----------", colorTheme)
 
-            if (colorTheme.colorScheme === 'dark') {
+//  if ( colorTheme.colorScheme === 'dark') {
+            if (colorScheme === 'dark') {
                 setTheme('DARK');
             } else {
                 setTheme('LIGHT');
             }
-        });
-        return () => {
-            listner;
-        }
+        // });
+        // return () => {
+        //     listner;
+        // }
 
     }, [])
     // Pass the theme to the child components

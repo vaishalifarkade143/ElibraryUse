@@ -116,8 +116,8 @@ const getStyles = (theme) => {
       alignItems: 'center',
     },
     userText: {
-      fontWeight: '400',
-      fontSize: 18,
+      fontFamily: 'Philosopher-Bold',
+      fontSize: 20,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       paddingLeft: 10,
       paddingTop: 10,
@@ -142,7 +142,7 @@ const getStyles = (theme) => {
       justifyContent: 'space-between',
       marginLeft: 15,
       marginRight: 15,
-      marginBottom: 10
+      marginBottom: 15
     },
     flatView2: {
       display: 'flex',
@@ -150,11 +150,21 @@ const getStyles = (theme) => {
       justifyContent: 'center',
       flexDirection: 'row',
     },
+    flatView3:{
+      marginStart: 10,
+      height: 250
+    },
+    bookImage:{
+      aspectRatio: 0.7,
+      resizeMode: 'contain',
+      borderRadius: 10,
+    },
     coroselheading: {
       fontFamily: 'Philosopher-Bold',
       fontSize: 25,
       fontWeight: '600',
-      color: theme === 'LIGHT' ? '#000' : '#fff',
+      // color: theme === 'LIGHT' ? '#000' : '#fff',
+      color: 'black',
       right: 0
     },
     seeAll: {
@@ -166,8 +176,8 @@ const getStyles = (theme) => {
     bookName: {
       marginTop: 10,
       fontSize: 15,
-      color: theme === 'LIGHT' ? '#000' : '#fff',
-      flexDirection: 'column'
+      color: theme === 'LIGHT' ? '#34495E' : '#fff',
+      fontFamily: 'Philosopher-Bold',
     },
     mainImgNText: {
       flexDirection: 'row',
@@ -637,7 +647,7 @@ const getStyles = (theme) => {
     // },
     modalView: {
       margin: 20,
-      backgroundColor:  theme === 'LIGHT' ? '#fff' : '#000',
+      backgroundColor: theme === 'LIGHT' ? '#fff' : '#000',
       borderRadius: 20,
       padding: 20,
       paddingLeft: 40,
@@ -818,12 +828,15 @@ const getStyles = (theme) => {
     },
     textHeading: {
       fontSize: 15,
-      fontWeight: 'bold',
-      color: theme === 'LIGHT' ? '#000' : '#fff'
+      // fontWeight: 'bold',
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontFamily: 'Philosopher-Bold'
     },
     textHeadingOutput: {
       fontSize: 15,
-      marginLeft: 8, color: theme === 'LIGHT' ? '#000' : '#fff'
+      marginLeft: 10,
+      color: theme === 'LIGHT' ? '#34495E' : '#fff',
+      fontFamily: 'Philosopher-Bold'
     },
     textHeadingView:
     {
@@ -831,13 +844,15 @@ const getStyles = (theme) => {
       marginTop: 10,
       marginLeft: 10,
     },
-    subscribeText:{
-         fontSize: 15, 
-         fontWeight: 'bold', 
-         color: theme === 'LIGHT'?'#000':'#fff'
+    subscribeText: {
+      fontSize: 15,
+      fontWeight: 'bold',
+      color: theme === 'LIGHT' ? '#000' : '#fff'
     },
-    subscribeDate:{
-      color: 'blue', fontSize: 15, fontWeight: 'bold',
+    subscribeDate: {
+      color: 'blue',
+      fontSize: 15,
+      fontWeight: 'bold',
     },
     button: {
       borderRadius: 5,
@@ -855,7 +870,7 @@ const getStyles = (theme) => {
       color: 'white',
       fontWeight: 'bold',
       textAlign: 'center',
-  
+
     },
     modalText: {
       marginBottom: 5,
@@ -881,10 +896,23 @@ const getStyles = (theme) => {
       color: 'white',
     },
     alltableView:
-    { backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 10 },
-    category :{ fontWeight: '600', color: theme === 'LIGHT' ? '#2f4858' : '#000' },
-    categoryView:{ marginLeft: 10, marginRight: 10 },
-    categorytouch:{
+    {
+      backgroundColor: '#fff',
+      marginTop: 15,
+      marginLeft: 15,
+      marginRight: 10
+    },
+    category: {
+      fontWeight: '600',
+      color: theme === 'LIGHT' ? '#2f4858' : '#000',
+      fontFamily: 'Philosopher-Bold',
+      fontSize: 17,
+    },
+    categoryView: {
+      marginLeft: 10,
+      marginRight: 10
+    },
+    categorytouch: {
       width: 130,
       height: 65,
       borderRadius: 10,
@@ -896,22 +924,41 @@ const getStyles = (theme) => {
       alignItems: 'center',
       paddingLeft: 15,
       paddingRight: 15,
-      backgroundColor: '#fff',
+      // backgroundColor: '#C8C8C8',
     },
     batch: {
-    position: 'absolute',
-    textAlign: 'center',
-    right: -10,
-    width: 80,
-    height: 20,
-    marginTop: 5,
-    fontSize: 13,
-    fontWeight: 'bold',
-    borderRadius: 10,
-    borderWidth: 1.5,
-   },
-   bookicon:{ height: 20, width: 20, marginLeft: -8, },
-
+      position: 'absolute',
+      textAlign: 'center',
+      right: 70,
+      width: 80,
+      height: 20,
+      marginTop: 5,
+      fontSize: 13,
+      borderRadius: 10,
+      borderWidth: 1.5,
+      fontFamily: 'Roboto-Bold',
+    },
+    bookicon:
+    {
+      height: 20,
+      width: 20,
+      marginLeft: -8,
+    },
+    bookPageLibText: {
+      fontSize: 12,
+      fontFamily: 'Philosopher-Bold',
+      color: theme === 'DARK' ? '#fff' : '#5D6D7E'
+    },
+    bookNameText: {
+      fontSize: 15,
+      marginLeft: -10,
+      fontFamily: 'Philosopher-Bold',
+      color: theme === 'DARK' ? '#fff' : '#424949'
+    },
+    categoryIcon: {
+      width: 30,
+      height: 30
+    }
   });
 
 };

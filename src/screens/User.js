@@ -270,6 +270,7 @@
 
 import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, ImageBackground } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
+import { useNavigation } from '@react-navigation/native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -292,52 +293,42 @@ const User = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
 
 
-  // const [refresh, setRefresh] = useState(false);
-
-  useEffect(() => {
-
-    const fetchProfileData = () => {
-      const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
-
-      fetch(singleUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
+  const fetchProfileData = () => {
+     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
+    // const singleUrl ='https://dindayalupadhyay.smartcitylibrary.com/api/member-login'
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
       })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
-        })
-        .then((res) => {
-          setProfile(res.data);
-          setFirstName(res.data.first_name);
-          setLastName(res.data.last_name);
-          setEmail(res.data.email);
-          setPhone(res.data.phone);
-          setImage(res.data.image_path);
-          setIsLoading(false);
-          saveDeviceToken();
-        })
-        .catch((error) => {
-          // console.error('Error fetching data:', error);
-          setIsLoading(false);
-        });
-    };
-
-    fetchProfileData();
-    // saveDeviceToken();
-  }, [userToken]);
+      .then((res) => {
+        setProfile(res.data);
+        setFirstName(res.data.first_name);
+        setLastName(res.data.last_name);
+        setEmail(res.data.email);
+        setPhone(res.data.phone);
+        setImage(res.data.image_path);
+        setIsLoading(false);
+        saveDeviceToken();
+      })
+      .catch((error) => {
+         console.error('Error fetching data in user:', error);
+        setIsLoading(false);
+      });
+  };
 
 
   const saveDeviceToken = async () => {
     try {
       const deviceToken = await messaging().getToken();
-      //   console.log('Saving device token:', deviceToken);
-      //  console.log("user Token in fire :",userToken)
       const response = await axios.post(
         'https://dindayalupadhyay.smartcitylibrary.com/api/m1/fcm-token',
         { token: deviceToken },
@@ -348,7 +339,6 @@ const User = ({ navigation }) => {
           },
         }
       );
-      // console.log('Full response:', response);
       if (response) {
         console.log('Device token saved successfully.', response.data);
       } else {
@@ -360,9 +350,15 @@ const User = ({ navigation }) => {
   };
 
 
+useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchProfileData();
+    });
+    return unsubscribe;
+  }, [navigation, userToken]);
 
-  // console.log("userToken:", userToken);
 
+console.log("userToken:", userToken);
   return (
     <Theme>
       {({ theme }) => {
@@ -426,7 +422,9 @@ const User = ({ navigation }) => {
                 }
 
 
-                <View style={{ flexDirection: 'column', marginLeft: 40, marginTop: 10 }}>
+                <View style={{ flexDirection: 'column',
+                 marginLeft: 40, 
+                 marginTop: 10 }}>
 
                   {userToken != null ?
                     <View>
@@ -440,11 +438,11 @@ const User = ({ navigation }) => {
                         {first_name} {last_name}
                       </Text>
                       <Text
-                        style={[styles.userpageText,{fontSize: 14,}]}>
+                        style={[styles.userpageText, { fontSize: 14, }]}>
                         {email}
                       </Text>
                       <Text
-                        style={[styles.userpageText,{fontSize: 15,}]}>
+                        style={[styles.userpageText, { fontSize: 15, }]}>
                         {phone}
                       </Text>
                     </View>
@@ -522,7 +520,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Membership Plans</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 164 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 160 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -543,7 +541,7 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>MembershipScreen</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 160 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 150 }} />
                       </View>
                     </TouchableOpacity>
 
