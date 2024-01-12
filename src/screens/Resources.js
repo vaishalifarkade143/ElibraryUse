@@ -518,7 +518,7 @@ const Resources = () => {
 
             {/* <ScrollView> */}
             <Text style={styles.sectionHeading}>Resources</Text>
-            <View style={[styles.dividerView, { width: 90, marginLeft: 140, }]}></View>
+            <View style={[styles.dividerView, { width: 90, marginLeft: 160, }]}></View>
 
             {/* <View style={{
                 backgroundColor: '#f5ebe6',
@@ -604,25 +604,22 @@ const Resources = () => {
 
             <View style={{
               flex: 1,
-              marginStart: 10,
-              marginEnd: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
+               alignItems: 'center',
               marginTop: 30,
               marginBottom: 30,
-
             }}>
               <FlatList
                 showsVerticalScrollIndicator={false}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                numColumns={2}
                 data={data}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) =>
 
                   <View style={{
                     marginTop: 5,
-                    backgroundColor: '#FBFCFC',
+                    backgroundColor: '#EBDEF0',
                     paddingBottom: 15,
-                    width: 300,
                     borderRadius: 10,
                     marginBottom: 15,
                     alignItems: 'center',

@@ -294,8 +294,7 @@ const User = ({ navigation }) => {
 
 
   const fetchProfileData = () => {
-     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
-    // const singleUrl ='https://dindayalupadhyay.smartcitylibrary.com/api/member-login'
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
     fetch(singleUrl, {
       method: 'GET',
       headers: {
@@ -320,7 +319,7 @@ const User = ({ navigation }) => {
         saveDeviceToken();
       })
       .catch((error) => {
-         console.error('Error fetching data in user:', error);
+        console.error('Error fetching data in user:', error);
         setIsLoading(false);
       });
   };
@@ -350,15 +349,46 @@ const User = ({ navigation }) => {
   };
 
 
-useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchProfileData();
-    });
-    return unsubscribe;
+  useEffect(() => {
+    if (userToken !== null) {
+      if (userInfo.data.user.membership_plan_name !== null) {
+        const unsubscribe = navigation.addListener('focus', () => {
+          fetchProfileData();
+        });
+        return unsubscribe;
+      }
+      else{before_plan();}
+
+    }
   }, [navigation, userToken]);
 
 
-console.log("userToken:", userToken);
+
+
+  const before_plan=()=>{
+
+    if(userToken!==null)
+  {
+    setFirstName(userInfo.data.user.first_name);
+    setLastName(userInfo.data.user.last_name);
+    setPhone(userInfo.data.user.phone);
+    setEmail(userInfo.data.user.email);
+    setImage()
+  }
+  }
+
+
+
+  
+
+
+
+
+  console.log("userToken:", userToken);
+
+  console.log("usrInfo",userInfo,first_name,last_name,email,phone);
+
+
   return (
     <Theme>
       {({ theme }) => {
@@ -377,7 +407,17 @@ console.log("userToken:", userToken);
               <View style={styles.mainImgNText}>
 
 
-                {userToken !== null ?
+                
+                
+           
+
+             
+             
+                
+                
+                
+                
+                {userToken !== null && userInfo.data.user.membership_plan_name !== null ?
                   (<View
                     style={{
                       height: 140,
@@ -422,15 +462,36 @@ console.log("userToken:", userToken);
                 }
 
 
-                <View style={{ flexDirection: 'column',
-                 marginLeft: 40, 
-                 marginTop: 10 }}>
 
-                  {userToken != null ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <View style={{
+                  flexDirection: 'column',
+                  marginLeft: 40,
+                  marginTop: 10
+                }}>
+
+                  {userToken !== null ?
                     <View>
                       <Text
                         style={{
-                          fontWeight: 'bold',
+                          // fontWeight: 'bold',
                           fontSize: 20,
                           color: '#000',
                           fontFamily: 'Philosopher-Bold',
@@ -447,6 +508,9 @@ console.log("userToken:", userToken);
                       </Text>
                     </View>
                     : null}
+
+
+
 
                   {userToken === null ?
                     <TouchableOpacity
@@ -487,9 +551,11 @@ console.log("userToken:", userToken);
                     <TouchableOpacity onPress={() => {
                       navigation.navigate('profile')
                     }}>
-                      <View style={styles.userView}>
+                      <View style={
+                        styles.userView}>
                         <Text style={styles.userText}>Profile </Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 258 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 246 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -500,7 +566,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>My E-Book </Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 225 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 215 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -510,7 +577,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Book History</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 211 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 200 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -520,7 +588,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Membership Plans</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 160 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 160 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -530,7 +599,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Transactions</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 210 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 197 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -541,7 +611,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>MembershipScreen</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 150 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 150 }} />
                       </View>
                     </TouchableOpacity>
 
@@ -550,7 +621,8 @@ console.log("userToken:", userToken);
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Resources</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20} style={{ marginLeft: 230 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                          style={{ marginLeft: 215 }} />
                       </View>
                     </TouchableOpacity>
 

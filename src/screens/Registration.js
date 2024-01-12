@@ -79,7 +79,7 @@ const Registration = ({ navigation }) => {
             .sendMessage({
                 notification: {
                     title: 'Registration Successful',
-                    body: 'You have successfully registered!',
+                    body: 'You have successfully registered.',
                 },
             })
             .then(() => console.log('Notification sent successfully'))

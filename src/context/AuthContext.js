@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);//for loading
     const [userToken, setUserToken] = useState(null);
     const [userEmail, setUserEmail] = useState('');
-    const [userInfo, setUserInfo] = useState({});
+    const [userInfo, setUserInfo] = useState(null);
 
     
     const forgotPassword = (email, url) => {
@@ -63,8 +63,9 @@ export const AuthProvider = ({ children }) => {
                 setIsLoading(false);
 
                 Alert.alert(
-                    'Success!',
-                    `User has successfully registered!`,
+                    `Account registered successfully`
+                    ` Request email has been sent for `
+                    `approval`
                 );
             })
             .catch(e => {
@@ -91,6 +92,8 @@ export const AuthProvider = ({ children }) => {
             AsyncStorage.setItem('userInfo', JSON.stringify(result));
             AsyncStorage.setItem('userToken', result.data.token);
             AsyncStorage.setItem('userEmail', result.data.user.email);
+           
+            
 
             Alert.alert(
                 'Success!',
@@ -98,19 +101,19 @@ export const AuthProvider = ({ children }) => {
             );
             return result; // Return the result for further use if needed
         } catch (error) {
-            console.error('Login error:', error);
+            // console.error('Login error:', error);
 
-            if (error.response) {
-                console.log('Response data:', error.response.data);
-                console.log('Response status:', error.response.status);
-            }
+            // if (error.response) {
+            //     console.log('Response data:', error.response.data);
+            //     console.log('Response status:', error.response.status);
+            // }
 
             Alert.alert(
                 'Login fail',
                 `Email Id and Password don't match!`,
             );
 
-            throw error; // Re-throw the error for further handling if needed
+            // throw error; // Re-throw the error for further handling if needed
         } finally {
             setIsLoading(false);
         }
@@ -122,6 +125,7 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         setIsLoading(true);
         setUserToken(null);
+        setUserInfo(null);
 
         AsyncStorage.removeItem('userInfo');//login pr info remove hogi
         AsyncStorage.removeItem('userToken');

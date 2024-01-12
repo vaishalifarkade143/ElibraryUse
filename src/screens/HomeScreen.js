@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
   const [freqBooks, setFreqBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
-  
+  const [genreBooks, setGenreBooks] = useState([]);
 
 
   // generating a random number
@@ -67,13 +67,27 @@ const HomeScreen = ({ navigation }) => {
   const featuredEBooks = freqBooks.filter((item) =>
     item.items[0].format === format[2].id);
 
-    const artBooks = freqBooks.filter((item) => 
+  const artBooks = freqBooks.filter((item) =>
     item.genres.some(genre => genre.name === "Art")
   );
+  const comicBooks = freqBooks.filter((item) =>
+    item.genres.some(comic => comic.name === "Comics")
+  );
+  const combinedBooks = [...artBooks, ...comicBooks];
+  // console.log("combine",combinedBooks);
 
-  const comicBooks = freqBooks.filter((item) => 
-  item.genres.some(comic => comic.name === "Comics")
-);
+  const bussiness = freqBooks.filter((item) =>
+    item.genres.some(genre => genre.name === "Business")
+  );
+  const success = freqBooks.filter((item) =>
+    item.genres.some(genre => genre.name === "sucess")
+  );
+
+  const motivation = freqBooks.filter((item) =>
+    item.genres.some(genre => genre.name === "Motivation")
+  );
+
+  const busSucMoti = [...bussiness, ...success, ...motivation];
 
   // ======================frequently added end========================//
 
@@ -131,7 +145,7 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={{
                   marginStart: 10,
-                  height: 280
+                  height: 300
                 }}>
                   <FlatList
                     horizontal={true}
@@ -148,14 +162,14 @@ const HomeScreen = ({ navigation }) => {
                       <TouchableOpacity
                         style={[styles.flatView2, {
                           width: 200,
-                          height: 320
+                          height: 350
                         }]}
                         onPress={() => {
                           navigation.navigate('BooksDetailPage', { data: item })
                         }}>
                         <View style={{
                           width: 150,
-                          height: 200,
+                          height: 230,
                           marginEnd: 60,
                           marginTop: -120
                         }}>
@@ -175,6 +189,9 @@ const HomeScreen = ({ navigation }) => {
                           </View>
                           <Text style={styles.bookName} numberOfLines={1}>
                             {item.name}
+                          </Text>
+                          <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -247,7 +264,7 @@ const HomeScreen = ({ navigation }) => {
 
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData',
-                     { filterBooks })
+                      { filterBooks })
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
@@ -366,12 +383,13 @@ const HomeScreen = ({ navigation }) => {
                 {/* ===========Art======== */}
 
                 <View style={styles.flatView1}>
-                  <Text style={styles.coroselheading}>Art</Text>
+                  <Text style={styles.coroselheading}>Art </Text>
 
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData', { artBooks })
-                    console.log("art:",artBooks);
+                    console.log("art:", artBooks);
                   }}>
+
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
                       source={require('../images/arrow-right.png')}
@@ -400,7 +418,7 @@ const HomeScreen = ({ navigation }) => {
                         }]}
                         onPress={() => {
                           navigation.navigate('BooksDetailPage',
-                           { data: item })
+                            { data: item })
                         }}>
                         <View style={{
                           width: 145,
@@ -416,7 +434,72 @@ const HomeScreen = ({ navigation }) => {
                               style={styles.bookImage}
                             />
                           </View>
-                          <Text style={styles.bookName} numberOfLines={1}>
+                          <Text style={styles.bookName}
+                            numberOfLines={1}>
+                            {item.name}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    }
+                  />
+                </View>
+
+                {/* ===========Art,Comics======== */}
+
+                <View style={styles.flatView1}>
+                  <Text style={styles.coroselheading}>Art ,Comics</Text>
+
+                  <TouchableOpacity onPress={() => {
+                    navigation.navigate('filterData', { combinedBooks })
+                    // console.log("art n comics:",combinedBooks);
+                  }}>
+
+                    {/* <Text style={styles.seeAll}>See All</Text> */}
+                    <Image
+                      source={require('../images/arrow-right.png')}
+                      style={styles.categoryIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.flatView3}>
+                  <FlatList
+                    horizontal={true}
+                    snapToInterval={200} // Adjust the interval based on your design
+                    decelerationRate="fast"
+                    contentContainerStyle={{
+                      gap: -20,
+                      paddingHorizontal: 12,
+                    }}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item,index) => index.toString()}
+                    data={combinedBooks.splice(a, 10)}
+                    renderItem={({ item }) =>
+                      <TouchableOpacity
+                        style={[styles.flatView2, {
+                          width: 180,
+                          height: 350
+                        }]}
+                        onPress={() => {
+                          navigation.navigate('BooksDetailPage',
+                            { data: item })
+                        }}>
+                        <View style={{
+                          width: 145,
+                          height: 350,
+                          marginEnd: 50,
+                        }}>
+                          <View style={{
+                            elevation: 5,
+                            borderRadius: 5,
+                            color: '#000'
+                          }}>
+                            <Image source={{ uri: item.image_path }}
+                              style={styles.bookImage}
+                            />
+                          </View>
+                          <Text style={styles.bookName}
+                            numberOfLines={1}>
                             {item.name}
                           </Text>
                         </View>
@@ -433,7 +516,7 @@ const HomeScreen = ({ navigation }) => {
 
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData',
-                     { comicBooks })
+                      { comicBooks })
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
@@ -495,6 +578,72 @@ const HomeScreen = ({ navigation }) => {
                     }
                   />
                 </View>
+                {/* ===========Motivatin,Bussiness,Success======== */}
+
+                <View style={styles.flatView1}>
+                  <View>
+                    <Text style={styles.coroselheading}>Bussiness,Motivation, </Text>
+                    <Text style={styles.coroselheading}>Success </Text>
+                  </View>
+                  <TouchableOpacity onPress={() => {
+                    navigation.navigate('filterData', { busSucMoti })
+                    console.log("busSucMoti:", busSucMoti);
+                  }}>
+
+                    {/* <Text style={styles.seeAll}>See All</Text> */}
+                    <Image
+                      source={require('../images/arrow-right.png')}
+                      style={styles.categoryIcon}
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.flatView3}>
+                  <FlatList
+                    horizontal={true}
+                    snapToInterval={200} // Adjust the interval based on your design
+                    decelerationRate="fast"
+                    contentContainerStyle={{
+                      gap: -20,
+                      paddingHorizontal: 12,
+                    }}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item,index) => index.toString()}
+                    data={busSucMoti}
+                    renderItem={({ item }) =>
+                      <TouchableOpacity
+                        style={[styles.flatView2, {
+                          width: 180,
+                          height: 350
+                        }]}
+                        onPress={() => {
+                          navigation.navigate('BooksDetailPage',
+                            { data: item })
+                        }}>
+                        <View style={{
+                          width: 145,
+                          height: 350,
+                          marginEnd: 50,
+                        }}>
+                          <View style={{
+                            elevation: 5,
+                            borderRadius: 5,
+                            color: '#000'
+                          }}>
+                            <Image source={{ uri: item.image_path }}
+                              style={styles.bookImage}
+                            />
+                          </View>
+                          <Text style={styles.bookName}
+                            numberOfLines={1}>
+                            {item.name}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    }
+                  />
+                </View>
+
 
 
               </ScrollView>)}

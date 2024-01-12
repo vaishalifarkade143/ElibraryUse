@@ -24,7 +24,6 @@ import FilterData from '../screens/FilterData';
 import GoBackLogin from '../screens/GoBackLogin';
 
 
-
 const stack = createNativeStackNavigator();
 
 const LoginAndRegister = () => {

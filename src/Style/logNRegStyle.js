@@ -64,7 +64,7 @@ const getStyles = (theme) => {
       marginLeft: 30
     },
     floatView: {
-      backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',
+      backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',//  #FBFCFC
       justifyContent: 'center',
       flexDirection: 'column',
       marginLeft: 20,
@@ -110,15 +110,17 @@ const getStyles = (theme) => {
     //   elevation: 5,
     // },
     userView: {
-      marginTop: 2,
-      backgroundColor: theme === 'LIGHT' ? '#fff' : '#000',
+      margin: 2,
+      backgroundColor: theme === 'LIGHT' ? '#E5E8E8' : '#000',
       flexDirection: 'row',
       alignItems: 'center',
+      marginLeft:10,
+      marginRight:10
     },
     userText: {
       fontFamily: 'Philosopher-Bold',
-      fontSize: 20,
-      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontSize: 16,
+      color: theme === 'LIGHT' ? '#34495E' : '#fff',
       paddingLeft: 10,
       paddingTop: 10,
       paddingBottom: 10
@@ -126,7 +128,7 @@ const getStyles = (theme) => {
     bannar: {
       margin: 5,
       height: 200,
-      backgroundColor: "#f5ebe6",
+      // backgroundColor: "#f5ebe6",
       flexDirection: 'column',
       paddingRight: 10,
       justifyContent: 'center'
@@ -174,10 +176,17 @@ const getStyles = (theme) => {
       fontFamily: 'Roboto-Bold'
     },
     bookName: {
-      marginTop: 10,
+      marginTop: 8,
       fontSize: 15,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
       fontFamily: 'Philosopher-Bold',
+    },
+    bookName1: {
+      // marginTop: 5,
+      fontSize: 13,
+      color: theme === 'LIGHT' ? '#34495E' : '#fff',
+      fontWeight:'400'
+      // fontFamily: 'Roboto-Bold'
     },
     mainImgNText: {
       flexDirection: 'row',
@@ -450,13 +459,14 @@ const getStyles = (theme) => {
       gap: 10
     },
     userpageText: {
-      fontWeight: 'bold',
       color: '#000',
       fontFamily: 'Poppin-Thin',
+      color:'#34495E'
     },
     body: {
       flex: 1,
       padding: 20,
+      marginBottom:20,
     },
     section: {
       alignItems: 'center',
@@ -479,7 +489,6 @@ const getStyles = (theme) => {
       fontWeight: '600',
       marginTop: 10,
       color: theme === 'LIGHT' ? '#000' : '#fff',
-      marginBottom: 8,
       textAlign: 'center',
       fontWeight: 'bold'
     },
@@ -504,25 +513,20 @@ const getStyles = (theme) => {
       paddingHorizontal: 10,
     },
     planContainer: {
-      backgroundColor: '#fff',
+      backgroundColor: '#ECF0F1',
       borderRadius: 10,
+      borderColor:'#fff',
       marginTop: 20,
-      marginHorizontal: 10,
-      padding: 20,
+      padding: 10,
       elevation: 3,
-      width: 260,
-      height: 300
-
+      width: 150,
     },
 
     planName: {
-      marginTop: 20,
       textAlign: 'center',
       fontFamily: 'Philosopher-Bold',
-      fontSize: 22,
-      fontWeight: '600',
+      fontSize: 17,
       color: '#000',
-      marginBottom: 5,
     },
     priceContainer: {
       flexDirection: 'row',
@@ -530,38 +534,39 @@ const getStyles = (theme) => {
       alignItems: 'center',
     },
     price: {
-      fontWeight: 'bold',
       color: 'black',
-      fontSize: 30,
+      fontSize: 15,
+      fontFamily: 'Philosopher-Bold',
     },
     priceLabel: {
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 12,
     },
     description: {
-      textAlign: 'center',
       fontWeight: 'bold',
       color: '#c27b7f',
-      marginVertical: 10,
+      fontSize: 10,
     },
     subscribeButton: {
       marginTop: 10,
-      padding: 15,
       backgroundColor: '#c27b7f',
       borderRadius: 8,
-      justifyContent: 'center',
+      paddingBottom:10,
+      paddingTop:10,
       alignItems: 'center',
+     
+      marginLeft:5,
+      marginRight:5
     },
     buttonText: {
       textAlign: 'center',
       fontWeight: 'bold',
-      fontSize: 16,
+      fontSize: 13,
       color: "#fff",
     },
     rupeeIcon: {
-      width: 22,
-      height: 20,
-      marginRight: 5,
+      width: 15,
+      height: 15,
     },
     header: {
       height: 50,
@@ -580,8 +585,6 @@ const getStyles = (theme) => {
     row1: {
       height: 40,
       backgroundColor: '#fff',
-      // flexDirection: 'row',
-      // alignItems: 'center',
     },
     loadingText: {
       flex: 1,
@@ -725,7 +728,7 @@ const getStyles = (theme) => {
       fontSize: 20
     },
     profileView: {
-      gap: 5,
+      gap: 3,
       display: 'flex',
       alignItems: 'center',
       flexDirection: "row",
@@ -736,7 +739,6 @@ const getStyles = (theme) => {
     profileTextView: {
       backgroundColor: '#fff',
       display: 'flex',
-      marginTop: 15,
       marginLeft: 15,
       marginRight: 15,
     },

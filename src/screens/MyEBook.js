@@ -15,7 +15,7 @@ const MyEBook = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
-  const { userToken, userEmail, userMemPlan } = useContext(AuthContext);
+  const { userToken, userEmail, userMemPlan ,userInfo} = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -203,8 +203,8 @@ const MyEBook = ({ navigation }) => {
               {/* ===================================================================== */}
 
 
-
-              <View style={styles.alltableView}>
+              {userInfo.data.user.membership_plan_name !== null?
+             ( <View style={styles.alltableView}>
                 <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
                   
                   <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15,marginBottom:25 }}>
@@ -227,7 +227,12 @@ const MyEBook = ({ navigation }) => {
                     </ScrollView>
                   </View>
                 </ScrollView>
-              </View>
+              </View>):(<Text>Please Activate Any Subscription plan</Text>)}
+
+
+
+
+
             </View>
 
           </View>

@@ -31,6 +31,15 @@ console.log('selectedGenre', route.params.filteredPublisher,);
       filteredData = route.params.artBooks;
       setFilterByBooks(filteredData);
     }
+    if(route.params.busSucMoti){
+      filteredData = route.params.busSucMoti;
+      setFilterByBooks(filteredData);
+    }
+
+    if(route.params.combinedBooks){
+      filteredData = route.params.combinedBooks;
+      setFilterByBooks(filteredData);
+    }
 
     if(route.params.comicBooks){
       filteredData = route.params.comicBooks;
@@ -75,9 +84,9 @@ console.log('selectedGenre', route.params.filteredPublisher,);
 
 
 
-    }, [route.params.books,route.params.filterBooks,route.params.featuredEBooks,route.params.artBooks,route.params.comicBooks, route.params.filteredGenre
+    }, [route.params.books,route.params.filterBooks,route.params.featuredEBooks,route.params.artBooks,route.params.combinedBooks,route.params.comicBooks, route.params.filteredGenre
   , route.params.filteredAuthor,route.params.filteredPublisher,route.params.filteredLanguage,
-  route.params.filteredFormat,route.params.filteredLibrary]);
+  route.params.filteredFormat,route.params.filteredLibrary,route.params.busSucMoti]);
 
 
   console.log('filterdata ::',filterBybooks);

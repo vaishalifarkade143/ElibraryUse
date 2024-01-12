@@ -11,18 +11,19 @@ import Theme from './Theme';
 const Profile = ({ navigation }) => {
 
     const [image, setImage] = useState('');
+    const { userInfo, userToken } = useContext(AuthContext);
 
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [address_1, setAddress1] = useState('');
-    const [address_2, setAddress2] = useState('');
+    const [address_1, setAddress1] = useState();
+    const [address_2, setAddress2] = useState();
     const [state, setState] = useState('');
     const [city, setCity] = useState('');
     const [zip, setZip] = useState('');
     const [profile, setProfile] = useState([]);
-    const { userToken } = useContext(AuthContext);
+    // const { userToken } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [isData, setIsData] = useState(false);
     const [removeImage, setRemoveImage] = useState(0);
@@ -63,10 +64,31 @@ const Profile = ({ navigation }) => {
     }
 
 
+
+    const before_plan=()=>{
+
+        if(userToken!==null)
+      {
+        setFirstName(userInfo.data.user.first_name);
+        setLastName(userInfo.data.user.last_name);
+        setPhone(userInfo.data.user.phone);
+        setEmail(userInfo.data.user.email);
+      }
+      }
+
+
     useEffect(() => {
         // Fetch user profile data on component load
+        
+        if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
+           
         fetchProfileData();
+        }
+        else {before_plan()}
     }, [userToken]);
+
+
+    
 
     const fetchProfileData = () => {
         const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
@@ -187,12 +209,8 @@ const Profile = ({ navigation }) => {
                             <View style={[styles.dividerView, { width: 60, marginLeft: 150, }]}></View>
                             {/* line ends ============== */}
 
-
-
-                            <Spinner visible={isLoading} style={{ color: 'yellow' }} />
+                            {/* <Spinner visible={isLoading} style={{ color: 'yellow' }} /> */}
                             <View style={styles.floatView}>
-
-                                {/* <View style={{ marginTop: 20 }}> */}
                                 <View
                                     style={styles.profileView}>
                                     <Text style={styles.profileText}>First Name</Text>

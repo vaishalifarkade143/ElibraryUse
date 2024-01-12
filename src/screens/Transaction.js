@@ -13,7 +13,7 @@ import Theme from './Theme';
 const Transaction = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
-  const { userToken } = useContext(AuthContext);
+  const {userInfo, userToken } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
 
   const state = {
@@ -25,27 +25,29 @@ const Transaction = ({ navigation }) => {
   // =================  for table view ============================
   useEffect(() => {
     // Fetch AllSubscribedPlan data
-    const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
+    if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
+      const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
 
-    fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .then((data) => {
-        setAllSubscribedPlan(data.data);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setAllSubscribedPlan(data.data);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
   }, [userToken]);
 
 
@@ -115,88 +117,88 @@ const Transaction = ({ navigation }) => {
 
   return (
     <Theme>
-    {({ theme }) => {
-      const styles = getStyles(theme);
-      return (
-    <View style={styles.container}>
-      <Header
-        rightIcon={require('../images/Logoelibrary.png')}
-        leftIcon={require('../images/menu.png')}
-        onClickLeftIcon={() => {
-          navigation.openDrawer();
-        }}
-      />
-      <ScrollView>
-        <Text style={styles.sectionHeading}>Transaction</Text>
-        <View style={[styles.dividerView,{ width: 110, marginLeft: 130,}]}></View>
-        <View style={{
-          backgroundColor: '#f5ebe6',
-          marginTop: 20,
-          flexDirection: 'column',
-          marginBottom: 50,
-          paddingBottom: 20,
-        }}>
+      {({ theme }) => {
+        const styles = getStyles(theme);
+        return (
+          <View style={styles.container}>
+            <Header
+              rightIcon={require('../images/Logoelibrary.png')}
+              leftIcon={require('../images/menu.png')}
+              onClickLeftIcon={() => {
+                navigation.openDrawer();
+              }}
+            />
+            <ScrollView>
+              <Text style={styles.sectionHeading}>Transaction</Text>
+              <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View>
+              <View style={{
+                backgroundColor: '#f5ebe6',
+                marginTop: 20,
+                flexDirection: 'column',
+                marginBottom: 50,
+                paddingBottom: 20,
+              }}>
 
-          {/* ==================search======================= */}
-          <View style={styles.searchcontainer}>
-            <View style={styles.searchBar}>
-              <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-              <TextInput
-                style={styles.searchInput}
-                placeholder="Search by Plan Name"
-                placeholderTextColor="#000" 
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
+                {/* ==================search======================= */}
+                <View style={styles.searchcontainer}>
+                  <View style={styles.searchBar}>
+                    <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                    <TextInput
+                      style={styles.searchInput}
+                      placeholder="Search by Plan Name"
+                      placeholderTextColor="#000"
+                      value={searchQuery}
+                      onChangeText={setSearchQuery}
+                    />
 
-              {searchQuery !== '' && (
-                <TouchableOpacity onPress={() => {
-                  setSearchQuery('');
+                    {searchQuery !== '' && (
+                      <TouchableOpacity onPress={() => {
+                        setSearchQuery('');
 
-                }}>
-                  <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
-                </TouchableOpacity>)}
-            </View>
-          </View>
-          {/* ===================================================================== */}
+                      }}>
+                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
+                      </TouchableOpacity>)}
+                  </View>
+                </View>
+                {/* ===================================================================== */}
 
 
-          {/* table */}
-          <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
-            <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-              <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
-                <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                  <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header} 
-                  textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-                </Table>
-                <ScrollView style={styles.dataWrapper}>
-                  <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                    {updatedTableData.map((item, index) => (
-                      <Row
-                        key={index}
-                        data={item}
-                        widthArr={state.widthArr}
-                        style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
-                        textStyle={styles.texttt}
-                      />
-                    ))}
-                  </Table>
-                </ScrollView>
+                {/* table */}
+                <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+                  <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+                    <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+                      <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                        <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
+                          textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
+                      </Table>
+                      <ScrollView style={styles.dataWrapper}>
+                        <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                          {updatedTableData.map((item, index) => (
+                            <Row
+                              key={index}
+                              data={item}
+                              widthArr={state.widthArr}
+                              style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                              textStyle={styles.texttt}
+                            />
+                          ))}
+                        </Table>
+                      </ScrollView>
+                    </View>
+                  </ScrollView>
+                </View>
+
+
               </View>
+
+
+
             </ScrollView>
+
           </View>
-
-
-        </View>
-
-
-
-      </ScrollView>
-
-    </View>
-     );
-    }}
-  </Theme>
+        );
+      }}
+    </Theme>
 
   );
 };

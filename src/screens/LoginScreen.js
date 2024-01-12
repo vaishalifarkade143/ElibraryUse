@@ -11,7 +11,7 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
 const LoginScreen = ({ navigation }) => {
-    const { isLoading, login } = useContext(AuthContext);
+    const { isLoading, login,userInfo } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
 
     // ==================Important get device token on load of app and to store device token========================//
@@ -45,7 +45,7 @@ const LoginScreen = ({ navigation }) => {
             console.log('FCM token is stored successfully in Firebase.');
             return token;
         } catch (error) {
-            console.error('Error storing FCM token:', error);
+            // console.error('Error storing FCM token:', error);
             return null;
         }
     };
@@ -87,7 +87,7 @@ const LoginScreen = ({ navigation }) => {
         //     console.log(values.email);
         // }
         // else {
-        //     navigation.navigate('Membershipplan');
+        //     navigation.navigate('MembershipPlan');
         //     console.log("error");
         // }
 
