@@ -128,7 +128,8 @@ const MembershipPlan = () => {
   const navigation = useNavigation();
   const { userInfo, userToken } = useContext(AuthContext);
   const [isPlanActivated, setIsPlanActivated] = useState(false);
-  const [price, setPrice] = useState('');
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState(null);
 
   useEffect(() => {
     const subscription = () => {
@@ -146,8 +147,9 @@ const MembershipPlan = () => {
   }, []);
   console.log("data is :", subscript);
 
+
+
   const activatePlan = (item) => {
-    const data = userInfo.data.user;
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session/${item.id}`;
 
     fetch(url, {
@@ -172,37 +174,29 @@ const MembershipPlan = () => {
         console.error('Error storing data:', error);
       });
   };
-  // const price1=subscript[0].price;
-  // console.log(" price1",price1);
 
 
-
-
-
-  const handlepayment = (item) => {
+  const handlepayment = (selectedPlan) => {
     var options = {
       description: 'Credits towards consultation',
-      // image: 'https://i.imgur.com/3g7nmJC.jpg',
       image: require('../images/Logoelibrary.png'),
       currency: 'INR',
       key: 'rzp_test_iGWfBKpv8IcFlF',
-      amount:item,
+      amount: selectedPlan.price * 100,
       name: 'Nagpur Elibrary',
-      order_id: 'order_DslnoIgkIDL8Zt',//Replace this with an order_id created using Orders API.
+      order_id: '',//Replace this with an order_id created using Orders API.
       prefill: {
         email: 'gaurav.kumar@example.com',
         contact: '9191919191',
         name: 'Gaurav Kumar'
       },
-      theme: {color: '#3498DB'}
+      theme: { color: '#3498DB' }
 
-
-
-     
     }
-    console.log(options.amount);
+    console.log("amount is: ", options.amount);
 
     RazorpayCheckout.open(options).then((data) => {
+      setPaymentSuccess(true);
       // handle success
       alert(`Success: ${data.razorpay_payment_id}`);
     }).catch((error) => {
@@ -211,12 +205,12 @@ const MembershipPlan = () => {
     });
   }
 
-
-
-
-
-
-
+  useEffect(() => {
+    if (paymentSuccess) {
+      // If payment was successful, activate the plan
+      activatePlan(selectedPlan);
+    }
+  }, [paymentSuccess]);
 
   return (
     <Theme>
@@ -250,7 +244,38 @@ const MembershipPlan = () => {
                     <View style={styles.priceContainer}>
                       <Image source={require('../images/rupee.png')} style={styles.rupeeIcon} />
                       <Text style={styles.price}>{item.price}</Text>
-                      <Text style={styles.priceLabel}>/year</Text>
+
+                      {item.id === 8 ? (
+                        <Text style={{
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        }}>/</Text>
+                      ) : (item.id === 1 ? (
+                        <Text style={{
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        }}>/yearly</Text>
+                      ) : (item.id === 9 ? (
+                        <Text style={{
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        }}>/</Text>
+                      ) : (item.id === 10 ? (
+                        <Text style={{
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        }}>/Monthly</Text>
+                      ) : (item.id === 11 ? (
+                        <Text style={{
+                          fontWeight: 'bold',
+                          fontSize: 12,
+                        }}>/yearly</Text>
+                      ) : (
+                        <Text style={styles.loadingText}>Loading...</Text>
+                      )))))}
+
+
+                      {/* <Text style={styles.priceLabel}>/yearly</Text> */}
                     </View>
 
                     <Text style={[styles.price, { textAlign: 'center' }]}>+</Text>
@@ -263,10 +288,8 @@ const MembershipPlan = () => {
                     <TouchableOpacity
                       disabled={isPlanActivated}
                       onPress={() => {
-                        activatePlan(item);
-                        setIsPlanActivated(true);
-                        handlepayment(item.price);
-
+                        setSelectedPlan(item);
+                        handlepayment(item);
 
 
                       }}

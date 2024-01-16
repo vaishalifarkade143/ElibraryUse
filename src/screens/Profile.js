@@ -17,17 +17,17 @@ const Profile = ({ navigation }) => {
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
-    const [address_1, setAddress1] = useState();
-    const [address_2, setAddress2] = useState();
+    const [address_1, setAddress1] = useState('');
+    const [address_2, setAddress2] = useState('');
     const [state, setState] = useState('');
     const [city, setCity] = useState('');
     const [zip, setZip] = useState('');
-    const [profile, setProfile] = useState([]);
+    const [profile, setProfile] = useState(null);
     // const { userToken } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [isData, setIsData] = useState(false);
     const [removeImage, setRemoveImage] = useState(0);
-   
+
     //======================image========================
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
@@ -65,30 +65,31 @@ const Profile = ({ navigation }) => {
 
 
 
-    const before_plan=()=>{
+    const before_plan = () => {
 
-        if(userToken!==null)
-      {
-        setFirstName(userInfo.data.user.first_name);
-        setLastName(userInfo.data.user.last_name);
-        setPhone(userInfo.data.user.phone);
-        setEmail(userInfo.data.user.email);
-      }
-      }
+        if (userToken !== null) {
+            setFirstName(userInfo.data.user.first_name);
+            setLastName(userInfo.data.user.last_name);
+            setPhone(userInfo.data.user.phone);
+            setEmail(userInfo.data.user.email);
+            setImage(userInfo.data.user.image_path);
+
+        }
+    }
 
 
     useEffect(() => {
         // Fetch user profile data on component load
-        
+
         if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
-           
-        fetchProfileData();
+
+            fetchProfileData();
         }
-        else {before_plan()}
+        else { before_plan(); }
     }, [userToken]);
 
 
-    
+
 
     const fetchProfileData = () => {
         const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
@@ -114,11 +115,14 @@ const Profile = ({ navigation }) => {
                 setPhone(res.data.phone);
                 console.log("image iss member-details:", res.data.image_path);
                 setImage(res.data.image_path);
-                setAddress1(res.data.address.address_1);
-                setAddress2(res.data.address.address_2);
-                setState(res.data.address.state);
-                setCity(res.data.address.city);
-                setZip(res.data.address.zip);
+                if (res.data.address !== null) {
+                    setAddress1(res.data.address.address_1);
+                    setAddress2(res.data.address.address_2);
+                    setState(res.data.address.state);
+                    setCity(res.data.address.city);
+                    setZip(res.data.address.zip);
+                }
+
                 setIsLoading(false);
             })
             .catch((error) => {
@@ -173,7 +177,7 @@ const Profile = ({ navigation }) => {
             }
 
             console.log('Data updated successfully:', response.json());
-           
+
             fetchProfileData();
             navigation.goBack();
             setIsData(false);
@@ -446,20 +450,23 @@ const Profile = ({ navigation }) => {
                                     flexDirection: 'row',
                                     gap: 10
                                 }}>
-                                    <TouchableOpacity
-                                        style={styles.saveTouch}
-                                        // onPress={handleSave}
 
-                                        onPress={() => {
-                                            handleSave();
-                                            navigation.navigate('Userr');
-                                        }}
-                                    // disabled={!isData}
-                                    >
-                                        {/* { isData?( */}
-                                        <Text style={styles.profileButtons}>Save</Text>
+                                    {profile ?
+                                        (<TouchableOpacity
+                                            style={styles.saveTouch}
+                                            // onPress={handleSave}
 
-                                    </TouchableOpacity>
+                                            onPress={() => {
+
+                                                handleSave();
+                                                navigation.navigate('Userr');
+                                            }}
+                                        // disabled={!isData}
+                                        >
+                                            {/* { isData?( */}
+                                            <Text style={styles.profileButtons}>Save</Text>
+
+                                        </TouchableOpacity>) : (<Text style={styles.profileButtons1}>Save</Text>)}
 
                                     <TouchableOpacity
                                         style={styles.saveTouch}

@@ -227,7 +227,15 @@ const MyEBook = ({ navigation }) => {
                     </ScrollView>
                   </View>
                 </ScrollView>
-              </View>):(<Text>Please Activate Any Subscription plan</Text>)}
+              </View>):(<View style={{alignItems:'center',
+              backgroundColor:'#fff',
+              marginLeft:10,
+              marginRight:10,
+              paddingBottom:30,
+              paddingTop:30}}>
+                <Text style={{fontSize:15,
+                  fontFamily:'Philosopher-Bold'}}>Please Activate Any Subscription plan</Text>
+                </View>)}
 
 
 

@@ -270,7 +270,6 @@
 
 import { View, Text, Image, TouchableOpacity, Dimensions, ScrollView, ImageBackground } from 'react-native'
 import React, { useContext, useState, useEffect } from 'react'
-import { useNavigation } from '@react-navigation/native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -283,7 +282,7 @@ import Theme from './Theme';
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
   const { userInfo, userToken } = useContext(AuthContext);
-  const [image, setImage] = useState('');
+  const [image, setImage] = useState(null);
 
   const [first_name, setFirstName] = useState('');
   const [last_name, setLastName] = useState('');
@@ -291,6 +290,8 @@ const User = ({ navigation }) => {
   const [phone, setPhone] = useState('');
   const [profile, setProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading1, setIsLoading1]=useState(true);
+ 
 
 
   const fetchProfileData = () => {
@@ -317,10 +318,15 @@ const User = ({ navigation }) => {
         setImage(res.data.image_path);
         setIsLoading(false);
         saveDeviceToken();
+
+
+
+
+      
       })
       .catch((error) => {
         console.error('Error fetching data in user:', error);
-        setIsLoading(false);
+        // setIsLoading(false);
       });
   };
 
@@ -357,36 +363,42 @@ const User = ({ navigation }) => {
         });
         return unsubscribe;
       }
-      else{before_plan();}
+
+
+      else {
+
+        const unsubscribe = navigation.addListener('focus', () => {
+          before_plan();
+        });
+
+        return unsubscribe;
+      }
 
     }
   }, [navigation, userToken]);
 
+  const before_plan = () => {
 
+    if (userToken !== null) {
+      setFirstName(userInfo.data.user.first_name);
+      setLastName(userInfo.data.user.last_name);
+      setPhone(userInfo.data.user.phone);
+      setEmail(userInfo.data.user.email);
 
-
-  const before_plan=()=>{
-
-    if(userToken!==null)
-  {
-    setFirstName(userInfo.data.user.first_name);
-    setLastName(userInfo.data.user.last_name);
-    setPhone(userInfo.data.user.phone);
-    setEmail(userInfo.data.user.email);
-    setImage()
-  }
+      setImage(userInfo.data.user.image_path);
+    }
   }
 
+  // console.log("userToken:", userToken);
 
-
+  console.log("usrInfo", userInfo, first_name, last_name, email, phone, image);
   
 
+  // useEffect=()=>{
 
 
+  // }
 
-  console.log("userToken:", userToken);
-
-  console.log("usrInfo",userInfo,first_name,last_name,email,phone);
 
 
   return (
@@ -402,21 +414,17 @@ const User = ({ navigation }) => {
                 navigation.openDrawer();
               }}
             />
+
+
+
+
+
             <View style={styles.bannar}>
 
               <View style={styles.mainImgNText}>
 
 
-                
-                
-           
 
-             
-             
-                
-                
-                
-                
                 {userToken !== null && userInfo.data.user.membership_plan_name !== null ?
                   (<View
                     style={{
@@ -460,23 +468,6 @@ const User = ({ navigation }) => {
                     }}
                     imageStyle={{ borderRadius: 75 }} />)
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -544,6 +535,28 @@ const User = ({ navigation }) => {
               </View>
             </View>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             <ScrollView>
               <View style={{ flexDirection: 'column', marginBottom: 40 }}>
                 {userToken != null ?
@@ -582,16 +595,17 @@ const User = ({ navigation }) => {
                       </View>
                     </TouchableOpacity>
 
-
-                    <TouchableOpacity onPress={(item) => {
-                      navigation.navigate('MembershipPlan')
-                    }}>
-                      <View style={styles.userView}>
-                        <Text style={styles.userText}>Membership Plans</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 160 }} />
-                      </View>
-                    </TouchableOpacity>
+                    {/* {userInfo.data.user.membership_plan_name === null && isLoading === true && ( */}
+                      <TouchableOpacity onPress={(item) => {
+                        navigation.navigate('MembershipPlan')
+                      }}>
+                        <View style={styles.userView}>
+                          <Text style={styles.userText}>Membership Plans</Text>
+                          <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
+                            style={{ marginLeft: 160 }} />
+                        </View>
+                      </TouchableOpacity>
+                      {/* )} */}
 
 
                     <TouchableOpacity onPress={(item) => {
@@ -603,8 +617,6 @@ const User = ({ navigation }) => {
                           style={{ marginLeft: 197 }} />
                       </View>
                     </TouchableOpacity>
-
-
 
                     <TouchableOpacity onPress={(item) => {
                       navigation.navigate('MembershipScreen')

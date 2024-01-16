@@ -713,7 +713,20 @@ const getStyles = (theme) => {
       fontSize: 18,
       textAlign: 'center',
       borderRadius: 5,
-    }, saveTouch: {
+    }, profileButtons1: {
+      padding: 10,
+      color: 'black',
+      backgroundColor: 'grey',
+      fontWeight: '700',
+      fontSize: 18,
+      textAlign: 'center',
+      borderRadius: 5,
+    },
+    
+    
+    
+    
+    saveTouch: {
       width: '40%',
       height: 70,
       justifyContent: 'center',

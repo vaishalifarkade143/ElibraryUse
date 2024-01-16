@@ -11,7 +11,7 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
 const LoginScreen = ({ navigation }) => {
-    const { isLoading, login,userInfo } = useContext(AuthContext);
+    const { isLoading, login,userInfo,result } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
 
     // ==================Important get device token on load of app and to store device token========================//
@@ -219,7 +219,8 @@ const LoginScreen = ({ navigation }) => {
                                                     }}>Remember Me</Text>
                                             </View>
                                             <TouchableOpacity
-                                                style={[styles.allbutton, { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
+                                                style={[styles.allbutton, 
+                                                    { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
                                                 onPress={handleSubmit}
                                                 disabled={!isValid}
                                             >

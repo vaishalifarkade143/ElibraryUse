@@ -11,7 +11,7 @@ const MembershipScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
-  const { userToken } = useContext(AuthContext);
+  const { userToken, userInfo } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -49,11 +49,14 @@ const MembershipScreen = ({ navigation }) => {
       });
   };
 
-  // console.log(singleSubscribedPlan);
+  console.log(userInfo);
 
   useEffect(() => {
+
     fetchSinglePlan();
   }, []);
+
+  // console.log()
 
 
   useEffect(() => {
@@ -182,28 +185,36 @@ const MembershipScreen = ({ navigation }) => {
                           fontSize: 20,
                           color: '#000',
                           right: 45,
-                        }}>Annual plan</Text>) : (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
-                          fontFamily: 'Philosopher-Bold',
-                          fontSize: 20,
-                          color: '#000',
-                          right: 45,
-                        }}>Lifetime Plan</Text>) :(singleSubscribedPlan.plan_id === 9 ?(<Text style={{
-                          fontFamily: 'Philosopher-Bold',
-                          fontSize: 20,
-                          color: '#000',
-                          right: 45,
-                        }}>Life time plan 4 Family member</Text>):(singleSubscribedPlan.plan_id === 10?(<Text style={{
-                          fontFamily: 'Philosopher-Bold',
-                          fontSize: 20,
-                          color: '#000',
-                          right: 45,
-                        }}>Life time plan 4 Family member</Text>):(singleSubscribedPlan.plan_id === 11 ?(<Text style={{
-                          fontFamily: 'Philosopher-Bold',
-                          fontSize: 20,
-                          color: '#000',
-                          right: 45,
-                        }}>Life time plan 4 Family member</Text>):
-                         (<Text style={styles.loadingText}>Loading...</Text>)))))}
+                        }}>Annual plan</Text>)
+                          :
+                          (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
+                            fontFamily: 'Philosopher-Bold',
+                            fontSize: 20,
+                            color: '#000',
+                            right: 40,
+                          }}>Lifetime Plan</Text>)
+                            :
+                            (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
+                              fontFamily: 'Philosopher-Bold',
+                              fontSize: 20,
+                              color: '#000',
+                              right: 45,
+                            }}>Life time plan 4 Family member</Text>)
+                              :
+                              (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
+                                fontFamily: 'Philosopher-Bold',
+                                fontSize: 20,
+                                color: '#000',
+                                right: 45,
+                              }}>Library Plan</Text>)
+                                :
+                                (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
+                                  fontFamily: 'Philosopher-Bold',
+                                  fontSize: 20,
+                                  color: '#000',
+                                  right: 45,
+                                }}>Digital Library Plan</Text>) :
+                                  (<Text style={styles.loadingText}>Loading...</Text>)))))}
 
                         <Text style={{
                           paddingTop: 5,
@@ -221,7 +232,7 @@ const MembershipScreen = ({ navigation }) => {
                             style={{
                               width: 22,
                               height: 20,
-                              right: 15
+                              right: 40
                             }} />
 
                           <Text style={{
@@ -229,16 +240,54 @@ const MembershipScreen = ({ navigation }) => {
                             marginTop: -10,
                             fontSize: 30,
                             fontFamily: 'Philosopher-Bold',
-                            right: 15
+                            right: 40
                           }}>{singleSubscribedPlan.plan_amount}</Text>
-                          <Text style={{
-                            marginRight: 40,
+
+
+
+
+                          {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
                             marginTop: 3,
                             fontSize: 15,
                             fontFamily: 'Philosopher-Bold',
-                            right: 15,
+                            right: 40,
                             color: '#2f4858'
-                          }}>/yearly</Text>
+                          }}>/yearly</Text>)
+                            :
+                            (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
+                              marginTop: 3,
+                              fontSize: 15,
+                              fontFamily: 'Philosopher-Bold',
+                              right: 55,
+                              color: '#2f4858'
+                            }}>/</Text>)
+                              :
+                              (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
+                                marginTop: 3,
+                                fontSize: 15,
+                                fontFamily: 'Philosopher-Bold',
+                                right: 55,
+                                color: '#2f4858'
+                              }}>/</Text>)
+                                :
+                                (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
+                                  marginTop: 3,
+                                  fontSize: 15,
+                                  fontFamily: 'Philosopher-Bold',
+                                  right: 55,
+                                  color: '#2f4858'
+                                }}>/Monthly</Text>)
+                                  :
+                                  (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
+                                    marginTop: 3,
+                                    fontSize: 15,
+                                    fontFamily: 'Philosopher-Bold',
+                                    right: 55,
+                                    color: '#2f4858'
+                                  }}>/yearly</Text>) :
+                                    (<Text style={styles.loadingText}>Loading...</Text>)))))}
+
+
                         </View>
 
                         <Text style={{
