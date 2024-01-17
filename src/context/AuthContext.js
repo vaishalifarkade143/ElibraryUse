@@ -93,15 +93,8 @@ export const AuthProvider = ({ children }) => {
             AsyncStorage.setItem('userToken', result.data.token);
             AsyncStorage.setItem('userEmail', result.data.user.email);
 
-            // if ( result.data.user.membership_plan_name !== null) {
-            //     navigation.navigate('Home2');
+            // loading_page();
 
-            //     console.log(values.email);
-            // }
-            // else {
-            //     navigation.navigate('MembershipPlan');
-            //     console.log("error");
-            // }
 
             Alert.alert(
                 'Success!',
@@ -128,8 +121,8 @@ export const AuthProvider = ({ children }) => {
             // throw error; // Re-throw the error for further handling if needed
         } finally {
             setIsLoading(false);
-            // console.log();
-            // loading_page();
+           
+           
          
 
 
@@ -138,18 +131,30 @@ export const AuthProvider = ({ children }) => {
     };
 
 
-    // const loading_page = (item) => {
-    //     console.log('loading_page', item)
+    // const loading_page =async (navigation) => {
+     
+    //     try {
+    //         const result = await login(email, password);
+    //         console.log('loading_page',  result);
+            
+    //         if ( result.data.user.membership_plan_name !== null) {
+    //             navigation.navigate('Home2');
+    
+    //             console.log("home page");
+    //         }
+    //         else {
+    //             navigation.navigate('MembershipPlan');
+    //             console.log("error");
+    //         }
+    //       } catch (error) {
+    //         Alert.alert(
+    //             'sorry',
+               
+    //         );
+           
+    //       }
 
-        // if (item.data.user.membership_plan_name !== null) {
-        //     navigation.navigate('Home2');
-
-        //     console.log('authcontext', userInfo);
-        // }
-        // else {
-        //     navigation.navigate('MembershipPlan');
-        //     console.log("error");
-        // }
+        
     // }
 
 

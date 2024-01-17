@@ -77,7 +77,12 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async (values) => {
         getDeviceToken();
-        login(values.email, values.password);  //imp 
+         login(values.email, values.password);  //imp 
+
+        //  if (userInfo.data.user.membership_plan_name === null) {
+        //     login(values.email, values.password); 
+        //     navigation.navigate('MembershipPlan');
+        // }
 
         //-----------redirect to membershipplan screen-------------------------
 

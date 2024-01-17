@@ -603,11 +603,11 @@ const getStyles = (theme) => {
     },
     searchcontainer: {
       marginTop: 10,
-      marginLeft: 10,
+      alignSelf:'center',
       padding: 5,
       width: '90%',
       height: 50,
-      backgroundColor: '#f5ebe6',
+      backgroundColor: '#f5ebe6',// '#f5ebe6',
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
     },
     searchBar: {
@@ -619,6 +619,26 @@ const getStyles = (theme) => {
       paddingHorizontal: 12,
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
     },
+
+    searchBar3: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: '#eee',
+      borderRadius: 20,
+      paddingHorizontal: 10,
+    },
+    searchInput3: {
+      flex: 1,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      fontSize: 16,
+      color: '#333',
+    },
+    searchIcon3: {
+      marginRight: 5,
+    },
+
+ 
     dividerView: {
       marginTop: 0,
       height: 2,

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, Pressable, TextInput, StyleSheet, Modal, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, Pressable, TextInput, StyleSheet, Modal, TouchableOpacity, FlatList, Image } from 'react-native';
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import Feather from 'react-native-vector-icons/Feather';
@@ -13,12 +13,58 @@ const BookHistory = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
+
+
+
+
+  const fetchSinglePlan = () => {
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        // console.log('Single Subscribed Plan Data:', res.data);
+        setSingleSubscribedPlan(res.data);
+        // setIsLoading(false); // Data has been loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // setIsLoading(false); // Handle error and set isLoading to false
+
+      });
+  };
+
+
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchSinglePlan();
+    });
+    return unsubscribe;
+
+
+  }, [navigation, userToken]);
+  console.log('ebookspage',singleSubscribedPlan);
 
 
 
-    if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
+
+
+
+  useEffect(() => {
+    if (userToken !== null && singleSubscribedPlan !== null) {
     const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
 
     fetch(apiUrl, {
@@ -36,12 +82,14 @@ const BookHistory = ({ navigation }) => {
       })
       .then((data) => {
         setBooksHistory(data.data);
+
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });}
   }, []);
 
+ 
   function formatDate(inputDate) {
     const inputDateObj = new Date(inputDate);
     const monthNames = [
@@ -99,11 +147,11 @@ const BookHistory = ({ navigation }) => {
       });
   };
 
-  const state = {
-    tableHead: ['LIBRARY', 'Book Name ', 'Book Code', 'Issue Date', 'Issue Due Date ', 'Reserve Data ',
-      'Return Due Date', 'Return Date', 'Status', 'Action'],
-    widthArr: [210, 190, 120, 120, 130, 130, 130, 130, 130, 130],
-  };
+  // const state = {
+  //   tableHead: ['LIBRARY', 'Book Name ', 'Book Code', 'Issue Date', 'Issue Due Date ', 'Reserve Data ',
+  //     'Return Due Date', 'Return Date', 'Status', 'Action'],
+  //   widthArr: [210, 190, 120, 120, 130, 130, 130, 130, 130, 130],
+  // };
 
   const flatListData = booksHistory
     .filter((book) => {
@@ -120,6 +168,8 @@ const BookHistory = ({ navigation }) => {
           : 'Rashtramata Kasturba Library',
       bookName: book.book_item.book.name,
       bookCode: book.book_item.book_code,
+
+      imageUrl: book.book_item.book.image_path, 
       // issueDate: book.issued_on ? formatDate(book.issued_on) : 'N/A',
       issueDueDate: formatDate(book.issue_due_date),
       reserveDate: formatDate(book.reserve_date),
@@ -139,28 +189,60 @@ const BookHistory = ({ navigation }) => {
         : null,
     }));
 
+  // const renderItem = ({ item }) => (
+    
+  //   <View style={styles.flatListItemContainer}>
+  //     <View>
+  //     {item.imageUrl && (
+  //         <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
+  //       )}
+  //     </View>
+  //      <Text style={{fontSize:15,fontFamily: 'Philosopher-Bold',color:'#000'}}>{item.bookName}</Text>
+  //     <Text style={styles.flatListItemText}>{item.library}</Text>
+
+  //    <View style={{flexDirection:'row'}}>
+  //     <Text style={styles.ItemText}>ISBN : </Text>
+  //     <Text style={styles.flatListItemText}>{item.bookCode}</Text>
+  //     </View>
+  //     {/* <Text style={styles.flatListItemText}>{item.issueDate}</Text> */}
+  //     <View style={{flexDirection:'row'}}>
+  //     {/* <Text style={styles.ItemText}>Issue Due Date: </Text> */}
+  //     {/* <Text style={styles.flatListItemText}>{item.issueDueDate}</Text> */}
+  //     </View>
+  //     {/* <View style={{flexDirection:'row'}}>
+  //     <Text style={styles.ItemText}>Reserve Date : </Text>
+  //     <Text style={styles.flatListItemText}>{item.reserveDate}</Text>
+  //     </View> */}
+  //     {/* <Text style={styles.flatListItemText}>{item.returnDueDate}</Text> */}
+  //     {/* <Text style={styles.flatListItemText}>{item.returnDate}</Text> */}
+  //     <Text style={[styles.flatListItemText,{color:'blue'}]}>{item.status}</Text>
+  //     {item.actionButton && (
+  //       <TouchableOpacity
+  //         style={styles.flatListActionButton}
+  //         onPress={item.actionButton.onPress}
+  //       >
+  //         <Text style={styles.flatListActionButtonText}>{item.actionButton.title}</Text>
+  //       </TouchableOpacity>
+  //     )}
+  //   </View>
+  // );
+
+
   const renderItem = ({ item }) => (
     <View style={styles.flatListItemContainer}>
-       <Text style={{fontSize:20,fontFamily: 'Philosopher-Bold',color:'#000'}}>{item.bookName}</Text>
-      <Text style={styles.flatListItemText}>{item.library}</Text>
-
-     <View style={{flexDirection:'row'}}>
-      <Text style={styles.ItemText}>ISBN : </Text>
-      <Text style={styles.flatListItemText}>{item.bookCode}</Text>
-      </View>
-      {/* <Text style={styles.flatListItemText}>{item.issueDate}</Text> */}
-      <View style={{flexDirection:'row'}}>
-      <Text style={styles.ItemText}>Issue Due Date: </Text>
-      <Text style={styles.flatListItemText}>{item.issueDueDate}</Text>
-      </View>
-      <View style={{flexDirection:'row'}}>
-      <Text style={styles.ItemText}>Reserve Date : </Text>
-      <Text style={styles.flatListItemText}>{item.reserveDate}</Text>
-      </View>
-      {/* <Text style={styles.flatListItemText}>{item.returnDueDate}</Text> */}
-      {/* <Text style={styles.flatListItemText}>{item.returnDate}</Text> */}
-      <Text style={[styles.flatListItemText,{color:'blue'}]}>{item.status}</Text>
-      {item.actionButton && (
+      <View style={styles.rowContainer}>
+        {item.imageUrl && (
+          <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
+        )}
+        <View style={styles.columnContainer}>
+          <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold', color: '#000' }}>{item.bookName}</Text>
+          <Text style={styles.flatListItemText}>{item.library}</Text>
+          <View style={styles.rowContainer}>
+            <Text style={styles.ItemText}>ISBN : </Text>
+            <Text style={styles.flatListItemText}>{item.bookCode}</Text>
+          </View>
+          <Text style={[styles.flatListItemText,{color: '#007bff', fontSize: 16, fontWeight: 'bold'}]}>{item.status}</Text>
+          {item.actionButton && (
         <TouchableOpacity
           style={styles.flatListActionButton}
           onPress={item.actionButton.onPress}
@@ -168,6 +250,10 @@ const BookHistory = ({ navigation }) => {
           <Text style={styles.flatListActionButtonText}>{item.actionButton.title}</Text>
         </TouchableOpacity>
       )}
+        </View>
+      </View>
+      
+   
     </View>
   );
 
@@ -215,16 +301,16 @@ const BookHistory = ({ navigation }) => {
                 </View>
               </View>
             </Modal>
-            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{  alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', }}>
               <Text style={styles.sectionHeading}>Book History</Text>
             </View>
-            <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View>
-            <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+            {/* <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View> */}
+            <View style={{ flex: 1,  backgroundColor: '#fff', }}>
               <View style={styles.searchcontainer}>
-                <View style={styles.searchBar}>
+                <View style={styles.searchBar3}>
                   <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                   <TextInput
-                    style={styles.searchInput}
+                    style={styles.searchInput3}
                     placeholderTextColor="#000"
                     placeholder="Search by Book Name or Book Code"
                     value={searchQuery}
@@ -232,7 +318,7 @@ const BookHistory = ({ navigation }) => {
                   />
                   {searchQuery !== '' && (
                     <TouchableOpacity onPress={() => setSearchQuery('')}>
-                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon,]} />
+                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon3,]} />
                     </TouchableOpacity>)}
                 </View>
               </View>
@@ -250,36 +336,81 @@ const BookHistory = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  // Define your styles here
-  flatListItemContainer: {
-    // flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: 10,
-    borderBottomWidth: 1,
-    backgroundColor:'#fff',
-    borderRadius:5,
-    marginLeft:10,marginRight:10
-    // borderBottomColor: '#ccc',
+  // flatListItemContainer: {
+  //   alignItems: 'center',
+  //   justifyContent: 'space-between',
+  //   padding: 10,
+  //   // borderBottomWidth: 1,
+  //   backgroundColor:'#D6EAF8',
+  //   borderRadius:8,
+  //   marginLeft:10,marginRight:10,
+  //   marginTop:10
+  // },
+
+  bookImagee: {
+    width: 90, // Adjust the width as needed
+    height: 130, // Adjust the height as needed
+    resizeMode: 'contain', // or 'contain' based on your preference
+    borderRadius: 8, // Add borderRadius if needed
   },
+
+
+  flatListItemContainer: {
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    marginTop:10,
+    marginBottom: 10,
+    marginLeft:10,
+    marginRight:10,
+    padding: 15,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+
   flatListItemText: {
-    // flex: 1,
-    textAlign: 'center',
+    // textAlign: 'center',
     color: '#2f4858',
 
   },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  columnContainer: {
+    flexDirection: 'column',
+    marginLeft: 10,
+  },
+  // flatListActionButton: {
+  //   backgroundColor: '#c27b7f',
+  //   borderRadius: 5,
+  //   marginRight: 15,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
+  // flatListActionButtonText: {
+  //   padding: 6,
+  //   textAlign: 'center',
+  //   color: '#fff',
+  //   fontSize: 15,
+  //   fontWeight: 'bold',
+  // },
   flatListActionButton: {
-    backgroundColor: '#c27b7f',
+    backgroundColor: '#FF6F61',
     borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
+    width:200
   },
   flatListActionButtonText: {
-    padding: 6,
-    textAlign: 'center',
     color: '#fff',
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   ItemText:{

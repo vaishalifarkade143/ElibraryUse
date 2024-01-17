@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
 import Header from '../common/Header';
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -15,8 +15,9 @@ const MyEBook = ({ navigation }) => {
   const [Ebooks, setEbooks] = useState([]);
   const [AllEbooks, setAllEbooks] = useState([]);
   const route = useRoute();
-  const { userToken, userEmail, userMemPlan ,userInfo} = useContext(AuthContext);
+  const { userToken, userEmail, userMemPlan, userInfo } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
 
 
 
@@ -69,6 +70,54 @@ const MyEBook = ({ navigation }) => {
     getbooks();
     ebookSubscription();
   }, []);
+
+
+
+
+
+
+
+   // =================  for single data view ============================
+   const fetchSinglePlan = () => {
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        // console.log('Single Subscribed Plan Data:', res.data);
+        setSingleSubscribedPlan(res.data);
+        // setIsLoading(false); // Data has been loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // setIsLoading(false); // Handle error and set isLoading to false
+
+      });
+  };
+
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchSinglePlan();
+    });
+    return unsubscribe;
+
+
+  }, [navigation, userToken]);
+  console.log('ebookspage',singleSubscribedPlan);
+
 
 
 
@@ -159,6 +208,48 @@ const MyEBook = ({ navigation }) => {
     );
   }
 
+  // const renderItem = ({ item, index }) => (
+  //   <View style={styles.flatListItemContainer}>
+  //     <Text style={styles.flatListItemText}>{item[0]}</Text>
+  //     <Text style={styles.flatListItemText}>{item[1]}</Text>
+  //     <Text style={styles.flatListItemText}>{item[2]}</Text>
+  //     <Text style={styles.flatListItemText}>{item[3]}</Text>
+  //     <Text style={styles.flatListItemText}>{item[4]}</Text>
+  //     <TouchableOpacity onPress={() => { navigation.navigate("ReadeBook", { data: item }) }}>
+  //       <Text style={styles.flatListActionButtonText}>Read</Text>
+  //     </TouchableOpacity>
+  //   </View>
+  // );
+
+  const renderItem = ({ item,index }) => (
+    <View style={[styles.flatListItemContainer, index % 2 === 1 && { backgroundColor: '#f5ebe6' }]}>
+      <View style={styles.rowContainer}>
+
+
+        {item.imageUrl && (
+          <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
+        )}
+        <View style={styles.columnContainer}>
+          <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold', color: '#000' }}>{item[2]}</Text>
+          <Text style={styles.flatListItemText}>{item[0]}</Text>
+        
+            <Text style={styles.flatListItemText}>{item[1]}</Text>
+         <Text style={styles.flatListItemText}>{item[3]}</Text>
+  {/* <Text style={styles.flatListItemText}>{item[4]}</Text> */}
+        {/* <TouchableOpacity
+          style={styles.flatListActionButton}
+          onPress={ navigation.navigate("ReadeBook", { data: item }) }
+        >
+          <Text style={styles.flatListActionButtonText}>Read</Text>
+        </TouchableOpacity> */}
+     
+        </View>
+      </View>
+
+
+    </View>
+  );
+
   return (
     <Theme>
       {({ theme }) => {
@@ -175,9 +266,9 @@ const MyEBook = ({ navigation }) => {
             <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
               <Text style={styles.sectionHeading}>E-Books</Text>
             </View>
-            <View style={[styles.dividerView,{ width: 80, marginLeft: 140,}]}></View>
+            {/* <View style={[styles.dividerView,{ width: 80, marginLeft: 140,}]}></View> */}
 
-            <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
+            <View style={{ flex: 1, backgroundColor: '#fff', marginTop: 15 }}>
 
               {/* ==================search======================= */}
               <View style={styles.searchcontainer}>
@@ -200,10 +291,10 @@ const MyEBook = ({ navigation }) => {
                     </TouchableOpacity>)}
                 </View>
               </View>
-              {/* ===================================================================== */}
+              {/* ============================table ========================================= */}
 
 
-              {userInfo.data.user.membership_plan_name !== null?
+              {/* {userInfo.data.user.membership_plan_name !== null?
              ( <View style={styles.alltableView}>
                 <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
                   
@@ -235,9 +326,28 @@ const MyEBook = ({ navigation }) => {
               paddingTop:30}}>
                 <Text style={{fontSize:15,
                   fontFamily:'Philosopher-Bold'}}>Please Activate Any Subscription plan</Text>
-                </View>)}
+                </View>)} */}
 
-
+              {singleSubscribedPlan !== null ? (
+                <FlatList
+                  data={updatedTableData}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                />
+              ) : (
+                <View style={{
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                    Please Activate Any Subscription plan
+                  </Text>
+                </View>
+              )}
 
 
 
@@ -251,3 +361,26 @@ const MyEBook = ({ navigation }) => {
 };
 
 export default MyEBook;
+
+const styles = StyleSheet.create({
+  flatListItemContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    paddingVertical: 15,
+  },
+  flatListItemText: {
+    flex: 1,
+    textAlign: 'center',
+    color: '#2f4858',
+  },
+  flatListActionButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    backgroundColor: '#c27b7f',
+    borderRadius: 5,
+    padding: 5,
+    fontWeight: 'bold',
+  },
+
+});

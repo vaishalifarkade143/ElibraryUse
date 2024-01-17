@@ -32,7 +32,6 @@ const BooksDetail = ({ navigation }) => {
   
   const onTextLayout = useCallback(e =>{
       setLengthMore(e.nativeEvent.lines.length >=4); //to check the text is more than 4 lines or not
-      // console.log(e.nativeEvent);
   },[]);
 
 
@@ -54,62 +53,7 @@ const BooksDetail = ({ navigation }) => {
   endDate.setDate(endDate.getDate() + 10);
   const [modalVisible, setModalVisible] = useState(false);
 
-    // ========================get device token fcm============================
-
-//     useEffect(() => {
-//       getDeviceToken();
-//   }, []);
-
-
-//   const getDeviceToken = async () => {
-//       try {
-//         const token = await messaging().getToken();
-//         console.log('Token is:', token);
-//         return token;
-//       } catch (error) {
-//         console.error('Error getting FCM token:', error);
-//         return null;
-//       }
-//     };
-//  // =================to get alert in app fcm==========================
-
-//   useEffect(() => {
-//       const unsubscribe = messaging().onMessage(async remoteMessage => {
-//           Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage));
-//           console.log("A new FCM message arrived:", JSON.stringify(remoteMessage));
-//       });
-
-//       return unsubscribe;
-//   }, []);
-//  const requestUserPermission = async () => {
-//       const authStatus = await messaging().requestPermission();
-//       const enabled =
-//         authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-//         authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-    
-//       if (enabled) {
-//         console.log('Authorization status:', authStatus);
-//       }
-//     };
-    
-//     // Call the function when the component mounts
-//     useEffect(() => {
-//       requestUserPermission();
-//     }, []);
-//======================================================================================
-
-
-
- // const filename = route.params.data.items[0].pdf_preview_file;
-  // const pdfUrl = route.params.data.library_id === 333
-  //   ? `https://rashtramatakasturba.smartcitylibrary.com/PDFPreview/${filename}`
-  //   : route.params.data.library_id === 111
-  //     ? `https://dindayalupadhyay.smartcitylibrary.com/PDFPreview/${filename}`
-  //     : `https://kundanlalgupta.smartcitylibrary.com/PDFPreview/${filename}`;
-// const [currentPage, setCurrentPage] = useState(1);
-  // const [pdfModalVisible, setPdfModalVisible] = useState(false);
- // const [subscribeCount, setSubscribeCount] = useState(0);
-
+  
  const filename = route.params.data.items[0].pdf_preview_file;
   const pdfBaseUrl =
     selectedLibrary === 333
@@ -180,11 +124,14 @@ const BooksDetail = ({ navigation }) => {
   const endingDate = formatDate(endDate);
  
  
-  //------------------handle of navigation to book history page---------------------------
+  //------------------handle of navigation to book history page for  reserve book---------------------------
+  const image = route.params.data.image_path;
+
   const handleBookHistory = (item) => {
 
 
     const subscriptionData1 = {
+      image_path : image,
       book_item_id: book1[0]?.id,
       library_id:selectedLibrary
     };
@@ -222,13 +169,13 @@ const BooksDetail = ({ navigation }) => {
  
  
  
- // ===================================================================================
+ // ======================================on click of subscribe=============================================
 
-  const handleSubscribe = (item) => {
+  const handleSubscribe = () => {
     const member_id = userInfo.data.user.member_id;
     const id = book1[0]?.id;
+    // console.log('data id:::',id);
     const library_id = selectedLibrary;
-    // console.log('data testis::::',id,library_id);
     const subscriptionData = {
       issued_on: startDate,
       returned_on: endDate,
@@ -290,7 +237,7 @@ const BooksDetail = ({ navigation }) => {
   userToken !== null ?
     (useEffect(() => {
       const id = userInfo.data.user.id;
-      console.log(id);
+      //console.log(id);
       const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
 
       fetch(apiUrl, {
@@ -316,14 +263,7 @@ const BooksDetail = ({ navigation }) => {
     }, [])) : (null);
  
  
-    const artBooks = genre.filter((item) => 
-    item.genres.some(genre => genre.name === "Art")
-  );
-
-  const comicBooks = genre.filter((item) => 
-  item.genres.some(comic => comic.name === "Comics")
-);
-
+   
  
     useEffect(() => {
 
@@ -422,6 +362,9 @@ const BooksDetail = ({ navigation }) => {
 
 // console.log(filterbook);
 
+
+
+
 const book1=bookdetails.filter((item)=>
     item.book.library_id===route.params.data.library_id)
    
@@ -452,7 +395,7 @@ const [filterbook,setFilterBook]=useState(null);
   const handle_member = () => {
 
     const id = userInfo.data.user.id;
-    console.log(id);
+   // console.log(id);
     const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
 
     fetch(apiUrl, {
@@ -477,12 +420,29 @@ const [filterbook,setFilterBook]=useState(null);
       });
   }
 
+
+
+
+  useEffect(() => {
+   
+    handle_member();
+   },[route,tredbooks])
+ 
+ 
+ 
+ 
+ const membership_exist = libraryid.map((item) => [
+     item.membership_plan_name,
+   ]);
+   const plan_exist = membership_exist.flat();
+   console.log(plan_exist[0]);
+
   //===================API CALL FOR register-member-to-library=======================  
 
   const handleMemberRegistered = (item) => {
 
 
-    console.log(item);
+    //console.log(item);
     const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/register-member-to-library/${item}`;
     fetch(url, {
       method: 'POST',
@@ -554,7 +514,10 @@ const [filterbook,setFilterBook]=useState(null);
               </View>
               <Pressable
                 style={styles.button}
-                onPress={() => { handleSubscribe(book1), handle_member() }}>
+                onPress={() => { 
+                handleSubscribe(book1),
+                 handle_member() 
+                 }}>
                 <Text style={styles.textStyle}>Subscribe</Text>
               </Pressable>
 
@@ -675,7 +638,8 @@ const [filterbook,setFilterBook]=useState(null);
       </Modal>
 
 
-      <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
+      <ScrollView showsVerticalScrollIndicator={false} 
+      style={{ marginBottom: 15, }}>
         <View style={{
           width: Dimensions.get('window').width,
           height: 200,
@@ -747,7 +711,10 @@ const [filterbook,setFilterBook]=useState(null);
       <Picker
         selectedValue={selectedLibrary}
         onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-        style={{ height: 45, marginTop: -12, textAlign: 'center',padding:5,  }}
+        style={{ height: 45,
+           marginTop: -12, 
+          textAlign: 'center',
+          padding:5,  }}
         
         itemStyle={{ fontFamily: 'Philosopher-Bold' }}
       >
@@ -790,14 +757,23 @@ const [filterbook,setFilterBook]=useState(null);
           (<View style={{ flexDirection: 'column' }}>
 
             {book1[0]?.format !== 3 ?
-              (<View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 10, }}>
-                <Text style={{ textAlign: 'center', fontSize: 17, fontWeight: 700, color: '#c27b7f' }}>Available </Text>
-                <Text style={{ backgroundColor: '#c27b7f', color: 'white', padding: 5, borderRadius: 15 }}>1</Text></View>)
+              (<View style={{ flexDirection: 'row',
+               alignItems: 'center',
+                justifyContent: 'center',
+               marginTop: 10, }}>
+                <Text style={{ textAlign: 'center',
+                 fontSize: 17,
+                  fontWeight: 700, 
+                color: '#c27b7f' }}>Available </Text>
+                <Text style={{ backgroundColor: '#c27b7f', 
+                color: 'white',
+                 padding: 5,
+                 borderRadius: 15 }}>1</Text></View>)
               :
               (null)}
 
-
-            {userToken !== null && itemsValue ? (<Text style={{
+            {userToken !== null && 
+            itemsValue ? (<Text style={{
               backgroundColor: 'grey',
               padding: 10,
               borderRadius: 5,
@@ -811,7 +787,6 @@ const [filterbook,setFilterBook]=useState(null);
               fontSize:15,
               fontWeight:'bold',
               opacity:0.4
-
             }}>Ebook is Subscribed</Text>) :
               (
 
@@ -829,7 +804,8 @@ const [filterbook,setFilterBook]=useState(null);
 
                     }}
                     onPress={() => {
-                      if (userToken !== null && userInfo.data.user.membership_plan_name === null) {
+                      if (userToken !== null &&
+                        plan_exist[0]===null) {
                       
                         Alert.alert(
                           `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)

@@ -838,7 +838,6 @@ const Books = ({ navigation }) => {
     const unsubscribe = navigation.addListener('focus', () => {
       const getBooks = async () => {
         try {
-          // setisLoaded(true);
           const response = await fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books");
           const data = await response.json();
           setBooks(data.data);
@@ -892,12 +891,6 @@ const Books = ({ navigation }) => {
 
 
   }, [searchQuery]);
-
-
-
-
-
-
 
 
   // const loadMore = async() => {
