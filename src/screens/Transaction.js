@@ -13,8 +13,10 @@ import Theme from './Theme';
 const Transaction = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
-  const {userInfo, userToken } = useContext(AuthContext);
+  const { userInfo, userToken } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
+  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
+
 
   const state = {
     tableHead: ['Plan Name', 'Amount', 'Data'],
@@ -25,7 +27,7 @@ const Transaction = ({ navigation }) => {
   // =================  for table view ============================
   useEffect(() => {
     // Fetch AllSubscribedPlan data
-    if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
+    if (singleSubscribedPlan !== null) {
       const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
 
       fetch(apiUrl, {
@@ -49,6 +51,47 @@ const Transaction = ({ navigation }) => {
         });
     }
   }, [userToken]);
+
+
+  const fetchSinglePlan = () => {
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        // console.log('Single Subscribed Plan Data:', res.data);
+        setSingleSubscribedPlan(res.data);
+        // setIsLoading(false); // Data has been loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // setIsLoading(false); // Handle error and set isLoading to false
+
+      });
+  };
+
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchSinglePlan();
+    });
+    return unsubscribe;
+
+
+  }, [navigation, userToken]);
+  console.log('transaction',singleSubscribedPlan);
 
 
 
@@ -165,27 +208,50 @@ const Transaction = ({ navigation }) => {
 
                 {/* table */}
                 <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
-                  <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-                    <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
-                      <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                        <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
-                          textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-                      </Table>
-                      <ScrollView style={styles.dataWrapper}>
+
+                  {singleSubscribedPlan !== null ?
+
+                    (<ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
+
+
+
+
+                      <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                         <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                          {updatedTableData.map((item, index) => (
-                            <Row
-                              key={index}
-                              data={item}
-                              widthArr={state.widthArr}
-                              style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
-                              textStyle={styles.texttt}
-                            />
-                          ))}
+                          <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
+                            textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
                         </Table>
-                      </ScrollView>
-                    </View>
-                  </ScrollView>
+
+
+
+                        <ScrollView style={styles.dataWrapper}>
+                          <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
+                            {updatedTableData.map((item, index) => (
+                              <Row
+                                key={index}
+                                data={item}
+                                widthArr={state.widthArr}
+                                style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
+                                textStyle={styles.texttt}
+                              />
+                            ))}
+                          </Table>
+                        </ScrollView>
+                      </View>
+                    </ScrollView>) : (<View style={{
+                      alignItems: 'center',
+                      backgroundColor: '#fff',
+                      marginLeft: 10,
+                      marginRight: 10,
+                      paddingBottom: 30,
+                      paddingTop: 30
+                    }}>
+                      <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                        Please Activate Any Subscription plan
+                      </Text>
+                    </View>)}
+
+
                 </View>
 
 

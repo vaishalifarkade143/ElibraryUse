@@ -56,7 +56,7 @@ const BookHistory = ({ navigation }) => {
 
 
   }, [navigation, userToken]);
-  console.log('ebookspage',singleSubscribedPlan);
+  console.log('bookhistory',singleSubscribedPlan);
 
 
 
@@ -86,7 +86,8 @@ const BookHistory = ({ navigation }) => {
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
-      });}
+      });
+    }
   }, []);
 
  
@@ -188,6 +189,7 @@ const BookHistory = ({ navigation }) => {
         }
         : null,
     }));
+    console.log('hey',flatListData);
 
   // const renderItem = ({ item }) => (
     
@@ -318,15 +320,38 @@ const BookHistory = ({ navigation }) => {
                   />
                   {searchQuery !== '' && (
                     <TouchableOpacity onPress={() => setSearchQuery('')}>
-                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon3,]} />
+                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon3]} />
                     </TouchableOpacity>)}
                 </View>
               </View>
-              <FlatList
+              {singleSubscribedPlan!==null?
+              (flatListData.length>0?(<FlatList
                 data={flatListData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
-              />
+              />):(<View style={{
+                alignItems: 'center',
+                backgroundColor: '#fff',
+                marginLeft: 10,
+                marginRight: 10,
+                paddingBottom: 30,
+                paddingTop: 30
+              }}>
+                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                  You haven't reserved any books yet.Please do reserve your book.
+                </Text>
+              </View>)):(<View style={{
+                alignItems: 'center',
+                backgroundColor: '#fff',
+                marginLeft: 10,
+                marginRight: 10,
+                paddingBottom: 30,
+                paddingTop: 30
+              }}>
+                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                  Please Activate Any Subscription plan
+                </Text>
+              </View>)}
             </View>
           </View>
         );

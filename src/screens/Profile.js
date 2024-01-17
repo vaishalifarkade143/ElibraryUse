@@ -27,6 +27,7 @@ const Profile = ({ navigation }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isData, setIsData] = useState(false);
     const [removeImage, setRemoveImage] = useState(0);
+    const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
 
     //======================image========================
     const takePhotoFromCamera = () => {
@@ -78,15 +79,57 @@ const Profile = ({ navigation }) => {
     }
 
 
+
+    const fetchSinglePlan = () => {
+        const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+        fetch(singleUrl, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${userToken}`,
+                'Content-Type': 'application/json',
+            },
+        })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then((res) => {
+                // console.log('Single Subscribed Plan Data:', res.data);
+                setSingleSubscribedPlan(res.data);
+                // setIsLoading(false); // Data has been loaded
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+                // setIsLoading(false); // Handle error and set isLoading to false
+
+            });
+    };
+
+
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            fetchSinglePlan();
+        });
+        return unsubscribe;
+
+
+    }, [navigation, userToken]);
+
+
     useEffect(() => {
         // Fetch user profile data on component load
 
-        if (userToken !== null && userInfo.data.user.membership_plan_name !== null) {
+        if (userToken !== null && singleSubscribedPlan !== null) {
 
             fetchProfileData();
         }
         else { before_plan(); }
     }, [userToken]);
+    console.log('profile',singleSubscribedPlan)
 
 
 
@@ -451,7 +494,7 @@ const Profile = ({ navigation }) => {
                                     gap: 10
                                 }}>
 
-                                    {profile ?
+                                    {singleSubscribedPlan !== null ?
                                         (<TouchableOpacity
                                             style={styles.saveTouch}
                                             // onPress={handleSave}

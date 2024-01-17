@@ -329,11 +329,23 @@ const MyEBook = ({ navigation }) => {
                 </View>)} */}
 
               {singleSubscribedPlan !== null ? (
-                <FlatList
+                updatedTableData.length>0?
+               ( <FlatList
                   data={updatedTableData}
                   keyExtractor={(item, index) => index.toString()}
                   renderItem={renderItem}
-                />
+                />):((<View style={{
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                    You haven't subscribed any books yet.Please do subscribe and enjoy with your reading.
+                  </Text>
+                </View>))
               ) : (
                 <View style={{
                   alignItems: 'center',
