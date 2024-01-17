@@ -66,6 +66,7 @@ const BooksDetail = ({ navigation }) => {
   const [pdfModalVisible, setPdfModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
 
   useEffect(() => {
     // When the modal becomes visible, load specific pages (e.g., pages 5-8)
@@ -157,7 +158,7 @@ const BooksDetail = ({ navigation }) => {
       })
       .then((responseData) => {
         // console.log('Data stored successfully:', responseData);
-        navigation.navigate('subscribebookHistory');
+        navigation.navigate('subscribebookHistory',{singleSubscribedPlan});
       })
 
       .catch((error) => {
@@ -165,6 +166,66 @@ const BooksDetail = ({ navigation }) => {
       });
  }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // =================  for single data view ============================
+  const fetchSinglePlan = () => {
+    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
+
+    fetch(singleUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${userToken}`,
+        'Content-Type': 'application/json',
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then((res) => {
+        // console.log('Single Subscribed Plan Data:', res.data);
+        setSingleSubscribedPlan(res.data);
+        // setIsLoading(false); // Data has been loaded
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        // setIsLoading(false); // Handle error and set isLoading to false
+
+      });
+  };
+
+
+
+  useEffect(() => {
+    if (userToken !== null) {
+      const unsubscribe = navigation.addListener('focus', () => {
+        fetchSinglePlan();
+      });
+      return unsubscribe;
+    }
+
+
+
+  }, [navigation, userToken]);
+  console.log('userpage', singleSubscribedPlan);
   
  
  
@@ -208,7 +269,7 @@ const BooksDetail = ({ navigation }) => {
         // console.log('Data stored successfully:', responseData);
 
         setModalVisible(!modalVisible);
-        navigation.navigate('myEBook');
+        navigation.navigate('myEBook',{singleSubscribedPlan});
       })
       .catch((error) => {
         console.error('Error storing data:', error);
@@ -234,33 +295,34 @@ const BooksDetail = ({ navigation }) => {
   
 
 // ======================================================================================
-  userToken !== null ?
+ 
     (useEffect(() => {
-      const id = userInfo.data.user.id;
-      //console.log(id);
-      const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
-
-      fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${userToken}`,
-          'Content-Type': 'application/json',
-        },
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-          }
-          return response.json();
+      if(userToken !== null){const id = userInfo.data.user.id;
+        //console.log(id);
+        const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/is-member-registered/${id}`;
+  
+        fetch(apiUrl, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${userToken}`,
+            'Content-Type': 'application/json',
+          },
         })
-        .then((data) => {
-          setLibraryId(data.data);
-
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-    }, [])) : (null);
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then((data) => {
+            setLibraryId(data.data);
+  
+          })
+          .catch((error) => {
+            console.error('Error fetching data:', error);
+          });}
+      
+    }, []))
  
  
    
@@ -424,8 +486,10 @@ const [filterbook,setFilterBook]=useState(null);
 
 
   useEffect(() => {
+    if(userToken!==null)
+    { handle_member();}
    
-    handle_member();
+   
    },[route,tredbooks])
  
  

@@ -121,9 +121,9 @@ const LoginScreen = ({ navigation }) => {
             {({ theme }) => {
                 const styles = getStyles(theme);
                 return (
-                    <View style={styles.container}>
+                    <View style={styles.container3}>
                         <Header
-                            rightIcon={require('../images/Logoelibrary.png')}
+                            // rightIcon={require('../images/Logoelibrary.png')}
                             leftIcon={require('../images/back.png')}
                             onClickLeftIcon={() => {
                                 navigation.goBack();
@@ -132,8 +132,11 @@ const LoginScreen = ({ navigation }) => {
 
                         <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 15, }}>
                             <Spinner visible={isLoading} />
+
+
                             <View style={[styles.floatView, { height: 500, }]}>
 
+                                
                                 <Text
                                     style={[styles.lognregHead,{paddingHorizontal: 90,}]}
                                 >
@@ -206,7 +209,8 @@ const LoginScreen = ({ navigation }) => {
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
                                                             margin: 20,
-                                                            backgroundColor: '#fff'
+                                                            backgroundColor: '#fff', elevation:5,
+                                                            borderRadius:5,
                                                         }}
                                                     >
                                                         {rememberMe && <View style={{
@@ -220,11 +224,13 @@ const LoginScreen = ({ navigation }) => {
                                                         color: theme === 'LIGHT' ? '#000' : '#fff',
                                                         fontFamily: 'Poppin',
                                                         fontWeight: '700',
-                                                        fontSize: 15
+                                                        fontSize: 15,
+                                                       
                                                     }}>Remember Me</Text>
                                             </View>
                                             <TouchableOpacity
-                                                style={[styles.allbutton, 
+                                                style={
+                                                    [styles.allbutton, 
                                                     { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
                                                 onPress={handleSubmit}
                                                 disabled={!isValid}
@@ -234,7 +240,7 @@ const LoginScreen = ({ navigation }) => {
                                             </TouchableOpacity>
 
                                             <View style={{
-                                                flexDirection: 'row',
+                                                // flexDirection: 'row',
                                                 justifyContent: 'space-between',
                                                 marginTop: 10,
                                             }}>

@@ -7,56 +7,16 @@ import Feather from 'react-native-vector-icons/Feather';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
-const BookHistory = ({ navigation }) => {
+const BookHistory = ({ navigation ,route}) => {
   const [booksHistory, setBooksHistory] = useState([]);
   const { userToken,userInfo } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
+  const Plan_exist= route.params.singleSubscribedPlan;
+  console.log('bookhistorypage', Plan_exist);
+  
 
-
-
-
-  const fetchSinglePlan = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((res) => {
-        // console.log('Single Subscribed Plan Data:', res.data);
-        setSingleSubscribedPlan(res.data);
-        // setIsLoading(false); // Data has been loaded
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        // setIsLoading(false); // Handle error and set isLoading to false
-
-      });
-  };
-
-
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchSinglePlan();
-    });
-    return unsubscribe;
-
-
-  }, [navigation, userToken]);
-  console.log('bookhistory',singleSubscribedPlan);
 
 
 
@@ -64,7 +24,7 @@ const BookHistory = ({ navigation }) => {
 
 
   useEffect(() => {
-    if (userToken !== null && singleSubscribedPlan !== null) {
+    if (userToken !== null &&  Plan_exist !== null) {
     const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
 
     fetch(apiUrl, {
@@ -324,7 +284,7 @@ const BookHistory = ({ navigation }) => {
                     </TouchableOpacity>)}
                 </View>
               </View>
-              {singleSubscribedPlan!==null?
+              { Plan_exist!==null?
               (flatListData.length>0?(<FlatList
                 data={flatListData}
                 keyExtractor={(item, index) => index.toString()}

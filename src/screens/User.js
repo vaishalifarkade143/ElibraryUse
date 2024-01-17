@@ -726,7 +726,7 @@ const User = ({ navigation }) => {
                 {userToken != null ?
                   (<View>
                     <TouchableOpacity onPress={() => {
-                      navigation.navigate('profile')
+                      navigation.navigate('profile',{singleSubscribedPlan})
                     }}>
                       <View style={
                         styles.userView}>
@@ -739,7 +739,7 @@ const User = ({ navigation }) => {
 
 
                     <TouchableOpacity onPress={(item) => {
-                      navigation.navigate('MyeBook')
+                      navigation.navigate('MyeBook',{singleSubscribedPlan})
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>My E-Book </Text>
@@ -750,7 +750,7 @@ const User = ({ navigation }) => {
 
 
                     <TouchableOpacity onPress={() => {
-                      navigation.navigate('Bookhistory')
+                      navigation.navigate('Bookhistory',{singleSubscribedPlan})
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Book History</Text>
@@ -773,7 +773,7 @@ const User = ({ navigation }) => {
 
 
                     <TouchableOpacity onPress={(item) => {
-                      navigation.navigate('transaction')
+                      navigation.navigate('transaction',{singleSubscribedPlan})
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Transactions</Text>

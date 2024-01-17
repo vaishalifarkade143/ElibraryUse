@@ -10,14 +10,17 @@ import messaging from '@react-native-firebase/messaging';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
-const MyEBook = ({ navigation }) => {
+const MyEBook = ({ navigation, route }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [Ebooks, setEbooks] = useState([]);
   const [AllEbooks, setAllEbooks] = useState([]);
-  const route = useRoute();
+  // const route = useRoute();
   const { userToken, userEmail, userMemPlan, userInfo } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
-  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
+
+  const Plan_exist = route.params.singleSubscribedPlan;
+  console.log('ebookspage', Plan_exist);
+
 
 
 
@@ -46,19 +49,13 @@ const MyEBook = ({ navigation }) => {
     setupFirebaseMessaging();
   }, []);
 
+
+
   useEffect(() => {
-    const getbooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books")
-        .then(res => res.json())
-        .then(responce => {
-          setIsLoaded(false);
-          setAllEbooks(responce.data);
 
-        });
-    };
-
+    const member_id = userInfo.data.user.id;
     const ebookSubscription = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription")
+      fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription/${member_id}`)
         .then(res => res.json())
         .then(responce => {
           setIsLoaded(false);
@@ -67,7 +64,7 @@ const MyEBook = ({ navigation }) => {
         });
     };
 
-    getbooks();
+
     ebookSubscription();
   }, []);
 
@@ -75,49 +72,7 @@ const MyEBook = ({ navigation }) => {
 
 
 
-
-
-   // =================  for single data view ============================
-   const fetchSinglePlan = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((res) => {
-        // console.log('Single Subscribed Plan Data:', res.data);
-        setSingleSubscribedPlan(res.data);
-        // setIsLoading(false); // Data has been loaded
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        // setIsLoading(false); // Handle error and set isLoading to false
-
-      });
-  };
-
-
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchSinglePlan();
-    });
-    return unsubscribe;
-
-
-  }, [navigation, userToken]);
-  console.log('ebookspage',singleSubscribedPlan);
-
+  console.log('subscribedbooks', Ebooks);
 
 
 
@@ -127,29 +82,15 @@ const MyEBook = ({ navigation }) => {
   };
 
 
-  const itemsValue =
-    AllEbooks.length && Ebooks.length
-      ? AllEbooks
-        .filter((item, i) =>
 
-          Ebooks.find(
-            (esub) =>
-              item.id === esub.ebook_id &&
-              item.library_id === esub.library_id &&
-              esub.email === userEmail
-          )
-        )
-
-      : [];
-
-  const updatedTableData = itemsValue
+  const updatedTableData = Ebooks
     .filter((item) => {
 
       const bookName = item.name.toLowerCase();
       const bookCode = item.authors.toLowerCase();
-      const language = item.language_name.toLowerCase();
+      // const language = item.language_name.toLowerCase();
       const query = searchQuery.toLowerCase();
-      return bookName.includes(query) || bookCode.includes(query) || language.includes(query);
+      return bookName.includes(query) || bookCode.includes(query);
     })
 
     .map((item) =>
@@ -200,6 +141,7 @@ const MyEBook = ({ navigation }) => {
     );
 
 
+
   if (userToken === null) {
     return (
       <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
@@ -221,7 +163,7 @@ const MyEBook = ({ navigation }) => {
   //   </View>
   // );
 
-  const renderItem = ({ item,index }) => (
+  const renderItem = ({ item, index }) => (
     <View style={[styles.flatListItemContainer, index % 2 === 1 && { backgroundColor: '#f5ebe6' }]}>
       <View style={styles.rowContainer}>
 
@@ -232,17 +174,17 @@ const MyEBook = ({ navigation }) => {
         <View style={styles.columnContainer}>
           <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold', color: '#000' }}>{item[2]}</Text>
           <Text style={styles.flatListItemText}>{item[0]}</Text>
-        
-            <Text style={styles.flatListItemText}>{item[1]}</Text>
-         <Text style={styles.flatListItemText}>{item[3]}</Text>
-  {/* <Text style={styles.flatListItemText}>{item[4]}</Text> */}
-        {/* <TouchableOpacity
+
+          <Text style={styles.flatListItemText}>{item[1]}</Text>
+          <Text style={styles.flatListItemText}>{item[3]}</Text>
+          {/* <Text style={styles.flatListItemText}>{item[4]}</Text> */}
+          {/* <TouchableOpacity
           style={styles.flatListActionButton}
           onPress={ navigation.navigate("ReadeBook", { data: item }) }
         >
           <Text style={styles.flatListActionButtonText}>Read</Text>
         </TouchableOpacity> */}
-     
+
         </View>
       </View>
 
@@ -328,38 +270,40 @@ const MyEBook = ({ navigation }) => {
                   fontFamily:'Philosopher-Bold'}}>Please Activate Any Subscription plan</Text>
                 </View>)} */}
 
-              {singleSubscribedPlan !== null ? (
-                updatedTableData.length>0?
-               ( <FlatList
-                  data={updatedTableData}
-                  keyExtractor={(item, index) => index.toString()}
-                  renderItem={renderItem}
-                />):((<View style={{
-                  alignItems: 'center',
-                  backgroundColor: '#fff',
-                  marginLeft: 10,
-                  marginRight: 10,
-                  paddingBottom: 30,
-                  paddingTop: 30
-                }}>
-                  <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                    You haven't subscribed any books yet.Please do subscribe and enjoy with your reading.
-                  </Text>
-                </View>))
+              {Plan_exist !== null ? (updatedTableData.length > 0 ? (<FlatList
+                data={updatedTableData}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={renderItem}
+                />):(<View style={{
+                alignItems: 'center',
+                backgroundColor: '#fff',
+                marginLeft: 10,
+                marginRight: 10,
+                paddingBottom: 30,
+                paddingTop: 30
+              }}>
+                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                  You haven't reserved any books yet.Please do reserve your book.
+                </Text>
+              </View>)
+
+
+
               ) : (
-                <View style={{
-                  alignItems: 'center',
-                  backgroundColor: '#fff',
-                  marginLeft: 10,
-                  marginRight: 10,
-                  paddingBottom: 30,
-                  paddingTop: 30
-                }}>
-                  <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                    Please Activate Any Subscription plan
-                  </Text>
-                </View>
+              <View style={{
+                alignItems: 'center',
+                backgroundColor: '#fff',
+                marginLeft: 10,
+                marginRight: 10,
+                paddingBottom: 30,
+                paddingTop: 30
+              }}>
+                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                  Please Activate Any Subscription plan
+                </Text>
+              </View>
               )}
+
 
 
 

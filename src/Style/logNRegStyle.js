@@ -8,25 +8,26 @@ const getStyles = (theme) => {
       backgroundColor: theme === 'LIGHT' ? '#fff' : '#000'
     },
     allbutton: {
-      alignItems: 'center',
-      padding: 10,
-      borderRadius: 5,
-      width: '40%',
-      height: 60,
-      justifyContent: 'center',
-      marginLeft: 100
+       // padding: 10,
+       borderRadius: 10,
+       width: 200,
+       height: 50,
+       justifyContent: 'center',
+       alignSelf:'center'
+       //marginLeft: 100 
     },
     allButtonText: {
       color: '#fff',
       fontWeight: '700',
-      fontSize: 18
+      fontSize: 18,textAlign:'center'
     },
     forgotNRegister: {
       color: '#c27b7f',
-      margin: 15,
-      fontFamily: 'Poppin',
-      fontWeight: '700',
-      fontSize: 15
+      margin: 18,
+      // fontFamily: 'Poppin',
+      // fontWeight: '700',
+      fontSize: 15,
+      fontFamily: 'Philosopher-Bold',
     },
     lognregHead: {
       paddingVertical: 'auto',
@@ -58,19 +59,25 @@ const getStyles = (theme) => {
       margin: 15,
       paddingLeft: 15,
       gap: 10,
+      elevation:5,borderRadius:10
     },
     validation: {
       color: 'red',
       marginLeft: 30
     },
     floatView: {
-      backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',//  #FBFCFC
+      // backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',//  #FBFCFC
       justifyContent: 'center',
       flexDirection: 'column',
       marginLeft: 20,
       marginRight: 20,
       marginTop: 30,
-      margin: 30
+      margin: 30,
+    },
+    container3:{
+flex:1,
+backgroundColor:'#f5ebe6'
+
     },
     loginText:
     {

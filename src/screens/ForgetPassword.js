@@ -40,7 +40,7 @@ const ForgetPassword = () => {
         {({ theme }) => {
           const styles = getStyles(theme);
           return (
-        <View style={styles.container}>
+        <View style={styles.container3}>
             <Header
                 rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}

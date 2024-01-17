@@ -10,12 +10,13 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
 
-const Transaction = ({ navigation }) => {
+const Transaction = ({ navigation,route }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const { userInfo, userToken } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
-  const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
+  const Plan_exist= route.params.singleSubscribedPlan;
+  console.log('transactionpage', Plan_exist);
 
 
   const state = {
@@ -27,8 +28,8 @@ const Transaction = ({ navigation }) => {
   // =================  for table view ============================
   useEffect(() => {
     // Fetch AllSubscribedPlan data
-    if (singleSubscribedPlan !== null) {
-      const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions';
+    if (Plan_exist !== null) {
+      const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/get-member-transactions?order_by=created_at&direction=desc&limit=10&skip=0';
 
       fetch(apiUrl, {
         method: 'GET',
@@ -53,47 +54,7 @@ const Transaction = ({ navigation }) => {
   }, [userToken]);
 
 
-  const fetchSinglePlan = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
-
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((res) => {
-        // console.log('Single Subscribed Plan Data:', res.data);
-        setSingleSubscribedPlan(res.data);
-        // setIsLoading(false); // Data has been loaded
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        // setIsLoading(false); // Handle error and set isLoading to false
-
-      });
-  };
-
-
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchSinglePlan();
-    });
-    return unsubscribe;
-
-
-  }, [navigation, userToken]);
-  console.log('transaction',singleSubscribedPlan);
-
-
+  
 
 
 
@@ -209,7 +170,7 @@ const Transaction = ({ navigation }) => {
                 {/* table */}
                 <View style={{ flex: 1, backgroundColor: '#f5ebe6', marginTop: 15 }}>
 
-                  {singleSubscribedPlan !== null ?
+                  {Plan_exist !== null ?
 
                     (<ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
 
@@ -217,6 +178,7 @@ const Transaction = ({ navigation }) => {
 
 
                       <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
+                        
                         <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
                           <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
                             textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
@@ -238,7 +200,8 @@ const Transaction = ({ navigation }) => {
                           </Table>
                         </ScrollView>
                       </View>
-                    </ScrollView>) : (<View style={{
+                    </ScrollView> )
+                    : (<View style={{
                       alignItems: 'center',
                       backgroundColor: '#fff',
                       marginLeft: 10,
