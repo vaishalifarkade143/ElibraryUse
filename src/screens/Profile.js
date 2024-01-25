@@ -1,18 +1,22 @@
 
-import { View, Text, ScrollView, TextInput, TouchableOpacity, ImageBackground, Alert } from 'react-native'
+import { View, Text, ScrollView, TextInput, TouchableOpacity, ImageBackground, Alert, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../common/Header';
-import Spinner from 'react-native-loading-spinner-overlay';
 import { AuthContext } from '../context/AuthContext';
 import ImagePicker from 'react-native-image-crop-picker';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import Octicons from 'react-native-vector-icons/Octicons';
+
+import Modal from "react-native-modal";
 
 const Profile = ({ navigation, route }) => {
 
     const [image, setImage] = useState('');
     const { userInfo, userToken } = useContext(AuthContext);
-
     const [first_name, setFirstName] = useState('');
     const [last_name, setLastName] = useState('');
     const [email, setEmail] = useState('');
@@ -23,11 +27,11 @@ const Profile = ({ navigation, route }) => {
     const [city, setCity] = useState('');
     const [zip, setZip] = useState('');
     const [profile, setProfile] = useState(null);
-    // const { userToken } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(true);
     const [isData, setIsData] = useState(false);
     const [removeImage, setRemoveImage] = useState(0);
     const Plan_exist = route.params.singleSubscribedPlan;
+    const [visible, setVisible] = useState(false);
     console.log('profilepage', Plan_exist);
 
 
@@ -66,8 +70,6 @@ const Profile = ({ navigation, route }) => {
         });
     }
 
-
-
     const before_plan = () => {
 
         if (userToken !== null) {
@@ -79,10 +81,6 @@ const Profile = ({ navigation, route }) => {
 
         }
     }
-
-
-
-
     useEffect(() => {
         // Fetch user profile data on component load
 
@@ -92,11 +90,6 @@ const Profile = ({ navigation, route }) => {
         }
         else { before_plan(); }
     }, [userToken]);
-
-
-
-
-
     const fetchProfileData = () => {
         const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/member-details';
 
@@ -211,25 +204,142 @@ const Profile = ({ navigation, route }) => {
                                 navigation.openDrawer();
                             }}
                         />
+
+
                         <ScrollView>
 
                             <Text style={styles.sectionHeading}>Profile</Text>
 
-                            {/* line starts ============== */}
-                            <View style={[styles.dividerView, { width: 60, marginLeft: 150, }]}></View>
-                            {/* line ends ============== */}
+                            <View style={[styles.dividerView, { width: 60, }]}></View>
 
-                            {/* <Spinner visible={isLoading} style={{ color: 'yellow' }} /> */}
+
                             <View style={styles.floatView}>
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>First Name</Text>
-                                    <Text style={styles.profileStar}>*</Text>
+
+                                {/* ===================== custom bottom sheet================= */}
+
+                                <View style={{
+                                    width: 140,
+                                    height: 140,
+                                    borderRadius: 70,
+                                    backgroundColor: '#fff',
+                                    justifyContent: 'flex-end',
+                                    alignSelf: 'center',
+                                    elevation: 5,
+                                    flexDirection: 'row',
+                                }}>
+
+                                    <View style={{ alignItems: 'center', flex: 1, marginLeft: 30, }}>
+                                        <Image
+                                            source={{ uri: image }}
+                                            style={{
+                                                width: 140,
+                                                height: 140,
+                                                borderRadius: 70,
+                                            }}
+                                            resizeMode="cover"  // Use 'cover' to maintain the aspect ratio and cover the entire container
+                                        />
+
+
+
+                                    </View>
+                                    <TouchableOpacity style={{
+                                        width: 30,
+                                        height: 30,
+                                        borderRadius: 25,
+                                        backgroundColor: '#000',
+                                        justifyContent: 'center',
+                                        alignSelf: 'center',
+                                        marginTop: 60
+                                    }}
+                                        onPress={() => {
+                                            setVisible(true)
+                                        }}>
+                                        <Text style={{
+                                            fontSize: 20,
+                                            fontWeight: 700,
+                                            color: '#fff',
+                                            textAlign: 'center'
+                                        }}>+</Text>
+
+                                    </TouchableOpacity>
+
+                                    <Modal
+                                        style={{
+                                            marginLeft: 0,
+                                            marginBottom: 0,
+                                            width: '100%',
+                                        }}
+                                        isVisible={visible}
+                                        onBackButtonPress={() => {
+                                            setVisible(false);
+                                        }}>
+                                        <View style={{
+                                            position: 'absolute',
+                                            bottom: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: 200,
+                                            backgroundColor: '#fff',
+                                            width: '100%',
+                                            borderTopLeftRadius: 20,
+                                            borderTopRightRadius: 20,
+                                        }}>
+                                            <Text style={{
+                                                fontFamily: 'Philosopher-Bold',
+                                                fontSize: 25,
+                                                color: '#000',
+                                                marginTop: 10,
+                                                marginLeft: 10
+                                            }}>Profile</Text>
+                                            <View style={{
+                                                flexDirection: 'row',
+                                                justifyContent: 'space-evenly',
+                                                marginTop: 30
+                                            }}>
+                                                <TouchableOpacity
+                                                    style={styles.profilePhotoToch}
+                                                    onPress={takePhotoFromCamera}
+                                                >
+                                                    <Entypo name="camera" color={"#c27b7f"} size={25}
+                                                        style={{
+                                                            marginTop: 20,
+                                                            fontWeight: 'bold'
+                                                        }} />
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={styles.profilePhotoToch}
+                                                    onPress=
+                                                    {choosePhotoFromLibrary}
+                                                >
+                                                    <FontAwesome name="photo" color={"#c27b7f"} size={25}
+                                                        style={{
+                                                            marginTop: 20,
+                                                            fontWeight: 'bold'
+                                                        }} />
+                                                </TouchableOpacity>
+
+                                                <TouchableOpacity
+                                                    style={styles.profilePhotoToch}
+                                                    onPress={() => {
+                                                        setImage(''); // Reset the image when removing the profile
+                                                        setRemoveImage(1); // Set removeImage to 1 when removing the profile
+                                                    }}
+                                                >
+                                                    <AntDesign name="delete" color={"#c27b7f"} size={25}
+                                                        style={{
+                                                            marginTop: 20,
+                                                            fontWeight: 'bold'
+                                                        }} />
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </Modal>
                                 </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
-                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                        placeholder='First Name'
+                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000', }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="first_name"
                                         keyboardType="name-phone-pad"
@@ -238,13 +348,9 @@ const Profile = ({ navigation, route }) => {
                                     />
                                 </View>
                                 <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Last Name</Text>
-                                    <Text style={styles.profileStar}>*</Text>
-                                </View>
-                                <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Last Name'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
@@ -254,15 +360,10 @@ const Profile = ({ navigation, route }) => {
 
                                     />
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Email</Text>
-                                    <Text style={styles.profileStar}>*</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Email'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
@@ -272,15 +373,10 @@ const Profile = ({ navigation, route }) => {
 
                                     />
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Phone No.</Text>
-                                    <Text style={styles.profileStar}>*</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Phone No.'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         autoCompleteType="last_name"
@@ -290,94 +386,11 @@ const Profile = ({ navigation, route }) => {
                                     />
                                 </View>
 
-                                <View
-                                    style={{
 
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        flexDirection: "row",
-                                        marginTop: 15,
-                                        marginLeft: 15,
-                                        marginRight: 15,
-                                    }}>
-                                    <Text style={styles.profileText}>Member Profile</Text>
-                                </View>
-
-                                <View style={{
-                                    flexDirection: 'row',
-                                    marginTop: 20,
-                                }}>
-                                    <View
-                                        style={{
-                                            height: 130,
-                                            width: 130,
-                                            backgroundColor: '#cbb7b8',
-                                            borderRadius: 15,
-                                            justifyContent: 'center',
-                                            alignItems: 'center',
-                                            marginLeft: 30,
-                                            marginTop: 15,
-                                        }}>
-                                        {image ?
-                                            (<ImageBackground
-                                                source={{
-                                                    uri: image,
-                                                }}
-                                                style={{
-                                                    height: 130,
-                                                    width: 130,
-                                                }}
-                                                imageStyle={{ borderRadius: 15 }} />)
-                                            :
-                                            (<Text style={{
-                                                fontSize: 18,
-                                                borderRadius: 80,
-                                                padding: 35,
-                                                backgroundColor: '#7d68f0'
-                                            }}>{first_name.charAt(0).toUpperCase() + "" + last_name.charAt(0).toUpperCase()}</Text>)
-                                        }
-                                    </View>
-
-                                    <View style={{
-                                        marginTop: -25,
-                                        alignItems: 'center'
-
-                                    }}>
-                                        <TouchableOpacity
-                                            style={styles.profilePhotoToch}
-                                            onPress={takePhotoFromCamera}
-                                        >
-                                            <Text style={styles.profilePhoto}>Take Photo</Text>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity
-                                            style={styles.profilePhotoToch}
-                                            onPress=
-                                            {choosePhotoFromLibrary}
-                                        >
-                                            <Text style={styles.profilePhoto}>Choose from Gallary</Text>
-                                        </TouchableOpacity>
-
-                                        <TouchableOpacity
-                                            style={styles.profilePhotoToch}
-                                            onPress={() => {
-                                                setImage(''); // Reset the image when removing the profile
-                                                setRemoveImage(1); // Set removeImage to 1 when removing the profile
-                                            }}
-                                        >
-                                            <Text style={styles.profilePhoto}>Remove Profile</Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Address1</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Plot no./Floor/Street'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
@@ -386,14 +399,10 @@ const Profile = ({ navigation, route }) => {
                                     />
 
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Address2</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Landmark/Area'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
@@ -402,14 +411,10 @@ const Profile = ({ navigation, route }) => {
                                     />
 
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>State</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='State'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
@@ -418,14 +423,10 @@ const Profile = ({ navigation, route }) => {
                                     />
 
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>City</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='City'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="name-phone-pad"
@@ -434,14 +435,10 @@ const Profile = ({ navigation, route }) => {
                                     />
 
                                 </View>
-
-                                <View
-                                    style={styles.profileView}>
-                                    <Text style={styles.profileText}>Zip Code</Text>
-                                </View>
                                 <View
                                     style={styles.profileTextView}>
                                     <TextInput
+                                        placeholder='Zip'
                                         style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
                                         placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                         keyboardType="number-pad"
@@ -460,16 +457,12 @@ const Profile = ({ navigation, route }) => {
                                     {Plan_exist !== null ?
                                         (<TouchableOpacity
                                             style={styles.saveTouch}
-                                            // onPress={handleSave}
-
                                             onPress={() => {
 
                                                 handleSave();
                                                 navigation.navigate('Userr');
                                             }}
-                                        // disabled={!isData}
                                         >
-                                            {/* { isData?( */}
                                             <Text style={styles.profileButtons}>Save</Text>
 
                                         </TouchableOpacity>) : (<Text style={styles.profileButtons1}>Save</Text>)}
@@ -494,3 +487,5 @@ const Profile = ({ navigation, route }) => {
 };
 
 export default Profile;
+
+

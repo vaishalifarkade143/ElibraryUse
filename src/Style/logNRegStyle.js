@@ -8,35 +8,36 @@ const getStyles = (theme) => {
       backgroundColor: theme === 'LIGHT' ? '#fff' : '#000'
     },
     allbutton: {
-       // padding: 10,
-       borderRadius: 10,
-       width: 200,
-       height: 50,
-       justifyContent: 'center',
-       alignSelf:'center'
-       //marginLeft: 100 
+      // padding: 10,
+      borderRadius: 10,
+      width: 150,
+      height: 50,
+      justifyContent: 'center',
+      alignSelf: 'center'
+      //marginLeft: 100 
     },
     allButtonText: {
       color: '#fff',
       fontWeight: '700',
-      fontSize: 18,textAlign:'center'
+      fontSize: 18, textAlign: 'center'
     },
     forgotNRegister: {
       color: '#c27b7f',
-      margin: 18,
+      margin: 12,
       // fontFamily: 'Poppin',
       // fontWeight: '700',
       fontSize: 15,
       fontFamily: 'Philosopher-Bold',
     },
     lognregHead: {
-      paddingVertical: 'auto',
+      // paddingVertical: 'auto',
       fontFamily: 'Philosopher-Bold',
       fontSize: 36,
       fontWeight: '500',
       textAlign: 'center',
       fontFamily: 'Philosopher-Bold',
-      color: theme === 'LIGHT' ? '#2f4858' : '#fff'
+      color: theme === 'LIGHT' ? '#2f4858' : '#fff',
+
     },
     subHeadinglognregHead: {
       marginTop: 10,
@@ -59,42 +60,35 @@ const getStyles = (theme) => {
       margin: 15,
       paddingLeft: 15,
       gap: 10,
-      elevation:5,borderRadius:10
+      elevation: 5, borderRadius: 10
     },
     validation: {
       color: 'red',
       marginLeft: 30
     },
     floatView: {
-      // backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',//  #FBFCFC
+      // backgroundColor: theme === 'LIGHT' ? '#fff' : '#000',//  #FBFCFC
       justifyContent: 'center',
       flexDirection: 'column',
       marginLeft: 20,
       marginRight: 20,
-      marginTop: 30,
+      marginTop: 10,
       margin: 30,
     },
-    container3:{
-flex:1,
-backgroundColor:'#f5ebe6'
+    container3: {
+      flex: 1,
+      backgroundColor: '#f5ebe6'
 
     },
     loginText:
     {
-      marginLeft: -20,
+      marginTop: 10,
       textAlign: 'center',
       color: '#c27b7f',
       fontWeight: '700',
       fontSize: 18,
     },
-    cancel: {
-      alignItems: 'center',
-      padding: 10,
-      width: '40%',
-      height: 60,
-      justifyContent: 'center',
-      marginLeft: 110
-    },
+
     centeredView: {
       flex: 1,
       justifyContent: 'center',
@@ -102,27 +96,15 @@ backgroundColor:'#f5ebe6'
       marginTop: 22,
       //backgroundColor: theme === 'LIGHT' ? '#fff' : '#000',
     },
-    // modalView: {
-    //   margin: 10,
-    //   backgroundColor: '#fff',
-    //   borderRadius: 20,
-    //   padding: 15,
-    //   alignItems: 'center',
-    //   shadowColor: '#000',
-    //   shadowOffset: {
-    //     height: 3,
-    //   },
-    //   shadowOpacity: 0.25,
-    //   shadowRadius: 4,
-    //   elevation: 5,
-    // },
+
     userView: {
-      margin: 2,
-      backgroundColor: theme === 'LIGHT' ? '#E5E8E8' : '#000',
+      // margin: 2,
+      // backgroundColor: theme === 'LIGHT' ? '#E5E8E8' : '#000',
       flexDirection: 'row',
       alignItems: 'center',
-      marginLeft:10,
-      marginRight:10
+      marginLeft: 10,
+      marginRight: 10,
+      borderBottomWidth: 0.2
     },
     userText: {
       fontFamily: 'Philosopher-Bold',
@@ -133,17 +115,26 @@ backgroundColor:'#f5ebe6'
       paddingBottom: 10
     },
     bannar: {
+      marginTop: 20,
       margin: 5,
       height: 200,
-      // backgroundColor: "#f5ebe6",
       flexDirection: 'column',
       paddingRight: 10,
       justifyContent: 'center'
     },
-    mainImgNText: {
-      flexDirection: 'row',
-      position: 'fixed'
+    bannar1: {
+      marginTop: 50,
+      // margin: 5,
+      height: 200,
+      // flexDirection: 'column',
+      // paddingRight: 10,
+      alignItems: 'center',
+      justifyContent: 'center'
     },
+    // mainImgNText: {
+    //   flexDirection: 'row',
+    //   position: 'fixed'
+    // },
     flatView1: {
       flexDirection: 'row',
       marginVertical: 5,
@@ -159,11 +150,11 @@ backgroundColor:'#f5ebe6'
       justifyContent: 'center',
       flexDirection: 'row',
     },
-    flatView3:{
+    flatView3: {
       marginStart: 10,
       height: 250
     },
-    bookImage:{
+    bookImage: {
       aspectRatio: 0.7,
       resizeMode: 'contain',
       borderRadius: 10,
@@ -192,12 +183,12 @@ backgroundColor:'#f5ebe6'
       // marginTop: 5,
       fontSize: 13,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
-      fontWeight:'400'
+      fontWeight: '400'
       // fontFamily: 'Roboto-Bold'
     },
     mainImgNText: {
       flexDirection: 'row',
-      marginTop: 20,
+      // marginTop: 20,
       position: 'fixed'
     },
     imagecontainers: {
@@ -214,7 +205,7 @@ backgroundColor:'#f5ebe6'
       fontSize: 29,
       color: '#000',
       textAlign: 'center',
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
     },
     texth2: {
       fontSize: 15,
@@ -466,14 +457,120 @@ backgroundColor:'#f5ebe6'
       gap: 10
     },
     userpageText: {
-      color: '#000',
       fontFamily: 'Poppin-Thin',
-      color:'#34495E'
+      color: '#34495E',
+      textAlign: 'center',
     },
+    //================= memberPlan section css starts  =========
+
+    // subscribeButton: {
+    //   marginTop: 15,
+    //   backgroundColor: '#3498DB', // Update the button color
+    //   borderRadius: 10,
+    //   paddingVertical: 12,
+    //   alignItems: 'center',
+    //   marginHorizontal: 10,
+    // },
+    // buttonText: {
+    //   textAlign: 'center',
+    //   fontWeight: 'bold',
+    //   fontSize: 16,
+    //   color: "#fff",
+    // },
+    // price: {
+    //   color: '#3498DB', // Update the text color
+    //   fontSize: 18,
+    //   fontFamily: 'Philosopher-Bold',
+    // },
+    // priceLabel: {
+    //   fontWeight: 'bold',
+    //   fontSize: 14,
+    // },
+    // description: {
+    //   fontWeight: 'bold',
+    //   color: '#c27b7f',
+    //   fontSize: 12,
+    //   textAlign: 'center',
+    //   marginTop: 8,
+    // },
+    // loadingText: {
+    //   flex: 1,
+    //   fontSize: 20,
+    //   textAlign: 'center',
+    //   justifyContent: 'center',
+    //   color: '#3498DB', // Update the text color
+    // },
+    // priceContainer: {
+    //   flexDirection: 'row',
+    //   justifyContent: 'center',
+    //   alignItems: 'center',
+    // },
+    // body: {
+    //   flex: 1,
+    //   padding: 20,
+    //   marginBottom: 20,
+    //   backgroundColor: '#fff', // Update the background color
+    //   borderRadius: 15,
+    //   elevation: 5,
+    // },
+    // section: {
+    //   alignItems: 'center',
+    // },
+    // sectionTitle: {
+    //   fontSize: 18,
+    //   color: '#3498DB', // Update the text color
+    //   fontWeight: 'bold',
+    // },
+    // sectionHeading: {
+    //   fontFamily: 'Philosopher-Bold',
+    //   fontSize: 32,
+    //   fontWeight: '600',
+    //   marginTop: 10,
+    //   color: '#3498DB', // Update the text color
+    //   textAlign: 'center',
+    // },
+    // sectionHeading1: {
+    //   fontSize: 16,
+    //   fontWeight: '600',
+    //   marginTop: 10,
+    //   color: '#3498DB', // Update the text color
+    //   textAlign: 'center',
+    //   fontWeight: 'bold',
+    // },
+    // separator: {
+    //   marginTop: 15,
+    //   width: 150,
+    //   height: 2,
+    //   backgroundColor: '#3498DB', // Update the color
+    //   alignSelf: 'center',
+    // },
+    // scrollContainer: {
+    //   paddingHorizontal: 10,
+    // },
+    // planContainer: {
+    //   backgroundColor: '#ECF0F1',
+    //   borderRadius: 15,
+    //   borderColor: '#3498DB', // Update the border color
+    //   marginTop: 20,
+    //   padding: 15,
+    //   elevation: 5,
+    //   width: 150,
+    //   alignSelf: 'center',
+    // },
+    // planName: {
+    //   textAlign: 'center',
+    //   fontFamily: 'Philosopher-Bold',
+    //   fontSize: 18,
+    //   color: '#3498DB', // Update the text color
+    // },
+
+
+
+
     body: {
       flex: 1,
       padding: 20,
-      marginBottom:20,
+      marginBottom: 20,
     },
     section: {
       alignItems: 'center',
@@ -485,9 +582,8 @@ backgroundColor:'#f5ebe6'
     },
     sectionHeading: {
       fontFamily: 'Philosopher-Bold',
-      fontSize: 28,
-      fontWeight: '600',
-      marginTop: 10,
+      fontSize: 24,
+      marginTop: 20,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       textAlign: 'center'
     },
@@ -520,12 +616,12 @@ backgroundColor:'#f5ebe6'
       paddingHorizontal: 10,
     },
     planContainer: {
-      backgroundColor: '#ECF0F1',
+      backgroundColor: '#fff',
       borderRadius: 10,
-      borderColor:'#fff',
+      borderColor: '#fff',
       marginTop: 20,
       padding: 10,
-      elevation: 3,
+      elevation: 10,
       width: 150,
     },
 
@@ -558,12 +654,12 @@ backgroundColor:'#f5ebe6'
       marginTop: 10,
       backgroundColor: '#c27b7f',
       borderRadius: 8,
-      paddingBottom:10,
-      paddingTop:10,
+      paddingBottom: 10,
+      paddingTop: 10,
       alignItems: 'center',
-     
-      marginLeft:5,
-      marginRight:5
+
+      marginLeft: 5,
+      marginRight: 5
     },
     buttonText: {
       textAlign: 'center',
@@ -571,6 +667,17 @@ backgroundColor:'#f5ebe6'
       fontSize: 13,
       color: "#fff",
     },
+    //================= memberPlan section css end  =========
+    noPlanScreen: {
+      fontSize: 15,
+      fontFamily: 'Philosopher-Bold',
+      backgroundColor: '#fff',
+      marginTop: 15,
+      elevation: 10,
+      padding: 20,
+      borderRadius: 10
+    },
+
     rupeeIcon: {
       width: 15,
       height: 15,
@@ -600,7 +707,7 @@ backgroundColor:'#f5ebe6'
       justifyContent: 'center'
     },
     searchIcon: {
-      // marginRight: 5,
+      // justifyContent:'flex-end',
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
     },
     searchInput: {
@@ -608,22 +715,26 @@ backgroundColor:'#f5ebe6'
       fontSize: 15,
 
     },
-    searchcontainer: {
-      marginTop: 10,
-      alignSelf:'center',
-      padding: 5,
-      width: '90%',
-      height: 50,
-      backgroundColor: '#f5ebe6',// '#f5ebe6',
-      color: theme === 'LIGHT' ? '#2f4858' : '#000',
-    },
+    // searchcontainer: {
+    //   marginTop: 10,
+    //   alignSelf: 'center',
+    //   padding: 5,
+    //   width: '90%',
+    //   height: 50,
+    //   backgroundColor: '#fff',// '#f5ebe6',
+    //   color: theme === 'LIGHT' ? '#2f4858' : '#000',
+    //   borderRadius: 10,
+    //   elevation: 10
+    // },
     searchBar: {
       flexDirection: 'row',
       alignItems: 'center',
-      backgroundColor: 'white',
-      borderRadius: 8,
-      borderColor: 'gray',
+      borderRadius: 10,
+      borderColor: 'grey',
+      borderWidth: 0.8,
       paddingHorizontal: 12,
+      marginLeft: 10,
+      marginRight: 10,
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
     },
 
@@ -645,13 +756,12 @@ backgroundColor:'#f5ebe6'
       marginRight: 5,
     },
 
- 
+
     dividerView: {
       marginTop: 0,
       height: 2,
       backgroundColor: '#c27b7f',
-      justifyContent: 'center',
-      alignItems: 'center',
+      alignSelf: 'center'
     },
     pdf: {
       flex: 1,
@@ -740,19 +850,19 @@ backgroundColor:'#f5ebe6'
       fontSize: 18,
       textAlign: 'center',
       borderRadius: 5,
-    }, profileButtons1: {
-      padding: 10,
+    },
+    profileButtons1: {
+      padding: 9,
       color: 'black',
       backgroundColor: 'grey',
-      fontWeight: '700',
+      // fontWeight: '700',
       fontSize: 18,
       textAlign: 'center',
       borderRadius: 5,
+      width: '30%',
+      alignSelf: 'center',
+      fontFamily: 'Philosopher-Bold',
     },
-    
-    
-    
-    
     saveTouch: {
       width: '40%',
       height: 70,
@@ -760,16 +870,18 @@ backgroundColor:'#f5ebe6'
     },
     profileText: {
       color: theme === 'LIGHT' ? '#000' : '#fff',
-      fontSize: 14,
-      fontWeight: 'bold'
+      fontSize: 15,
+      alignSelf: 'center',
+      marginTop: 10,
+      fontFamily: 'Philosopher-Bold',
     },
     profileStar: {
       color: 'red',
       fontSize: 20
     },
     profileView: {
-      gap: 3,
-      display: 'flex',
+      // gap: 3,
+      // display: 'flex',
       alignItems: 'center',
       flexDirection: "row",
       marginTop: 15,
@@ -777,26 +889,48 @@ backgroundColor:'#f5ebe6'
       marginRight: 15,
     },
     profileTextView: {
+      // alignItems:'center',
       backgroundColor: '#fff',
       display: 'flex',
+      marginTop: 15,
       marginLeft: 15,
       marginRight: 15,
+      elevation: 5,
+      paddingLeft: 8,
+      borderRadius: 10,
+      borderColor: 'pink'
     },
     profilePhoto: {
-      padding: 8,
+      padding: 9,
       color: '#fff',
       backgroundColor: '#c27b7f',
-      fontWeight: '700',
-      fontSize: 18,
-      textAlign: 'center',
+      fontFamily: 'Philosopher-Bold',
+      fontSize: 15,
+      // textAlign: 'center',
       borderRadius: 5,
       backgroundColor: '#c27b7f',
+      // marginRight: 13
+
     },
+    // profilePhotoToch:
+    // {
+    //   alignItems:'center',
+    //   marginBottom: 10,
+    //   marginLeft: 10,
+
+    // },
+
     profilePhotoToch:
     {
-      width: '70%',
+      alignItems: 'center',
+      marginBottom: 10,
+      marginLeft: 10,
+      backgroundColor: '#fff',
+      width: 70,
       height: 70,
-      justifyContent: 'center',
+      borderRadius: 35,
+      borderWidth: 0.5,
+      borderColor: 'grey'
     },
     image: {
       width: 20,
@@ -875,16 +1009,20 @@ backgroundColor:'#f5ebe6'
       fontFamily: 'Philosopher-Bold'
     },
     textHeadingOutput: {
-      fontSize: 15,
+      marginTop:2,
+      fontSize: 13,
       marginLeft: 10,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
-      fontFamily: 'Philosopher-Bold'
+      fontFamily: 'Philosopher-Bold',
+      textAlign:'center',
+      marginRight:10
     },
     textHeadingView:
     {
       flexDirection: 'row',
       marginTop: 10,
       marginLeft: 10,
+      marginRight:10
     },
     subscribeText: {
       fontSize: 15,
@@ -1000,7 +1138,11 @@ backgroundColor:'#f5ebe6'
     categoryIcon: {
       width: 30,
       height: 30
-    }
+    },
+
+
+
+
   });
 
 };

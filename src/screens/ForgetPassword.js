@@ -42,7 +42,7 @@ const ForgetPassword = () => {
           return (
         <View style={styles.container3}>
             <Header
-                rightIcon={require('../images/Logoelibrary.png')}
+                // rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
                 onClickLeftIcon={() => {
                     navigation.goBack();
@@ -117,13 +117,12 @@ const ForgetPassword = () => {
                             setModalVisible(!modalVisible);
                         }}
                     >
-                        <Text style={styles.allButtonText}>submit</Text>
+                        <Text style={styles.allButtonText}>Submit</Text>
 
                     </TouchableOpacity>
 
                     <TouchableOpacity
-                        style={styles.cancel}
-                        onPress={() =>
+                            onPress={() =>
                             navigation.navigate('Loginnn')
                         }>
                         <Text style={styles.loginText}>Cancel</Text>

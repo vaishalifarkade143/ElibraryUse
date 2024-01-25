@@ -54,6 +54,7 @@ const MyEBook = ({ navigation, route }) => {
   useEffect(() => {
 
     const member_id = userInfo.data.user.id;
+    console.log(member_id);
     const ebookSubscription = () => {
       fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription/${member_id}`)
         .then(res => res.json())
@@ -69,12 +70,7 @@ const MyEBook = ({ navigation, route }) => {
   }, []);
 
 
-
-
-
   console.log('subscribedbooks', Ebooks);
-
-
 
   const state = {
     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
@@ -197,7 +193,7 @@ const MyEBook = ({ navigation, route }) => {
       {({ theme }) => {
         const styles = getStyles(theme);
         return (
-          <View style={styles.container}>
+          <View style={styles.container3}>
             <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
@@ -205,12 +201,14 @@ const MyEBook = ({ navigation, route }) => {
                 navigation.openDrawer();
               }}
             />
-            <View style={{ marginTop: 20, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ marginTop: 20,
+               alignItems: 'center', 
+               justifyContent: 'center' }}>
               <Text style={styles.sectionHeading}>E-Books</Text>
             </View>
             {/* <View style={[styles.dividerView,{ width: 80, marginLeft: 140,}]}></View> */}
 
-            <View style={{ flex: 1, backgroundColor: '#fff', marginTop: 15 }}>
+            {/* <View style={{ flex: 1, backgroundColor: '#fff', marginTop: 15 }}> */}
 
               {/* ==================search======================= */}
               <View style={styles.searchcontainer}>
@@ -270,46 +268,50 @@ const MyEBook = ({ navigation, route }) => {
                   fontFamily:'Philosopher-Bold'}}>Please Activate Any Subscription plan</Text>
                 </View>)} */}
 
-              {Plan_exist !== null ? (updatedTableData.length > 0 ? (<FlatList
+              {Plan_exist !== null ?
+               (updatedTableData.length > 0 ? (<FlatList
                 data={updatedTableData}
               keyExtractor={(item, index) => index.toString()}
               renderItem={renderItem}
-                />):(<View style={{
+                />)
+                
+                
+              :(<View style={{
                 alignItems: 'center',
-                backgroundColor: '#fff',
                 marginLeft: 10,
-                marginRight: 10,
+                marginRight: 10  ,
                 paddingBottom: 30,
                 paddingTop: 30
               }}>
-                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                <Text style={styles.noPlanScreen}>
                   You haven't reserved any books yet.Please do reserve your book.
                 </Text>
               </View>)
 
 
 
-              ) : (
+              ) 
+              : (
               <View style={{
                 alignItems: 'center',
-                backgroundColor: '#fff',
                 marginLeft: 10,
                 marginRight: 10,
                 paddingBottom: 30,
                 paddingTop: 30
               }}>
-                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                <Text style={styles.noPlanScreen}>
                   Please Activate Any Subscription plan
                 </Text>
               </View>
               )}
+        
 
 
 
 
-            </View>
+             </View> 
 
-          </View>
+         
         );
       }}
     </Theme>

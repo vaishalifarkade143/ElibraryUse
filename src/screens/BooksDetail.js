@@ -14,7 +14,7 @@ import { Alert } from "react-native";
 import { Picker } from '@react-native-picker/picker';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
-
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const BooksDetail = ({ navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
@@ -225,7 +225,7 @@ const BooksDetail = ({ navigation }) => {
 
 
   }, [navigation, userToken]);
-  console.log('userpage', singleSubscribedPlan);
+  console.log('bookdetailspage', singleSubscribedPlan);
   
  
  
@@ -329,7 +329,7 @@ const BooksDetail = ({ navigation }) => {
  
     useEffect(() => {
 
-    const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
+    const apiUrl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription/undefined`;
 
     fetch(apiUrl, {
       method: 'GET',
@@ -550,13 +550,21 @@ const [filterbook,setFilterBook]=useState(null);
       const styles = getStyles(theme);
       return (
     <View style={styles.container}>
-      <Header
+      {/* <Header
         rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/back.png')}
         onClickLeftIcon={() => {
           navigation.navigate('Book', { screen: 'Home' });
         }}
-      />
+        centerComponent={<Image source={{
+          uri: route.params.data.image_path
+        }}
+          style={{
+            aspectRatio: 0.8,
+            resizeMode: 'contain',borderRadius:20,
+          }}
+        />}
+      /> */}
 
       <Modal
         animationType="slide"
@@ -702,38 +710,120 @@ const [filterbook,setFilterBook]=useState(null);
       </Modal>
 
 
-      <ScrollView showsVerticalScrollIndicator={false} 
-      style={{ marginBottom: 15, }}>
-        <View style={{
-          width: Dimensions.get('window').width,
-          height: 200,
-          marginEnd: 22,
-          marginTop:30,
-          alignItems:'center',
-          justifyContent:'center',
-        }}>
-          <View style={{
-            width: 200,
+
+
+<View>
+<View style={{
+         flexDirection:'row',}}>
+      <View style={{
+            width: 110,
             marginTop: 14 / 2,
             overflow: 'visible',
+            marginLeft:10,
+            // height: 200,
+            marginTop:40,
           }}>
             <Image source={{
               uri: route.params.data.image_path
             }}
               style={{
-                aspectRatio: 0.8,
-                resizeMode: 'contain',borderRadius:20,
+                aspectRatio: 0.7,
+                resizeMode: 'contain',
+                borderRadius:5,
               }}
             />
           </View>
-        </View>
-        <View style={[styles.textHeadingView,{marginTop:35}]}>
-          <Text style={styles.textHeading}>ISBN No:</Text>
+      <View>
+          <View style={[styles.textHeadingView,{marginTop:35}]}>
+          <Text style={styles.textHeading}>ISBN No :</Text>
           <Text style={styles.textHeadingOutput}>{book1[0]?.book?.isbn}</Text>
         </View>
 
-        
         <View style={styles.textHeadingView}>
+          <Text style={styles.textHeading}>Author :</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.authors[0].first_name} 
+          {book1[0]?.book?.authors[0].last_name}</Text>
+        </View>
+        <View style={styles.textHeadingView}>
+          <Text style={styles.textHeading}>Format :</Text>
+          {book1[0]?.format === 3 ?
+            (<Text style={styles.textHeadingOutput}>E-Book</Text>)
+            : book1[0]?.format === 1 ?
+              (<Text style={styles.textHeadingOutput}>hardcover</Text>) :
+              (<Text style={styles.textHeadingOutput}>Book</Text>)}
+        </View>
+        <View style={styles.textHeadingView}>
+          <Text style={styles.textHeading}>Edition :</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.edition}</Text>
+        </View>
+        <View style={styles.textHeadingView}>
+          <Text style={styles.textHeading}>Genre :</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.genres[0].name}</Text>
+        </View>
+        <View style={styles.textHeadingView}>
+          <Text style={styles.textHeading}>Publisher  :</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
+        </View>
+     </View>
+
+  </View>
+
+  <View style={{
+                flexDirection: 'row', 
+                justifyContent: 'center',
+                alignItems: 'center',
+                 marginTop: 25,
+                  marginBottom: 30,
+              }}>
+
+                <View style={{
+                  borderRightColor: '#2826268a',
+                   borderRightWidth: 1,
+                }}>
+                  <Entypo name="bookmarks" color={"gray"} size={15}  
+                  style={{marginLeft: 15,
+                      marginRight: 20,}} />
+                   {book1[0]?.format === 3 ?
+            (<Text style={styles.textHeadingOutput}>E-Book</Text>)
+            : book1[0]?.format === 1 ?
+              (<Text style={styles.textHeadingOutput}>hardcover</Text>) :
+              (<Text style={styles.textHeadingOutput}>Book</Text>)}
+                  
+                </View >
+                <View style={{
+                  borderRightColor: '#2826268a', borderRightWidth: 1
+                }}>
+                   <Entypo name="bookmarks" color={"gray"} size={15}  
+                  style={{marginLeft: 15,
+                      marginRight: 20,}} />
+                  <Text style={styles.reviewcount}>12500+</Text>
+                 
+                </View>
+                <View>
+                <Entypo name="bookmarks" color={"gray"} size={15}  
+                  style={{marginLeft: 15,
+                      marginRight: 20,}} />
+                  <Text style={styles.reviewcount}>3</Text>
+                  
+                </View>
+
+              </View>
+
+
+</View>
+
+      <ScrollView showsVerticalScrollIndicator={false} 
+      style={{ marginBottom: 15, }}>
+
+  
+       
+        {/* <View style={[styles.textHeadingView,{marginTop:35}]}>
+          <Text style={styles.textHeading}>ISBN No:</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.isbn}</Text>
+        </View> */}
+
+        
+        {/* <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Author:</Text>
           <Text style={styles.textHeadingOutput}>{book1[0]?.book?.authors[0].first_name} 
           {book1[0]?.book?.authors[0].last_name}</Text>
@@ -757,7 +847,7 @@ const [filterbook,setFilterBook]=useState(null);
         <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Publisher:</Text>
           <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
-        </View>
+        </View> */}
 
         <Text style={[styles.textHeading,{marginLeft:10,
           marginTop:10,

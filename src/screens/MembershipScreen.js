@@ -6,6 +6,7 @@ import Feather from 'react-native-vector-icons/Feather';
 import { AuthContext } from '../context/AuthContext';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const MembershipScreen = ({ navigation }) => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -134,11 +135,55 @@ const MembershipScreen = ({ navigation }) => {
       const query = searchQuery.toLowerCase();
       return plan.includes(query);
     })
-    .map((item) => [
-      item.subscription_plan.name,
-      item.amount,
-      formatDate(item.created_at),
-    ]) : [];
+    // .map((item) => [
+    //   item.subscription_plan.name,
+    //   item.amount,
+    //   formatDate(item.created_at),
+    // ])
+
+
+    .map((item) => ({
+      subscription_plan: item.subscription_plan.name,
+      amount: item.amount,
+      created_at: formatDate(item.created_at),
+      plan_id: item.plan_id
+
+    }))
+    : [];
+ 
+
+
+  const renderItem = ({ item }) => (
+    <View style={styles.flatListItemContainer}>
+
+      {/* <View style={styles.columnContainer}> */}
+      <View style={{ flexDirection: 'row' }}>
+        <Text style={styles.subscriptionPlan}>{item.subscription_plan}</Text>
+        {/* <AntDesign name="star" color={"red"} size={20} style={{marginLeft:15}} /> */}
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={styles.flatListItemText}>{item.amount}</Text>
+          {item.plan_id === 8 ? (
+            <Text style={styles.priceLabel}>/Life Time</Text>
+          ) : (item.plan_id === 1 ? (
+            <Text style={styles.priceLabel}>/yearly</Text>
+          ) : (item.plan_id === 9 ? (
+            <Text style={styles.priceLabel}>/Life Time</Text>
+          ) : (item.plan_id === 10 ? (
+            <Text style={styles.priceLabel}>/Monthly</Text>
+          ) : (item.plan_id === 11 ? (
+            <Text style={styles.priceLabel}>/yearly</Text>
+          )
+            : (
+              <Text style={styles.loadingText}>Loading...</Text>
+            )))))}
+
+        </View>
+        <Text style={styles.flatListItemText1}>{item.created_at}</Text>
+
+      {/* </View> */}
+    </View>
+  );
 
   return (
     <Theme>
@@ -153,20 +198,21 @@ const MembershipScreen = ({ navigation }) => {
                 navigation.openDrawer();
               }}
             />
-
-            <ScrollView>
-
-              <Text style={styles.sectionHeading}>Membership Plan</Text>
-              <View style={[styles.dividerView, { width: 170, marginLeft: 100, }]}></View>
+            <Text style={styles.sectionHeading}>Membership Plan</Text>
+            <View style={[styles.dividerView, { width: 170, }]}></View>
 
 
-              {singleSubscribedPlan ?
-                (isLoading ? (<ActivityIndicator style={{ justifyContent: 'center', alignItems: 'center' }} size="large" color="#c27b7f" />) :
-                  (<View>
+            {singleSubscribedPlan ?
+              (isLoading ? (<ActivityIndicator style={{
+                justifyContent: 'center',
+                alignItems: 'center'
+              }} size="large" color="#c27b7f" />) :
+                (
+                  <View>
                     <View style={{
-                      backgroundColor: '#FBFCFC',//#E5E8E8
+                      backgroundColor: '#C5CAE9',//#E5E8E8
                       marginTop: 20,
-                      flexDirection: 'row',
+                      // flexDirection: 'row',
                       marginBottom: 50,
                       paddingBottom: 20,
                       marginLeft: 10,
@@ -184,35 +230,35 @@ const MembershipScreen = ({ navigation }) => {
                           fontFamily: 'Philosopher-Bold',
                           fontSize: 20,
                           color: '#000',
-                          right: 45,
+                          textAlign: 'center'
                         }}>Annual plan</Text>)
                           :
                           (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
                             fontFamily: 'Philosopher-Bold',
                             fontSize: 20,
                             color: '#000',
-                            right: 40,
+                            textAlign: 'center'
                           }}>Lifetime Plan</Text>)
                             :
                             (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
                               fontFamily: 'Philosopher-Bold',
                               fontSize: 20,
                               color: '#000',
-                              right: 45,
+                              textAlign: 'center'
                             }}>Life time plan 4 Family member</Text>)
                               :
                               (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
                                 fontFamily: 'Philosopher-Bold',
                                 fontSize: 20,
                                 color: '#000',
-                                right: 45,
+                                textAlign: 'center'
                               }}>Library Plan</Text>)
                                 :
                                 (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
                                   fontFamily: 'Philosopher-Bold',
                                   fontSize: 20,
                                   color: '#000',
-                                  right: 45,
+                                  textAlign: 'center'
                                 }}>Digital Library Plan</Text>) :
                                   (<Text style={styles.loadingText}>Loading...</Text>)))))}
 
@@ -221,7 +267,7 @@ const MembershipScreen = ({ navigation }) => {
                           fontSize: 15,
                           fontFamily: 'Philosopher-Bold',
                           color: '#2f4858',
-                          right: 10
+                          textAlign: 'center'
                         }}>Active till:  {formattedDate1}  </Text>
 
                         <View style={{
@@ -232,7 +278,7 @@ const MembershipScreen = ({ navigation }) => {
                             style={{
                               width: 22,
                               height: 20,
-                              right: 40
+                              textAlign: 'center'
                             }} />
 
                           <Text style={{
@@ -240,7 +286,7 @@ const MembershipScreen = ({ navigation }) => {
                             marginTop: -10,
                             fontSize: 30,
                             fontFamily: 'Philosopher-Bold',
-                            right: 40
+                            textAlign: 'center'
                           }}>{singleSubscribedPlan.plan_amount}</Text>
 
 
@@ -250,7 +296,7 @@ const MembershipScreen = ({ navigation }) => {
                             marginTop: 3,
                             fontSize: 15,
                             fontFamily: 'Philosopher-Bold',
-                            right: 40,
+                            textAlign: 'center',
                             color: '#2f4858'
                           }}>/yearly</Text>)
                             :
@@ -258,7 +304,7 @@ const MembershipScreen = ({ navigation }) => {
                               marginTop: 3,
                               fontSize: 15,
                               fontFamily: 'Philosopher-Bold',
-                              right: 55,
+                              textAlign: 'center',
                               color: '#2f4858'
                             }}>/</Text>)
                               :
@@ -266,7 +312,7 @@ const MembershipScreen = ({ navigation }) => {
                                 marginTop: 3,
                                 fontSize: 15,
                                 fontFamily: 'Philosopher-Bold',
-                                right: 55,
+                                textAlign: 'center',
                                 color: '#2f4858'
                               }}>/</Text>)
                                 :
@@ -274,7 +320,7 @@ const MembershipScreen = ({ navigation }) => {
                                   marginTop: 3,
                                   fontSize: 15,
                                   fontFamily: 'Philosopher-Bold',
-                                  right: 55,
+                                  textAlign: 'center',
                                   color: '#2f4858'
                                 }}>/Monthly</Text>)
                                   :
@@ -282,7 +328,7 @@ const MembershipScreen = ({ navigation }) => {
                                     marginTop: 3,
                                     fontSize: 15,
                                     fontFamily: 'Philosopher-Bold',
-                                    right: 55,
+                                    textAlign: 'center',
                                     color: '#2f4858'
                                   }}>/yearly</Text>) :
                                     (<Text style={styles.loadingText}>Loading...</Text>)))))}
@@ -306,9 +352,9 @@ const MembershipScreen = ({ navigation }) => {
                           }}>
                           <Text style={
                             {
-                              marginLeft: 20,
+                              alignSelf: 'center',
                               padding: 10,
-                              backgroundColor: '#c27b7f',
+                              backgroundColor: '#5E35B1',
                               fontWeight: 'bold',
                               fontSize: 15,
                               color: "#fff",
@@ -319,10 +365,9 @@ const MembershipScreen = ({ navigation }) => {
                       </View>
 
                     </View>
-                    <Text style={styles.sectionHeading}>Transaction</Text>
-                    <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View>
+                    <Text style={[styles.sectionHeading,{marginTop:-30}]}>Transaction</Text>
+                    <View style={[styles.dividerView, { width: 110,  }]}></View>
                     <View style={{
-                      backgroundColor: '#f5ebe6',
                       marginTop: 20,
                       flexDirection: 'column',
                       marginBottom: 50,
@@ -350,10 +395,16 @@ const MembershipScreen = ({ navigation }) => {
                             </TouchableOpacity>)}
                         </View>
                       </View>
+
+                      <FlatList
+                        data={updatedTableData}
+                        keyExtractor={(item, index) => index.toString()}
+                        renderItem={renderItem}
+                      />
                       {/* Display search results */}
 
                       {/* table */}
-                      <View style={styles.alltableView}>
+                      {/* <View style={styles.alltableView}>
                         <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
                           <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
                             <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
@@ -375,25 +426,23 @@ const MembershipScreen = ({ navigation }) => {
                             </ScrollView>
                           </View>
                         </ScrollView>
-                      </View>
+                      </View> */}
 
 
                     </View>
                   </View>
-                  )) : (<View style={{
-                    alignItems: 'center',
-                    backgroundColor: '#fff',
-                    marginLeft: 10,
-                    marginRight: 10,
-                    paddingBottom: 30,
-                    paddingTop: 30
-                  }}>
-                    <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                      Please Activate Any Subscription plan
-                    </Text>
-                  </View>)}
-
-            </ScrollView>
+                )) : (<View style={{
+                  alignItems: 'center',
+                  backgroundColor: '#fff',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
+                    Please Activate Any Subscription plan
+                  </Text>
+                </View>)}
 
           </View>
         );
@@ -403,3 +452,42 @@ const MembershipScreen = ({ navigation }) => {
 };
 
 export default MembershipScreen;
+
+const styles = StyleSheet.create({
+
+  flatListItemContainer: {
+    backgroundColor: '#F8BBD0',
+    borderRadius: 8,
+    padding: 15,
+    margin: 20,
+    elevation: 2,
+    height:120,
+  },
+  subscriptionPlan: {
+    color: '#333',
+    fontFamily: 'Philosopher-Bold',
+    fontSize: 18,
+    marginBottom: 8,
+  },
+  flatListItemText:{
+    fontFamily: 'Philosopher-Bold',
+    fontSize: 18,
+    color:'blue'
+  },
+  flatListItemText1:{
+    fontFamily: 'Philosopher-Bold',
+    fontSize: 15,
+    color:'grey'
+  },
+  priceLabel: {
+    color: '#555',
+    fontFamily: 'Philosopher-Bold',
+    fontSize: 14,
+    marginTop:5
+  },
+  // columnContainer: {
+  //   alignItems: 'flex-start',
+  //   backgroundColor:'#000'
+  // },
+
+});

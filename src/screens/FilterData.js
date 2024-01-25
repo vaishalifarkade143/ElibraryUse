@@ -58,7 +58,7 @@ console.log('selectedGenre', route.params.filteredPublisher,);
       setFilterByBooks(filteredData);
     }
 
-    if( route.params.filteredPublisher)
+    if( route.params.filteredPublisher) 
     {
       filteredData = route.params.filteredPublisher;
       setFilterByBooks(filteredData);

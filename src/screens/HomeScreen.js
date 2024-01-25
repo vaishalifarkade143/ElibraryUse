@@ -39,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
       fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
         .then(res => res.json())
         .then(responce => {
-          setBooks(responce.data.splice(-10));
+          setBooks(responce.data.splice(-20));
           setisLoaded(false);
         });
     };
@@ -98,10 +98,16 @@ const HomeScreen = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+             middleIcon={require('../images/Logoelibrary.png')}
+              // leftIcon={require('../images/menu.png')}
               leftIcon={require('../images/menu.png')}
+              rightIcon={require('../images/search.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
+
+              }}
+              onClickRightIcon={() => {
+                navigation.navigate('search');
 
               }}
             />
@@ -112,6 +118,8 @@ const HomeScreen = ({ navigation }) => {
               size="large" color="#c27b7f" />) :
 
               (<ScrollView showsVerticalScrollIndicator={false} >
+
+
                 <View style={styles.bannar}>
                   <View style={styles.mainImgNText}>
                     <View >
@@ -128,6 +136,8 @@ const HomeScreen = ({ navigation }) => {
                   </View>
                 </View>
 
+                
+                
                 {/* ================Recently added books=================   */}
 
                 <View style={styles.flatView1}>

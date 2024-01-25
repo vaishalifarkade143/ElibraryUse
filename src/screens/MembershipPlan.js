@@ -230,7 +230,7 @@ const MembershipPlan = () => {
                 <Text style={styles.sectionTitle}>LIBRARY</Text>
                 <Text style={styles.sectionHeading}>Membership Plan</Text>
               </View>
-              <View style={[styles.dividerView, { width: 150, marginLeft: 90 }]}></View>
+              {/* <View style={[styles.dividerView, { width: 150, marginLeft: 90 }]}></View> */}
               <Text style={styles.sectionHeading1}>We've Got a Plan For You Choose Your Plan</Text>
               <FlatList
                 showsVerticalScrollIndicator={false}
@@ -246,36 +246,21 @@ const MembershipPlan = () => {
                       <Text style={styles.price}>{item.price}</Text>
 
                       {item.id === 8 ? (
-                        <Text style={{
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>/</Text>
+                        <Text style={styles.priceLabel}>/</Text>
                       ) : (item.id === 1 ? (
-                        <Text style={{
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>/yearly</Text>
+                        <Text style={styles.priceLabel}>/yearly</Text>
                       ) : (item.id === 9 ? (
-                        <Text style={{
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>/</Text>
+                        <Text style={styles.priceLabel}>/</Text>
                       ) : (item.id === 10 ? (
-                        <Text style={{
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>/Monthly</Text>
+                        <Text style={styles.priceLabel}>/Monthly</Text>
                       ) : (item.id === 11 ? (
-                        <Text style={{
-                          fontWeight: 'bold',
-                          fontSize: 12,
-                        }}>/yearly</Text>
-                      ) : (
+                        <Text style={styles.priceLabel}>/yearly</Text>
+                      ) 
+                      : (
                         <Text style={styles.loadingText}>Loading...</Text>
                       )))))}
+                     
 
-
-                      {/* <Text style={styles.priceLabel}>/yearly</Text> */}
                     </View>
 
                     <Text style={[styles.price, { textAlign: 'center' }]}>+</Text>

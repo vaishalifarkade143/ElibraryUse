@@ -394,7 +394,7 @@ import Theme from './Theme';
 
 const User = ({ navigation }) => {
   const { logout } = useContext(AuthContext);
-  const { userInfo, userToken } = useContext(AuthContext);
+  const { userInfo, userToken, login } = useContext(AuthContext);
   const [image, setImage] = useState(null);
 
   const [first_name, setFirstName] = useState('');
@@ -404,11 +404,6 @@ const User = ({ navigation }) => {
   const [profile, setProfile] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
-
-  // const [isLoading1, setIsLoading1]=useState(true);
-
-
-
 
 
   // =================  for single data view ============================
@@ -484,9 +479,6 @@ const User = ({ navigation }) => {
         saveDeviceToken();
 
 
-
-
-
       })
       .catch((error) => {
         console.error('Error fetching data in user:', error);
@@ -553,7 +545,7 @@ const User = ({ navigation }) => {
     }
   }
 
-  // console.log("userToken:", userToken);
+  console.log("userToken:", userToken);
 
   console.log("usrInfo", userInfo, first_name, last_name, email, phone, image);
 
@@ -570,6 +562,11 @@ const User = ({ navigation }) => {
       {({ theme }) => {
         const styles = getStyles(theme);
         return (
+
+
+
+
+
           <View style={styles.container}>
             <Header
               rightIcon={require('../images/Logoelibrary.png')}
@@ -583,179 +580,155 @@ const User = ({ navigation }) => {
 
 
 
-            <View style={styles.bannar}>
+            <View style={styles.bannar1}>
 
-              <View style={styles.mainImgNText}>
-
-
-
-                {userToken !== null && userInfo.data.user.membership_plan_name !== null ?
-                  (<View
-                    style={{
-                      height: 140,
-                      width: 140,
-                      backgroundColor: '#cbb7b8',
-                      borderRadius: 75,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                      marginLeft: 10,
-                      marginTop: -20,
-                    }}>
-                    {image !== null ?
-                      (<ImageBackground
-                        source={{
-                          uri: image,
-                        }}
-                        style={{
-                          height: 150,
-                          width: 150,
-
-                        }}
-                        imageStyle={{ borderRadius: 75 }} />)
-                      :
-                      (<Text style={{
-                        fontSize: 18,
-                        borderRadius: 80,
-                        padding: 35,
-                        backgroundColor: '#7d68f0'
-                      }}>
-                        {first_name.charAt(0).toUpperCase() + "" + last_name.charAt(0).toUpperCase()}
-                      </Text>)
-                    }
-                  </View>)
-                  : (<ImageBackground
-                    source={require('../images/profile.png')}
-                    style={{
-                      height: 150,
-                      width: 150,
-
-                    }}
-                    imageStyle={{ borderRadius: 75 }} />)
-                }
+              {/* <View style={styles.mainImgNText}> */}
 
 
 
-
-                <View style={{
-                  flexDirection: 'column',
-                  marginLeft: 40,
-                  marginTop: 10
-                }}>
-
-                  {userToken !== null ?
-                    <View>
-                      <Text
-                        style={{
-                          // fontWeight: 'bold',
-                          fontSize: 20,
-                          color: '#000',
-                          fontFamily: 'Philosopher-Bold',
-                        }}>
-                        {first_name} {last_name}
-                      </Text>
-                      <Text
-                        style={[styles.userpageText, { fontSize: 14, }]}>
-                        {email}
-                      </Text>
-                      <Text
-                        style={[styles.userpageText, { fontSize: 15, }]}>
-                        {phone}
-                      </Text>
-                    </View>
-                    : null}
-
-
-
-
-                  {userToken === null ?
-                    <TouchableOpacity
+              {userToken !== null && userInfo.data.user.membership_plan_name !== null ?
+                (<View
+                  style={{
+                    height: 140,
+                    width: 140,
+                    backgroundColor: '#cbb7b8',
+                    borderRadius: 75,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginLeft: 10,
+                    marginTop: -20,
+                  }}>
+                  {image ?
+                    (<ImageBackground
+                      source={{
+                        uri: image,
+                      }}
                       style={{
-                        backgroundColor: '#c27b7f',
-                        alignItems: 'center',
-                        padding: 10,
-                        borderRadius: 5,
-                        width: '100%',
-                        height: 60,
-                        justifyContent: 'center',
-                        marginTop: 50
+                        height: 150,
+                        width: 150,
+
                       }}
+                      imageStyle={{ borderRadius: 75 }} />)
+                    :
+                    (<Text style={{
+                      fontSize: 18,
+                      borderRadius: 80,
+                      padding: 35,
+                      backgroundColor: '#7d68f0'
+                    }}>
+                      {first_name.charAt(0).toUpperCase() + "" + last_name.charAt(0).toUpperCase()}
+                    </Text>)
+                  }
+                </View>)
+                : (<ImageBackground
+                  source={require('../images/profile.png')}
+                  style={{
+                    height: 150,
+                    width: 150,
 
-                      // {/* on login button click */}
-                      onPress={() => {
-                        navigation.navigate('Loginnn');
-                      }}
+                  }}
+                  imageStyle={{ borderRadius: 75 }} />)
+              }
 
-                    >
-                      <Text style={{
-                        color: '#fff',
-                        fontWeight: '700',
-                        fontSize: 18
-                      }}>Sign Up/Login</Text>
 
-                    </TouchableOpacity> : null}
 
-                </View>
+
+              <View style={{
+                marginTop: 15
+              }}>
+
+                {userToken !== null ?
+                  <View>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        color: '#000',
+                        fontFamily: 'Philosopher-Bold',
+                      }}>
+                      {first_name} {last_name}
+                    </Text>
+                    <Text
+                      style={[styles.userpageText, { fontSize: 14, }]}>
+                      {email}
+                    </Text>
+                    {/* <Text
+                      style={[styles.userpageText, { fontSize: 15, }]}>
+                      {phone}
+                    </Text> */}
+                  </View>
+                  : null}
+
+
+                {userToken === null ?
+                  <TouchableOpacity
+                    style={{
+                      backgroundColor: '#c27b7f',
+                      alignItems: 'center',
+                      padding: 10,
+                      borderRadius: 5,
+                      width: '100%',
+                      height: 60,
+                      justifyContent: 'center',
+                    }}
+
+                    // {/* on login button click */}
+                    onPress={() => {
+                      navigation.navigate('Loginnn');
+                    }}
+
+                  >
+                    <Text style={{
+                      color: '#fff',
+                      fontWeight: '700',
+                      fontSize: 18
+                    }}>Sign Up/Login</Text>
+
+                  </TouchableOpacity> : null}
+
+
 
               </View>
+
+              {/* </View> */}
             </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
             <ScrollView>
               <View style={{ flexDirection: 'column', marginBottom: 40 }}>
                 {userToken != null ?
-                  (<View>
+                  (<View style={{ marginTop: 20 }}>
                     <TouchableOpacity onPress={() => {
-                      navigation.navigate('profile',{singleSubscribedPlan})
+                      navigation.navigate('profile', { singleSubscribedPlan })
                     }}>
                       <View style={
                         styles.userView}>
                         <Text style={styles.userText}>Profile </Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 246 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                          style={{marginLeft: 230}} />
                       </View>
                     </TouchableOpacity>
 
 
 
                     <TouchableOpacity onPress={(item) => {
-                      navigation.navigate('MyeBook',{singleSubscribedPlan})
+                      navigation.navigate('MyeBook', { singleSubscribedPlan })
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>My E-Book </Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 215 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                          style={{ marginLeft: 200 }}
+                        />
                       </View>
                     </TouchableOpacity>
 
 
                     <TouchableOpacity onPress={() => {
-                      navigation.navigate('Bookhistory',{singleSubscribedPlan})
+                      navigation.navigate('Bookhistory', { singleSubscribedPlan })
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Book History</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 200 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                         style={{ marginLeft: 188 }}
+                        />
                       </View>
                     </TouchableOpacity>
 
@@ -765,20 +738,22 @@ const User = ({ navigation }) => {
                       }}>
                         <View style={styles.userView}>
                           <Text style={styles.userText}>Membership Plans</Text>
-                          <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                            style={{ marginLeft: 160 }} />
+                          <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                           style={{ marginLeft: 140 }} 
+                          />
                         </View>
                       </TouchableOpacity>
                     )}
 
 
                     <TouchableOpacity onPress={(item) => {
-                      navigation.navigate('transaction',{singleSubscribedPlan})
+                      navigation.navigate('transaction', { singleSubscribedPlan })
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Transactions</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 197 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                         style={{ marginLeft: 190 }} 
+                        />
                       </View>
                     </TouchableOpacity>
 
@@ -787,8 +762,9 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>MembershipScreen</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 150 }} />
+                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                        style={{ marginLeft: 143 }} 
+                        />
                       </View>
                     </TouchableOpacity>
 
@@ -797,18 +773,25 @@ const User = ({ navigation }) => {
                     }}>
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Resources</Text>
-                        <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={20}
-                          style={{ marginLeft: 215 }} />
+                        <View style={{ justifyContent: 'flex-end' }}>
+                          <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
+                           style={{ marginLeft: 208 }}
+
+                          />
+                        </View>
                       </View>
                     </TouchableOpacity>
 
 
 
 
-                    <View style={{ bottom: 0, justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                    <View style={{
+                      bottom: 0, justifyContent: 'center',
+                      alignItems: 'center', marginTop: 20
+                    }}>
 
                       <TouchableOpacity
-                        style={[styles.allbutton, { backgroundColor: '#c27b7f', marginLeft: -10 }]
+                        style={[styles.allbutton, { backgroundColor: '#c27b7f', }]
 
                         }
                         onPress={() => { logout() }}
@@ -823,9 +806,17 @@ const User = ({ navigation }) => {
               </View>
             </ScrollView>
           </View>
+
+
+
+
+
+
+
+
         );
       }}
-    </Theme>
+    </Theme >
   );
 };
 

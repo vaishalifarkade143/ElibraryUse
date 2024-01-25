@@ -518,7 +518,7 @@ const Resources = () => {
 
             {/* <ScrollView> */}
             <Text style={styles.sectionHeading}>Resources</Text>
-            <View style={[styles.dividerView, { width: 90, marginLeft: 160, }]}></View>
+            <View style={[styles.dividerView, { width: 90, }]}></View>
 
             {/* <View style={{
                 backgroundColor: '#f5ebe6',
@@ -618,7 +618,7 @@ const Resources = () => {
 
                   <View style={{
                     marginTop: 5,
-                    backgroundColor: '#EBDEF0',
+                    backgroundColor: '#BCAAA4',
                     paddingBottom: 15,
                     borderRadius: 10,
                     marginBottom: 15,

@@ -995,9 +995,9 @@ const Books = ({ navigation }) => {
         });
       setSearchResults(filteredResults);
       setSearchQuery(Text);
-      
+
     } else {
-      
+
       setSearchResults(null);
       setSearchQuery(Text);
     }
@@ -1066,6 +1066,11 @@ const Books = ({ navigation }) => {
 
 
 
+
+
+
+
+
   // -------------------------All books dropdown===================
   const AllBooks = () => {
     // const  [page,setPage]=useState(1);
@@ -1081,8 +1086,10 @@ const Books = ({ navigation }) => {
         return;
       }
 
+
       try {
         setLoadingMore(true);
+
         const nextPage = currentPage + 1;
         const response = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=name&direction=asc&limit=${prevLimit}&skip=${prevSkip}&search=&genre=&library_id=0&author=&publisher=&language=0&format=0`);
         const moreBooks = await response.json();
@@ -1095,6 +1102,15 @@ const Books = ({ navigation }) => {
         setLoadingMore(false);
       }
     };
+
+
+    // useEffect(() => {
+    //   // Clear loading state after 1 second
+    //   const timeoutId = setTimeout(() => setLoadingMore(false), 1000);
+
+    //   // Cleanup the timeout if the component is unmounted
+    //   return () => clearTimeout(timeoutId);
+    // }, [loadingMore]);
 
 
 
@@ -1380,10 +1396,9 @@ const Books = ({ navigation }) => {
                     onEndReached={loadMore}
                     onEndReachedThreshold={1.0}
                   />
-                  {/* <Button
-                    title="Load More!"
-                    onPress={() => loadMore()}
-                  /> */}
+                  {/* {loadingMore && (
+                  <ActivityIndicator size="large" color={theme === 'DARK' ? '#fff' : '#000'} />
+                )} */}
                 </View>
 
 
@@ -1409,6 +1424,24 @@ const Books = ({ navigation }) => {
 
     );
   };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   // ============================================================================================
 
 
@@ -1418,25 +1451,28 @@ const Books = ({ navigation }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-  
+
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+              middleIcon={require('../images/Logoelibrary.png')}
+              // rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
             />
-  
+
             {isLoaded ? (
               <ActivityIndicator
                 style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
                 size="large" color="#c27b7f"
               />
             ) : (
-              <View style={{ flex: 3 }}>
-                <View style={styles.booksearchcontainer}>
+              <View style={{ flex: 1,paddingTop:10 }}>
+
+                
+                {/* <View style={styles.booksearchcontainer}> */}
                   <View style={styles.searchBar}>
-  
+
                     <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                     <TextInput
                       style={styles.bookinput}
@@ -1446,62 +1482,62 @@ const Books = ({ navigation }) => {
                       value={searchQuery}
                       onChangeText={(Text) => handleSearch(Text)}
                     />
-  
+
                     {searchQuery !== '' && (
                       <TouchableOpacity onPress={() => {
                         setSearchQuery('');
                         setSearchResults('');
                       }}>
-                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 70 }]} />
+                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { justifyContent:'flex-end',}]} />
                       </TouchableOpacity>)}
-  
+
                   </View>
-                </View>
-  
+                {/* </View> */}
+
                 {/* Display search results */}
                 {/* {isLoading ? (
                   <Text style={styles.noBooksFound}>No books found</Text>
                 ) : ( */}
-                
-                  <FlatList
-                    style={{ marginBottom: 10 }}
-                    keyExtractor={(item, index) => index.toString()}
-                    data={searchQuery !== ''?(searchResults):('')}
-                    ListFooterComponent={<AllBooks />}
-                    renderItem={({ item }) => (
-                      // Render each search result item here
-                      <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
-                        <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
-                          <Image source={require('../images/bookfill.png')} style={styles.image} />
-                          <Text style={{
-                            fontSize: 15, fontWeight: 'bold',
-                            color: theme === 'LIGHT' ? '#000' : '#fff',
-                            marginBottom: 10, marginLeft: 5
-                          }} >
-                            {item.name}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    )}
-                    numColumns={1}
-                    contentContainerStyle={{ columnGap: 10 }}
-                    // ListEmptyComponent={
-                    //   searchQuery === '' ? (
-                    //     setSearchResults('')
-                    //   ) : null
-                    // }
+
+                <FlatList
+                  style={{ marginBottom: 10 }}
+                  keyExtractor={(item, index) => index.toString()}
+                  data={searchQuery !== '' ? (searchResults) : ('')}
+                  ListFooterComponent={<AllBooks />}
+                  renderItem={({ item }) => (
+                    // Render each search result item here
+                    <TouchableOpacity onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
+                      <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
+                        <Image source={require('../images/bookfill.png')} style={styles.image} />
+                        <Text style={{
+                          fontSize: 15, fontWeight: 'bold',
+                          color: theme === 'LIGHT' ? '#000' : '#fff',
+                          marginBottom: 10, marginLeft: 5
+                        }} >
+                          {item.name}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                  numColumns={1}
+                  contentContainerStyle={{ columnGap: 10 }}
+                // ListEmptyComponent={
+                //   searchQuery === '' ? (
+                //     setSearchResults('')
+                //   ) : null
+                // }
 
 
 
-                  />
+                />
                 {/* ) */}
                 {/* } */}
               </View>
             )}
 
-            
+
           </View>
-          
+
 
 
 
@@ -1509,7 +1545,7 @@ const Books = ({ navigation }) => {
       }}
     </Theme>
   );
-  
+
 };
 
 

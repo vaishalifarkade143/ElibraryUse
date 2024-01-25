@@ -22,6 +22,7 @@ import Resources from '../screens/Resources';
 import Search from '../screens/Search';
 import FilterData from '../screens/FilterData';
 import GoBackLogin from '../screens/GoBackLogin';
+import Searchbar from '../screens/Searchbar';
 
 
 const stack = createNativeStackNavigator();
@@ -51,6 +52,8 @@ const BookDetails = () => {
   return (
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
+      <Bookstack.Screen name='search' component={Searchbar} />
+
       <Bookstack2.Screen name='filterData' component={FilterData} />
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
@@ -102,7 +105,7 @@ const TabNavigator = () => {
     <Tab.Navigator screenOptions={{
       headerShown: false,
       tabBarShowLabel: false,
-      tabBarStyle: { backgroundColor: '#f5ebe6' },
+      tabBarStyle: { backgroundColor: '#fff' },//'#f5ebe6'
       tabBarInactiveTintColor: '#000',
       tabBarActiveTintColor: '#c27b7f',
       refresh: refresh,

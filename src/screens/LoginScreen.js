@@ -11,7 +11,7 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
 const LoginScreen = ({ navigation }) => {
-    const { isLoading, login,userInfo,result } = useContext(AuthContext);
+    const { isLoading, login, userInfo, result } = useContext(AuthContext);
     const [rememberMe, setRememberMe] = useState(false);
 
     // ==================Important get device token on load of app and to store device token========================//
@@ -77,7 +77,7 @@ const LoginScreen = ({ navigation }) => {
 
     const handleLogin = async (values) => {
         getDeviceToken();
-         login(values.email, values.password);  //imp 
+        login(values.email, values.password);  //imp 
 
         //  if (userInfo.data.user.membership_plan_name === null) {
         //     login(values.email, values.password); 
@@ -136,9 +136,9 @@ const LoginScreen = ({ navigation }) => {
 
                             <View style={[styles.floatView, { height: 500, }]}>
 
-                                
+
                                 <Text
-                                    style={[styles.lognregHead,{paddingHorizontal: 90,}]}
+                                    style={[styles.lognregHead, { paddingHorizontal: 90, }]}
                                 >
                                     Login</Text>
                                 <Text style={styles.subHeadinglognregHead}>
@@ -158,8 +158,8 @@ const LoginScreen = ({ navigation }) => {
                                                     <Image source={require('../images/email.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
-                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
-                                                       placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
+                                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                                         placeholder="Email"
                                                         autoCompleteType="email"
                                                         keyboardType="email-address"
@@ -169,8 +169,8 @@ const LoginScreen = ({ navigation }) => {
 
                                                     />
                                                 </View>
-                                                {touched.email && errors.email && 
-                                                <Text style={styles.validation}>{errors.email}</Text>}
+                                                {touched.email && errors.email &&
+                                                    <Text style={styles.validation}>{errors.email}</Text>}
                                             </View>
 
 
@@ -179,8 +179,8 @@ const LoginScreen = ({ navigation }) => {
                                                     <Image source={require('../images/password.png')}
                                                         style={styles.vectorIcon} />
                                                     <TextInput
-                                                      style={{color:theme=== 'LIGHT'? 'grey':'#000'}}
-                                                      placeholderTextColor= {theme=== 'LIGHT'? 'grey':'#000'}
+                                                        style={{ color: theme === 'LIGHT' ? 'grey' : '#000' }}
+                                                        placeholderTextColor={theme === 'LIGHT' ? 'grey' : '#000'}
                                                         placeholder="Password"
                                                         autoCompleteType="password"
                                                         secureTextEntry={true}
@@ -191,7 +191,7 @@ const LoginScreen = ({ navigation }) => {
 
                                                 </View>
                                                 {touched.password && errors.password &&
-                                                 <Text style={styles.validation}>{errors.password}</Text>}
+                                                    <Text style={styles.validation}>{errors.password}</Text>}
                                             </View>
 
                                             <View
@@ -209,8 +209,8 @@ const LoginScreen = ({ navigation }) => {
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
                                                             margin: 20,
-                                                            backgroundColor: '#fff', elevation:5,
-                                                            borderRadius:5,
+                                                            backgroundColor: '#fff', elevation: 5,
+                                                            borderRadius: 5,
                                                         }}
                                                     >
                                                         {rememberMe && <View style={{
@@ -225,12 +225,12 @@ const LoginScreen = ({ navigation }) => {
                                                         fontFamily: 'Poppin',
                                                         fontWeight: '700',
                                                         fontSize: 15,
-                                                       
+
                                                     }}>Remember Me</Text>
                                             </View>
                                             <TouchableOpacity
                                                 style={
-                                                    [styles.allbutton, 
+                                                    [styles.allbutton,
                                                     { backgroundColor: isValid ? '#c27b7f' : '#e4e7ea' }]}
                                                 onPress={handleSubmit}
                                                 disabled={!isValid}

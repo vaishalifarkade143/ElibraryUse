@@ -2,17 +2,27 @@ import { View, Image, TouchableOpacity, StyleSheet } from 'react-native'
 import React from 'react'
 
 
-const Header = ({ leftIcon, rightIcon, onClickLeftIcon }) => {
+const Header = ({ leftIcon, rightIcon, middleIcon, onClickLeftIcon, onClickRightIcon }) => {
     return (
         <View style={styles.header}>
 
             <TouchableOpacity style={styles.btn}
                 onPress={() => {
                     onClickLeftIcon();
+
                 }}>
                 <Image source={leftIcon} style={styles.icon} />
             </TouchableOpacity>
-            <Image source={rightIcon} style={styles.logoicon} />
+            <Image source={middleIcon} style={styles.midicon} />
+
+            <TouchableOpacity style={styles.btn}
+                onPress={() => {
+
+                    onClickRightIcon();
+                }}>
+                <Image source={rightIcon} style={styles.logoicon} />
+            </TouchableOpacity>
+
         </View>
     )
 }
@@ -21,8 +31,8 @@ export default Header;
 
 const styles = StyleSheet.create({
     header: {
-        height: 70,
-        backgroundColor: '#f5ebe6',
+        height: 60,
+        backgroundColor: '#fff',//,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -35,9 +45,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    midicon: {
+        width: 150,
+        height: 45,
+    },
     logoicon: {
-        width: 170,
-        height: 55,
+        width: 20,
+        height: 20,
     },
     icon: {
         width: 40,

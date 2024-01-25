@@ -93,7 +93,7 @@ const Registration = ({ navigation }) => {
                 return (
                     <View style={styles.container3}>
                         <Header
-                            rightIcon={require('../images/Logoelibrary.png')}
+                            // rightIcon={require('../images/Logoelibrary.png')}
                             leftIcon={require('../images/back.png')}
                             onClickLeftIcon={() => {
                                 navigation.goBack();
@@ -103,7 +103,7 @@ const Registration = ({ navigation }) => {
                             {isLoading && <Spinner visible={true} />}
                             <View style={[styles.floatView, { height: 800, }]}>
 
-                                <Text style={[styles.lognregHead,{paddingHorizontal: 60,}]} >
+                                <Text style={[styles.lognregHead,{paddingHorizontal: 60, marginTop:-50}]} >
                                     Registration</Text>
                                 <Text style={styles.subHeadinglognregHead}>
                                     Register your membership</Text>
@@ -254,7 +254,6 @@ const Registration = ({ navigation }) => {
                                             </TouchableOpacity>
 
                                             <TouchableOpacity
-                                                style={styles.cancel}
                                                 onPress={() =>
                                                     navigation.goBack()
                                                 }

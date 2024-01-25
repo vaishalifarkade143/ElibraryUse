@@ -7,15 +7,15 @@ import Feather from 'react-native-vector-icons/Feather';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 
-const BookHistory = ({ navigation ,route}) => {
+const BookHistory = ({ navigation, route }) => {
   const [booksHistory, setBooksHistory] = useState([]);
-  const { userToken,userInfo } = useContext(AuthContext);
+  const { userToken, userInfo } = useContext(AuthContext);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const Plan_exist= route.params.singleSubscribedPlan;
+  const Plan_exist = route.params.singleSubscribedPlan;
   console.log('bookhistorypage', Plan_exist);
-  
+
 
 
 
@@ -24,33 +24,33 @@ const BookHistory = ({ navigation ,route}) => {
 
 
   useEffect(() => {
-    if (userToken !== null &&  Plan_exist !== null) {
-    const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
+    if (userToken !== null && Plan_exist !== null) {
+      const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
 
-    fetch(apiUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
+      fetch(apiUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
       })
-      .then((data) => {
-        setBooksHistory(data.data);
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setBooksHistory(data.data);
 
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
     }
   }, []);
 
- 
+
   function formatDate(inputDate) {
     const inputDateObj = new Date(inputDate);
     const monthNames = [
@@ -130,7 +130,7 @@ const BookHistory = ({ navigation ,route}) => {
       bookName: book.book_item.book.name,
       bookCode: book.book_item.book_code,
 
-      imageUrl: book.book_item.book.image_path, 
+      imageUrl: book.book_item.book.image_path,
       // issueDate: book.issued_on ? formatDate(book.issued_on) : 'N/A',
       issueDueDate: formatDate(book.issue_due_date),
       reserveDate: formatDate(book.reserve_date),
@@ -149,10 +149,10 @@ const BookHistory = ({ navigation ,route}) => {
         }
         : null,
     }));
-    console.log('hey',flatListData);
+  console.log('hey', flatListData);
 
   // const renderItem = ({ item }) => (
-    
+
   //   <View style={styles.flatListItemContainer}>
   //     <View>
   //     {item.imageUrl && (
@@ -190,8 +190,8 @@ const BookHistory = ({ navigation ,route}) => {
   // );
 
 
-  const renderItem = ({ item }) => (
-    <View style={styles.flatListItemContainer}>
+  const renderItem = ({ item, index }) => (
+    <View style={[styles.flatListItemContainer, index % 2 === 1 && { backgroundColor: '#EBDEF0' }]}>
       <View style={styles.rowContainer}>
         {item.imageUrl && (
           <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
@@ -203,19 +203,20 @@ const BookHistory = ({ navigation ,route}) => {
             <Text style={styles.ItemText}>ISBN : </Text>
             <Text style={styles.flatListItemText}>{item.bookCode}</Text>
           </View>
-          <Text style={[styles.flatListItemText,{color: '#007bff', fontSize: 16, fontWeight: 'bold'}]}>{item.status}</Text>
+          <Text style={[styles.flatListItemText, { color: '#0000FF', fontSize: 14, fontWeight: '400' }]}>
+            {item.status}</Text>
           {item.actionButton && (
-        <TouchableOpacity
-          style={styles.flatListActionButton}
-          onPress={item.actionButton.onPress}
-        >
-          <Text style={styles.flatListActionButtonText}>{item.actionButton.title}</Text>
-        </TouchableOpacity>
-      )}
+            <TouchableOpacity
+              style={[styles.flatListActionButton,index % 2 === 1 && { backgroundColor: '#5E35B1' }]}
+              onPress={item.actionButton.onPress}
+            >
+              <Text style={styles.flatListActionButtonText}>{item.actionButton.title}</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
-      
-   
+
+
     </View>
   );
 
@@ -263,16 +264,21 @@ const BookHistory = ({ navigation ,route}) => {
                 </View>
               </View>
             </Modal>
-            <View style={{  alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', }}>
+            <View style={{
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: '#fff',
+            }}>
               <Text style={styles.sectionHeading}>Book History</Text>
             </View>
+
             {/* <View style={[styles.dividerView, { width: 110, marginLeft: 130, }]}></View> */}
-            <View style={{ flex: 1,  backgroundColor: '#fff', }}>
+            <View style={{ flex: 1, backgroundColor: '#fff', }}>
               <View style={styles.searchcontainer}>
-                <View style={styles.searchBar3}>
+                <View style={styles.searchBar}>
                   <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                   <TextInput
-                    style={styles.searchInput3}
+                    style={styles.searchInput}
                     placeholderTextColor="#000"
                     placeholder="Search by Book Name or Book Code"
                     value={searchQuery}
@@ -284,34 +290,33 @@ const BookHistory = ({ navigation ,route}) => {
                     </TouchableOpacity>)}
                 </View>
               </View>
-              { Plan_exist!==null?
-              (flatListData.length>0?(<FlatList
-                data={flatListData}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={renderItem}
-              />):(<View style={{
-                alignItems: 'center',
-                backgroundColor: '#fff',
-                marginLeft: 10,
-                marginRight: 10,
-                paddingBottom: 30,
-                paddingTop: 30
-              }}>
-                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                  You haven't reserved any books yet.Please do reserve your book.
-                </Text>
-              </View>)):(<View style={{
-                alignItems: 'center',
-                backgroundColor: '#fff',
-                marginLeft: 10,
-                marginRight: 10,
-                paddingBottom: 30,
-                paddingTop: 30
-              }}>
-                <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                  Please Activate Any Subscription plan
-                </Text>
-              </View>)}
+              {Plan_exist !== null ?
+                (flatListData.length > 0 ? (<FlatList
+                  data={flatListData}
+                  keyExtractor={(item, index) => index.toString()}
+                  renderItem={renderItem}
+                />) : (<View style={{
+                  alignItems: 'center',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={styles.noPlanScreen}>
+                    You haven't reserved any books yet.Please do reserve your book.
+                  </Text>
+                </View>)) :
+                (<View style={{
+                  alignItems: 'center',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={styles.noPlanScreen}>
+                    Please Activate Any Subscription plan
+                  </Text>
+                </View>)}
             </View>
           </View>
         );
@@ -341,12 +346,12 @@ const styles = StyleSheet.create({
 
 
   flatListItemContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: '#B2DFDB',
     borderRadius: 10,
-    marginTop:10,
+    marginTop: 10,
     marginBottom: 10,
-    marginLeft:10,
-    marginRight:10,
+    marginLeft: 10,
+    marginRight: 10,
     padding: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -358,7 +363,8 @@ const styles = StyleSheet.create({
   flatListItemText: {
     // textAlign: 'center',
     color: '#2f4858',
-
+    marginTop: 1,
+    marginBottom: 3
   },
   rowContainer: {
     flexDirection: 'row',
@@ -384,24 +390,23 @@ const styles = StyleSheet.create({
   //   fontWeight: 'bold',
   // },
   flatListActionButton: {
-    backgroundColor: '#FF6F61',
+    backgroundColor: '#00695C',
     borderRadius: 5,
     paddingVertical: 8,
-    paddingHorizontal: 15,
     marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    width:200
+    width: 120
   },
   flatListActionButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: 'bold',
   },
-  ItemText:{
-    fontSize:14,
-    fontWeight:'bold',
-    color:'#000'
+  ItemText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#000'
   }
 });
 
