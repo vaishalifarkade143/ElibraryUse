@@ -40,7 +40,7 @@ const ForgetPassword = () => {
         {({ theme }) => {
           const styles = getStyles(theme);
           return (
-        <View style={styles.container3}>
+        <View style={styles.container}>
             <Header
                 // rightIcon={require('../images/Logoelibrary.png')}
                 leftIcon={require('../images/back.png')}
@@ -87,7 +87,7 @@ const ForgetPassword = () => {
 
             <View style={[styles.floatView, { height: 400 },]}>
 
-                <Text style={[styles.lognregHead,{paddingHorizontal: 80,}]} >
+                <Text style={[styles.lognregHead,{paddingHorizontal: 60, marginTop:-150}]} >
                     Forgot Password</Text>
                 <Text style={styles.subHeadinglognregHead}>
                     Enter Your email for reset your password</Text>

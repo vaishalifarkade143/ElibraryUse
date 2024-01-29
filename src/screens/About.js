@@ -33,7 +33,7 @@ const ELibrary = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+              // rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/back.png')}
               onClickLeftIcon={() => {
                 navigation.navigate('Home');
@@ -43,14 +43,14 @@ const ELibrary = ({ navigation }) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>ABOUTE  LIBRARY</Text>
                 <Text style={styles.subtitle}>Where Information Comes Alive</Text>
-                <View style={{
+                {/* <View style={{
                   width: 150,
                   height: 2,
                   backgroundColor: '#c27b7f',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: -15,
-                }}></View>
+                }}></View> */}
               </View>
 
 
@@ -131,14 +131,14 @@ const ELibrary = ({ navigation }) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>AWESOME STATUS</Text>
                 <Text style={styles.subtitle}>ALL MILESTONES ACHIEVED</Text>
-                <View style={{
+                {/* <View style={{
                   width: 150,
                   height: 2,
                   backgroundColor: '#c27b7f',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: -15,
-                }}></View>
+                }}></View> */}
               </View>
 
               <View style={{

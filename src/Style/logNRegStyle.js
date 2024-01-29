@@ -10,32 +10,29 @@ const getStyles = (theme) => {
     allbutton: {
       // padding: 10,
       borderRadius: 10,
-      width: 150,
-      height: 50,
+      width: 100,
+      height: 35,
       justifyContent: 'center',
       alignSelf: 'center'
       //marginLeft: 100 
     },
     allButtonText: {
       color: '#fff',
-      fontWeight: '700',
-      fontSize: 18, textAlign: 'center'
+       fontFamily: 'OpenSans-Regular',
+      fontSize: 15, 
+      textAlign: 'center'
     },
     forgotNRegister: {
       color: '#c27b7f',
       margin: 12,
-      // fontFamily: 'Poppin',
-      // fontWeight: '700',
       fontSize: 15,
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
     },
     lognregHead: {
-      // paddingVertical: 'auto',
-      fontFamily: 'Philosopher-Bold',
-      fontSize: 36,
+      fontFamily: 'Poppins-Regular',
+      fontSize: 25,
       fontWeight: '500',
       textAlign: 'center',
-      fontFamily: 'Philosopher-Bold',
       color: theme === 'LIGHT' ? '#2f4858' : '#fff',
 
     },
@@ -43,8 +40,7 @@ const getStyles = (theme) => {
       marginTop: 10,
       paddingHorizontal: 50,
       textAlign: 'center',
-      fontSize: 16,
-      fontFamily: 'Poppin-Thin',
+      fontSize: 13,fontFamily: 'OpenSans-Regular',
       color: theme === 'LIGHT' ? '#000' : '#fff'
     },
     vectorIcon:
@@ -60,7 +56,8 @@ const getStyles = (theme) => {
       margin: 15,
       paddingLeft: 15,
       gap: 10,
-      elevation: 5, borderRadius: 10
+      // elevation: 5, borderRadius: 10
+      borderRadius:5,borderWidth:0.7,borderColor:'#efefef'
     },
     validation: {
       color: 'red',
@@ -85,8 +82,8 @@ const getStyles = (theme) => {
       marginTop: 10,
       textAlign: 'center',
       color: '#c27b7f',
-      fontWeight: '700',
-      fontSize: 18,
+      fontFamily: 'Poppins-Regular',
+      fontSize: 15,
     },
 
     centeredView: {
@@ -104,10 +101,10 @@ const getStyles = (theme) => {
       alignItems: 'center',
       marginLeft: 10,
       marginRight: 10,
-      borderBottomWidth: 0.2
+      // borderBottomWidth: 0.2
     },
     userText: {
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
       fontSize: 16,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
       paddingLeft: 10,
@@ -138,11 +135,11 @@ const getStyles = (theme) => {
     flatView1: {
       flexDirection: 'row',
       marginVertical: 5,
-      marginTop: 15,
+      marginTop: 10,
       justifyContent: 'space-between',
       marginLeft: 15,
       marginRight: 15,
-      marginBottom: 15
+      marginBottom: 10
     },
     flatView2: {
       display: 'flex',
@@ -152,7 +149,7 @@ const getStyles = (theme) => {
     },
     flatView3: {
       marginStart: 10,
-      height: 250
+      height: 270
     },
     bookImage: {
       aspectRatio: 0.7,
@@ -160,31 +157,31 @@ const getStyles = (theme) => {
       borderRadius: 10,
     },
     coroselheading: {
-      fontFamily: 'Philosopher-Bold',
-      fontSize: 25,
-      fontWeight: '600',
+      fontSize: 20,
       // color: theme === 'LIGHT' ? '#000' : '#fff',
       color: 'black',
-      right: 0
+     fontFamily: 'Poppins-Regular'
     },
-    seeAll: {
-      color: 'blue',
-      fontSize: 15,
-      marginTop: 10,
-      fontFamily: 'Roboto-Bold'
-    },
+    // seeAll: {
+    //   color: 'blue',
+    //   fontSize: 15,
+    //   marginTop: 10,
+    //   fontFamily: 'Roboto-Bold'
+    // },
     bookName: {
-      marginTop: 8,
-      fontSize: 15,
+      marginTop: 7,
+      fontSize: 14,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
-      fontFamily: 'Philosopher-Bold',
+      // fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
     },
     bookName1: {
       // marginTop: 5,
-      fontSize: 13,
+      fontSize: 12,
       color: theme === 'LIGHT' ? '#34495E' : '#fff',
-      fontWeight: '400'
+      // fontWeight: '400'
       // fontFamily: 'Roboto-Bold'
+      fontFamily: 'OpenSans-Regular',
     },
     mainImgNText: {
       flexDirection: 'row',
@@ -206,13 +203,14 @@ const getStyles = (theme) => {
       color: '#000',
       textAlign: 'center',
       fontFamily: 'Poppins-Regular',
+      // fontWeight:'100'
     },
     texth2: {
       fontSize: 15,
       marginTop: 8,
       color: '#676768',
       textAlign: 'center',
-      fontFamily: 'Poppin-Thin',
+      fontFamily: 'OpenSans-Regular',
     },
 
     contactSection: {
@@ -286,24 +284,22 @@ const getStyles = (theme) => {
     },
 
     heading: {
+      fontFamily: 'Poppins-Regular',
       fontSize: 20,
-      fontWeight: '600',
-      marginBottom: 10,
       textAlign: 'center',
-      fontFamily: 'Philosopher-Bold',
-      fontSize: 29,
       color: theme === 'LIGHT' ? '#000' : '#fff',
     },
     subHeading: {
-      fontSize: 20,
+      fontSize: 15,
       fontWeight: 'bold',
-      marginVertical: 10,
+      marginTop:13,
+      marginBottom:-18,
       color: theme === 'LIGHT' ? '#000' : '#fff',
     },
     disclemerText: {
-      lineHeight: 20,
-      fontWeight: '500',
-      fontSize: 16,
+      lineHeight: 20, 
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 13.5,
       marginTop: 20,
       color: theme === 'LIGHT' ? '#2f4858' : '#fff',
     },
@@ -317,16 +313,16 @@ const getStyles = (theme) => {
     },
     title: {
       marginTop: 20,
-      fontSize: 18,
-      fontWeight: '500',
+      marginBottom: -5,
+      fontSize: 17,    fontFamily: 'Poppins-Regular',
       color: "#c27b7f",
     },
     subtitle: {
-      fontSize: 20,
-      marginBottom: 20,
+      fontSize: 14,
+      // marginBottom: 5,
       marginTop: 5,
       color: theme === 'LIGHT' ? '#2f4858' : '#fff',
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'OpenSans-Regular',
     },
     divider: {
       width: 20,
@@ -351,15 +347,15 @@ const getStyles = (theme) => {
       marginRight: 15,
     },
     review: {
-      fontFamily: 'Philosopher-Bold',
-      fontSize: 17,
-      marginLeft: 15,
-      marginRight: 20,
+      fontFamily: 'OpenSans-Regular',
+      fontSize: 13,
+      marginLeft: 13,
+      marginRight: 13,
     },
     reviewcount: {
-      fontSize: 20,
-      marginLeft: 15,
-      marginRight: 20,
+      fontSize: 15,
+      marginLeft: 13,
+      marginRight: 13,
       fontWeight: 'bold',
       color: '#876585'
     },
@@ -377,8 +373,8 @@ const getStyles = (theme) => {
     formContainer: {
       marginBottom: 20,
       padding: 20,
-      backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',
-      marginTop: 20,
+      // backgroundColor: theme === 'LIGHT' ? '#f5ebe6' : '#000',
+      // marginTop: 10,
       marginRight: 10,
       marginLeft: 10
     },
@@ -398,10 +394,11 @@ const getStyles = (theme) => {
     loginbtn: {
       alignItems: 'center',
       borderRadius: 5,
-      width: '40%',
-      height: 60,
+      // width: '40%',
+      height: 40,
       justifyContent: 'center',
-      marginLeft: 90
+      marginLeft: 10,
+      marginRight:10,
     },
 
     contactInfo: {
@@ -410,15 +407,15 @@ const getStyles = (theme) => {
 
     },
     infodetails: {
-      fontSize: 15,
+      fontSize: 13,
       color: theme === 'LIGHT' ? '#2f4858' : '#fff',
-      fontWeight: '500'
+      fontFamily: 'OpenSans-Regular',
     },
     info: {
-      fontSize: 20,
+      fontSize: 17,
       marginTop: 5,
       color: theme === 'LIGHT' ? '#000' : '#fff',
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
     },
 
     socialText: {
@@ -452,12 +449,12 @@ const getStyles = (theme) => {
       display: 'flex',
       alignItems: 'center',
       flexDirection: "row",
-      margin: 15,
+      margin: 10,
       paddingLeft: 15,
-      gap: 10
+      gap: 8,borderRadius:5,borderWidth:0.7,borderColor:'#efefef',
     },
     userpageText: {
-      fontFamily: 'Poppin-Thin',
+      fontFamily: 'OpenSans-Regular',
       color: '#34495E',
       textAlign: 'center',
     },
@@ -581,9 +578,10 @@ const getStyles = (theme) => {
       fontWeight: 'bold',
     },
     sectionHeading: {
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
       fontSize: 24,
-      marginTop: 20,
+      marginTop: 25,
+      marginBottom:10,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       textAlign: 'center'
     },
@@ -593,7 +591,7 @@ const getStyles = (theme) => {
       marginTop: 10,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       textAlign: 'center',
-      fontWeight: 'bold'
+      fontFamily: 'OpenSans-Regular',
     },
     sectionHeading2: {
       fontFamily: 'Philosopher-Bold',
@@ -627,7 +625,7 @@ const getStyles = (theme) => {
 
     planName: {
       textAlign: 'center',
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
       fontSize: 17,
       color: '#000',
     },
@@ -639,10 +637,10 @@ const getStyles = (theme) => {
     price: {
       color: 'black',
       fontSize: 15,
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'OpenSans-Regular',
     },
     priceLabel: {
-      fontWeight: 'bold',
+      fontFamily: 'OpenSans-Regular',
       fontSize: 12,
     },
     description: {
@@ -843,16 +841,17 @@ const getStyles = (theme) => {
       margin: 5,
     },
     profileButtons: {
-      padding: 10,
+      padding: 5,
       color: '#fff',
       backgroundColor: '#c27b7f',
-      fontWeight: '700',
+      fontFamily: 'OpenSans-Regular',
       fontSize: 18,
       textAlign: 'center',
       borderRadius: 5,
+     
     },
     profileButtons1: {
-      padding: 9,
+      padding: 5,
       color: 'black',
       backgroundColor: 'grey',
       // fontWeight: '700',
@@ -862,6 +861,7 @@ const getStyles = (theme) => {
       width: '30%',
       alignSelf: 'center',
       fontFamily: 'Philosopher-Bold',
+      // paddingLeft:10,paddingRight:10
     },
     saveTouch: {
       width: '40%',
@@ -1006,16 +1006,16 @@ const getStyles = (theme) => {
       fontSize: 15,
       // fontWeight: 'bold',
       color: theme === 'LIGHT' ? '#000' : '#fff',
-      fontFamily: 'Philosopher-Bold'
+      fontFamily: 'Poppins-Regular',
     },
     textHeadingOutput: {
       marginTop:2,
       fontSize: 13,
-      marginLeft: 10,
-      color: theme === 'LIGHT' ? '#34495E' : '#fff',
-      fontFamily: 'Philosopher-Bold',
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontFamily: 'OpenSans-Regular',
       textAlign:'center',
-      marginRight:10
+      marginLeft: 13,
+     marginRight: 13
     },
     textHeadingView:
     {
@@ -1083,9 +1083,8 @@ const getStyles = (theme) => {
       marginRight: 10
     },
     category: {
-      fontWeight: '600',
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
-      fontFamily: 'Philosopher-Bold',
+      fontFamily: 'Poppins-Regular',
       fontSize: 17,
     },
     categoryView: {
@@ -1095,14 +1094,15 @@ const getStyles = (theme) => {
     categorytouch: {
       width: 130,
       height: 65,
-      borderRadius: 10,
-      borderWidth: 0.5,
+       borderRadius: 2,
+      borderWidth: 0.9,
+      borderColor:'#efefef',
       alignSelf: 'center',
       marginTop: 10,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
-      paddingLeft: 15,
+      paddingLeft: 8,
       paddingRight: 15,
       // backgroundColor: '#C8C8C8',
     },
@@ -1120,13 +1120,13 @@ const getStyles = (theme) => {
     },
     bookicon:
     {
-      height: 20,
-      width: 20,
-      marginLeft: -8,
+      height: 15,
+      width: 15,
+      marginLeft: -10,
     },
     bookPageLibText: {
-      fontSize: 12,
-      fontFamily: 'Philosopher-Bold',
+      fontSize: 11,
+      fontFamily: 'OpenSans-Regular',
       color: theme === 'DARK' ? '#fff' : '#5D6D7E'
     },
     bookNameText: {

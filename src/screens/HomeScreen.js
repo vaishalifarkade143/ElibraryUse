@@ -104,11 +104,9 @@ const HomeScreen = ({ navigation }) => {
               rightIcon={require('../images/search.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
-
               }}
               onClickRightIcon={() => {
-                navigation.navigate('search');
-
+                navigation.navigate('searchbar');
               }}
             />
             {isLoaded ? (<ActivityIndicator style={{
@@ -327,6 +325,9 @@ const HomeScreen = ({ navigation }) => {
                           <Text style={styles.bookName} numberOfLines={1}>
                             {item.name}
                           </Text>
+                          <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     }
@@ -382,6 +383,9 @@ const HomeScreen = ({ navigation }) => {
                           </View>
                           <Text style={styles.bookName} numberOfLines={1}>
                             {item.name}
+                          </Text>
+                          <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
                           </Text>
                         </View>
                       </TouchableOpacity>
@@ -449,6 +453,9 @@ const HomeScreen = ({ navigation }) => {
                             numberOfLines={1}>
                             {item.name}
                           </Text>
+                          <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
+                          </Text>
                         </View>
                       </TouchableOpacity>
                     }
@@ -461,8 +468,8 @@ const HomeScreen = ({ navigation }) => {
 
                 <View style={styles.flatView1}>
                   <View>
-                    <Text style={styles.coroselheading}>Bussiness,Motivation, </Text>
-                    <Text style={styles.coroselheading}>Success </Text>
+                    <Text style={styles.coroselheading}>Bussiness,Motivation,Success</Text>
+                    {/* <Text style={styles.coroselheading}>Success </Text> */}
                   </View>
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData', { busSucMoti })
@@ -516,6 +523,9 @@ const HomeScreen = ({ navigation }) => {
                           <Text style={styles.bookName}
                             numberOfLines={1}>
                             {item.name}
+                          </Text>
+                          <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
                           </Text>
                         </View>
                       </TouchableOpacity>

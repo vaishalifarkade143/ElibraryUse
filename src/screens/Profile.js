@@ -1,5 +1,5 @@
 
-import { View, Text, ScrollView, TextInput, TouchableOpacity, ImageBackground, Alert, Image } from 'react-native'
+import { View, Text, ScrollView, TextInput, TouchableOpacity, ImageBackground, Alert, Image ,PermissionsAndroid, Platform} from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
@@ -36,6 +36,9 @@ const Profile = ({ navigation, route }) => {
 
 
     //======================image========================
+
+
+
     const takePhotoFromCamera = () => {
         ImagePicker.openCamera({
             compressImageMaxWidth: 300,
@@ -43,7 +46,7 @@ const Profile = ({ navigation, route }) => {
             cropping: true,
             compressImageQuality: 0.7
         }).then(image => {
-            console.log("image after chang:", image);
+           // console.log("image after chang:", image);
             setImage(image.path);
             setRemoveImage(0); // Reset the removeImage flag
             Alert.alert(
@@ -60,7 +63,7 @@ const Profile = ({ navigation, route }) => {
             cropping: true,
             compressImageQuality: 0.7
         }).then(image => {
-            console.log("image after chang:", image);
+            //console.log("image after chang:", image);
             setImage(image.path);
             setRemoveImage(0); // Reset the removeImage flag
             Alert.alert(
@@ -70,7 +73,8 @@ const Profile = ({ navigation, route }) => {
         });
     }
 
-    const before_plan = () => {
+
+     const before_plan = () => {
 
         if (userToken !== null) {
             setFirstName(userInfo.data.user.first_name);
@@ -81,6 +85,9 @@ const Profile = ({ navigation, route }) => {
 
         }
     }
+
+  
+
     useEffect(() => {
         // Fetch user profile data on component load
 
@@ -197,20 +204,20 @@ const Profile = ({ navigation, route }) => {
                 const styles = getStyles(theme);
                 return (
                     <View style={styles.container}>
-                        <Header
+                        {/* <Header
                             rightIcon={require('../images/Logoelibrary.png')}
                             leftIcon={require('../images/menu.png')}
                             onClickLeftIcon={() => {
                                 navigation.openDrawer();
                             }}
-                        />
+                        /> */}
 
 
                         <ScrollView>
 
                             <Text style={styles.sectionHeading}>Profile</Text>
 
-                            <View style={[styles.dividerView, { width: 60, }]}></View>
+                            {/* <View style={[styles.dividerView, { width: 60, }]}></View> */}
 
 
                             <View style={styles.floatView}>

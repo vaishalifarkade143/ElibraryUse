@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect, useContext } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput, FlatList } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, TouchableOpacity, TextInput, FlatList, Image } from 'react-native';
 import Header from '../common/Header';
 import { useRoute } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
@@ -19,7 +19,7 @@ const MyEBook = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const Plan_exist = route.params.singleSubscribedPlan;
-  console.log('ebookspage', Plan_exist);
+  console.log('data come from details: ', Plan_exist);
 
 
 
@@ -50,11 +50,16 @@ const MyEBook = ({ navigation, route }) => {
   }, []);
 
 
+  
+
+
+  
 
   useEffect(() => {
 
     const member_id = userInfo.data.user.id;
-    console.log(member_id);
+    // console.log(member_id);
+    
     const ebookSubscription = () => {
       fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription/${member_id}`)
         .then(res => res.json())
@@ -65,12 +70,11 @@ const MyEBook = ({ navigation, route }) => {
         });
     };
 
-
     ebookSubscription();
   }, []);
 
 
-  console.log('subscribedbooks', Ebooks);
+  // console.log('subscribedbooks', Ebooks);
 
   const state = {
     tableHead: ['LIBRARY', 'ISBN', 'Book Name', 'Author', 'Language', 'Action'],
@@ -89,152 +93,175 @@ const MyEBook = ({ navigation, route }) => {
       return bookName.includes(query) || bookCode.includes(query);
     })
 
-    .map((item) =>
-      [
-        item.library_id === 111 ?
-          (<Text
-            style={{
-              marginLeft: 10,
-              fontSize: 15,
-              color: '#2f4858'
-            }}
-          >
-            Dindayal UpadhyayLibrary</Text>) :
-          (item.library_id === 222 ?
-            (<Text
-              style={{
-                marginLeft: 10,
-                fontSize: 15,
-                color: '#2f4858'
-              }}
-            >
-              Kundanlal Gupta Library</Text>) :
-            (<Text
-              style={{
-                marginLeft: 10,
-                fontSize: 15,
-                color: '#2f4858'
-              }}
-            >
-              Rashtramata Kasturba Library</Text>)),
+    .map((book) => ({
+      library: book.library_id === 111
+        ? 'Dindayal Upadhyay Library'
+        : book.library_id === 222
+          ? 'Kundanlal Gupta Library'
+          : 'Rashtramata Kasturba Library',
+      isbn: book.isbn_no,
+      name: book.name,
+      imageUrl: book.image_path,
+      author: book.authors,
+      lang: book.language_name,
 
-        // item.library_id,
-        item.isbn_no,
-        item.name,
-        item.authors,
-        item.language_name,
-        <TouchableOpacity onPress={() => {
-          navigation.navigate("ReadeBook", { data: item })
 
-        }}>
-          <Text style={{
-            color: '#fff', textAlign: 'center',
-            backgroundColor: '#c27b7f', marginLeft: 20, marginRight: 20,
-            fontWeight: 'bold', borderRadius: 5, padding: 5
-          }}>Read</Text>
-        </TouchableOpacity>
-      ]
-    );
+    }));
+
+  // .map((item) =>
+  //   [
+  //     item.library_id === 111 ?
+  //       (<Text
+  //         style={{
+  //           marginLeft: 10,
+  //           fontSize: 15,
+  //           color: '#2f4858'
+  //         }}
+  //       >
+  //         Dindayal UpadhyayLibrary</Text>) :
+  //       (item.library_id === 222 ?
+  //         (<Text
+  //           style={{
+  //             marginLeft: 10,
+  //             fontSize: 15,
+  //             color: '#2f4858'
+  //           }}
+  //         >
+  //           Kundanlal Gupta Library</Text>) :
+  //         (<Text
+  //           style={{
+  //             marginLeft: 10,
+  //             fontSize: 15,
+  //             color: '#2f4858'
+  //           }}
+  //         >
+  //           Rashtramata Kasturba Library</Text>)),
+
+  //     // item.library_id,
+  //     item.isbn_no,
+  //     item.name,
+  //     item.authors,
+  //     item.language_name,
+  //     <TouchableOpacity onPress={() => {
+  //       navigation.navigate("ReadeBook", { data: item })
+
+  //     }}>
+  //       <Text style={{
+  //         color: '#fff', textAlign: 'center',
+  //         backgroundColor: '#c27b7f', marginLeft: 20, marginRight: 20,
+  //         fontWeight: 'bold', borderRadius: 5, padding: 5
+  //       }}>Read</Text>
+  //     </TouchableOpacity>
+  //   ]
+  // );
 
 
 
   if (userToken === null) {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff', justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{ flex: 1, backgroundColor: '#fff',
+       justifyContent: 'center', alignItems: 'center' }}>
         <Text>You need to log in to view this page.</Text>
       </View>
     );
   }
 
-  // const renderItem = ({ item, index }) => (
-  //   <View style={styles.flatListItemContainer}>
-  //     <Text style={styles.flatListItemText}>{item[0]}</Text>
-  //     <Text style={styles.flatListItemText}>{item[1]}</Text>
-  //     <Text style={styles.flatListItemText}>{item[2]}</Text>
-  //     <Text style={styles.flatListItemText}>{item[3]}</Text>
-  //     <Text style={styles.flatListItemText}>{item[4]}</Text>
-  //     <TouchableOpacity onPress={() => { navigation.navigate("ReadeBook", { data: item }) }}>
-  //       <Text style={styles.flatListActionButtonText}>Read</Text>
-  //     </TouchableOpacity>
-  //   </View>
-  // );
+
 
   const renderItem = ({ item, index }) => (
-    <View style={[styles.flatListItemContainer, index % 2 === 1 && { backgroundColor: '#f5ebe6' }]}>
+    <View style={[styles.flatListItemContainer,]}>
+      {/* index % 2 === 1 && { backgroundColor: '#EBDEF0' } */}
       <View style={styles.rowContainer}>
-
-
         {item.imageUrl && (
           <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
         )}
         <View style={styles.columnContainer}>
-          <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold', color: '#000' }}>{item[2]}</Text>
-          <Text style={styles.flatListItemText}>{item[0]}</Text>
+          <Text style={{
+            fontSize: 15, fontFamily: 'Poppins-Regular',
+            color: '#000', width: 250
+          }}>{item.name}</Text>
+          <Text style={styles.flatListItemText}>{item.library}</Text>
 
-          <Text style={styles.flatListItemText}>{item[1]}</Text>
-          <Text style={styles.flatListItemText}>{item[3]}</Text>
-          {/* <Text style={styles.flatListItemText}>{item[4]}</Text> */}
-          {/* <TouchableOpacity
-          style={styles.flatListActionButton}
-          onPress={ navigation.navigate("ReadeBook", { data: item }) }
-        >
-          <Text style={styles.flatListActionButtonText}>Read</Text>
-        </TouchableOpacity> */}
+          <Text style={styles.flatListItemText}>
+            {item.author}</Text>
 
+
+          {/* <TouchableOpacity style={{ width: 50 }}
+            onPress={() => {
+              navigation.navigate("ReadeBook", { data: item })
+
+            }}>
+            <Text style={{
+              color: '#fff', textAlign: 'center',
+              backgroundColor: '#c27b7f',
+              borderRadius: 5, padding: 3,
+              fontFamily: 'OpenSans-Regular',
+            }}>Read</Text>
+          </TouchableOpacity> */}
+
+          <TouchableOpacity
+              style={styles.flatListActionButton}
+              onPress={() => {
+                navigation.navigate("ReadeBook", { data: item })
+            }}>
+              <Text style={styles.flatListActionButtonText}>Read</Text>
+            </TouchableOpacity>
         </View>
       </View>
 
-
     </View>
   );
+
 
   return (
     <Theme>
       {({ theme }) => {
         const styles = getStyles(theme);
         return (
-          <View style={styles.container3}>
-            <Header
+          <View style={styles.container}>
+            {/* <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
-            />
-            <View style={{ marginTop: 20,
-               alignItems: 'center', 
-               justifyContent: 'center' }}>
+            /> */}
+            <View style={{
+              // marginTop: 20,
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
               <Text style={styles.sectionHeading}>E-Books</Text>
             </View>
             {/* <View style={[styles.dividerView,{ width: 80, marginLeft: 140,}]}></View> */}
 
             {/* <View style={{ flex: 1, backgroundColor: '#fff', marginTop: 15 }}> */}
 
-              {/* ==================search======================= */}
-              <View style={styles.searchcontainer}>
-                <View style={styles.searchBar}>
-                  <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-                  <TextInput
-                    style={styles.searchInput}
-                    placeholderTextColor="#000"
-                    placeholder="Search by Book Name, Author, Language"
-                    value={searchQuery}
-                    onChangeText={setSearchQuery}
-                  />
+            {/* ==================search======================= */}
+            <View style={styles.searchcontainer}>
+              <View style={styles.searchBar}>
+                <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                <TextInput
+                  style={styles.searchInput}
+                  placeholderTextColor="#000"
+                  placeholder="Search by Book Name, Author, Language"
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                />
 
-                  {searchQuery !== '' && (
-                    <TouchableOpacity onPress={() => {
-                      setSearchQuery('');
+                {searchQuery !== '' && (
+                  <TouchableOpacity onPress={() => {
+                    setSearchQuery('');
 
-                    }}>
-                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: -25 }]} />
-                    </TouchableOpacity>)}
-                </View>
+                  }}>
+                    <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: -25 }]} />
+                  </TouchableOpacity>)}
               </View>
-              {/* ============================table ========================================= */}
+            </View>
+            {/* ============================table ========================================= */}
 
 
-              {/* {userInfo.data.user.membership_plan_name !== null?
+            {/* {userInfo.data.user.membership_plan_name !== null?
              ( <View style={styles.alltableView}>
                 <ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
                   
@@ -268,50 +295,47 @@ const MyEBook = ({ navigation, route }) => {
                   fontFamily:'Philosopher-Bold'}}>Please Activate Any Subscription plan</Text>
                 </View>)} */}
 
-              {Plan_exist !== null ?
-               (updatedTableData.length > 0 ? (<FlatList
+            {Plan_exist !== null ?
+              (updatedTableData.length > 0 ? (<FlatList
                 data={updatedTableData}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={renderItem}
-                />)
-                
-                
-              :(<View style={{
-                alignItems: 'center',
-                marginLeft: 10,
-                marginRight: 10  ,
-                paddingBottom: 30,
-                paddingTop: 30
-              }}>
-                <Text style={styles.noPlanScreen}>
-                  You haven't reserved any books yet.Please do reserve your book.
-                </Text>
-              </View>)
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />)
+
+
+                : (<View style={{
+                  alignItems: 'center',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={styles.noPlanScreen}>
+                    You haven't reserved any books yet.Please do reserve your book.
+                  </Text>
+                </View>)
 
 
 
-              ) 
+              )
               : (
-              <View style={{
-                alignItems: 'center',
-                marginLeft: 10,
-                marginRight: 10,
-                paddingBottom: 30,
-                paddingTop: 30
-              }}>
-                <Text style={styles.noPlanScreen}>
-                  Please Activate Any Subscription plan
-                </Text>
-              </View>
+                <View style={{
+                  alignItems: 'center',
+                  marginLeft: 10,
+                  marginRight: 10,
+                  paddingBottom: 30,
+                  paddingTop: 30
+                }}>
+                  <Text style={styles.noPlanScreen}>
+                    Please Activate Any Subscription plan
+                  </Text>
+                </View>
               )}
-        
 
 
+          </View>
 
 
-             </View> 
-
-         
         );
       }}
     </Theme>
@@ -321,24 +345,82 @@ const MyEBook = ({ navigation, route }) => {
 export default MyEBook;
 
 const styles = StyleSheet.create({
+  // flatListItemContainer: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'space-around',
+  //   paddingVertical: 15,
+  // },
+  // flatListItemText: {
+  //   flex: 1,
+  //   textAlign: 'center',
+  //   color: '#2f4858',
+  // },
+  // flatListActionButtonText: {
+  //   color: '#fff',
+  //   textAlign: 'center',
+  //   backgroundColor: '#c27b7f',
+  //   borderRadius: 5,
+  //   padding: 5,
+  //   fontWeight: 'bold',
+  // },
+
+
+
+
+
+  bookImagee: {
+    width: 90, // Adjust the width as needed
+    height: 130, // Adjust the height as needed
+    resizeMode: 'contain', // or 'contain' based on your preference
+    borderRadius: 8, // Add borderRadius if needed
+  },
+
+
   flatListItemContainer: {
+    borderRadius: 10,
+    marginTop: 10,
+    marginBottom: 10,
+    // marginLeft: 5,
+    marginRight: 10,
+    padding: 15,
+    shadowColor: '#000',
+
+  },
+
+  flatListItemText: {
+    color: '#2f4858',
+    marginTop: 1,
+    marginBottom: 3
+  },
+  rowContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 15,
   },
-  flatListItemText: {
-    flex: 1,
-    textAlign: 'center',
-    color: '#2f4858',
+
+  columnContainer: {
+    flexDirection: 'column',
+    marginLeft: 10,
+  },
+
+  flatListActionButton: {
+    backgroundColor: '#c27b7f',
+    borderRadius: 5,
+    paddingVertical: 8,
+    marginRight: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 120
   },
   flatListActionButtonText: {
     color: '#fff',
-    textAlign: 'center',
-    backgroundColor: '#c27b7f',
-    borderRadius: 5,
-    padding: 5,
-    fontWeight: 'bold',
+    fontSize: 13,
+    fontFamily: 'OpenSans-Regular',
   },
+  ItemText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#000'
+  }
 
 });

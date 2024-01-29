@@ -13,7 +13,7 @@ const Terms = ({ navigation }) => {
         return (
     <View style={styles.container}>
       <Header
-        rightIcon={require('../images/Logoelibrary.png')}
+        // rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/back.png')}
         onClickLeftIcon={() => {
           navigation.navigate('Home');

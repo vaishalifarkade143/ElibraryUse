@@ -9,6 +9,8 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+
 
 const Searchbar = ({ navigation }) => {
     const [search, setSearch] = useState('');
@@ -65,7 +67,8 @@ const Searchbar = ({ navigation }) => {
             }}>
                 <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
                     <Text style={{
-                        fontSize: 15, fontWeight: 'bold',
+                        fontSize: 15, 
+                        fontWeight: 'bold',
                         marginBottom: 10, marginLeft: 5
                     }} >
                         {item.name}
@@ -78,10 +81,12 @@ const Searchbar = ({ navigation }) => {
     const renderRecentSearchItem = (recentSearchItem) => {
         return (
             <View style={{ padding: 5, marginLeft: 10, flexDirection: 'row' }}>
-              
+
                 <Text style={{
-                    fontSize: 15, fontWeight: 'bold',
-                    marginBottom: 10, marginLeft: 5
+                    fontSize: 15, 
+                    fontWeight: 'bold',
+                    marginBottom: 10,
+                     marginLeft: 5
                 }} >
                     {recentSearchItem}
                 </Text>
@@ -90,50 +95,61 @@ const Searchbar = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
+        <View style={{ flex: 1, paddingTop: 10 }}>
+
+            <View style={styles.searchBar}>
+
+                <Feather name="search" color={"gray"} size={20}  />
                 <TextInput
-                    style={styles.textInputStyle}
+                    placeholderTextColor='#000'
                     onChangeText={(text) => searchFilterFunction(text)}
                     value={search}
-                    underlineColorAndroid="transparent"
+                    // underlineColorAndroid="transparent"
                     placeholder="Search Here"
                 />
-                <FlatList
-                    data={search === '' ? recentSearch : filteredDataSource}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={search === '' ? ({ item }) => renderRecentSearchItem(item) : renderItem}
-                    ItemSeparatorComponent={() => (
-                        <View
-                            style={{
-                                height: 0.5,
-                                width: '100%',
-                                backgroundColor: '#C8C8C8',
-                            }}
-                        />
-                    )}
-                    numColumns={1}
-                    contentContainerStyle={{ columnGap: 10 }}
-                />
+
+                {/* {searchQuery !== '' && (
+      <TouchableOpacity onPress={() => {
+        setSearchQuery('');
+        setSearchResults('');
+      }}>
+        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { justifyContent:'flex-end',}]} />
+      </TouchableOpacity>)} */}
+
             </View>
-        </SafeAreaView>
+            
+            <FlatList
+                data={search === '' ? recentSearch : filteredDataSource}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={search === '' ? ({ item }) => renderRecentSearchItem(item) : renderItem}
+                ItemSeparatorComponent={() => (
+                    <View
+                        style={{
+                            height: 0.5,
+                            width: '100%',
+                            backgroundColor: '#C8C8C8',
+                        }}
+                    />
+                )}
+                numColumns={1}
+                contentContainerStyle={{ columnGap: 10 }}
+            />
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        backgroundColor: 'white',
-    },
-    itemStyle: {
-        padding: 10,
-    },
-    textInputStyle: {
-        height: 40,
-        borderWidth: 1,
-        paddingLeft: 20,
-        margin: 5,
-        borderColor: '#009688',
-        backgroundColor: '#FFFFFF',
+
+
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderRadius: 10,
+        borderColor: 'grey',
+        borderWidth: 0.8,
+        paddingHorizontal: 10,
+        marginLeft: 10,
+        marginRight: 10,
     },
 });
 

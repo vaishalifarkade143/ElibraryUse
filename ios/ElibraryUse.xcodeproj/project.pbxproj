@@ -15,9 +15,8 @@
 		7699B88040F8A987B510C191 /* libPods-ElibraryUse-ElibraryUseTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ElibraryUse-ElibraryUseTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		691F6F688DA44BC5AC561A75 /* Philosopher-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B4221496C69C405883E38D3F /* Philosopher-Bold.ttf */; };
-		61E32316667349ED9FB6AEF6 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2FD82FD8EECC4E3C8894D4AF /* Poppins-Thin.ttf */; };
-		65F79D39D1C2417FB23141F3 /* Roboto-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 91D793D58FB44CE1A6FB406A /* Roboto-Bold.ttf */; };
 		09AF2CDECA9348C6A3C64C52 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AE9A4BD69C8146E8A0F901F1 /* Poppins-Regular.ttf */; };
+		6AADBF87D0FB426381E3D02B /* OpenSans-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAD64323843749318064C2E7 /* OpenSans-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,9 +48,8 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-ElibraryUse-ElibraryUseTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ElibraryUse-ElibraryUseTests.release.xcconfig"; path = "Target Support Files/Pods-ElibraryUse-ElibraryUseTests/Pods-ElibraryUse-ElibraryUseTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		B4221496C69C405883E38D3F /* Philosopher-Bold.ttf */ = {isa = PBXFileReference; name = "Philosopher-Bold.ttf"; path = "../assets/fonts/Philosopher-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		2FD82FD8EECC4E3C8894D4AF /* Poppins-Thin.ttf */ = {isa = PBXFileReference; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		91D793D58FB44CE1A6FB406A /* Roboto-Bold.ttf */ = {isa = PBXFileReference; name = "Roboto-Bold.ttf"; path = "../assets/fonts/Roboto-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		AE9A4BD69C8146E8A0F901F1 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FAD64323843749318064C2E7 /* OpenSans-Regular.ttf */ = {isa = PBXFileReference; name = "OpenSans-Regular.ttf"; path = "../assets/fonts/OpenSans-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,9 +159,8 @@
 			isa = "PBXGroup";
 			children = (
 				B4221496C69C405883E38D3F /* Philosopher-Bold.ttf */,
-				2FD82FD8EECC4E3C8894D4AF /* Poppins-Thin.ttf */,
-				91D793D58FB44CE1A6FB406A /* Roboto-Bold.ttf */,
 				AE9A4BD69C8146E8A0F901F1 /* Poppins-Regular.ttf */,
+				FAD64323843749318064C2E7 /* OpenSans-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -266,9 +263,8 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				691F6F688DA44BC5AC561A75 /* Philosopher-Bold.ttf in Resources */,
-				61E32316667349ED9FB6AEF6 /* Poppins-Thin.ttf in Resources */,
-				65F79D39D1C2417FB23141F3 /* Roboto-Bold.ttf in Resources */,
 				09AF2CDECA9348C6A3C64C52 /* Poppins-Regular.ttf in Resources */,
+				6AADBF87D0FB426381E3D02B /* OpenSans-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

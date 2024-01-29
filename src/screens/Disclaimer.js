@@ -70,22 +70,17 @@ const Disclaimer = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+              // rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/back.png')}
               onClickLeftIcon={() => {
                 navigation.navigate('Home');
               }}
             />
-            <View style={{ padding: 20, paddingBottom: 100 }}>
+            {/* <View style={{ padding: 20, paddingBottom: 100 }}> */}
               <ScrollView showsVerticalScrollIndicator={false}>
 
-                <View>
-                  <Text style={{
-                    fontSize: 24,
-                    fontFamily: "Philosopher-Bold",
-                    textAlign: 'center',
-                    color: theme === 'LIGHT' ? '#000' : '#fff',
-                  }}>Disclaimer</Text>
+                <View style={styles.terms} >
+                  <Text style={styles.heading}>Disclaimer</Text>
                   <Text style={styles.disclemerText}>The e-books
                     are available on the E-Library portal of Smart City Library.
                     They are provided under the concept of fair dealing for the Educational purposes of the
@@ -114,15 +109,11 @@ const Disclaimer = ({ navigation }) => {
                     e-books, and seek appropriate permissions or licenses from the copyright holders if required.</Text>
 
 
-                  <Text style={{
-                    fontSize: 18, fontWeight: 'bold', marginTop: 10,
-                    color: theme === 'LIGHT' ? '#000' : '#fff'
-                  }}>Reporting Abuse:</Text>
+                  <Text style={styles.subHeading}>Reporting Abuse:</Text>
 
                   <Text style={styles.disclemerText}>Smart City Library is committed to upholding copyright laws and respecting the rights of copyright holders.
                     Suppose you believe that any of the e-books available on the portal infringe upon your copyright or the copyright of someone you
                     represent. In that case, we encourage you to report such instances of abuse promptly.</Text>
-
 
                   <Text style={styles.disclemerText}>To report abuse regarding copyrighted books on the E-Library portal, don't hesitate to contact us at admin@smartcitylibrary.com.
                     We will thoroughly investigate all reports of abuse and take appropriate actions in accordance with the law.</Text>
@@ -138,31 +129,19 @@ const Disclaimer = ({ navigation }) => {
 
 
                 <TouchableOpacity
-                  style={{
-                    backgroundColor: '#c27b7f',
-                    alignItems: 'center',
-                    borderRadius: 5,
-                    width: '40%',
-                    height: 60,
-                    justifyContent: 'center',
-                    marginLeft: 110,
-                    backgroundColor: '#c27b7f',
-                    padding: 10,
-                    borderRadius: 5, marginTop: 20,
-                  }}
+                   style={[styles.loginbtn, { backgroundColor: '#c27b7f',marginTop:10,marginBottom:10 }]}
                   onPress={requestStoragePermission}
 
                 >
                   <Text style={{
-                    color: '#fff',
-                    fontWeight: '700',
-                    fontSize: 18
+                    color: '#fff',fontFamily: 'OpenSans-Regular',
+                    fontSize: 13
                   }}>Download</Text>
                 </TouchableOpacity>
 
               </ScrollView>
             </View>
-          </View>
+          // </View>
         );
       }}
     </Theme>

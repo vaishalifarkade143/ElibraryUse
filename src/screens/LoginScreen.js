@@ -121,7 +121,7 @@ const LoginScreen = ({ navigation }) => {
             {({ theme }) => {
                 const styles = getStyles(theme);
                 return (
-                    <View style={styles.container3}>
+                    <View style={styles.container}>
                         <Header
                             // rightIcon={require('../images/Logoelibrary.png')}
                             leftIcon={require('../images/back.png')}
@@ -138,7 +138,7 @@ const LoginScreen = ({ navigation }) => {
 
 
                                 <Text
-                                    style={[styles.lognregHead, { paddingHorizontal: 90, }]}
+                                    style={[styles.lognregHead,{paddingHorizontal: 60, marginTop:-60}]}
                                 >
                                     Login</Text>
                                 <Text style={styles.subHeadinglognregHead}>
@@ -209,22 +209,24 @@ const LoginScreen = ({ navigation }) => {
                                                             alignItems: 'center',
                                                             justifyContent: 'center',
                                                             margin: 20,
-                                                            backgroundColor: '#fff', elevation: 5,
-                                                            borderRadius: 5,
+                                                            backgroundColor: '#fff',
+                                                            borderRadius:5,
+                                                            borderWidth:0.7,
+                                                            borderColor:'#efefef'
                                                         }}
                                                     >
                                                         {rememberMe && <View style={{
-                                                            width: 10, height: 10,
-                                                            backgroundColor: 'black'
+                                                            width: 10,
+                                                             height: 10,
+                                                             backgroundColor: 'black'
                                                         }} />}
                                                     </View>
                                                 </TouchableOpacity>
                                                 <Text
                                                     style={{
                                                         color: theme === 'LIGHT' ? '#000' : '#fff',
-                                                        fontFamily: 'Poppin',
-                                                        fontWeight: '700',
-                                                        fontSize: 15,
+                                                        fontWeight: '400',
+                                                        fontSize: 13,
 
                                                     }}>Remember Me</Text>
                                             </View>

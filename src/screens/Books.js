@@ -1059,18 +1059,6 @@ const Books = ({ navigation }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   // -------------------------All books dropdown===================
   const AllBooks = () => {
     // const  [page,setPage]=useState(1);
@@ -1327,6 +1315,8 @@ const Books = ({ navigation }) => {
                                 color: 'green',
                                 backgroundColor: '#B6FFC0',
                                 borderColor: 'green',
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 12
                               }]}>
                                 Available</Text>) :
                               (<Text style={[styles.batch,
@@ -1334,16 +1324,31 @@ const Books = ({ navigation }) => {
                                 borderColor: '#990000',
                                 color: '#990000',
                                 backgroundColor: '#CD6155',
+                                fontFamily: 'Poppins-Regular',
+                                fontSize: 12
                               }]}>
                                 Unavailable</Text>)}
                             {/* ================================================================================== */}
                           </View>
 
                           <View style={{ padding: 10, }}>
+                            {item.items[0].format === 3 ?
+
+                              <Image
+                                source={require('../images/ebook.png')}
+                                style={styles.bookicon}
+                              />
+                              :
+
+                              <Image
+                                source={require('../images/bookfill.png')}
+                                style={styles.bookicon}
+                              />
+                            }
                             <Text style={{
-                              fontSize: 15,
+                              fontSize: 14,
                               marginLeft: -10,
-                              fontFamily: 'Philosopher-Bold',
+                              fontFamily: 'Poppins-Regular',
                               color: theme === 'DARK' ? '#fff' : '#424949'
                             }} numberOfLines={1}>
                               {item.name}
@@ -1355,7 +1360,7 @@ const Books = ({ navigation }) => {
 
                                 }]}
                               >
-                                Dindayal UpadhyayLibrary</Text>) :
+                                Dindayal Upadhyay Library</Text>) :
                               (item.library_id === 222 ?
                                 (<Text
                                   style={[styles.bookPageLibText, {
@@ -1371,19 +1376,7 @@ const Books = ({ navigation }) => {
                                   Rashtramata Kasturba Library</Text>))}
 
 
-                            {item.items[0].format === 3 ?
 
-                              <Image
-                                source={require('../images/ebook.png')}
-                                style={styles.bookicon}
-                              />
-                              :
-
-                              <Image
-                                source={require('../images/bookfill.png')}
-                                style={styles.bookicon}
-                              />
-                            }
                           </View>
 
 
@@ -1437,11 +1430,6 @@ const Books = ({ navigation }) => {
 
 
 
-
-
-
-
-
   // ============================================================================================
 
 
@@ -1459,7 +1447,12 @@ const Books = ({ navigation }) => {
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
+              rightIcon={require('../images/search.png')}
+              onClickRightIcon={() => {
+                navigation.navigate('searchbar');
+              }}
             />
+            
 
             {isLoaded ? (
               <ActivityIndicator
@@ -1467,37 +1460,30 @@ const Books = ({ navigation }) => {
                 size="large" color="#c27b7f"
               />
             ) : (
-              <View style={{ flex: 1,paddingTop:10 }}>
+              <View style={{ flex: 1, paddingTop: 10 }}>
 
-                
-                {/* <View style={styles.booksearchcontainer}> */}
-                  <View style={styles.searchBar}>
+                {/* <View style={styles.searchBar}>
 
-                    <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-                    <TextInput
-                      style={styles.bookinput}
-                      placeholderTextColor='#000'
-                      placeholder="Search a Book by Name"
-                      spellCheck={false}
-                      value={searchQuery}
-                      onChangeText={(Text) => handleSearch(Text)}
-                    />
+                  <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                  <TextInput
+                    placeholderTextColor='#000'
+                    placeholder="Search a Book by Name"
+                    spellCheck={false}
+                    value={searchQuery}
+                    onChangeText={(Text) => handleSearch(Text)}
+                  />
 
-                    {searchQuery !== '' && (
-                      <TouchableOpacity onPress={() => {
-                        setSearchQuery('');
-                        setSearchResults('');
-                      }}>
-                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { justifyContent:'flex-end',}]} />
-                      </TouchableOpacity>)}
+                  {searchQuery !== '' && (
+                    <TouchableOpacity onPress={() => {
+                      setSearchQuery('');
+                      setSearchResults('');
+                    }}>
+                      <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { justifyContent: 'flex-end', }]} />
+                    </TouchableOpacity>)}
 
-                  </View>
-                {/* </View> */}
+                </View> */}
 
-                {/* Display search results */}
-                {/* {isLoading ? (
-                  <Text style={styles.noBooksFound}>No books found</Text>
-                ) : ( */}
+{/*===================== all books flatlist=============== */}
 
                 <FlatList
                   style={{ marginBottom: 10 }}
@@ -1521,25 +1507,12 @@ const Books = ({ navigation }) => {
                   )}
                   numColumns={1}
                   contentContainerStyle={{ columnGap: 10 }}
-                // ListEmptyComponent={
-                //   searchQuery === '' ? (
-                //     setSearchResults('')
-                //   ) : null
-                // }
-
-
-
                 />
-                {/* ) */}
-                {/* } */}
               </View>
             )}
 
 
           </View>
-
-
-
 
         );
       }}

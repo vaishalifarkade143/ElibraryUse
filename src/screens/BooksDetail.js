@@ -15,6 +15,8 @@ import { Picker } from '@react-native-picker/picker';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const BooksDetail = ({ navigation }) => {
   const [isLoaded, setisLoaded] = useState(true);
@@ -169,20 +171,6 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   // =================  for single data view ============================
   const fetchSinglePlan = () => {
     const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
@@ -225,13 +213,12 @@ const BooksDetail = ({ navigation }) => {
 
 
   }, [navigation, userToken]);
-  console.log('bookdetailspage', singleSubscribedPlan);
+  console.log('singleSubscribedPlan---------', singleSubscribedPlan);
   
  
  
  
- // ======================================on click of subscribe=============================================
-
+ // ====================================== on click of subscribe=============================================
   const handleSubscribe = () => {
     const member_id = userInfo.data.user.member_id;
     const id = book1[0]?.id;
@@ -266,7 +253,7 @@ const BooksDetail = ({ navigation }) => {
         return response.json();
       })
       .then((responseData) => {
-        // console.log('Data stored successfully:', responseData);
+    console.log('Data  responseData:', responseData);
 
         setModalVisible(!modalVisible);
         navigation.navigate('myEBook',{singleSubscribedPlan});
@@ -549,23 +536,18 @@ const [filterbook,setFilterBook]=useState(null);
     {({ theme }) => {
       const styles = getStyles(theme);
       return (
+      
     <View style={styles.container}>
-      {/* <Header
-        rightIcon={require('../images/Logoelibrary.png')}
+        
+      <Header
+        // rightIcon={require('../images/Logoelibrary.png')}
         leftIcon={require('../images/back.png')}
         onClickLeftIcon={() => {
           navigation.navigate('Book', { screen: 'Home' });
         }}
-        centerComponent={<Image source={{
-          uri: route.params.data.image_path
-        }}
-          style={{
-            aspectRatio: 0.8,
-            resizeMode: 'contain',borderRadius:20,
-          }}
-        />}
-      /> */}
-
+     
+      />
+<ScrollView showsVerticalScrollIndicator={false}  >
       <Modal
         animationType="slide"
         transparent={true}
@@ -712,7 +694,9 @@ const [filterbook,setFilterBook]=useState(null);
 
 
 
-<View>
+<View  style={{
+            marginTop:-30,
+          }}>
 <View style={{
          flexDirection:'row',}}>
       <View style={{
@@ -720,7 +704,6 @@ const [filterbook,setFilterBook]=useState(null);
             marginTop: 14 / 2,
             overflow: 'visible',
             marginLeft:10,
-            // height: 200,
             marginTop:40,
           }}>
             <Image source={{
@@ -734,34 +717,49 @@ const [filterbook,setFilterBook]=useState(null);
             />
           </View>
       <View>
-          <View style={[styles.textHeadingView,{marginTop:35}]}>
-          <Text style={styles.textHeading}>ISBN No :</Text>
-          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.isbn}</Text>
+
+        <View style={{marginTop:35,justifyContent:'center',alignItems:'center'}}>
+          <Text  onTextLayout={onTextLayout}
+          style={{
+      fontSize: 25,
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontFamily: 'OpenSans-Regular',
+       marginLeft: 13,
+        marginRight: 20,
+       width:230
+    }}
+          >{book1[0]?.book?.name}</Text>
+        
         </View>
 
+          {/* <View style={[styles.textHeadingView,]}>
+          <Text style={styles.textHeading}>ISBN No :</Text>
+          <Text style={styles.textHeadingOutput}>{book1[0]?.book?.isbn}</Text>
+        </View> */}
+
         <View style={styles.textHeadingView}>
-          <Text style={styles.textHeading}>Author :</Text>
+          {/* <Text style={styles.textHeading}>Author :</Text> */}
           <Text style={styles.textHeadingOutput}>{book1[0]?.book?.authors[0].first_name} 
           {book1[0]?.book?.authors[0].last_name}</Text>
         </View>
-        <View style={styles.textHeadingView}>
+        {/* <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Format :</Text>
           {book1[0]?.format === 3 ?
             (<Text style={styles.textHeadingOutput}>E-Book</Text>)
             : book1[0]?.format === 1 ?
               (<Text style={styles.textHeadingOutput}>hardcover</Text>) :
               (<Text style={styles.textHeadingOutput}>Book</Text>)}
-        </View>
-        <View style={styles.textHeadingView}>
+        </View> */}
+        {/* <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Edition :</Text>
           <Text style={styles.textHeadingOutput}>{book1[0]?.edition}</Text>
-        </View>
-        <View style={styles.textHeadingView}>
+        </View> */}
+        {/* <View style={styles.textHeadingView}>
           <Text style={styles.textHeading}>Genre :</Text>
           <Text style={styles.textHeadingOutput}>{book1[0]?.book?.genres[0].name}</Text>
-        </View>
+        </View> */}
         <View style={styles.textHeadingView}>
-          <Text style={styles.textHeading}>Publisher  :</Text>
+          {/* <Text style={styles.textHeading}>Publisher  :</Text> */}
           <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
         </View>
      </View>
@@ -780,9 +778,9 @@ const [filterbook,setFilterBook]=useState(null);
                   borderRightColor: '#2826268a',
                    borderRightWidth: 1,
                 }}>
-                  <Entypo name="bookmarks" color={"gray"} size={15}  
-                  style={{marginLeft: 15,
-                      marginRight: 20,}} />
+                  <AntDesign name="book" color={"gray"} size={15}  
+                  style={{marginLeft: 25,
+                      marginRight: 25,}} />
                    {book1[0]?.format === 3 ?
             (<Text style={styles.textHeadingOutput}>E-Book</Text>)
             : book1[0]?.format === 1 ?
@@ -794,16 +792,16 @@ const [filterbook,setFilterBook]=useState(null);
                   borderRightColor: '#2826268a', borderRightWidth: 1
                 }}>
                    <Entypo name="bookmarks" color={"gray"} size={15}  
-                  style={{marginLeft: 15,
-                      marginRight: 20,}} />
-                  <Text style={styles.reviewcount}>12500+</Text>
+                  style={{marginLeft: 25,
+                    marginRight: 25,}} />
+                  <Text style={styles.textHeadingOutput}>{book1[0]?.book?.genres[0].name}</Text>
                  
                 </View>
                 <View>
-                <Entypo name="bookmarks" color={"gray"} size={15}  
-                  style={{marginLeft: 15,
-                      marginRight: 20,}} />
-                  <Text style={styles.reviewcount}>3</Text>
+                <Feather name="edit" color={"gray"} size={15}  
+                  style={{ marginLeft: 25,
+                    marginRight: 25,}} />
+                  <Text style={styles. textHeadingOutput}>{book1[0]?.edition}</Text>
                   
                 </View>
 
@@ -812,8 +810,8 @@ const [filterbook,setFilterBook]=useState(null);
 
 </View>
 
-      <ScrollView showsVerticalScrollIndicator={false} 
-      style={{ marginBottom: 15, }}>
+     
+    
 
   
        
@@ -865,16 +863,18 @@ const [filterbook,setFilterBook]=useState(null);
       <Picker
         selectedValue={selectedLibrary}
         onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
-        style={{ height: 45,
-           marginTop: -12, 
+        style={{
+           height: 40,
+           marginTop: -14, 
           textAlign: 'center',
-          padding:5,  }}
+          fontFamily: 'Poppins-Regular',
+          borderWidth:0.2,
+          borderColor:'#efefef' }}
         
-        itemStyle={{ fontFamily: 'Philosopher-Bold' }}
+        itemStyle={{}}
       >
         {libraries.map((library) => (
           <Picker.Item 
-          
           key={library.id}
            label={library.name} 
            value={library.id}
@@ -898,8 +898,8 @@ const [filterbook,setFilterBook]=useState(null);
                   lengthMore ?
                    <Text
                   onPress={toggleNumberOfLines}
-                  style={{ marginStart:10,
-                           fontFamily:'Roboto-Bold' }}>
+                  style={{ marginStart:14,
+                    fontFamily: 'OpenSans-Regular', }}>
                     {textShown ? 'Read less...' : 'Read more...'}
                     </Text>
                   :null
@@ -916,13 +916,13 @@ const [filterbook,setFilterBook]=useState(null);
                 justifyContent: 'center',
                marginTop: 10, }}>
                 <Text style={{ textAlign: 'center',
-                 fontSize: 17,
-                  fontWeight: 700, 
+                fontSize: 15, 
+                 fontFamily: 'Poppins-Regular',
                 color: '#c27b7f' }}>Available </Text>
                 <Text style={{ backgroundColor: '#c27b7f', 
                 color: 'white',
-                 padding: 5,
-                 borderRadius: 15 }}>1</Text></View>)
+                 height:20,width:20,
+                 borderRadius: 15 ,textAlign:'center'}}>1</Text></View>)
               :
               (null)}
 
@@ -948,12 +948,12 @@ const [filterbook,setFilterBook]=useState(null);
                   <TouchableOpacity
                     style={{
                       backgroundColor: '#c27b7f',
-                      padding: 10,
-                      borderRadius: 5,
-                      width: '35%',
-                      height: 50,
+                      padding: 5,
+                      borderRadius: 10,
+                      width: 100,
+                      height: 35,
                       marginTop: 20,
-                      marginLeft: 20,
+                      marginLeft: 13,
                       marginBottom: 20,
 
                     }}
@@ -993,8 +993,8 @@ const [filterbook,setFilterBook]=useState(null);
                   >
                     <Text style={{
                       color: '#fff',
-                      fontWeight: '700',
-                      fontSize: 18,
+                      fontFamily: 'OpenSans-Regular',
+                      fontSize: 15,
                       textAlign: 'center',
                     }}> {book1[0]?.format === 3 ? 'Subscribe' : 'Reserved'}</Text>
                   </TouchableOpacity>
@@ -1006,10 +1006,10 @@ const [filterbook,setFilterBook]=useState(null);
                     (<TouchableOpacity
                       style={{
                         backgroundColor: '#c27b7f',
-                        padding: 10,
-                        borderRadius: 5,
-                        width: '35%',
-                        height: 50,
+                        padding: 5,
+                        borderRadius: 10,
+                        width: 100,
+                        height: 35,
                         marginTop: 20,
                         marginLeft: 20,
                         marginBottom: 20,
@@ -1022,8 +1022,8 @@ const [filterbook,setFilterBook]=useState(null);
 
                       <Text style={{
                         color: '#fff',
-                        fontWeight: '700',
-                        fontSize: 18,
+                        fontFamily: 'OpenSans-Regular',
+                        fontSize: 15,
                         textAlign: 'center',
                       }}>Preview</Text>
 
@@ -1037,7 +1037,7 @@ const [filterbook,setFilterBook]=useState(null);
    ) :
    (<Text style={{
             textAlign: 'center', color: 'red',
-            fontSize: 18, fontWeight: 'bold', marginBottom: 10
+            fontSize: 15,  fontFamily: 'Poppins-Regular', marginBottom: 10
           }}>Unavailable</Text>)
 
         }
@@ -1095,12 +1095,15 @@ const [filterbook,setFilterBook]=useState(null);
                     <Text  style={{
                       marginTop: 10,
                       fontSize: 15,
-                      fontFamily:'Philosopher-Bold',
+                      fontFamily: 'Poppins-Regular',
                       color:  theme === 'LIGHT'? '#34495E':'#fff',
                       flexDirection: 'column'
                     }} numberOfLines={1}>
                       {item.name}
                     </Text>
+                    <Text style={styles.bookName1} numberOfLines={1}>
+                            {item.authors[0].first_name} {item.authors[0].last_name}
+                          </Text>
                 </View>
               </TouchableOpacity>
             }
@@ -1139,7 +1142,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     textAlign: 'center',
     fontSize: 25,
-    fontFamily: 'Philosopher-Bold',
+    fontFamily: 'OpenSans-Regular',
     color: '#000'
   },
   pdf: {

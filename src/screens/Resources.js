@@ -276,13 +276,13 @@ const Resources = () => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-            <Header
+            {/* <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
-            />
+            /> */}
             {/* ====================pdf modal======================= */}
 
             <Modal
@@ -518,7 +518,7 @@ const Resources = () => {
 
             {/* <ScrollView> */}
             <Text style={styles.sectionHeading}>Resources</Text>
-            <View style={[styles.dividerView, { width: 90, }]}></View>
+            {/* <View style={[styles.dividerView, { width: 90, }]}></View> */}
 
             {/* <View style={{
                 backgroundColor: '#f5ebe6',
@@ -605,7 +605,7 @@ const Resources = () => {
             <View style={{
               flex: 1,
                alignItems: 'center',
-              marginTop: 30,
+              // marginTop: 30,
               marginBottom: 30,
             }}>
               <FlatList
@@ -618,7 +618,7 @@ const Resources = () => {
 
                   <View style={{
                     marginTop: 5,
-                    backgroundColor: '#BCAAA4',
+                    backgroundColor: '#ECF0F1',
                     paddingBottom: 15,
                     borderRadius: 10,
                     marginBottom: 15,
@@ -627,16 +627,17 @@ const Resources = () => {
                   }}>
                     <Text style={{
                       color: '#000',
-                      fontFamily: 'Philosopher-Bold',
+                      fontFamily: 'Poppins-Regular',
                       fontSize: 15,
-                      padding: 15
+                      // padding: 15
+                      paddingTop:8,
                     }}
                     >
                       {item.title}
                     </Text>
                     <Text style={{
                       color: '#34495E',
-                      fontFamily: 'Philosopher-Bold',
+                      fontFamily: 'OpenSans-Regular',
                       fontSize: 13,
                       textAlign: 'center',
                       paddingLeft: 10,
@@ -719,23 +720,24 @@ const styles = StyleSheet.create({
   // },
 
   searchIcon: {
-    backgroundColor: '#c27b7f',
-    borderRadius: 20,
-    padding: 10,
-    paddingLeft: 40,
-    paddingRight: 40,
+    backgroundColor: '#808B96',
+    borderRadius: 10,
+    padding: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
     marginTop: 10,
     textAlign: 'center',
   },
   categoryText: {
     textAlign: 'center',
     color: '#fff',
-    fontWeight: 'bold',
-    backgroundColor: '#c27b7f',
-    borderRadius: 20,
-    padding: 10,
-    paddingLeft: 40,
-    paddingRight: 40,
+    fontFamily: 'OpenSans-Regular',
+    // fontWeight: 'bold',
+    backgroundColor: '#808B96',
+    borderRadius: 10,
+    padding: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
     marginTop: 10,
   },
 });

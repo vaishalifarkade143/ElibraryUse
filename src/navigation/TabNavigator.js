@@ -52,7 +52,7 @@ const BookDetails = () => {
   return (
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
-      <Bookstack.Screen name='search' component={Searchbar} />
+      <Bookstack.Screen name='searchbar' component={Searchbar} />
 
       <Bookstack2.Screen name='filterData' component={FilterData} />
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />

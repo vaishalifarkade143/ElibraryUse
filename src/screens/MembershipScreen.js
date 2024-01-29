@@ -191,15 +191,15 @@ const MembershipScreen = ({ navigation }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-            <Header
+            {/* <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
-            />
+            /> */}
             <Text style={styles.sectionHeading}>Membership Plan</Text>
-            <View style={[styles.dividerView, { width: 170, }]}></View>
+            {/* <View style={[styles.dividerView, { width: 170, }]}></View> */}
 
 
             {singleSubscribedPlan ?
@@ -210,9 +210,8 @@ const MembershipScreen = ({ navigation }) => {
                 (
                   <View>
                     <View style={{
-                      backgroundColor: '#C5CAE9',//#E5E8E8
+                      backgroundColor: '#efefef',//#E5E8E8
                       marginTop: 20,
-                      // flexDirection: 'row',
                       marginBottom: 50,
                       paddingBottom: 20,
                       marginLeft: 10,
@@ -227,35 +226,35 @@ const MembershipScreen = ({ navigation }) => {
                         alignItems: 'center'
                       }} >
                         {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
-                          fontFamily: 'Philosopher-Bold',
+                         fontFamily: 'Poppins-Regular',
                           fontSize: 20,
                           color: '#000',
                           textAlign: 'center'
                         }}>Annual plan</Text>)
                           :
                           (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
-                            fontFamily: 'Philosopher-Bold',
+                           fontFamily: 'Poppins-Regular',
                             fontSize: 20,
                             color: '#000',
                             textAlign: 'center'
                           }}>Lifetime Plan</Text>)
                             :
                             (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
-                              fontFamily: 'Philosopher-Bold',
+                             fontFamily: 'Poppins-Regular',
                               fontSize: 20,
                               color: '#000',
                               textAlign: 'center'
                             }}>Life time plan 4 Family member</Text>)
                               :
                               (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
-                                fontFamily: 'Philosopher-Bold',
+                               fontFamily: 'Poppins-Regular',
                                 fontSize: 20,
                                 color: '#000',
                                 textAlign: 'center'
                               }}>Library Plan</Text>)
                                 :
                                 (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
-                                  fontFamily: 'Philosopher-Bold',
+                                 fontFamily: 'Poppins-Regular',
                                   fontSize: 20,
                                   color: '#000',
                                   textAlign: 'center'
@@ -265,7 +264,7 @@ const MembershipScreen = ({ navigation }) => {
                         <Text style={{
                           paddingTop: 5,
                           fontSize: 15,
-                          fontFamily: 'Philosopher-Bold',
+                         fontFamily: 'Poppins-Regular',
                           color: '#2f4858',
                           textAlign: 'center'
                         }}>Active till:  {formattedDate1}  </Text>
@@ -285,7 +284,7 @@ const MembershipScreen = ({ navigation }) => {
                             color: 'black',
                             marginTop: -10,
                             fontSize: 30,
-                            fontFamily: 'Philosopher-Bold',
+                           fontFamily: 'Poppins-Regular',
                             textAlign: 'center'
                           }}>{singleSubscribedPlan.plan_amount}</Text>
 
@@ -295,7 +294,7 @@ const MembershipScreen = ({ navigation }) => {
                           {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
                             marginTop: 3,
                             fontSize: 15,
-                            fontFamily: 'Philosopher-Bold',
+                           fontFamily: 'Poppins-Regular',
                             textAlign: 'center',
                             color: '#2f4858'
                           }}>/yearly</Text>)
@@ -303,7 +302,7 @@ const MembershipScreen = ({ navigation }) => {
                             (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
                               marginTop: 3,
                               fontSize: 15,
-                              fontFamily: 'Philosopher-Bold',
+                             fontFamily: 'Poppins-Regular',
                               textAlign: 'center',
                               color: '#2f4858'
                             }}>/</Text>)
@@ -311,7 +310,7 @@ const MembershipScreen = ({ navigation }) => {
                               (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
                                 marginTop: 3,
                                 fontSize: 15,
-                                fontFamily: 'Philosopher-Bold',
+                               fontFamily: 'Poppins-Regular',
                                 textAlign: 'center',
                                 color: '#2f4858'
                               }}>/</Text>)
@@ -319,7 +318,7 @@ const MembershipScreen = ({ navigation }) => {
                                 (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
                                   marginTop: 3,
                                   fontSize: 15,
-                                  fontFamily: 'Philosopher-Bold',
+                                 fontFamily: 'Poppins-Regular',
                                   textAlign: 'center',
                                   color: '#2f4858'
                                 }}>/Monthly</Text>)
@@ -327,7 +326,7 @@ const MembershipScreen = ({ navigation }) => {
                                   (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
                                     marginTop: 3,
                                     fontSize: 15,
-                                    fontFamily: 'Philosopher-Bold',
+                                   fontFamily: 'Poppins-Regular',
                                     textAlign: 'center',
                                     color: '#2f4858'
                                   }}>/yearly</Text>) :
@@ -338,7 +337,7 @@ const MembershipScreen = ({ navigation }) => {
 
                         <Text style={{
                           textAlign: 'center',
-                          fontFamily: 'Philosopher-Bold',
+                         fontFamily: 'Poppins-Regular',
                           marginBottom: 10,
                           color: '#2f4858'
                         }}>Subscribed Date:{formattedDate}</Text>
@@ -353,12 +352,12 @@ const MembershipScreen = ({ navigation }) => {
                           <Text style={
                             {
                               alignSelf: 'center',
-                              padding: 10,
+                              padding: 5,
                               backgroundColor: '#5E35B1',
                               fontWeight: 'bold',
                               fontSize: 15,
                               color: "#fff",
-                              borderRadius: 8,
+                              borderRadius: 5,
                             }
                           }>Upgrade Plan</Text>
                         </TouchableOpacity>
@@ -366,12 +365,12 @@ const MembershipScreen = ({ navigation }) => {
 
                     </View>
                     <Text style={[styles.sectionHeading,{marginTop:-30}]}>Transaction</Text>
-                    <View style={[styles.dividerView, { width: 110,  }]}></View>
+                    {/* <View style={[styles.dividerView, { width: 110,  }]}></View> */}
                     <View style={{
-                      marginTop: 20,
+                      // marginTop: 20,
                       flexDirection: 'column',
                       marginBottom: 50,
-                      paddingBottom: 20,
+                      paddingBottom: 10,
                     }}>
 
                       {/* =================search============= */}
@@ -456,33 +455,34 @@ export default MembershipScreen;
 const styles = StyleSheet.create({
 
   flatListItemContainer: {
-    backgroundColor: '#F8BBD0',
-    borderRadius: 8,
-    padding: 15,
-    margin: 20,
-    elevation: 2,
-    height:120,
+     backgroundColor: '#efefef',
+    borderRadius: 5,
+    padding: 10,
+    margin: 10,
+    borderWidth:0.5,
+    height:90,
+    borderColor:'#efefef'
   },
   subscriptionPlan: {
     color: '#333',
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 18,
-    marginBottom: 8,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 15,
+    // marginBottom: 3,
   },
   flatListItemText:{
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 18,
+    fontFamily: 'OpenSans-Regular',
+    fontSize: 15,
     color:'blue'
   },
   flatListItemText1:{
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 15,
+    fontFamily: 'OpenSans-Regular',
+    fontSize: 12,
     color:'grey'
   },
   priceLabel: {
     color: '#555',
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 14,
+    fontFamily: 'OpenSans-Regular',
+    fontSize: 11,
     marginTop:5
   },
   // columnContainer: {

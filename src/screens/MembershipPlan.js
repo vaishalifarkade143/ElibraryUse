@@ -250,7 +250,7 @@ const MembershipPlan = () => {
                       ) : (item.id === 1 ? (
                         <Text style={styles.priceLabel}>/yearly</Text>
                       ) : (item.id === 9 ? (
-                        <Text style={styles.priceLabel}>/</Text>
+                        <Text style={styles.priceLabel}>/Lifetime</Text>
                       ) : (item.id === 10 ? (
                         <Text style={styles.priceLabel}>/Monthly</Text>
                       ) : (item.id === 11 ? (

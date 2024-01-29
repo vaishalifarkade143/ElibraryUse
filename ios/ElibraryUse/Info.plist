@@ -54,9 +54,8 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Philosopher-Bold.ttf</string>
-		<string>Poppins-Thin.ttf</string>
-		<string>Roboto-Bold.ttf</string>
 		<string>Poppins-Regular.ttf</string>
+		<string>OpenSans-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

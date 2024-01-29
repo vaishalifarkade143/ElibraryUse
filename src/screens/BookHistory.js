@@ -149,55 +149,17 @@ const BookHistory = ({ navigation, route }) => {
         }
         : null,
     }));
-  console.log('hey', flatListData);
-
-  // const renderItem = ({ item }) => (
-
-  //   <View style={styles.flatListItemContainer}>
-  //     <View>
-  //     {item.imageUrl && (
-  //         <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
-  //       )}
-  //     </View>
-  //      <Text style={{fontSize:15,fontFamily: 'Philosopher-Bold',color:'#000'}}>{item.bookName}</Text>
-  //     <Text style={styles.flatListItemText}>{item.library}</Text>
-
-  //    <View style={{flexDirection:'row'}}>
-  //     <Text style={styles.ItemText}>ISBN : </Text>
-  //     <Text style={styles.flatListItemText}>{item.bookCode}</Text>
-  //     </View>
-  //     {/* <Text style={styles.flatListItemText}>{item.issueDate}</Text> */}
-  //     <View style={{flexDirection:'row'}}>
-  //     {/* <Text style={styles.ItemText}>Issue Due Date: </Text> */}
-  //     {/* <Text style={styles.flatListItemText}>{item.issueDueDate}</Text> */}
-  //     </View>
-  //     {/* <View style={{flexDirection:'row'}}>
-  //     <Text style={styles.ItemText}>Reserve Date : </Text>
-  //     <Text style={styles.flatListItemText}>{item.reserveDate}</Text>
-  //     </View> */}
-  //     {/* <Text style={styles.flatListItemText}>{item.returnDueDate}</Text> */}
-  //     {/* <Text style={styles.flatListItemText}>{item.returnDate}</Text> */}
-  //     <Text style={[styles.flatListItemText,{color:'blue'}]}>{item.status}</Text>
-  //     {item.actionButton && (
-  //       <TouchableOpacity
-  //         style={styles.flatListActionButton}
-  //         onPress={item.actionButton.onPress}
-  //       >
-  //         <Text style={styles.flatListActionButtonText}>{item.actionButton.title}</Text>
-  //       </TouchableOpacity>
-  //     )}
-  //   </View>
-  // );
-
+ 
 
   const renderItem = ({ item, index }) => (
-    <View style={[styles.flatListItemContainer, index % 2 === 1 && { backgroundColor: '#EBDEF0' }]}>
+    <View style={[styles.flatListItemContainer,]}> 
+    {/* index % 2 === 1 && { backgroundColor: '#EBDEF0' } */}
       <View style={styles.rowContainer}>
         {item.imageUrl && (
           <Image source={{ uri: item.imageUrl }} style={styles.bookImagee} />
         )}
         <View style={styles.columnContainer}>
-          <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold', color: '#000' }}>{item.bookName}</Text>
+          <Text style={{ fontSize: 15,  fontFamily: 'Poppins-Regular', color: '#000' }}>{item.bookName}</Text>
           <Text style={styles.flatListItemText}>{item.library}</Text>
           <View style={styles.rowContainer}>
             <Text style={styles.ItemText}>ISBN : </Text>
@@ -226,13 +188,13 @@ const BookHistory = ({ navigation, route }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-            <Header
+            {/* <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
-            />
+            /> */}
             <Modal
               animationType="slide"
               transparent={true}
@@ -346,7 +308,7 @@ const styles = StyleSheet.create({
 
 
   flatListItemContainer: {
-    backgroundColor: '#B2DFDB',
+    // backgroundColor: '#B2DFDB',
     borderRadius: 10,
     marginTop: 10,
     marginBottom: 10,
@@ -354,10 +316,10 @@ const styles = StyleSheet.create({
     marginRight: 10,
     padding: 15,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.2,
-    shadowRadius: 4,
-    elevation: 5,
+    // shadowOffset: { width: 0, height: 2 },
+    // shadowOpacity: 0.2,
+    // shadowRadius: 4,
+    // elevation: 5,
   },
 
   flatListItemText: {
@@ -401,7 +363,8 @@ const styles = StyleSheet.create({
   flatListActionButtonText: {
     color: '#fff',
     fontSize: 13,
-    fontWeight: 'bold',
+    fontFamily: 'OpenSans-Regular',
+    // fontWeight: 'bold',
   },
   ItemText: {
     fontSize: 14,

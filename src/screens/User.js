@@ -569,7 +569,7 @@ const User = ({ navigation }) => {
 
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+             middleIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
@@ -641,14 +641,15 @@ const User = ({ navigation }) => {
                   <View>
                     <Text
                       style={{
-                        fontSize: 20,
+                        fontSize: 15,
                         color: '#000',
-                        fontFamily: 'Philosopher-Bold',
+                        fontFamily: 'Poppins-Regular',
+                        textAlign:'center'
                       }}>
                       {first_name} {last_name}
                     </Text>
                     <Text
-                      style={[styles.userpageText, { fontSize: 14, }]}>
+                      style={[styles.userpageText, { fontSize: 11, }]}>
                       {email}
                     </Text>
                     {/* <Text
@@ -667,7 +668,7 @@ const User = ({ navigation }) => {
                       padding: 10,
                       borderRadius: 5,
                       width: '100%',
-                      height: 60,
+                      height: 40,
                       justifyContent: 'center',
                     }}
 
@@ -679,8 +680,9 @@ const User = ({ navigation }) => {
                   >
                     <Text style={{
                       color: '#fff',
-                      fontWeight: '700',
-                      fontSize: 18
+                      // fontWeight: '700',
+                      fontSize: 15,
+                      fontFamily: 'Poppins-Regular',
                     }}>Sign Up/Login</Text>
 
                   </TouchableOpacity> : null}
@@ -703,7 +705,7 @@ const User = ({ navigation }) => {
                         styles.userView}>
                         <Text style={styles.userText}>Profile </Text>
                         <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                          style={{marginLeft: 230}} />
+                          style={{marginLeft: 245}} />
                       </View>
                     </TouchableOpacity>
 
@@ -715,7 +717,7 @@ const User = ({ navigation }) => {
                       <View style={styles.userView}>
                         <Text style={styles.userText}>My E-Book </Text>
                         <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                          style={{ marginLeft: 200 }}
+                          style={{ marginLeft: 210 }}
                         />
                       </View>
                     </TouchableOpacity>
@@ -727,7 +729,7 @@ const User = ({ navigation }) => {
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Book History</Text>
                         <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                         style={{ marginLeft: 188 }}
+                         style={{ marginLeft: 200 }}
                         />
                       </View>
                     </TouchableOpacity>
@@ -752,7 +754,7 @@ const User = ({ navigation }) => {
                       <View style={styles.userView}>
                         <Text style={styles.userText}>Transactions</Text>
                         <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                         style={{ marginLeft: 190 }} 
+                         style={{ marginLeft: 195 }} 
                         />
                       </View>
                     </TouchableOpacity>
@@ -763,7 +765,7 @@ const User = ({ navigation }) => {
                       <View style={styles.userView}>
                         <Text style={styles.userText}>MembershipScreen</Text>
                         <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                        style={{ marginLeft: 143 }} 
+                        style={{ marginLeft: 141 }} 
                         />
                       </View>
                     </TouchableOpacity>
@@ -775,7 +777,7 @@ const User = ({ navigation }) => {
                         <Text style={styles.userText}>Resources</Text>
                         <View style={{ justifyContent: 'flex-end' }}>
                           <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                           style={{ marginLeft: 208 }}
+                           style={{ marginLeft: 211 }}
 
                           />
                         </View>
@@ -786,8 +788,7 @@ const User = ({ navigation }) => {
 
 
                     <View style={{
-                      bottom: 0, justifyContent: 'center',
-                      alignItems: 'center', marginTop: 20
+                      bottom: 0, marginTop: 20
                     }}>
 
                       <TouchableOpacity

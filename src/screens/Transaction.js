@@ -163,19 +163,19 @@ const Transaction = ({ navigation,route }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-            <Header
+            {/* <Header
               rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
               }}
-            />
+            /> */}
             {/* <ScrollView> */}
               <Text style={styles.sectionHeading}>Transaction</Text>
-              <View style={[styles.dividerView, { width: 110,  }]}></View>
+              {/* <View style={[styles.dividerView, { width: 110,  }]}></View> */}
               <View style={{
                 // backgroundColor: '#f5ebe6',
-                marginTop: 20,
+                // marginTop: 20,
                 flexDirection: 'column',
                 marginBottom: 50,
                 paddingBottom: 20,
@@ -272,33 +272,32 @@ export default Transaction;
 const styles = StyleSheet.create({
 
   flatListItemContainer: {
-    backgroundColor: '#D7BDE2',
+    backgroundColor: '#efefef',
     borderRadius: 8,
     padding: 15,
-    margin: 20,
+    margin: 10,
     elevation: 2,
-    height:120,
+    height:90,
   },
   subscriptionPlan: {
     color: '#333',
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 18,
-    marginBottom: 8,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 15,
   },
   flatListItemText:{
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 18,
+    fontFamily: 'OpenSans-Regular',
+    fontSize: 15,
     color:'blue'
   },
   flatListItemText1:{
-    fontFamily: 'Philosopher-Bold',
+    fontFamily: 'OpenSans-Regular',
     fontSize: 15,
     color:'grey'
   },
   priceLabel: {
     color: '#555',
-    fontFamily: 'Philosopher-Bold',
-    fontSize: 14,
+    fontFamily: 'OpenSans-Regular',
+    fontSize: 12,
     marginTop:5
   },
   columnContainer: {

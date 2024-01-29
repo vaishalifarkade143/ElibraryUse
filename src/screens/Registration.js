@@ -91,7 +91,7 @@ const Registration = ({ navigation }) => {
             {({ theme }) => {
                 const styles = getStyles(theme);
                 return (
-                    <View style={styles.container3}>
+                    <View style={styles.container}>
                         <Header
                             // rightIcon={require('../images/Logoelibrary.png')}
                             leftIcon={require('../images/back.png')}
@@ -103,7 +103,7 @@ const Registration = ({ navigation }) => {
                             {isLoading && <Spinner visible={true} />}
                             <View style={[styles.floatView, { height: 800, }]}>
 
-                                <Text style={[styles.lognregHead,{paddingHorizontal: 60, marginTop:-50}]} >
+                                <Text style={[styles.lognregHead,{paddingHorizontal: 60, marginTop:-150}]} >
                                     Registration</Text>
                                 <Text style={styles.subHeadinglognregHead}>
                                     Register your membership</Text>

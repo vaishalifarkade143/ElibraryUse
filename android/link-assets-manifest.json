@@ -2,20 +2,16 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "assets/fonts/OpenSans-Regular.ttf",
+      "sha1": "76ea5d4c70539ad9b0e7faf7e4fbe3bae8a961c7"
+    },
+    {
       "path": "assets/fonts/Philosopher-Bold.ttf",
       "sha1": "31b8bc20d14b922ba8da54416f85a269d281d484"
     },
     {
       "path": "assets/fonts/Poppins-Regular.ttf",
       "sha1": "fdd3002e7d814ee47c1c1b8487c72c6bbb3a2d00"
-    },
-    {
-      "path": "assets/fonts/Poppins-Thin.ttf",
-      "sha1": "09ba4dcd5509c8085bf88c665dcc51cbdfced27b"
-    },
-    {
-      "path": "assets/fonts/Roboto-Bold.ttf",
-      "sha1": "62442a18a9fe9457c1afeabf683d263a691b7798"
     }
   ]
 }

@@ -21,7 +21,7 @@ const ContactForm = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+              // middleIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/back.png')}
               onClickLeftIcon={() => {
 
@@ -32,14 +32,14 @@ const ContactForm = ({ navigation }) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>CONTACT US</Text>
                 <Text style={styles.subtitle}>We'd love to hear from you</Text>
-                <View style={{
+                {/* <View style={{
                   width: 150,
                   height: 2,
                   backgroundColor: '#c27b7f',
                   justifyContent: 'center',
                   alignItems: 'center',
                   marginTop: -15,
-                }}></View>
+                }}></View> */}
               </View>
 
               <View style={styles.formContainer}>
@@ -117,8 +117,8 @@ const ContactForm = ({ navigation }) => {
                 >
                   <Text style={{
                     color: '#fff',
-                    fontWeight: '700',
-                    fontSize: 18
+                     fontFamily: 'OpenSans-Regular',
+                    fontSize: 15
                   }}>Send Now</Text>
                 </TouchableOpacity>
 
