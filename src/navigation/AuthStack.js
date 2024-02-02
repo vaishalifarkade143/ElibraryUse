@@ -1,5 +1,5 @@
 
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../screens/SplashScreen';
 import { NavigationContainer } from '@react-navigation/native';
@@ -21,6 +21,7 @@ const AuthStack = () => {
                         <stack.Navigator screenOptions={{ headerShown: false }}>
                             <stack.Screen name='Splash' component={SplashScreen} />
                             <stack.Screen name='Home3' component={AppStack} />
+                           
                         </stack.Navigator>
                     </NavigationContainer>
                 );

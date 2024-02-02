@@ -1,6 +1,6 @@
 
 import { View, Text, Image, Dimensions, StyleSheet, TouchableOpacity, FlatList, Modal, ActivityIndicator, ImageBackground, ScrollView, Animated } from 'react-native'
-import React, { useContext, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import Header from '../common/Header';
 import { AuthContext } from '../context/AuthContext';
 import WebView from 'react-native-webview';
@@ -11,6 +11,9 @@ const HomeScreen = ({ navigation }) => {
   const { userToken } = useContext(AuthContext);
   const [books, setBooks] = useState([]);
   const [freqBooks, setFreqBooks] = useState([]);
+  const [recentBooks, setRecentBooks] = useState([]);
+  const [featurdBooks, setFeaturdBooks] = useState([]);
+  const [featurdEBooks, setFeaturdEBooks] = useState([]);
   const [isLoaded, setisLoaded] = useState(true);
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [genreBooks, setGenreBooks] = useState([]);
@@ -33,63 +36,179 @@ const HomeScreen = ({ navigation }) => {
   //==============video section====================
   const image = { uri: 'https://static.vecteezy.com/system/resources/thumbnails/022/574/918/small/abstract-blurred-public-library-interior-space-blurry-room-with-bookshelves-by-defocused-effect-use-for-background-or-backdrop-in-abstract-blurred-publicbusiness-or-education-concepts-generative-ai-photo.jpg' }
 
-  //================book recently added ===============
-  useEffect(() => {
-    const getbooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-        .then(res => res.json())
-        .then(responce => {
-          setBooks(responce.data.splice(-20));
-          setisLoaded(false);
-        });
-    };
-    getbooks();
-  }, []);
+  //================BOOK Recently ADDED ===============
 
+  const recentlyBooks =  useCallback(() => {
 
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=40&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
+    // fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+      .then(res => res.json())
+      .then(respo => {
+        setRecentBooks(respo.data);
+        setisLoaded(false);
+      });
+  },[recentBooks]);
 
   useEffect(() => {
-    const freqBooks = () => {
-      fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-        .then(res => res.json())
-        .then(respo => {
-          setFreqBooks(respo.data);
-          setisLoaded(false);
-        });
-    };
-    freqBooks();
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      recentlyBooks();
+  });
+    return unsubscribe;
+}, []);
 
-  const filterBooks = freqBooks.filter((item) =>
+ //================FEATURED BOOKS ADDED ===============
+
+ const featuredBooks =  useCallback(() => {
+
+  fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=1&for_featured_books=true")
+  
+    .then(res => res.json())
+    .then(respo => {
+      setFeaturdBooks(respo.data);
+      setisLoaded(false);
+    });
+},[featurdBooks]);
+
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', () => {
+    featuredBooks();
+});
+  return unsubscribe;
+}, []);
+
+
+
+
+//===========================FEATURED EBOOK=================================
+
+const featuredEBooks =  useCallback(() => {
+
+  fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=3&for_featured_books=true")
+ 
+    .then(res => res.json())
+    .then(respo => {
+      setFeaturdEBooks(respo.data);
+      setisLoaded(false);
+    });
+},[featurdEBooks]);
+
+useEffect(() => {
+  const unsubscribe = navigation.addListener('focus', () => {
+    featuredEBooks();
+});
+  return unsubscribe;
+}, []);
+
+//=============================================================================================
+
+  const frequentBooks =  useCallback(() => {
+
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
+   
+      .then(res => res.json())
+      .then(respo => {
+        setFreqBooks(respo.data);
+        setisLoaded(false);
+      });
+  },[freqBooks]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+    frequentBooks();
+  });
+    return unsubscribe;
+}, []);
+
+
+ 
+
+
+  // useEffect(() => {
+  //   const frequentBooks = () =>
+  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
+  //       //   // fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
+  //       .then(res => res.json())
+  //       .then(respo => {
+  //         setFreqBooks(respo.data);
+  //         setisLoaded(false);
+  //       });
+
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     frequentBooks();
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
+
+
+
+  // const filterBooks = freqBooks.filter((item) =>
+  //   item.items[0].format === (format[0].id || format[1].id));
+
+
+
+
+
+//=========recently=======================
+   const filterBooks = useMemo(() => {
+    return recentBooks.filter((item) =>
     item.items[0].format === (format[0].id || format[1].id));
+  }, [recentBooks]);
 
 
-  const featuredEBooks = freqBooks.filter((item) =>
+//===============FETURED BOOKS=============
+  const featureBooks = useMemo(() => {
+    return featurdBooks.filter((item) =>
+    item.items[0].format === (format[0].id || format[1].id));
+  }, [featurdBooks]);
+
+
+//===============FETURED BOOKS=============
+  const featureEBooks = useMemo(() => {
+    return featurdEBooks.filter((item) =>
     item.items[0].format === format[2].id);
+  }, [featurdEBooks]);
 
-  const artBooks = freqBooks.filter((item) =>
+
+
+  const artBooks = useMemo(() => {
+    return freqBooks.filter((item) =>
     item.genres.some(genre => genre.name === "Art")
   );
-  const comicBooks = freqBooks.filter((item) =>
+}, [freqBooks]);
+  const comicBooks = useMemo(() => {
+    return freqBooks.filter((item) =>
     item.genres.some(comic => comic.name === "Comics")
   );
+}, [freqBooks]);
+
   const combinedBooks = [...artBooks, ...comicBooks];
   // console.log("combine",combinedBooks);
 
-  const bussiness = freqBooks.filter((item) =>
+
+
+
+  const bussiness = useMemo(() => {
+    return freqBooks.filter((item) =>
     item.genres.some(genre => genre.name === "Business")
   );
-  const success = freqBooks.filter((item) =>
+}, [freqBooks]);
+
+  const success = useMemo(() => {
+    return freqBooks.filter((item) =>
     item.genres.some(genre => genre.name === "sucess")
   );
+}, [freqBooks]);
 
-  const motivation = freqBooks.filter((item) =>
+  const motivation = useMemo(() => {
+    return freqBooks.filter((item) =>
     item.genres.some(genre => genre.name === "Motivation")
   );
+}, [freqBooks]);
 
   const busSucMoti = [...bussiness, ...success, ...motivation];
 
-  // ======================frequently added end========================//
+ 
 
   return (
     <Theme>
@@ -98,7 +217,7 @@ const HomeScreen = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-             middleIcon={require('../images/Logoelibrary.png')}
+              middleIcon={require('../images/Logoelibrary.png')}
               // leftIcon={require('../images/menu.png')}
               leftIcon={require('../images/menu.png')}
               rightIcon={require('../images/search.png')}
@@ -134,14 +253,14 @@ const HomeScreen = ({ navigation }) => {
                   </View>
                 </View>
 
-                
-                
+
+
                 {/* ================Recently added books=================   */}
 
                 <View style={styles.flatView1}>
                   <Text style={styles.coroselheading}>Recently Added</Text>
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData', { books })
+                    navigation.navigate('filterData', { filterBooks })
                   }}>
                     <Image
                       source={require('../images/arrow-right.png')}
@@ -165,7 +284,7 @@ const HomeScreen = ({ navigation }) => {
                     }}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    data={books}
+                    data={filterBooks}
                     renderItem={({ item }) =>
                       <TouchableOpacity
                         style={[styles.flatView2, {
@@ -272,7 +391,7 @@ const HomeScreen = ({ navigation }) => {
 
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData',
-                      { filterBooks })
+                      { featureBooks })
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
@@ -294,7 +413,7 @@ const HomeScreen = ({ navigation }) => {
                     }}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    data={filterBooks.splice(a, 10)}
+                    data={featureBooks}
 
                     renderItem={({ item }) =>
 
@@ -338,7 +457,7 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.flatView1}>
                   <Text style={styles.coroselheading}>Featured E-Books</Text>
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData', { featuredEBooks })
+                    navigation.navigate('filterData', { featureEBooks })
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
@@ -359,7 +478,7 @@ const HomeScreen = ({ navigation }) => {
                     }}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    data={featuredEBooks.splice(a, 10)}
+                    data={featureEBooks}
 
                     renderItem={({ item }) =>
                       <TouchableOpacity
@@ -423,7 +542,7 @@ const HomeScreen = ({ navigation }) => {
                       paddingHorizontal: 12,
                     }}
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item,index) => index.toString()}
+                    keyExtractor={(item, index) => index.toString()}
                     data={combinedBooks.splice(a, 10)}
                     renderItem={({ item }) =>
                       <TouchableOpacity
@@ -463,7 +582,7 @@ const HomeScreen = ({ navigation }) => {
                 </View>
 
 
-               
+
                 {/* ===========Motivatin,Bussiness,Success======== */}
 
                 <View style={styles.flatView1}>
@@ -473,7 +592,6 @@ const HomeScreen = ({ navigation }) => {
                   </View>
                   <TouchableOpacity onPress={() => {
                     navigation.navigate('filterData', { busSucMoti })
-                    console.log("busSucMoti:", busSucMoti);
                   }}>
 
                     {/* <Text style={styles.seeAll}>See All</Text> */}
@@ -494,7 +612,7 @@ const HomeScreen = ({ navigation }) => {
                       paddingHorizontal: 12,
                     }}
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={(item,index) => index.toString()}
+                    keyExtractor={(item, index) => index.toString()}
                     data={busSucMoti}
                     renderItem={({ item }) =>
                       <TouchableOpacity

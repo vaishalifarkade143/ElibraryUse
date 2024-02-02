@@ -12,18 +12,20 @@ console.log('selectedGenre', route.params.filteredPublisher,);
 
   useEffect(() => {
     let filteredData;
-    if(route.params.books){
-      filteredData = route.params.books;
+    if(route.params.recentBooks){
+      filteredData = route.params.recentBooks;
       setFilterByBooks(filteredData);
     }
 
-    if(route.params.filterBooks){
-      filteredData = route.params.filterBooks;
+
+
+    if(route.params.featureBooks){
+      filteredData = route.params.featureBooks;
       setFilterByBooks(filteredData);
     }
 
-    if(route.params.featuredEBooks){
-      filteredData = route.params.featuredEBooks;
+    if(route.params.featureEBooks){
+      filteredData = route.params.featureEBooks;
       setFilterByBooks(filteredData);
     }
 
@@ -84,7 +86,7 @@ console.log('selectedGenre', route.params.filteredPublisher,);
 
 
 
-    }, [route.params.books,route.params.filterBooks,route.params.featuredEBooks,route.params.artBooks,route.params.combinedBooks,route.params.comicBooks, route.params.filteredGenre
+    }, [route.params.freqBooks,route.params.filterBooks,route.params.featuredEBooks,route.params.artBooks,route.params.combinedBooks,route.params.comicBooks, route.params.filteredGenre
   , route.params.filteredAuthor,route.params.filteredPublisher,route.params.filteredLanguage,
   route.params.filteredFormat,route.params.filteredLibrary,route.params.busSucMoti]);
 

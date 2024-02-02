@@ -56,8 +56,32 @@ const Search = ({ route, navigation }) => {
 
 
 
+  useEffect(() => {
+    // const unsubscribe = navigation.addListener('focus', () => {
+      const getBooks = async () => {
+        try {
+          const response = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=&format=`);
+          const data = await response.json();
+          setBooks(data.data);
+        }
+           catch (error) {
+          console.error("Error fetching books:", error);
+        }
+
+
+      };
+
+      getBooks();
+    // });
+    // return unsubscribe;
+  }
+    , []);
+    console.log(books);
+
+
+
   const filteredGenResults = (item) => {
-    let filteredGenre = item !== 'Genre' ? (book.filter((book) =>
+    let filteredGenre = item !== 'Genre' ? (books.filter((book) =>
       book.genres.some((genr) => genr.name === item)
     )) : [];
     navigation.navigate('filterData', { filteredGenre, book });
@@ -66,7 +90,7 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredAuthResults = (item) => {
-    let filteredAuthor = item !== 'Author' ? (book.filter((book) =>
+    let filteredAuthor = item !== 'Author' ? (books.filter((book) =>
       book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
     )) : [];
     navigation.navigate('filterData', { filteredAuthor, book });
@@ -76,7 +100,7 @@ const Search = ({ route, navigation }) => {
 
   const filteredPublishResults = (item) => {
     console.log(item);
-    let filteredPublisher = item !== 'Publisher' ? (book.filter((book) =>
+    let filteredPublisher = item !== 'Publisher' ? (books.filter((book) =>
       Array.isArray(book.items) &&
       book.items.some((item1) => item1.publisher && item1.publisher.name === item)
 
@@ -88,7 +112,7 @@ const Search = ({ route, navigation }) => {
 
 
   const filteredLangResults = (item) => {
-    let filteredLanguage = item !== 'Languages' ? (book.filter((book) =>
+    let filteredLanguage = item !== 'Languages' ? (books.filter((book) =>
       Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
     )) : [];
     navigation.navigate('filterData', { filteredLanguage, book });
@@ -100,7 +124,7 @@ const Search = ({ route, navigation }) => {
   const filteredformResults = (item) => {
     console.log(item);
 
-    let filteredFormat = item !== 'Format' ? (book.filter((book) =>
+    let filteredFormat = item !== 'Format' ? (books.filter((book) =>
       Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
     )) : [];
     navigation.navigate('filterData', { filteredFormat, book });
@@ -108,7 +132,7 @@ const Search = ({ route, navigation }) => {
   }
 
   const filteredLibResults = (item) => {
-    let filteredLibrary = item !== 'Library' ? (book.filter((book) =>
+    let filteredLibrary = item !== 'Library' ? (books.filter((book) =>
       book.library_id === item
     )) : [];
     navigation.navigate('filterData', { filteredLibrary, book });

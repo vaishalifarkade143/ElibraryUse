@@ -547,13 +547,7 @@ const User = ({ navigation }) => {
 
   console.log("userToken:", userToken);
 
-  console.log("usrInfo", userInfo, first_name, last_name, email, phone, image);
-
-
-  // useEffect=()=>{
-
-
-  // }
+  // console.log("usrInfo", userInfo, first_name, last_name, email, phone, image);
 
 
 
@@ -582,10 +576,7 @@ const User = ({ navigation }) => {
 
             <View style={styles.bannar1}>
 
-              {/* <View style={styles.mainImgNText}> */}
-
-
-
+              
               {userToken !== null && userInfo.data.user.membership_plan_name !== null ?
                 (<View
                   style={{
@@ -680,7 +671,6 @@ const User = ({ navigation }) => {
                   >
                     <Text style={{
                       color: '#fff',
-                      // fontWeight: '700',
                       fontSize: 15,
                       fontFamily: 'Poppins-Regular',
                     }}>Sign Up/Login</Text>
@@ -691,7 +681,6 @@ const User = ({ navigation }) => {
 
               </View>
 
-              {/* </View> */}
             </View>
 
             <ScrollView>
