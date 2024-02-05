@@ -824,29 +824,29 @@ const Books = ({ navigation }) => {
   };
   const handleNavigateToSearchAuthor = () => {
     const authorList = [...authr];
-    // const book = [...books];
-    navigation.navigate('search', { authorList });
+    const book = [...books];
+    navigation.navigate('search', { authorList, book });
   };
   const handleNavigateToSearchPublisher = () => {
     const publisherList = [...publishr];
-    // const book = [...books];
-    navigation.navigate('search', { publisherList });
+    const book = [...books];
+    navigation.navigate('search', { publisherList, book });
   };
   const handleNavigateToSearchLanguage = () => {
     const languageList = [...language];
-    // const book = [...books];
-    navigation.navigate('search', { languageList });
+    const book = [...books];
+    navigation.navigate('search', { languageList, book });
   };
   const handleNavigateToSearchFormat = () => {
     const formatList = [...formats];
-    // const book = [...books];
-    navigation.navigate('search', { formatList });
+    const book = [...books];
+    navigation.navigate('search', { formatList, book });
 
   };
   const handleNavigateToSearchLibrary = () => {
     const libraryList = [...libraries];
-    // const book = [...books];
-    navigation.navigate('search', { libraryList });
+    const book = [...books];
+    navigation.navigate('search', { libraryList, book });
   };
 
 
@@ -854,7 +854,9 @@ const Books = ({ navigation }) => {
   useEffect(() => {
     const getBooks = async () => {
       try {
-       
+
+
+
         const filteredResponse = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=name&limit=10&skip=0&search=&genre=&library_id=111&author=&publisher=&language=0&format=0`);
 
         const filteredData = await filteredResponse.json();
@@ -1192,7 +1194,7 @@ const Books = ({ navigation }) => {
                               }}
                             />
                             {/* ------------------code for book_item_status----------------------------- */}
-                            {item.items[0].status === 1 ?
+                            {/* {item.items[0].status === 1 ?
                               (<Text style={[styles.batch,
                               {
                                 color: 'green',
@@ -1210,7 +1212,7 @@ const Books = ({ navigation }) => {
                                 fontFamily: 'Poppins-Regular',
                                 fontSize: 12
                               }]}>
-                                Unavailable</Text>)}
+                                Unavailable</Text>)} */}
                             {/* ================================================================================== */}
                           </View>
 

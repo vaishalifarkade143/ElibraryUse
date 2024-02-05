@@ -1,6 +1,6 @@
 
 
-import { View, Text, TextInput, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, TextInput, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
@@ -51,40 +51,42 @@ const Search = ({ route, navigation }) => {
   const [libSearchResults, setLibSearchResults] = useState('');
 
   const [books, setBooks] = useState([]);
-  const [isLoaded, setisLoaded] = useState(true);
+  const [isLoaded, setisLoaded] = useState(false);
   const [filteredBooks, setFilteredBooks] = useState([]);
 
 
 
   useEffect(() => {
     // const unsubscribe = navigation.addListener('focus', () => {
-      const getBooks = async () => {
-        try {
-          const response = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=&format=`);
-          const data = await response.json();
-          setBooks(data.data);
-        }
-           catch (error) {
-          console.error("Error fetching books:", error);
-        }
+    const getBooks = async () => {
+      try {
+        const response = await fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=&format=`);
+        const data = await response.json();
+        setBooks(data.data);
+        setisLoaded(true);
+      }
+      catch (error) {
+        console.error("Error fetching books:", error);
+      }
 
 
-      };
+    };
 
-      getBooks();
+    getBooks();
     // });
     // return unsubscribe;
   }
     , []);
-    console.log(books);
+  // console.log(books);
 
 
 
   const filteredGenResults = (item) => {
+    console.log('genre', item);
     let filteredGenre = item !== 'Genre' ? (books.filter((book) =>
       book.genres.some((genr) => genr.name === item)
     )) : [];
-    navigation.navigate('filterData', { filteredGenre, book });
+    navigation.navigate('filterData', { filteredGenre, books });
 
   }
 
@@ -93,7 +95,7 @@ const Search = ({ route, navigation }) => {
     let filteredAuthor = item !== 'Author' ? (books.filter((book) =>
       book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
     )) : [];
-    navigation.navigate('filterData', { filteredAuthor, book });
+    navigation.navigate('filterData', { filteredAuthor, books });
 
   }
 
@@ -105,7 +107,7 @@ const Search = ({ route, navigation }) => {
       book.items.some((item1) => item1.publisher && item1.publisher.name === item)
 
     )) : [];
-    navigation.navigate('filterData', { filteredPublisher, book });
+    navigation.navigate('filterData', { filteredPublisher, books });
 
   }
 
@@ -115,7 +117,7 @@ const Search = ({ route, navigation }) => {
     let filteredLanguage = item !== 'Languages' ? (books.filter((book) =>
       Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
     )) : [];
-    navigation.navigate('filterData', { filteredLanguage, book });
+    navigation.navigate('filterData', { filteredLanguage, books });
 
   }
 
@@ -127,7 +129,7 @@ const Search = ({ route, navigation }) => {
     let filteredFormat = item !== 'Format' ? (books.filter((book) =>
       Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
     )) : [];
-    navigation.navigate('filterData', { filteredFormat, book });
+    navigation.navigate('filterData', { filteredFormat, books });
     // console.log(filteredFormat);
   }
 
@@ -135,7 +137,7 @@ const Search = ({ route, navigation }) => {
     let filteredLibrary = item !== 'Library' ? (books.filter((book) =>
       book.library_id === item
     )) : [];
-    navigation.navigate('filterData', { filteredLibrary, book });
+    navigation.navigate('filterData', { filteredLibrary, books });
 
   }
 
@@ -267,41 +269,48 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
+                {isLoaded ?
 
-                <FlatList
-                  data={genreSearch == '' ? genreData : genSearchResults}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => {
-                    return (
+                  (<FlatList
+                    data={genreSearch == '' ? genreData : genSearchResults}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return (
 
 
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
 
-                          setSelectedGenre(item.name);
-                          onSearch('', 'genre');
-                          setGenreSearch('');
-                          filteredGenResults(item.name);
-                        }}
-                      >
+                            setSelectedGenre(item.name);
+                            onSearch('', 'genre');
+                            setGenreSearch('');
+                            filteredGenResults(item.name);
+                          }}
+                        >
 
-                        <Text style={{ fontWeight: "600" }}>{item.name}</Text>
-                      </TouchableOpacity>
+                          <Text style={{ fontWeight: "600" }}>{item.name}</Text>
+                        </TouchableOpacity>
 
-                    );
-                  }}
-                />
-              </View>)}
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
+              </View>)
+}
 
-            {route.params?.authorList &&
+
+
+{route.params?.authorList &&
               (<View style={{ flex: 1 }}>
                 <TextInput
                   placeholder="Search.."
@@ -322,8 +331,9 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
+                {isLoaded ?
 
-                <FlatList
+                (<FlatList
                   data={authorData}
                   keyExtractor={(item, index) => item.id + index}
                   renderItem={({ item, index }) => {
@@ -349,9 +359,16 @@ const Search = ({ route, navigation }) => {
                       </TouchableOpacity>
                     );
                   }}
-                />
+                />):(<ActivityIndicator
+                  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                  size="large" color="#c27b7f"
+                />)}
               </View>
               )}
+
+
+
+
 
             {route.params?.publisherList &&
               (<View style={{ flex: 1 }}>
@@ -374,34 +391,38 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
+                {isLoaded ?
 
-                <FlatList
-                  data={publisherData}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
-                          setSelectedPublisher(item.name);
-                          setPublisherClicked(!publisherClicked);
-                          onSearch('', 'publisher');
-                          setPublisherSearch('');
-                          filteredPublishResults(item.name);
-                        }}
-                      >
-                        <Text style={{ fontWeight: '600' }}>{item.name}</Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
+                  (<FlatList
+                    data={publisherData}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
+                            setSelectedPublisher(item.name);
+                            setPublisherClicked(!publisherClicked);
+                            onSearch('', 'publisher');
+                            setPublisherSearch('');
+                            filteredPublishResults(item.name);
+                          }}
+                        >
+                          <Text style={{ fontWeight: '600' }}>{item.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
               </View>
               )}
 
@@ -426,34 +447,37 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
-
-                <FlatList
-                  data={languageSearch == '' ? languageData : languageSearchResults}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
-                          setSelectedLanguage(item.name);
-                          setLanguageClicked(!languageClicked);
-                          onSearch('', 'language');
-                          setLanguageSearch('');
-                          filteredLangResults(item.name);
-                        }}
-                      >
-                        <Text style={{ fontWeight: '600' }}>{item.name}</Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
+                {isLoaded ?
+                  (<FlatList
+                    data={languageSearch == '' ? languageData : languageSearchResults}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
+                            setSelectedLanguage(item.name);
+                            setLanguageClicked(!languageClicked);
+                            onSearch('', 'language');
+                            setLanguageSearch('');
+                            filteredLangResults(item.name);
+                          }}
+                        >
+                          <Text style={{ fontWeight: '600' }}>{item.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
               </View>
               )}
 
@@ -478,35 +502,38 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
+                {isLoaded ?
 
-
-                <FlatList
-                  data={formatSearch == '' ? formatData : formatSearchResults}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
-                          setSelectedFormat(item.name);
-                          setFormatClicked(!formatClicked);
-                          onSearch('', 'format');
-                          setFormatSearch('');
-                          filteredformResults(item.id);
-                        }}
-                      >
-                        <Text style={{ fontWeight: '600' }}>{item.name}</Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
+                  (<FlatList
+                    data={formatSearch == '' ? formatData : formatSearchResults}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
+                            setSelectedFormat(item.name);
+                            setFormatClicked(!formatClicked);
+                            onSearch('', 'format');
+                            setFormatSearch('');
+                            filteredformResults(item.id);
+                          }}
+                        >
+                          <Text style={{ fontWeight: '600' }}>{item.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
               </View>
               )}
 
@@ -535,34 +562,37 @@ const Search = ({ route, navigation }) => {
                     paddingLeft: 20,
                   }}
                 />
-
-                <FlatList
-                  data={libSearch == '' ? libData : libSearchResults}
-                  keyExtractor={(item) => item.id}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
-                          setSelectedLibrary(item.name);
-                          setLibClicked(!libClicked);
-                          onSearch('', 'library');
-                          setLibClicked('');
-                          filteredLibResults(item.id);
-                        }}
-                      >
-                        <Text style={{ fontWeight: '600' }}>{item.name}</Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />
+                {isLoaded ?
+                  (<FlatList
+                    data={libSearch == '' ? libData : libSearchResults}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
+                            setSelectedLibrary(item.name);
+                            setLibClicked(!libClicked);
+                            onSearch('', 'library');
+                            setLibClicked('');
+                            filteredLibResults(item.id);
+                          }}
+                        >
+                          <Text style={{ fontWeight: '600' }}>{item.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
               </View>
               )}
 

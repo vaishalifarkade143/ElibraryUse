@@ -7,7 +7,7 @@ import Theme from './Theme';
 const FilterData = ({ route, navigation }) => {
   const [filterBybooks, setFilterByBooks] = useState([]);
 
-console.log('selectedGenre', route.params.filteredPublisher,);
+// console.log('selectedGenre', route.params.filteredPublisher,);
 
 
   useEffect(() => {

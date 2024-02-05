@@ -278,10 +278,10 @@ const BooksDetail = ({ navigation }) => {
         });
     };
     const unsubscribe = navigation.addListener('focus', () => {
-    tredingbooks();
-  });
+      tredingbooks();
+    });
 
-  return unsubscribe;
+    return unsubscribe;
   }, []);
 
 
@@ -421,27 +421,26 @@ const BooksDetail = ({ navigation }) => {
 
 
 
-  const book1 = bookdetails.filter((item) =>
-    item.book.library_id === route.params.data.library_id)
 
-  const [filterbook, setFilterBook] = useState(null);
 
-  useEffect(() => {
+  // const [filterbook, setFilterBook] = useState(null);
 
-    let filteredBooks = book1;
+  // useEffect(() => {
 
-    if (selectedLibrary !== route.params.data.library_id) {
-      filteredBooks = bookdetails.filter((item) =>
-        item.book.library_id === selectedLibrary)
-    }
-    else {
-      filteredBooks = bookdetails.filter((item) =>
-        item.book.library_id === route.params.data.library_id)
-    }
+  //   let filteredBooks = book1;
 
-    setFilterBook(filteredBooks);
-    setInitialDataFetched(false);
-  }, [selectedLibrary])
+  //   if (selectedLibrary !== route.params.data.library_id) {
+  //     filteredBooks = bookdetails.filter((item) =>
+  //       item.book.library_id === selectedLibrary)
+  //   }
+  //   else {
+  //     filteredBooks = bookdetails.filter((item) =>
+  //       item.book.library_id === route.params.data.library_id)
+  //   }
+
+  //   setFilterBook(filteredBooks);
+  //   setInitialDataFetched(false);
+  // }, [selectedLibrary])
 
 
   //===================API CALL FOR DIFFERENT LIBRARY WHEATHER THE MEMBER IS REGISTERED OR NOT=======================
@@ -533,6 +532,38 @@ const BooksDetail = ({ navigation }) => {
     item.user_library_id,
   ]);
   const LibraryId = userLibraryId.flat();
+
+
+
+
+
+
+
+
+
+  const book1 = bookdetails.filter((item) =>
+    item.book.library_id === route.params.data.library_id)
+
+
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [status1, setStatus1] = useState(false);
+  const libraryOnChange = (item) => {
+    const selectedLibraryId = item;
+    setSelectedLibrary(item);
+    // const value=e.target.value;
+    setStatus1(true);
+
+    const filteredDetails = bookdetails.filter(
+      (item) => item.book.library_id === selectedLibraryId
+    );
+    setFilteredUsers(filteredDetails);
+    // setStatus(false);
+
+    // const filtered = details.filter((item) => item.book.library_id===value);
+    // console.log(filtered);
+    // setFilteredUsers(filtered);
+  };
+  console.log(filteredUsers[0]?.book?.library_id);
 
 
   return (
@@ -668,7 +699,130 @@ const BooksDetail = ({ navigation }) => {
               </Modal>
 
 
-              <View style={{
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              {/* {status1?():()} */}
+
+
+
+
+
+              {status1 ? (<View style={{
+                marginTop: -30,
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                }}>
+                  <View style={{
+                    width: 110,
+                    marginTop: 14 / 2,
+                    overflow: 'visible',
+                    marginLeft: 10,
+                    marginTop: 40,
+                  }}>
+                    <Image source={{
+                      uri: route.params.data.image_path
+                    }}
+                      style={{
+                        aspectRatio: 0.7,
+                        resizeMode: 'contain',
+                        borderRadius: 5,
+                      }}
+                    />
+                  </View>
+                  <View>
+
+                    <View style={{ marginTop: 35, justifyContent: 'center', alignItems: 'center' }}>
+                      <Text onTextLayout={onTextLayout}
+                        style={{
+                          fontSize: 25,
+                          color: theme === 'LIGHT' ? '#000' : '#fff',
+                          fontFamily: 'OpenSans-Regular',
+                          marginLeft: 13,
+                          marginRight: 20,
+                          width: 230
+                        }}
+                      >{filteredUsers[0]?.book?.name}</Text>
+
+                    </View>
+
+
+                    <View style={styles.textHeadingView}>
+                      <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.book?.authors[0].first_name}
+                        {filteredUsers[0]?.book?.authors[0].last_name}</Text>
+                    </View>
+
+                    <View style={styles.textHeadingView}>
+                      <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.publisher?.name}</Text>
+                    </View>
+                  </View>
+
+                </View>
+
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 25,
+                  marginBottom: 30,
+                }}>
+
+                  <View style={{
+                    borderRightColor: '#2826268a',
+                    borderRightWidth: 1,
+                  }}>
+                    <AntDesign name="book" color={"gray"} size={15}
+                      style={{
+                        marginLeft: 25,
+                        marginRight: 25,
+                      }} />
+                    {filteredUsers[0]?.format === 3 ?
+                      (<Text style={styles.textHeadingOutput}>E-Book</Text>)
+                      : filteredUsers[0]?.format === 1 ?
+                        (<Text style={styles.textHeadingOutput}>hardcover</Text>) :
+                        (<Text style={styles.textHeadingOutput}>Book</Text>)}
+
+                  </View >
+
+
+                  <View style={{
+                    borderRightColor: '#2826268a', borderRightWidth: 1
+                  }}>
+                    <Entypo name="bookmarks" color={"gray"} size={15}
+                      style={{
+                        marginLeft: 25,
+                        marginRight: 25,
+                      }} />
+                    <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.book?.genres[0].name}</Text>
+
+                  </View>
+                  <View>
+                    <Feather name="edit" color={"gray"} size={15}
+                      style={{
+                        marginLeft: 25,
+                        marginRight: 25,
+                      }} />
+                    <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.edition}</Text>
+
+                  </View>
+
+                </View>
+
+              </View>) : (<View style={{
                 marginTop: -30,
               }}>
                 <View style={{
@@ -712,7 +866,7 @@ const BooksDetail = ({ navigation }) => {
                       <Text style={styles.textHeadingOutput}>{book1[0]?.book?.authors[0].first_name}
                         {book1[0]?.book?.authors[0].last_name}</Text>
                     </View>
-                    
+
                     <View style={styles.textHeadingView}>
                       <Text style={styles.textHeadingOutput}>{book1[0]?.publisher?.name}</Text>
                     </View>
@@ -744,6 +898,8 @@ const BooksDetail = ({ navigation }) => {
                         (<Text style={styles.textHeadingOutput}>Book</Text>)}
 
                   </View >
+
+
                   <View style={{
                     borderRightColor: '#2826268a', borderRightWidth: 1
                   }}>
@@ -767,8 +923,19 @@ const BooksDetail = ({ navigation }) => {
 
                 </View>
 
+              </View>)
+              }
 
-              </View>
+
+
+
+
+
+
+
+
+
+
 
 
               <Text style={[styles.textHeading, {
@@ -788,7 +955,8 @@ const BooksDetail = ({ navigation }) => {
               }}>
                 <Picker
                   selectedValue={selectedLibrary}
-                  onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
+                  // onValueChange={(itemValue) => setSelectedLibrary(itemValue)}
+                  onValueChange={(itemValue) => libraryOnChange(itemValue)}
                   style={{
                     height: 40,
                     marginTop: -14,
@@ -811,15 +979,25 @@ const BooksDetail = ({ navigation }) => {
                 </Picker>
               </View>
 
+
+
+
+
+
+
+
+
+
+
+
               <View style={styles.textHeadingView}>
                 <Text style={styles.textHeading}>Description:</Text>
               </View>
-
-              <View>
+              {status1 ? (<View>
                 <Text onTextLayout={onTextLayout}
                   numberOfLines={textShown ? undefined : 3}
                   style={styles.textHeadingOutput}
-                >{book1[0]?.book?.description}</Text>
+                >{filteredUsers[0]?.book?.description}</Text>
 
                 {
                   lengthMore ?
@@ -833,13 +1011,78 @@ const BooksDetail = ({ navigation }) => {
                     </Text>
                     : null
                 }
-              </View>
+              </View>) :
+
+                (<View>
+                  <Text onTextLayout={onTextLayout}
+                    numberOfLines={textShown ? undefined : 3}
+                    style={styles.textHeadingOutput}
+                  >{book1[0]?.book?.description}</Text>
+
+                  {
+                    lengthMore ?
+                      <Text
+                        onPress={toggleNumberOfLines}
+                        style={{
+                          marginStart: 14,
+                          fontFamily: 'OpenSans-Regular',
+                        }}>
+                        {textShown ? 'Read less...' : 'Read more...'}
+                      </Text>
+                      : null
+                  }
+                </View>)}
 
 
-              {book1[0]?.status === 1 ?
+
+
+               
+   
+      <Text>Availability </Text>
+    
+      <View  >
+        <Text>
+        {
+          filteredUsers[0]?.format === 2 && filteredUsers[0]?.status === 1
+            ? 'Paperback(1)'
+            : 'Paperback(0)'
+        }
+        </Text>
+        <Text>
+  {
+    filteredUsers[0]?.format === 1 && filteredUsers[0]?.status === 1
+      ? 'Hardcover(1)'
+      : 'Hardcover(0)'
+  }
+  </Text>
+    < Text style = { styles.available } >
+      Ebook(
+        { filteredUsers &&
+          filteredUsers[0]?.ebooksubscriptions.length
+          ? 20 - filteredUsers[0]?.ebooksubscriptions.length
+          : 0}
+          )
+</Text>
+  </View>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              {status1 ? (filteredUsers[0]?.status === 1 ?
                 (<View style={{ flexDirection: 'column' }}>
 
-                  {book1[0]?.format !== 3 ?
+                  {filteredUsers[0]?.format !== 3 ?
                     (<View style={{
                       flexDirection: 'row',
                       alignItems: 'center',
@@ -903,7 +1146,7 @@ const BooksDetail = ({ navigation }) => {
                             else {
                               if (userToken !== null) {
 
-                                if (book1[0]?.format === 3) {
+                                if (filteredUsers[0]?.format === 3) {
 
                                   handle_member();
                                   setModalVisible(!modalVisible);
@@ -931,13 +1174,13 @@ const BooksDetail = ({ navigation }) => {
                             fontFamily: 'OpenSans-Regular',
                             fontSize: 15,
                             textAlign: 'center',
-                          }}> {book1[0]?.format === 3 ? 'Subscribe' : 'Reserved'}</Text>
+                          }}> {filteredUsers[0]?.format === 3 ? 'Subscribe' : 'Reserved'}</Text>
                         </TouchableOpacity>
 
 
                         {userToken !== null &&
-                          book1[0]?.format === 3 &&
-                          book1[0]?.pdf_preview_file !== null ?
+                          filteredUsers[0]?.format === 3 &&
+                          filteredUsers[0]?.pdf_preview_file !== null ?
                           (<TouchableOpacity
                             style={{
                               backgroundColor: '#c27b7f',
@@ -973,9 +1216,157 @@ const BooksDetail = ({ navigation }) => {
                 (<Text style={{
                   textAlign: 'center', color: 'red',
                   fontSize: 15, fontFamily: 'Poppins-Regular', marginBottom: 10
-                }}>Unavailable</Text>)
+                }}>Unavailable</Text>)) :
 
-              }
+
+
+
+                (book1[0]?.status === 1 ?
+                  (<View style={{ flexDirection: 'column' }}>
+
+                    {book1[0]?.format !== 3 ?
+                      (<View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        marginTop: 10,
+                      }}>
+                        <Text style={{
+                          textAlign: 'center',
+                          fontSize: 15,
+                          fontFamily: 'Poppins-Regular',
+                          color: '#c27b7f'
+                        }}>Available </Text>
+                        <Text style={{
+                          backgroundColor: '#c27b7f',
+                          color: 'white',
+                          height: 20, width: 20,
+                          borderRadius: 15, textAlign: 'center'
+                        }}>1</Text></View>)
+                      :
+                      (null)}
+
+                    {userToken !== null &&
+                      itemsValue ? (<Text style={{
+                        backgroundColor: 'grey',
+                        padding: 10,
+                        borderRadius: 5,
+                        width: 170,
+                        height: 40,
+                        marginTop: 20,
+                        marginLeft: 20,
+                        marginBottom: 20,
+                        color: 'black',
+                        textAlign: 'center',
+                        fontSize: 15,
+                        fontWeight: 'bold',
+                        opacity: 0.4
+                      }}>Ebook is Subscribed</Text>) :
+                      (
+
+                        <View style={{ flexDirection: 'row' }}>
+                          <TouchableOpacity
+                            style={{
+                              backgroundColor: '#c27b7f',
+                              padding: 5,
+                              borderRadius: 10,
+                              width: 100,
+                              height: 35,
+                              marginTop: 20,
+                              marginLeft: 13,
+                              marginBottom: 20,
+
+                            }}
+                            onPress={() => {
+                              if (userToken !== null &&
+                                plan_exist[0] === null) {
+
+                                Alert.alert(
+                                  `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                              }
+
+                              else {
+                                if (userToken !== null) {
+
+                                  if (book1[0]?.format === 3) {
+
+                                    handle_member();
+                                    setModalVisible(!modalVisible);
+                                  } else {
+                                    if (LibraryId.includes(selectedLibrary)) {
+                                      handleBookHistory(book1);
+                                    } else {
+                                      handle_member();
+                                      setModalVisible(!modalVisible);
+                                    }
+                                  }
+                                }
+
+                                else {
+                                  navigation.navigate('sLogin');
+                                }
+                              }
+
+                            }}
+
+
+                          >
+                            <Text style={{
+                              color: '#fff',
+                              fontFamily: 'OpenSans-Regular',
+                              fontSize: 15,
+                              textAlign: 'center',
+                            }}> {book1[0]?.format === 3 ? 'Subscribe' : 'Reserved'}</Text>
+                          </TouchableOpacity>
+
+
+                          {userToken !== null &&
+                            book1[0]?.format === 3 &&
+                            book1[0]?.pdf_preview_file !== null ?
+                            (<TouchableOpacity
+                              style={{
+                                backgroundColor: '#c27b7f',
+                                padding: 5,
+                                borderRadius: 10,
+                                width: 100,
+                                height: 35,
+                                marginTop: 20,
+                                marginLeft: 20,
+                                marginBottom: 20,
+                              }}
+                              onPress={() => {
+                                setPdfModalVisible(true);
+
+                              }}
+                            >
+
+                              <Text style={{
+                                color: '#fff',
+                                fontFamily: 'OpenSans-Regular',
+                                fontSize: 15,
+                                textAlign: 'center',
+                              }}>Preview</Text>
+
+                            </TouchableOpacity>) : null}
+
+
+                        </View>
+
+                      )}
+                  </View>
+                  ) :
+                  (<Text style={{
+                    textAlign: 'center', color: 'red',
+                    fontSize: 15, fontFamily: 'Poppins-Regular', marginBottom: 10
+                  }}>Unavailable</Text>)
+                )}
+
+
+
+
+
+
+
               {/* =================================Trending books==================================== */}
 
               <View style={{ flexDirection: 'row', marginVertical: 5, justifyContent: 'space-between', marginLeft: 15, marginRight: 15, }}>
@@ -1047,10 +1438,10 @@ const BooksDetail = ({ navigation }) => {
                 />
               </View>
             </ScrollView>
-          </View>
+          </View >
         );
       }}
-    </Theme>
+    </Theme >
   );
 };
 
