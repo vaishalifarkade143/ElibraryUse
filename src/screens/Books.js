@@ -918,7 +918,7 @@ const Books = ({ navigation }) => {
   // ===================== fetching data for dynamic dropdown ================================================
   useEffect(() => {
 
-    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit')
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=5')
       .then(response => response.json())
       .then(data => setGenr(["Genre", ...data.data.map(genres => genres.name)]))
 
@@ -1106,39 +1106,7 @@ const Books = ({ navigation }) => {
               <ScrollView
               >
 
-                {/* <View style={{ marginBottom: 15 }}>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#c27b7f',
-                      alignItems: 'center',
-                      padding: 5,
-                      borderRadius: 5,
-                      width: '30%',
-                      height: 50,
-                      justifyContent: 'center',
-                      marginLeft: 130,
-                      marginTop: 15
-                    }}
-                    onPress={() => {
-
-                      setFilteredBooks(books);
-                      setSelectedAuthor("Author");
-                      setSelectedFormat("Format");
-                      setSelectedGenre("Genre");
-                      setSelectedLanguage("Language");
-                      setSelectedLibrary("Library");
-                      setSelectedPublisher("Publisher");
-
-                    }}
-                  >
-                    <Text style={{
-                      color: '#fff',
-                      fontWeight: '700',
-                      fontSize: 18
-                    }}>Reset</Text>
-
-                  </TouchableOpacity>
-                </View> */}
+               
 
 
                 {/* ======================================  All books =============================== */}

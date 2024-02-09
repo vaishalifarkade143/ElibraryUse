@@ -19,7 +19,7 @@ const MyEBook = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const Plan_exist = route.params.singleSubscribedPlan;
-  console.log('data come from details: ', Plan_exist);
+  // console.log('data come from details: ', Plan_exist);
 
 
 
@@ -50,23 +50,25 @@ const MyEBook = ({ navigation, route }) => {
   }, []);
 
 
-  
 
 
-  
+
+
+
+
 
   useEffect(() => {
 
     const member_id = userInfo.data.user.id;
     // console.log(member_id);
-    
+
     const ebookSubscription = () => {
       fetch(`https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription/${member_id}`)
         .then(res => res.json())
         .then(responce => {
           setIsLoaded(false);
           setEbooks(responce.data);
-
+          console.log("in myebook page:", responce.data);
         });
     };
 
@@ -159,8 +161,10 @@ const MyEBook = ({ navigation, route }) => {
 
   if (userToken === null) {
     return (
-      <View style={{ flex: 1, backgroundColor: '#fff',
-       justifyContent: 'center', alignItems: 'center' }}>
+      <View style={{
+        flex: 1, backgroundColor: '#fff',
+        justifyContent: 'center', alignItems: 'center'
+      }}>
         <Text>You need to log in to view this page.</Text>
       </View>
     );
@@ -200,12 +204,12 @@ const MyEBook = ({ navigation, route }) => {
           </TouchableOpacity> */}
 
           <TouchableOpacity
-              style={styles.flatListActionButton}
-              onPress={() => {
-                navigation.navigate("ReadeBook", { data: item })
+            style={styles.flatListActionButton}
+            onPress={() => {
+              navigation.navigate("ReadeBook", { data: item })
             }}>
-              <Text style={styles.flatListActionButtonText}>Read</Text>
-            </TouchableOpacity>
+            <Text style={styles.flatListActionButtonText}>Read</Text>
+          </TouchableOpacity>
         </View>
       </View>
 

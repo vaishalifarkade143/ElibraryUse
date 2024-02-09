@@ -87,7 +87,6 @@ const Search = ({ route, navigation }) => {
       book.genres.some((genr) => genr.name === item)
     )) : [];
     navigation.navigate('filterData', { filteredGenre, books });
-
   }
 
 
@@ -96,7 +95,6 @@ const Search = ({ route, navigation }) => {
       book.authors.some((authr) => authr.first_name + "" + authr.last_name === item)
     )) : [];
     navigation.navigate('filterData', { filteredAuthor, books });
-
   }
 
 
@@ -105,10 +103,8 @@ const Search = ({ route, navigation }) => {
     let filteredPublisher = item !== 'Publisher' ? (books.filter((book) =>
       Array.isArray(book.items) &&
       book.items.some((item1) => item1.publisher && item1.publisher.name === item)
-
     )) : [];
     navigation.navigate('filterData', { filteredPublisher, books });
-
   }
 
 
@@ -118,7 +114,6 @@ const Search = ({ route, navigation }) => {
       Array.isArray(book.items) && book.items.some((item1) => item1.language.language_name === item)
     )) : [];
     navigation.navigate('filterData', { filteredLanguage, books });
-
   }
 
 
@@ -130,7 +125,6 @@ const Search = ({ route, navigation }) => {
       Array.isArray(book.items) && book.items.some((item1) => item1.format === item)
     )) : [];
     navigation.navigate('filterData', { filteredFormat, books });
-    // console.log(filteredFormat);
   }
 
   const filteredLibResults = (item) => {
@@ -138,7 +132,6 @@ const Search = ({ route, navigation }) => {
       book.library_id === item
     )) : [];
     navigation.navigate('filterData', { filteredLibrary, books });
-
   }
 
 

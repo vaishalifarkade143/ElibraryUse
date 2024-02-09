@@ -53,7 +53,6 @@ const BookDetails = () => {
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
       <Bookstack.Screen name='searchbar' component={Searchbar} />
-
       <Bookstack2.Screen name='filterData' component={FilterData} />
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
@@ -71,6 +70,7 @@ const Bookstack2 = createNativeStackNavigator();
 const BookDetails2 = () => {
   return (
     <Bookstack2.Navigator screenOptions={{ headerShown: false }}>
+      
       <Bookstack2.Screen name='Book' component={Books} />
       <Bookstack2.Screen name='search' component={Search} />
       <Bookstack2.Screen name='filterData' component={FilterData} />

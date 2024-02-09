@@ -38,177 +38,137 @@ const HomeScreen = ({ navigation }) => {
 
   //================BOOK Recently ADDED ===============
 
-  const recentlyBooks =  useCallback(() => {
+  const recentlyBooks = useCallback(() => {
 
     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=40&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
-    // fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
       .then(res => res.json())
       .then(respo => {
         setRecentBooks(respo.data);
         setisLoaded(false);
+
       });
-  },[recentBooks]);
+  }, [recentBooks]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       recentlyBooks();
-  });
+    });
     return unsubscribe;
-}, []);
+  }, []);
 
- //================FEATURED BOOKS ADDED ===============
 
- const featuredBooks =  useCallback(() => {
+  //================FEATURED BOOKS ADDED ===============
 
-  fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=1&for_featured_books=true")
-  
-    .then(res => res.json())
-    .then(respo => {
-      setFeaturdBooks(respo.data);
-      setisLoaded(false);
+  const featuredBooks = useCallback(() => {
+
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=1&for_featured_books=true")
+
+      .then(res => res.json())
+      .then(respo => {
+        setFeaturdBooks(respo.data);
+        setisLoaded(false);
+      });
+  }, [featurdBooks]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      featuredBooks();
     });
-},[featurdBooks]);
-
-useEffect(() => {
-  const unsubscribe = navigation.addListener('focus', () => {
-    featuredBooks();
-});
-  return unsubscribe;
-}, []);
+    return unsubscribe;
+  }, []);
 
 
+  //===========================FEATURED EBOOK=================================
 
+  const featuredEBooks = useCallback(() => {
 
-//===========================FEATURED EBOOK=================================
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=3&for_featured_books=true")
 
-const featuredEBooks =  useCallback(() => {
+      .then(res => res.json())
+      .then(respo => {
+        setFeaturdEBooks(respo.data);
+        setisLoaded(false);
+      });
+  }, [featurdEBooks]);
 
-  fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=&author=&publisher=&language=&format=3&for_featured_books=true")
- 
-    .then(res => res.json())
-    .then(respo => {
-      setFeaturdEBooks(respo.data);
-      setisLoaded(false);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      featuredEBooks();
     });
-},[featurdEBooks]);
+    return unsubscribe;
+  }, []);
 
-useEffect(() => {
-  const unsubscribe = navigation.addListener('focus', () => {
-    featuredEBooks();
-});
-  return unsubscribe;
-}, []);
+  //=============================================================================================
 
-//=============================================================================================
-
-  const frequentBooks =  useCallback(() => {
+  const frequentBooks = useCallback(() => {
 
     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
-   
+
       .then(res => res.json())
       .then(respo => {
         setFreqBooks(respo.data);
         setisLoaded(false);
       });
-  },[freqBooks]);
+  }, [freqBooks]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-    frequentBooks();
-  });
+      frequentBooks();
+    });
     return unsubscribe;
-}, []);
+  }, []);
 
 
- 
-
-
-  // useEffect(() => {
-  //   const frequentBooks = () =>
-  //     fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
-  //       //   // fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books")
-  //       .then(res => res.json())
-  //       .then(respo => {
-  //         setFreqBooks(respo.data);
-  //         setisLoaded(false);
-  //       });
-
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     frequentBooks();
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
-
-
-  // const filterBooks = freqBooks.filter((item) =>
-  //   item.items[0].format === (format[0].id || format[1].id));
-
-
-
-
-
-//=========recently=======================
-   const filterBooks = useMemo(() => {
-    return recentBooks.filter((item) =>
-    item.items[0].format === (format[0].id || format[1].id));
-  }, [recentBooks]);
-
-
-//===============FETURED BOOKS=============
+  //===============FETURED BOOKS=============
   const featureBooks = useMemo(() => {
     return featurdBooks.filter((item) =>
-    item.items[0].format === (format[0].id || format[1].id));
+      item.items[0].format === (format[0].id || format[1].id));
   }, [featurdBooks]);
 
 
-//===============FETURED BOOKS=============
+  //===============FETURED BOOKS=============
   const featureEBooks = useMemo(() => {
     return featurdEBooks.filter((item) =>
-    item.items[0].format === format[2].id);
+      item.items[0].format === format[2].id);
   }, [featurdEBooks]);
 
 
 
   const artBooks = useMemo(() => {
     return freqBooks.filter((item) =>
-    item.genres.some(genre => genre.name === "Art")
-  );
-}, [freqBooks]);
+      item.genres.some(genre => genre.name === "Art")
+    );
+  }, [freqBooks]);
   const comicBooks = useMemo(() => {
     return freqBooks.filter((item) =>
-    item.genres.some(comic => comic.name === "Comics")
-  );
-}, [freqBooks]);
+      item.genres.some(comic => comic.name === "Comics")
+    );
+  }, [freqBooks]);
 
   const combinedBooks = [...artBooks, ...comicBooks];
-  // console.log("combine",combinedBooks);
-
-
-
+ 
 
   const bussiness = useMemo(() => {
     return freqBooks.filter((item) =>
-    item.genres.some(genre => genre.name === "Business")
-  );
-}, [freqBooks]);
+      item.genres.some(genre => genre.name === "Business")
+    );
+  }, [freqBooks]);
 
   const success = useMemo(() => {
     return freqBooks.filter((item) =>
-    item.genres.some(genre => genre.name === "sucess")
-  );
-}, [freqBooks]);
+      item.genres.some(genre => genre.name === "sucess")
+    );
+  }, [freqBooks]);
 
   const motivation = useMemo(() => {
     return freqBooks.filter((item) =>
-    item.genres.some(genre => genre.name === "Motivation")
-  );
-}, [freqBooks]);
+      item.genres.some(genre => genre.name === "Motivation")
+    );
+  }, [freqBooks]);
 
   const busSucMoti = [...bussiness, ...success, ...motivation];
 
- 
+
 
   return (
     <Theme>
@@ -260,7 +220,7 @@ useEffect(() => {
                 <View style={styles.flatView1}>
                   <Text style={styles.coroselheading}>Recently Added</Text>
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData', { filterBooks })
+                    navigation.navigate('filterData', { recentBooks })
                   }}>
                     <Image
                       source={require('../images/arrow-right.png')}
@@ -271,7 +231,7 @@ useEffect(() => {
 
 
                 <View style={{
-                  marginStart: 10,
+                  marginStart: 20,
                   height: 300
                 }}>
                   <FlatList
@@ -284,7 +244,7 @@ useEffect(() => {
                     }}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item) => item.id}
-                    data={filterBooks}
+                    data={recentBooks}
                     renderItem={({ item }) =>
                       <TouchableOpacity
                         style={[styles.flatView2, {
@@ -433,7 +393,7 @@ useEffect(() => {
                           marginEnd: 50,
                         }}>
                           <View style={{
-                            elevation: 5,
+                            // elevation: 5,
                             borderRadius: 5,
                             color: '#000'
                           }}>
@@ -495,7 +455,11 @@ useEffect(() => {
                           height: 280,
                           marginEnd: 50,
                         }}>
-                          <View>
+                          <View style={{
+                            // elevation: 5,
+                            borderRadius: 5,
+                            color: '#000'
+                          }}>
                             <Image source={{ uri: item.image_path }}
                               style={styles.bookImage}
                             />
@@ -560,7 +524,7 @@ useEffect(() => {
                           marginEnd: 50,
                         }}>
                           <View style={{
-                            elevation: 5,
+                            // elevation: 5,
                             borderRadius: 5,
                             color: '#000'
                           }}>
@@ -630,7 +594,7 @@ useEffect(() => {
                           marginEnd: 50,
                         }}>
                           <View style={{
-                            elevation: 5,
+                            // elevation: 5,
                             borderRadius: 5,
                             color: '#000'
                           }}>

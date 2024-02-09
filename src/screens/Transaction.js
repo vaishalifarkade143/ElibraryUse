@@ -130,7 +130,6 @@ const Transaction = ({ navigation,route }) => {
         <View style={styles.columnContainer}>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.subscriptionPlan}>{item.subscription_plan}</Text>
-          {/* <AntDesign name="star" color={"red"} size={20} style={{marginLeft:15}} /> */}
           </View>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.flatListItemText}>{item.amount}</Text>
@@ -172,17 +171,14 @@ const Transaction = ({ navigation,route }) => {
             /> */}
             {/* <ScrollView> */}
               <Text style={styles.sectionHeading}>Transaction</Text>
-              {/* <View style={[styles.dividerView, { width: 110,  }]}></View> */}
               <View style={{
-                // backgroundColor: '#f5ebe6',
-                // marginTop: 20,
                 flexDirection: 'column',
                 marginBottom: 50,
                 paddingBottom: 20,
               }}>
 
                 {/* ==================search======================= */}
-                <View style={styles.searchcontainer}>
+                {/* <View style={styles.searchcontainer}> */}
                   <View style={styles.searchBar}>
                     <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                     <TextInput
@@ -201,7 +197,7 @@ const Transaction = ({ navigation,route }) => {
                         <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
                       </TouchableOpacity>)}
                   </View>
-                </View>
+                {/* </View> */}
 
                 <FlatList
                         data={updatedTableData}

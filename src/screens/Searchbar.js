@@ -1,3 +1,4 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { useState, useEffect } from 'react';
 import {
     SafeAreaView,
@@ -7,7 +8,8 @@ import {
     FlatList,
     TextInput,
     TouchableOpacity,
-    Image
+    Image,
+    ScrollView
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 
@@ -18,10 +20,20 @@ const Searchbar = ({ navigation }) => {
     const [masterDataSource, setMasterDataSource] = useState([]);
     const [recentSearch, setRecentSearch] = useState([]);
 
-    // const searcheddata = [];
-    // searcheddata = searcheddata.concat(recentsearch);
+  //   const [selectedGenre, setSelectedGenre] = useState("Genre");
+  // const [genr, setGenr] = useState([]);
+  // const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
+  // const [publishr, setPublishr] = useState([]);
+  // const [selectedAuthor, setSelectedAuthor] = useState("Author");
+  // const [authr, setAuthr] = useState([]);
+  // const [selectedLanguage, setSelectedLanguage] = useState("Language");
+  // const [language, setLanguage] = useState([]);
+  // const [selectedFormat, setSelectedFormat] = useState("Format");
+  // const [selectedLibrary, setSelectedLibrary] = useState("Library");
+  // const [books, setBooks] = useState([]);
+  // const [isLoaded, setisLoaded] = useState(true);
 
-
+//=================================search function api call=============================
     useEffect(() => {
         if (search !== "") {
             fetch(
@@ -94,6 +106,8 @@ const Searchbar = ({ navigation }) => {
         );
     };
 
+
+
     return (
         <View style={{ flex: 1, paddingTop: 10 }}>
 
@@ -104,17 +118,10 @@ const Searchbar = ({ navigation }) => {
                     placeholderTextColor='#000'
                     onChangeText={(text) => searchFilterFunction(text)}
                     value={search}
-                    // underlineColorAndroid="transparent"
                     placeholder="Search Here"
                 />
 
-                {/* {searchQuery !== '' && (
-      <TouchableOpacity onPress={() => {
-        setSearchQuery('');
-        setSearchResults('');
-      }}>
-        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { justifyContent:'flex-end',}]} />
-      </TouchableOpacity>)} */}
+              
 
             </View>
             
@@ -134,6 +141,9 @@ const Searchbar = ({ navigation }) => {
                 numColumns={1}
                 contentContainerStyle={{ columnGap: 10 }}
             />
+
+
+
         </View>
     );
 };

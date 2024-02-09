@@ -137,8 +137,8 @@ const getStyles = (theme) => {
       marginVertical: 5,
       marginTop: 10,
       justifyContent: 'space-between',
-      marginLeft: 15,
-      marginRight: 15,
+      marginLeft: 20,
+      marginRight: 20,
       marginBottom: 10
     },
     flatView2: {
@@ -148,7 +148,7 @@ const getStyles = (theme) => {
       flexDirection: 'row',
     },
     flatView3: {
-      marginStart: 10,
+      marginStart: 20,
       height: 270
     },
     bookImage: {
@@ -438,6 +438,15 @@ const getStyles = (theme) => {
       width: "100%",
       height: 200,
       marginBottom: 10,
+    },
+    nameofBook:{
+      fontSize: 27,
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontFamily: 'OpenSans-Regular',
+      marginLeft: 13,
+      marginTop: 35,
+      marginRight: 20,
+      width: 200
     },
     image: {
       width: 300,
@@ -1003,26 +1012,44 @@ const getStyles = (theme) => {
       color: theme === 'LIGHT' ? '#000' : '#fff'
     },
     textHeading: {
-      fontSize: 15,
-      // fontWeight: 'bold',
+      fontSize: 17,  
+      marginLeft: 20,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       fontFamily: 'Poppins-Regular',
+     fontWeight:'500'
     },
     textHeadingOutput: {
       marginTop:2,
       fontSize: 13,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       fontFamily: 'OpenSans-Regular',
-      textAlign:'center',
-      marginLeft: 13,
-     marginRight: 13
+     
     },
     textHeadingView:
     {
       flexDirection: 'row',
       marginTop: 10,
-      marginLeft: 10,
-      marginRight:10
+      // marginLeft: 10,
+      marginRight:10,
+     
+    },
+    publisher:{
+      marginTop: 2,
+      fontSize: 14,
+      color: theme === 'LIGHT' ? '#000' : '#fff',
+      fontFamily: 'OpenSans-Regular',
+      marginLeft: 13,
+      marginRight: 20,
+      width: 230
+    },
+    author:{
+      marginTop: 2,
+      fontSize: 14,
+      color: theme === 'LIGHT' ? 'blue' : '#fff',
+      fontFamily: 'OpenSans-Regular',
+      marginLeft: 13,
+      marginRight: 20,
+      width: 230
     },
     subscribeText: {
       fontSize: 15,
