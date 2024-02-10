@@ -28,7 +28,6 @@ const FilterData = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [genrrr, setGenrrr] = useState([{ label: "Genre", value: "Genre" }]);
   
   useEffect(() => {
     let filteredData;
@@ -132,8 +131,10 @@ const FilterData = ({ route, navigation }) => {
   useEffect(() => {
     fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=')
       .then(response => response.json())
-      .then(data => setGenr(["Genre", ...data.data.map(genres => genres.name)]))
-      // .then(data => setGenr([{ label: "Genre", value: "Genre" }, ...data.data.map(genres => ({ label: genres.name, value: genres.name }))]))
+      .then(data =>{
+         console.log('Genres Data:', data);
+         setGenr(["Genre", ...data.data.map(genres => genres.name)])
+      })
       .catch(error => console.error('Error fetching genres:', error));
   }, []);
 
@@ -161,28 +162,82 @@ const FilterData = ({ route, navigation }) => {
 
   // ==========================working code for Filter genre ==========================
   const handleSearch = (text) => {
+    console.log('Search Query:', text);
     setIsLoading(true);
     const filteredResults = genr.filter((item) =>
-      // item.name.toLowerCase().includes(searchQuery.toLowerCase())
       item.toLowerCase().includes(text.toLowerCase())
     );
+    console.log('Filtered Results:', filteredResults);
     setSearchResults(filteredResults);
     setIsLoading(false);
-
-  //   const filteredResults = genr.filter((item) =>
-  //   item.label.toLowerCase().includes(text.toLowerCase())
-  // );
-  // setSearchResults(filteredResults);
-
   };
+
+  const handleGenreSelection = (itemValue) => {
+    setSelectedGenre(itemValue);
+    setSearchQuery(itemValue); // Update search query when genre is selected
+    handleSearch(itemValue); // Trigger search based on the selected genre
+   
+  };
+
+  // const handleSearch = (text, criterion) => {
+  //   setIsLoading(true);
+
+  //   let filteredResults;
+
+  //   switch (criterion) {
+  //     case 'Genre':
+  //       filteredResults = genr.filter((item) =>
+  //         item.toLowerCase().includes(text.toLowerCase())
+  //       );
+  //       break;
+
+  //     case 'Author':
+  //       // ... (Similar logic for other criteria)
+  //       break;
+
+  //     case 'Publisher':
+  //       // ... (Similar logic for other criteria)
+  //       break;
+
+  //     case 'Language':
+  //       // ... (Similar logic for other criteria)
+  //       break;
+
+  //     // Add cases for other criteria as needed
+
+  //     default:
+  //       filteredResults = [];
+  //   }
+
+  //   setSearchResults(filteredResults);
+  //   setIsLoading(false);
+  // };
+
+
   const renderItem = ({ item }) => (
     <View style={{}}>
-      <TouchableOpacity>
+      <TouchableOpacity 
+      onPress={() => 
+        handleGenreSelection(item)
+      
+      }>
       <Text style={{fontSize:15,textAlign:'center'}}>{item}</Text>
       </TouchableOpacity>
-     
     </View>
   );
+
+
+  const handleClearAll = () => {
+    setSearchQuery("");  // Reset search query
+    setSearchResults([]);
+    setSelectedAuthor("Author");
+    setSelectedFormat("Format");
+    setSelectedGenre("Genre");
+    setSelectedLanguage("Language");
+    setSelectedLibrary("Library");
+    setSelectedPublisher("Publisher");
+    // setFilteredBooks(filterBybooks);  // Reset filtered data to original data
+  };
 
   // ============================== working code for Filter  ==========================
   useEffect(() => {
@@ -192,6 +247,16 @@ const FilterData = ({ route, navigation }) => {
       console.log('filterdata ::------------', filteredBooksCopy);
       // console.log("route data:",route.params?.recentBooks);
 
+      if (searchQuery.trim() !== "") {
+        const query = searchQuery.toLowerCase();
+        filteredBooksCopy = filterBybooks.filter((book) => {
+          const hasMatchingBookName = book.name.toLowerCase().includes(query);
+          // ... (Similar logic for other criteria)
+  
+          return hasMatchingBookName;
+        });
+      }
+  
 
       if (selectedGenre !== "Genre") {
         filteredBooksCopy = filterBybooks.filter((book) => {
@@ -209,9 +274,6 @@ const FilterData = ({ route, navigation }) => {
       if (selectedAuthor !== "Author") {
         filteredBooksCopy = filterBybooks.filter((book) => {
           const hasMatchingAuthor = book.authors.some((authr) => {
-            // console.log("Selected author:", selectedAuthor);
-            // console.log("Book author:", book.authors);
-            // console.log("Checking author:", authr.first_name + "" + authr.last_name);
             return authr.first_name + "" + authr.last_name === selectedAuthor;
           });
 
@@ -258,7 +320,6 @@ const FilterData = ({ route, navigation }) => {
         });
       }
 
-
       setFilteredBooks(filteredBooksCopy);
 
     }
@@ -294,6 +355,7 @@ const FilterData = ({ route, navigation }) => {
                   marginRight: 20
                 }}>
 
+
                   <View>
                     <View style={{
                       marginTop: 5,
@@ -316,7 +378,7 @@ const FilterData = ({ route, navigation }) => {
                       />
                     </View>
                     <FlatList
-                    style={{borderColor:'#efefef',borderWidth:0.5}}
+                      style={{borderColor:'#efefef',borderWidth:0.5}}
                       data={searchResults}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={renderItem}
@@ -463,17 +525,11 @@ const FilterData = ({ route, navigation }) => {
 
                   <View>
                     <TouchableOpacity
-                      onPress={() => {
-                        setSearchQuery("");  // Reset search query
-                        setSearchResults([]);
-                        setSelectedAuthor("Author");
-                        setSelectedFormat("Format");
-                        setSelectedGenre("Genre");
-                        setSelectedLanguage("Language");
-                        setSelectedLibrary("Library");
-                        setSelectedPublisher("Publisher");
-
-                      }}>
+                    onPress={() => {
+                      handleClearAll();
+                      setFilteredBooks(filterBybooks);
+                    }}
+                     >
                       <Text style={{
                         fontSize: 14,
                         marginTop: 13,
@@ -490,21 +546,24 @@ const FilterData = ({ route, navigation }) => {
 
 
             <View style={{
-              marginTop: 20,
+              marginTop: 30,
               marginStart: 20,
+              paddingBottom:90
             }}>
               {filteredBooks.length > 0 ? (
               <FlatList
                 numColumns={2}
                 keyExtractor={(item, index) => index.toString()}
                 data={filteredBooks}
+                // extraData={filteredBooks}
                 renderItem={({ item }) => (
                   <TouchableOpacity
                     onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
                     <View style={{
                       width: 150,
                       height: 310,
-                      marginEnd: 20
+                      marginEnd: 20,
+                      
                     }}>
                       <View style={{
                         borderRadius: 5,
