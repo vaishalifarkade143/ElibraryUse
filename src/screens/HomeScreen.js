@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
 
   const recentlyBooks = useCallback(() => {
 
-    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=40&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=20&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
       .then(res => res.json())
       .then(respo => {
         setRecentBooks(respo.data);
@@ -178,7 +178,6 @@ const HomeScreen = ({ navigation }) => {
           <View style={styles.container}>
             <Header
               middleIcon={require('../images/Logoelibrary.png')}
-              // leftIcon={require('../images/menu.png')}
               leftIcon={require('../images/menu.png')}
               rightIcon={require('../images/search.png')}
               onClickLeftIcon={() => {

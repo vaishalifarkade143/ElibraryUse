@@ -28,7 +28,7 @@ const FilterData = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   useEffect(() => {
     let filteredData;
 
@@ -103,7 +103,7 @@ const FilterData = ({ route, navigation }) => {
 
   }, []);
 
-  console.log('filterdata ::', filterBybooks[0]?.genres[0].name);//[0]?.authors
+  // console.log('filterdata ::', filterBybooks[0]?.genres[0].name);//[0]?.authors
 
   if (!filterBybooks) {
     return (
@@ -131,9 +131,9 @@ const FilterData = ({ route, navigation }) => {
   useEffect(() => {
     fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=')
       .then(response => response.json())
-      .then(data =>{
-         console.log('Genres Data:', data);
-         setGenr(["Genre", ...data.data.map(genres => genres.name)])
+      .then(data => {
+        console.log('Genres Data:', data);
+        setGenr(["Genre", ...data.data.map(genres => genres.name)])
       })
       .catch(error => console.error('Error fetching genres:', error));
   }, []);
@@ -176,7 +176,7 @@ const FilterData = ({ route, navigation }) => {
     setSelectedGenre(itemValue);
     setSearchQuery(itemValue); // Update search query when genre is selected
     handleSearch(itemValue); // Trigger search based on the selected genre
-   
+
   };
 
   // const handleSearch = (text, criterion) => {
@@ -215,13 +215,14 @@ const FilterData = ({ route, navigation }) => {
 
 
   const renderItem = ({ item }) => (
-    <View style={{}}>
-      <TouchableOpacity 
-      onPress={() => 
-        handleGenreSelection(item)
-      
-      }>
-      <Text style={{fontSize:15,textAlign:'center'}}>{item}</Text>
+    <View style={{elevation:0.5}}>
+      <TouchableOpacity
+        onPress={() =>{
+          handleGenreSelection(item)
+          setSearchResults([]);
+        }
+        }>
+        <Text style={{ fontSize: 15, textAlign: 'center' }}>{item}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -236,7 +237,7 @@ const FilterData = ({ route, navigation }) => {
     setSelectedLanguage("Language");
     setSelectedLibrary("Library");
     setSelectedPublisher("Publisher");
-    // setFilteredBooks(filterBybooks);  // Reset filtered data to original data
+    setFilteredBooks(filterBybooks);  // Reset filtered data to original data
   };
 
   // ============================== working code for Filter  ==========================
@@ -252,11 +253,11 @@ const FilterData = ({ route, navigation }) => {
         filteredBooksCopy = filterBybooks.filter((book) => {
           const hasMatchingBookName = book.name.toLowerCase().includes(query);
           // ... (Similar logic for other criteria)
-  
+          console.log("hasMatchingBookName", hasMatchingBookName);
           return hasMatchingBookName;
         });
       }
-  
+
 
       if (selectedGenre !== "Genre") {
         filteredBooksCopy = filterBybooks.filter((book) => {
@@ -378,7 +379,7 @@ const FilterData = ({ route, navigation }) => {
                       />
                     </View>
                     <FlatList
-                      style={{borderColor:'#efefef',borderWidth:0.5}}
+                      style={{ borderColor: '#efefef', borderWidth: 0.5 }}
                       data={searchResults}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={renderItem}
@@ -525,11 +526,11 @@ const FilterData = ({ route, navigation }) => {
 
                   <View>
                     <TouchableOpacity
-                    onPress={() => {
-                      handleClearAll();
-                      setFilteredBooks(filterBybooks);
-                    }}
-                     >
+                      onPress={() => {
+                        handleClearAll();
+                        setFilteredBooks(filterBybooks);
+                      }}
+                    >
                       <Text style={{
                         fontSize: 14,
                         marginTop: 13,
@@ -548,64 +549,64 @@ const FilterData = ({ route, navigation }) => {
             <View style={{
               marginTop: 30,
               marginStart: 20,
-              paddingBottom:90
+              paddingBottom: 90
             }}>
               {filteredBooks.length > 0 ? (
-              <FlatList
-                numColumns={2}
-                keyExtractor={(item, index) => index.toString()}
-                data={filteredBooks}
-                // extraData={filteredBooks}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
-                    <View style={{
-                      width: 150,
-                      height: 310,
-                      marginEnd: 20,
-                      
-                    }}>
+                <FlatList
+                  numColumns={2}
+                  keyExtractor={(item, index) => index.toString()}
+                  data={filteredBooks}
+                  extraData={filteredBooks}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      onPress={() => navigation.navigate('BooksDetailPage', { data: item })}>
                       <View style={{
-                        borderRadius: 5,
-                        color: '#000'
+                        width: 150,
+                        height: 310,
+                        marginEnd: 20,
+
                       }}>
-                        <Image
-                          source={{ uri: item.image_path }}
-                          style={styles.bookImage}
-                        />
-                      </View>
+                        <View style={{
+                          borderRadius: 5,
+                          color: '#000'
+                        }}>
+                          <Image
+                            source={{ uri: item.image_path }}
+                            style={styles.bookImage}
+                          />
+                        </View>
 
-                      <View style={{ padding: 10 }}>
-                        <Text
-                          style={styles.bookNameText}
-                          numberOfLines={1}
-                        >
-                          {item.name}
-                        </Text>
-                        {item.library_id === 111 ? (
-                          <Text style={[styles.bookPageLibText, {
-                            marginLeft: -10,
-                          }]}>Dindayal Upadhyay Library</Text>
-                        ) : item.library_id === 222 ? (
-                          <Text style={[styles.bookPageLibText, {
-                            marginLeft: -12,
-                          }]}>Kundanlal Gupta Library</Text>
-                        ) : (
-                          <Text style={[styles.bookPageLibText, {
-                            marginLeft: -8,
-                          }]}>Rashtramata Kasturba Library</Text>
-                        )}
+                        <View style={{ padding: 10 }}>
+                          <Text
+                            style={styles.bookNameText}
+                            numberOfLines={1}
+                          >
+                            {item.name}
+                          </Text>
+                          {item.library_id === 111 ? (
+                            <Text style={[styles.bookPageLibText, {
+                              marginLeft: -10,
+                            }]}>Dindayal Upadhyay Library</Text>
+                          ) : item.library_id === 222 ? (
+                            <Text style={[styles.bookPageLibText, {
+                              marginLeft: -12,
+                            }]}>Kundanlal Gupta Library</Text>
+                          ) : (
+                            <Text style={[styles.bookPageLibText, {
+                              marginLeft: -8,
+                            }]}>Rashtramata Kasturba Library</Text>
+                          )}
 
-                        {item.items?.[0]?.format === 3 ? (
-                          <Image source={require('../images/ebook.png')} style={styles.bookicon} />
-                        ) : (
-                          <Image source={require('../images/bookfill.png')} style={styles.bookicon} />
-                        )}
+                          {item.items?.[0]?.format === 3 ? (
+                            <Image source={require('../images/ebook.png')} style={styles.bookicon} />
+                          ) : (
+                            <Image source={require('../images/bookfill.png')} style={styles.bookicon} />
+                          )}
+                        </View>
                       </View>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              />
+                    </TouchableOpacity>
+                  )}
+                />
               ) : (
                 <View>
                   <Text style={{ fontSize: 15, color: '#5D6D7E', fontWeight: '500', textAlign: 'center' }}>Not Available </Text>
