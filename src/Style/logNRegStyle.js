@@ -1049,7 +1049,8 @@ const getStyles = (theme) => {
       fontFamily: 'OpenSans-Regular',
       marginLeft: 13,
       marginRight: 20,
-      width: 230
+      width: 230,
+      // letterSpacing:2
     },
     subscribeText: {
       fontSize: 15,

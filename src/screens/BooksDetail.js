@@ -2471,7 +2471,7 @@ const BooksDetail = ({ navigation }) => {
 
 
                     <View style={styles.author}>
-                      <Text >{filteredUsers[0]?.book?.authors[0].first_name}
+                      <Text >{filteredUsers[0]?.book?.authors[0].first_name}{' '}
                         {filteredUsers[0]?.book?.authors[0].last_name}</Text>
                     </View>
 
@@ -2576,7 +2576,7 @@ const BooksDetail = ({ navigation }) => {
                       <Text onTextLayout={onTextLayout}
                         style={styles.nameofBook}
                       >{book1[0]?.book?.name}</Text>
-                      <Text style={styles.author}>{book1[0]?.book?.authors[0].first_name}
+                      <Text style={styles.author}>{book1[0]?.book?.authors[0].first_name}{' '}
                         {book1[0]?.book?.authors[0].last_name}</Text>
                       <Text
                         style={styles.publisher}>{book1[0]?.publisher?.name}</Text>
@@ -3221,7 +3221,7 @@ handleSubscribeShowModal();
                           {item.name}
                         </Text>
                         <Text style={styles.bookName1} numberOfLines={1}>
-                          {item.authors[0].first_name} {item.authors[0].last_name}
+                          {item.authors[0].first_name}{' '}{item.authors[0].last_name}
                         </Text>
                       </View>
                     </TouchableOpacity>
