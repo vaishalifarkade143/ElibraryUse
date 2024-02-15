@@ -23,6 +23,7 @@ import Search from '../screens/Search';
 import FilterData from '../screens/FilterData';
 import GoBackLogin from '../screens/GoBackLogin';
 import Searchbar from '../screens/Searchbar';
+import FilterDataRecently from '../screens/FilterDataRecently';
 
 
 const stack = createNativeStackNavigator();
@@ -53,7 +54,8 @@ const BookDetails = () => {
     <Bookstack.Navigator screenOptions={{ headerShown: false }}>
       <Bookstack.Screen name='Home' component={HomeScreen} />
       <Bookstack.Screen name='searchbar' component={Searchbar} />
-      <Bookstack2.Screen name='filterData' component={FilterData} />
+      <Bookstack.Screen name='filterData' component={FilterData} />
+      <Bookstack.Screen name='filterDataRecently' component={FilterDataRecently} />
       <Bookstack.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack.Screen name='sLogin' component={LoginAndRegister} />
       <Bookstack.Screen name='subscribebookHistory' component={BookHistory} />
@@ -74,6 +76,7 @@ const BookDetails2 = () => {
       <Bookstack2.Screen name='Book' component={Books} />
       <Bookstack2.Screen name='search' component={Search} />
       <Bookstack2.Screen name='filterData' component={FilterData} />
+      <Bookstack2.Screen name='filterDataRecently' component={FilterDataRecently} />
       <Bookstack2.Screen name='BooksDetailPage' component={BooksDetail} />
       <Bookstack2.Screen name='sLogin' component={LoginAndRegister} />
       <Bookstack2.Screen name='subscribebookHistory' component={BookHistory} />

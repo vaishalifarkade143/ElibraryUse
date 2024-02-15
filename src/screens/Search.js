@@ -299,11 +299,11 @@ const Search = ({ route, navigation }) => {
                     size="large" color="#c27b7f"
                   />)}
               </View>)
-}
+            }
 
 
 
-{route.params?.authorList &&
+            {route.params?.authorList &&
               (<View style={{ flex: 1 }}>
                 <TextInput
                   placeholder="Search.."
@@ -326,36 +326,36 @@ const Search = ({ route, navigation }) => {
                 />
                 {isLoaded ?
 
-                (<FlatList
-                  data={authorData}
-                  keyExtractor={(item, index) => item.id + index}
-                  renderItem={({ item, index }) => {
-                    return (
-                      <TouchableOpacity
-                        style={{
-                          width: '85%',
-                          alignSelf: 'center',
-                          height: 50,
-                          justifyContent: 'center',
-                          borderBottomWidth: 0.5,
-                          borderColor: '#8e8e8e',
-                        }}
-                        onPress={() => {
-                          setSelectedAuthor(item.name);
-                          setAuthorClicked(!authorClicked);
-                          onSearch('', 'author');
-                          setAuthorSearch('');
-                          filteredAuthResults(item.name);
-                        }}
-                      >
-                        <Text style={{ fontWeight: "600" }}>{item.name}</Text>
-                      </TouchableOpacity>
-                    );
-                  }}
-                />):(<ActivityIndicator
-                  style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                  size="large" color="#c27b7f"
-                />)}
+                  (<FlatList
+                    data={authorData}
+                    keyExtractor={(item, index) => item.id + index}
+                    renderItem={({ item, index }) => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: '85%',
+                            alignSelf: 'center',
+                            height: 50,
+                            justifyContent: 'center',
+                            borderBottomWidth: 0.5,
+                            borderColor: '#8e8e8e',
+                          }}
+                          onPress={() => {
+                            setSelectedAuthor(item.name);
+                            setAuthorClicked(!authorClicked);
+                            onSearch('', 'author');
+                            setAuthorSearch('');
+                            filteredAuthResults(item.name);
+                          }}
+                        >
+                          <Text style={{ fontWeight: "600" }}>{item.name}</Text>
+                        </TouchableOpacity>
+                      );
+                    }}
+                  />) : (<ActivityIndicator
+                    style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+                    size="large" color="#c27b7f"
+                  />)}
               </View>
               )}
 

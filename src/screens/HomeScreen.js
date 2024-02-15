@@ -40,7 +40,7 @@ const HomeScreen = ({ navigation }) => {
 
   const recentlyBooks = useCallback(() => {
 
-    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=20&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
+    fetch("https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=10&search=&genre=&library_id=111&author=&publisher=&language=0&format=0")
       .then(res => res.json())
       .then(respo => {
         setRecentBooks(respo.data);
@@ -219,7 +219,8 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.flatView1}>
                   <Text style={styles.coroselheading}>Recently Added</Text>
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData', { recentBooks })
+                    // navigation.navigate('filterData', { recentBooks })
+                    navigation.navigate('filterDataRecently');
                   }}>
                     <Image
                       source={require('../images/arrow-right.png')}
