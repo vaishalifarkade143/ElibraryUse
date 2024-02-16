@@ -16,48 +16,43 @@ import Feather from 'react-native-vector-icons/Feather';
 
 const FilterDataRecently = ({navigation}) => {
   const [filterBybooks, setFilterByBooks] = useState([]);
-  const [selectedGenre, setSelectedGenre] = useState('Genre');
+  const [selectedGenre, setSelectedGenre] = useState(0);
   const [genr, setGenr] = useState([]);
-  const [selectedPublisher, setSelectedPublisher] = useState('Publisher');
+  const [selectedPublisher, setSelectedPublisher] = useState(0);
   const [publishr, setPublishr] = useState([]);
-  const [selectedAuthor, setSelectedAuthor] = useState('Author');
+  const [selectedAuthor, setSelectedAuthor] = useState(0);
   const [authr, setAuthr] = useState([]);
-  const [selectedLanguage, setSelectedLanguage] = useState('Language');
+  const [selectedLanguage, setSelectedLanguage] = useState(0);
   const [language, setLanguage] = useState([]);
-  const [selectedFormat, setSelectedFormat] = useState('Format');
-  const [selectedLibrary, setSelectedLibrary] = useState('Library');
+  const [selectedFormat, setSelectedFormat] = useState(0);
+  const [selectedLibrary, setSelectedLibrary] = useState(111);
   const [filteredBooks, setFilteredBooks] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(0);
   const [searchResults, setSearchResults] = useState([]);
-  const [searchQueryauthor, setSearchQueryauthor] = useState('');
+  const [searchQueryauthor, setSearchQueryauthor] = useState(0);
   const [searchResultsauthor, setSearchResultsauthor] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // const book = () => {
-  //     fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=5',)//?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
-  //         .then(res => res.json())
-  //         .then(respo => {
-  //             setFilterByBooks(respo.data);
-  //             // console.log("genre:",respo.data[0]?.genres[0].name);
-  //             console.log("useeffect call:",filterBybooks);
-  //             setIsLoading(false);
-  //         });
-  // }
-  // useEffect(() => {
-  //     const unsubscribe = navigation.addListener('focus', () => {
-  //     book();
-  // });
+  /*  const [formgenre, setformGenre] = useState('');
+  const [formauthors, setformauthors] = useState(''); */
+  const [formpublishers, setformpublishers] = useState('');
+  const [formlanguages, setformlanguages] = useState(0);
+  const [formformats, setformformats] = useState(0);
 
-  const book = () => {
+  const [term, setTerm] = useState('');
+  const [termAuthor, setTermAuthor] = useState('');
+  const [termGenre, setTermGenre] = useState('');
+
+  /* const book = () => {
     fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=20&search=&genre=&library_id=111&author=&publisher=&language=0&format=0',
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&library_id=${selectedLibrary}&author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage}&format=${selectedFormat}&limit=20`,
     ) //?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
       .then(res => res.json())
       .then(respo => {
         setFilterByBooks(respo.data);
         setIsLoading(false);
       });
-  };
+  }; */
 
   const handleDataFilters = () => {
     let filteredBooksCopy = [...filterBybooks];
@@ -67,7 +62,7 @@ const FilterDataRecently = ({navigation}) => {
     );
     // ============================ logic for search ===============================
 
-    if (searchQuery !== '') {
+    /* if (searchQuery !== '') {
       const query = searchQuery.toLowerCase();
       filteredBooksCopy = filterBybooks.filter(book => {
         const hasMatchingBookName = book.genres.some(genr =>
@@ -128,15 +123,26 @@ const FilterDataRecently = ({navigation}) => {
         });
         return hasMatchingLibrary;
       });
-    }
+    } */
 
-    setFilteredBooks(filteredBooksCopy);
-    console.log('running');
+    /* setFilteredBooks(filteredBooksCopy); */
   };
 
   useEffect(() => {
-    book();
-    handleDataFilters();
+    /* book(); */
+
+    /*  */
+    /* &publisher=${selectedPublisher}&language=${selectedLanguage}&format=${selectedFormat} */
+
+    fetch(
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&library_id=${selectedLibrary}&author=${searchQueryauthor}&limit=20`,
+    ) //?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
+      .then(res => res.json())
+      .then(respo => {
+        setFilterByBooks(respo.data);
+        setIsLoading(false);
+      });
+    /* handleDataFilters(); */
   }, [
     selectedGenre,
     selectedAuthor,
@@ -278,16 +284,16 @@ const FilterDataRecently = ({navigation}) => {
   );
 
   const handleClearAll = () => {
-    setSearchQuery(''); // Reset search query
+    setSearchQuery(0); // Reset search query
     setSearchResults([]);
-    setSearchQueryauthor(''); // Reset search query
+    setSearchQueryauthor(0); // Reset search query
     setSearchResultsauthor([]);
-    setSelectedAuthor('Author');
-    setSelectedFormat('Format');
-    setSelectedGenre('Genre');
-    setSelectedLanguage('Language');
-    setSelectedLibrary('Library');
-    setSelectedPublisher('Publisher');
+    setSelectedAuthor(0);
+    setSelectedFormat(0);
+    setSelectedGenre(0);
+    setSelectedLanguage(0);
+    setSelectedLibrary(111);
+    setSelectedPublisher(0);
     // setFilteredBooks(filterBybooks);
     setIsLoading(true);
   };
@@ -542,6 +548,7 @@ const FilterDataRecently = ({navigation}) => {
                       onPress={() => {
                         handleClearAll();
                         //  handleDataFilters();
+                        setFilterByBooks([]);
                       }}>
                       <Text
                         style={{
