@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    View,
-    Text,
-    FlatList,
-    TouchableOpacity,
-    Image,
-    ScrollView,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Image, ScrollView, } from 'react-native';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import Header from '../common/Header';
@@ -31,40 +24,49 @@ const FilterDataRecently = ({ navigation }) => {
     const [searchResults, setSearchResults] = useState([]);
     const [searchQueryauthor, setSearchQueryauthor] = useState('');
     const [searchResultsauthor, setSearchResultsauthor] = useState([]);
-    const [clearFilters, setClearFilters] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const book = () => {
-        fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=5',)//?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
-            .then(res => res.json())
-            .then(respo => {
-                setFilterByBooks(respo.data);
-                // console.log("genre:",respo.data[0]?.genres[0].name);
-                setIsLoading(false);
-
-            });
-    }
+    // const book = () => {
+    //     fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=5',)//?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
+    //         .then(res => res.json())
+    //         .then(respo => {
+    //             setFilterByBooks(respo.data);
+    //             // console.log("genre:",respo.data[0]?.genres[0].name);
+    //             console.log("useeffect call:",filterBybooks);
+    //             setIsLoading(false);
+    //         });
+    // }
+    // useEffect(() => {
+    //     const unsubscribe = navigation.addListener('focus', () => {
+    //     book();
+    // });
 
     useEffect(() => {
-        book();
-    }, [selectedGenre]);
+            const book = () => {
+                fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=20&search=&genre=&library_id=111&author=&publisher=&language=0&format=0',)//?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
+                    .then(res => res.json())
+                    .then(respo => {
+                        setFilterByBooks(respo.data);
+                        setIsLoading(false);
+                    });
+            }
+            book();
+    }, []);
+    // console.log("useeffect call:", filterBybooks);
 
     // ==============================static dropdown===================================
-
     const formats = [
         { id: 'format', name: 'Format' },
         { id: 1, name: 'Hardcover' },
         { id: 2, name: 'PaparBack' },
         { id: 3, name: 'E-Book' },
     ];
-
     const libraries = [
         { id: 'library', name: 'Library' },
         { id: 111, name: 'Dindayal Upadhyay Library' },
         { id: 222, name: 'Kundanlal Gupta Library' },
         { id: 333, name: 'Rashtramata Kasturba Library' },
     ];
-
     // ===================== fetching data for dynamic dropdown ================================================
     useEffect(() => {
         fetch(
@@ -76,7 +78,6 @@ const FilterDataRecently = ({ navigation }) => {
             })
             .catch(error => console.error('Error fetching genres:', error));
     }, []);
-
     useEffect(() => {
         fetch(
             'https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors?search=&limit=&order_by=first_name&direction=asc',)
@@ -91,7 +92,6 @@ const FilterDataRecently = ({ navigation }) => {
             ) // Assuming the API response has a "data" field with an array of genres
             .catch(error => console.error('Error fetching authors:', error));
     }, []);
-
     useEffect(() => {
         fetch(
             'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc',
@@ -105,7 +105,6 @@ const FilterDataRecently = ({ navigation }) => {
             ) // Assuming the API response has a "data" field with an array of genres
             .catch(error => console.error('Error fetching publisher:', error));
     }, []);
-
     useEffect(() => {
         fetch(
             'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=language_name&direction=asc',
@@ -119,7 +118,13 @@ const FilterDataRecently = ({ navigation }) => {
             )
             .catch(error => console.error('Error fetching publisher:', error));
     }, []);
-
+    
+    
+    
+    
+    
+    
+    
     const handleSearch = (text) => {
         // console.log('Search Query:', text);
         setIsLoading(true);
@@ -129,15 +134,22 @@ const FilterDataRecently = ({ navigation }) => {
         // console.log('Filtered Results:', filteredResults);
 
         setSearchResults(filteredResults);
-        console.log('Filtered Results of genre:', searchResults);
+        console.log('Filtered Results of genre:', filteredResults);
         setIsLoading(false);
     };
+
+
+
+
 
     const handleGenreSelection = itemValue => {
         setSelectedGenre(itemValue);
         setSearchQuery(itemValue); // Update search query when genre is selected
         handleSearch(itemValue); // Trigger search based on the selected genre
     };
+    
+
+
 
     const handleSearchAuthor = (text) => {
         // console.log('Search Query:', text);
@@ -149,12 +161,15 @@ const FilterDataRecently = ({ navigation }) => {
         setSearchResultsauthor(filteredResults);
         setIsLoading(false);
     };
-
     const handleAuthorSelection = itemValue => {
         setSelectedAuthor(itemValue);
         setSearchQueryauthor(itemValue); // Update search query when genre is selected
         handleSearchAuthor(itemValue); // Trigger search based on the selected genre
     };
+
+
+
+
 
     const renderItem = ({ item }) => (
         <View style={{ elevation: 0.5 }}>
@@ -191,94 +206,88 @@ const FilterDataRecently = ({ navigation }) => {
         setSelectedLanguage('Language');
         setSelectedLibrary('Library');
         setSelectedPublisher('Publisher');
-        // setFilteredBooks([]);
-
-        // console.log("clear call")
-        // console.log("data after clear:",filterBybooks)
+        // setFilteredBooks(filterBybooks);
+        setIsLoading(true);
 
     };
-
     // ============================== working code for Filter  ==========================
 
-    useEffect(() => {
-        const handleDataFilters = () => {
-            let filteredBooksCopy = [...filterBybooks];
-            // console.log('filterdata ::---', filteredBooksCopy);
-            // ============================ logic for search ===============================
-            if (searchQuery.trim() !== '') {
-                const query = searchQuery.toLowerCase();
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingBookName = book.genres.some((genr) => genr.name.toLowerCase().includes(query));
-                    // console.log("Checking Genre:", genr.name);
-                    return hasMatchingBookName;
-                });
-            }
-
-            if (searchQueryauthor.trim() !== '') {
-                const queryauthor = searchQueryauthor.toLowerCase();
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingBookNameAuthor =
-                        book.authors.some((authr) => (authr.first_name + "" + authr.last_name).toLowerCase().includes(queryauthor));
-                    return hasMatchingBookNameAuthor;
-                });
-            }
-            // ==================logic for picker =====================
-            if (selectedPublisher !== 'Publisher') {
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingPublisher =
-                        Array.isArray(book.items) &&
-                        book.items.some(item => {
-                            return item.publisher.name === selectedPublisher;
-                        });
-
-                    return hasMatchingPublisher;
-                });
-            }
-            if (selectedLanguage !== 'Languages') {
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingLanguage =
-                        Array.isArray(book.items) &&
-                        book.items.some(item => {
-                            return item.language.language_name === selectedLanguage;
-                        });
-
-                    return hasMatchingLanguage;
-                });
-            }
-            if (selectedFormat !== 'Format') {
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingFormat =
-                        Array.isArray(book.items) &&
-                        book.items.some(item => {
-                            return item.format === selectedFormat;
-                        });
-                    return hasMatchingFormat;
-                });
-            }
-            if (selectedLibrary !== 'Library') {
-                filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingLibrary = book.genres.some(library => {
-                        return library.library_id === selectedLibrary;
+    const handleDataFilters = () => {
+        let filteredBooksCopy = [...filterBybooks];
+        console.log('filterdata at start of  handleDataFilters::---', filteredBooksCopy);
+        // ============================ logic for search ===============================
+        
+        if (searchQuery !== '') {
+            const query = searchQuery.toLowerCase();
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingBookName = book.genres.some((genr) => genr.name.toLowerCase().includes(query));
+                // console.log("Checking Genre:", genr.name);
+                return hasMatchingBookName;
+            });
+        }
+        if (searchQueryauthor.trim() !== '') {
+            const queryauthor = searchQueryauthor.toLowerCase();
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingBookNameAuthor =
+                    book.authors.some((authr) => (authr.first_name + "" + authr.last_name).toLowerCase().includes(queryauthor));
+                return hasMatchingBookNameAuthor;
+            });
+        }
+        // ==================logic for picker =====================
+        if (selectedPublisher !== 'Publisher') {
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingPublisher =
+                    Array.isArray(book.items) &&
+                    book.items.some(item => {
+                        return item.publisher.name === selectedPublisher;
                     });
-                    return hasMatchingLibrary;
+
+                return hasMatchingPublisher;
+            });
+        }
+        if (selectedLanguage !== 'Languages') {
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingLanguage =
+                    Array.isArray(book.items) &&
+                    book.items.some(item => {
+                        return item.language.language_name === selectedLanguage;
+                    });
+
+                return hasMatchingLanguage;
+            });
+        }
+        if (selectedFormat !== 'Format') {
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingFormat =
+                    Array.isArray(book.items) &&
+                    book.items.some(item => {
+                        return item.format === selectedFormat;
+                    });
+                return hasMatchingFormat;
+            });
+        }
+        if (selectedLibrary !== 'Library') {
+            filteredBooksCopy = filterBybooks.filter(book => {
+                const hasMatchingLibrary = book.genres.some(library => {
+                    return library.library_id === selectedLibrary;
                 });
-            }
+                return hasMatchingLibrary;
+            });
+        }
 
-            setFilteredBooks(filteredBooksCopy);
-            console.log('Filtered Books are inside handlefilter:::  ', filteredBooks);
-        };
+        setFilteredBooks(filteredBooksCopy);
+        console.log('running');
+        
+    };
+
+    console.log('Filtered Books after handlefilter:::  ', filteredBooks);
+
+    useEffect(() => {
         handleDataFilters();
-    }, [
-        selectedGenre,
-        selectedAuthor,
-        selectedPublisher,
-        selectedLanguage,
-        selectedFormat,
-        selectedLibrary,
-    ]);
+    }, [selectedGenre,selectedAuthor,selectedPublisher, selectedLanguage,selectedFormat,selectedLibrary,
+       searchQuery,searchQueryauthor,isLoading]);
 
-    console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
-
+    // console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
     return (
         <Theme>
             {({ theme }) => {
@@ -526,10 +535,7 @@ const FilterDataRecently = ({ navigation }) => {
                                         <TouchableOpacity
                                             onPress={() => {
                                                 handleClearAll();
-                                                setFilteredBooks([]);
-                                                book();
-                                                
-                                                setFilteredBooks(filterBybooks);
+                                                //  handleDataFilters();
                                             }}>
                                             <Text
                                                 style={{
@@ -548,6 +554,33 @@ const FilterDataRecently = ({ navigation }) => {
                         </View>
 
 
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
+                       
                         <View
                             style={{
                                 marginTop: 30,
@@ -555,11 +588,11 @@ const FilterDataRecently = ({ navigation }) => {
                                 paddingBottom: 90,
                             }}>
 
-                            {filteredBooks.length > 0 ? (
+                            {isLoading ? (
                                 <FlatList
                                     numColumns={2}
                                     keyExtractor={(item, index) => index.toString()}
-                                    data={filteredBooks}
+                                    data={filterBybooks}
                                     // extraData={filteredBooks}
                                     renderItem={({ item }) => (
                                         <TouchableOpacity
@@ -636,17 +669,85 @@ const FilterDataRecently = ({ navigation }) => {
                                     )}
                                 />
                             ) : (
-                                <View>
-                                    <Text
-                                        style={{
-                                            fontSize: 15,
-                                            color: '#5D6D7E',
-                                            fontWeight: '500',
-                                            textAlign: 'center',
-                                        }}>
-                                        Not Available
-                                    </Text>
-                                </View>
+                                <FlatList
+                                numColumns={2}
+                                keyExtractor={(item, index) => index.toString()}
+                                data={filteredBooks}
+                                // extraData={filteredBooks}
+                                renderItem={({ item }) => (
+                                    <TouchableOpacity
+                                        onPress={() =>
+                                            navigation.navigate('BooksDetailPage', { data: item })
+                                        }>
+                                        <View
+                                            style={{
+                                                width: 150,
+                                                height: 310,
+                                                marginEnd: 20,
+                                            }}>
+                                            <View
+                                                style={{
+                                                    borderRadius: 5,
+                                                    color: '#000',
+                                                }}>
+                                                <Image
+                                                    source={{ uri: item.image_path }}
+                                                    style={styles.bookImage}
+                                                />
+                                            </View>
+
+                                            <View style={{ padding: 10 }}>
+                                                <Text style={styles.bookNameText} numberOfLines={1}>
+                                                    {item.name}
+                                                </Text>
+                                                {item.library_id === 111 ? (
+                                                    <Text
+                                                        style={[
+                                                            styles.bookPageLibText,
+                                                            {
+                                                                marginLeft: -10,
+                                                            },
+                                                        ]}>
+                                                        Dindayal Upadhyay Library
+                                                    </Text>
+                                                ) : item.library_id === 222 ? (
+                                                    <Text
+                                                        style={[
+                                                            styles.bookPageLibText,
+                                                            {
+                                                                marginLeft: -12,
+                                                            },
+                                                        ]}>
+                                                        Kundanlal Gupta Library
+                                                    </Text>
+                                                ) : (
+                                                    <Text
+                                                        style={[
+                                                            styles.bookPageLibText,
+                                                            {
+                                                                marginLeft: -8,
+                                                            },
+                                                        ]}>
+                                                        Rashtramata Kasturba Library
+                                                    </Text>
+                                                )}
+
+                                                {item.items?.[0]?.format === 3 ? (
+                                                    <Image
+                                                        source={require('../images/ebook.png')}
+                                                        style={styles.bookicon}
+                                                    />
+                                                ) : (
+                                                    <Image
+                                                        source={require('../images/bookfill.png')}
+                                                        style={styles.bookicon}
+                                                    />
+                                                )}
+                                            </View>
+                                        </View>
+                                    </TouchableOpacity>
+                                )}
+                            />
                             )}
 
 
