@@ -34,19 +34,20 @@ const FilterDataRecently = ({ navigation }) => {
     const [clearFilters, setClearFilters] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    const book=()=>{
-        fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0',)
+    const book = () => {
+        fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&limit=5',)//?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
             .then(res => res.json())
             .then(respo => {
                 setFilterByBooks(respo.data);
                 // console.log("genre:",respo.data[0]?.genres[0].name);
-                setIsLoading(false); 
-            });
-        }
+                setIsLoading(false);
 
-        useEffect(() => {  
-            book();
-        }, []);
+            });
+    }
+
+    useEffect(() => {
+        book();
+    }, [selectedGenre]);
 
     // ==============================static dropdown===================================
 
@@ -115,7 +116,7 @@ const FilterDataRecently = ({ navigation }) => {
                     'Languages',
                     ...data.data.map(language => language.language_name),
                 ]),
-            ) 
+            )
             .catch(error => console.error('Error fetching publisher:', error));
     }, []);
 
@@ -126,9 +127,9 @@ const FilterDataRecently = ({ navigation }) => {
             item.toLowerCase().includes(text.toLowerCase()),
         );
         // console.log('Filtered Results:', filteredResults);
-        
+
         setSearchResults(filteredResults);
-         console.log('Filtered Results of genre:', searchResults);
+        console.log('Filtered Results of genre:', searchResults);
         setIsLoading(false);
     };
 
@@ -190,35 +191,35 @@ const FilterDataRecently = ({ navigation }) => {
         setSelectedLanguage('Language');
         setSelectedLibrary('Library');
         setSelectedPublisher('Publisher');
-        setFilteredBooks(filterBybooks);
-        // book();
+        // setFilteredBooks([]);
+
         // console.log("clear call")
         // console.log("data after clear:",filterBybooks)
 
     };
 
     // ============================== working code for Filter  ==========================
-   
+
     useEffect(() => {
         const handleDataFilters = () => {
             let filteredBooksCopy = [...filterBybooks];
             // console.log('filterdata ::---', filteredBooksCopy);
             // ============================ logic for search ===============================
-       if (searchQuery.trim() !== '') {
+            if (searchQuery.trim() !== '') {
                 const query = searchQuery.toLowerCase();
                 filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingBookName =  book.genres.some((genr) =>genr.name.toLowerCase().includes(query));
+                    const hasMatchingBookName = book.genres.some((genr) => genr.name.toLowerCase().includes(query));
                     // console.log("Checking Genre:", genr.name);
                     return hasMatchingBookName;
                 });
             }
-    
+
             if (searchQueryauthor.trim() !== '') {
                 const queryauthor = searchQueryauthor.toLowerCase();
                 filteredBooksCopy = filterBybooks.filter(book => {
-                    const hasMatchingBookNameAuthor = 
-                    book.authors.some((authr) => (authr.first_name + "" + authr.last_name).toLowerCase().includes(queryauthor));
-                     return hasMatchingBookNameAuthor;
+                    const hasMatchingBookNameAuthor =
+                        book.authors.some((authr) => (authr.first_name + "" + authr.last_name).toLowerCase().includes(queryauthor));
+                    return hasMatchingBookNameAuthor;
                 });
             }
             // ==================logic for picker =====================
@@ -229,7 +230,7 @@ const FilterDataRecently = ({ navigation }) => {
                         book.items.some(item => {
                             return item.publisher.name === selectedPublisher;
                         });
-    
+
                     return hasMatchingPublisher;
                 });
             }
@@ -240,7 +241,7 @@ const FilterDataRecently = ({ navigation }) => {
                         book.items.some(item => {
                             return item.language.language_name === selectedLanguage;
                         });
-    
+
                     return hasMatchingLanguage;
                 });
             }
@@ -262,9 +263,9 @@ const FilterDataRecently = ({ navigation }) => {
                     return hasMatchingLibrary;
                 });
             }
-    
+
             setFilteredBooks(filteredBooksCopy);
-            // console.log('Filtered Books are :::  ', filteredBooks);
+            console.log('Filtered Books are inside handlefilter:::  ', filteredBooks);
         };
         handleDataFilters();
     }, [
@@ -276,7 +277,7 @@ const FilterDataRecently = ({ navigation }) => {
         selectedLibrary,
     ]);
 
-    console.log('FilteredBooks are after search  ===', filteredBooks);
+    console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
 
     return (
         <Theme>
@@ -525,6 +526,10 @@ const FilterDataRecently = ({ navigation }) => {
                                         <TouchableOpacity
                                             onPress={() => {
                                                 handleClearAll();
+                                                setFilteredBooks([]);
+                                                book();
+                                                
+                                                setFilteredBooks(filterBybooks);
                                             }}>
                                             <Text
                                                 style={{
