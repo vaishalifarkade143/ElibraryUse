@@ -350,8 +350,8 @@ const HomeScreen = ({ navigation }) => {
                   <Text style={styles.coroselheading}>Featured Books</Text>
 
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData',
-                      { featureBooks })
+                    // navigation.navigate('filterData', { featureBooks })
+                    navigation.navigate('filterDatabooks');
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image
@@ -417,7 +417,8 @@ const HomeScreen = ({ navigation }) => {
                 <View style={styles.flatView1}>
                   <Text style={styles.coroselheading}>Featured E-Books</Text>
                   <TouchableOpacity onPress={() => {
-                    navigation.navigate('filterData', { featureEBooks })
+                    // navigation.navigate('filterData', { featureEBooks })
+                    navigation.navigate('filterDataebooks')
                   }}>
                     {/* <Text style={styles.seeAll}>See All</Text> */}
                     <Image

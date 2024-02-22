@@ -28,9 +28,9 @@ const FilterDataRecently = ({ navigation }) => {
 
 
   /* const book = () => {
-    fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&library_id=${selectedLibrary}&author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage}&format=${selectedFormat}&limit=20`,
-    ) //?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
+     fetch(
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&publisher=${selectedPublisher}&language=${selectedLanguage}&limit=20`,
+    )
       .then(res => res.json())
       .then(respo => {
         setFilterByBooks(respo.data);
@@ -122,7 +122,7 @@ const FilterDataRecently = ({ navigation }) => {
     /* &author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage} */
 
     fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&publisher=${selectedPublisher}&language=${selectedLanguage}&limit=20`,
     )
       .then(res => res.json())
       .then(respo => {
@@ -132,8 +132,6 @@ const FilterDataRecently = ({ navigation }) => {
   }, [
     searchQuery,
     searchQueryauthor,
-    // selectedGenre,
-    // selectedAuthor,
     selectedPublisher,
     selectedLanguage,
     selectedFormat,
@@ -178,7 +176,7 @@ const FilterDataRecently = ({ navigation }) => {
         setAuthr([
           'Author',
           ...data.data.map(
-            authors => authors.first_name + '' + authors.last_name,
+            authors => authors.first_name + ' ' + authors.last_name,
           ),
         ]),
       ) 
@@ -187,7 +185,9 @@ const FilterDataRecently = ({ navigation }) => {
 
   useEffect(() => {
     fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc',
+      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc&limit=5',
+      
+      
     )
       .then(response => response.json())
       .then(data =>
@@ -201,7 +201,7 @@ const FilterDataRecently = ({ navigation }) => {
   
   useEffect(() => {
     fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=language_name&direction=asc',
+      'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=created_at&direction=asc',
     )
       .then(response => response.json())
       .then(data =>
@@ -212,6 +212,41 @@ const FilterDataRecently = ({ navigation }) => {
       )
       .catch(error => console.error('Error fetching publisher:', error));
   }, []);
+
+
+
+
+  // useEffect(() => {
+  //     const fetchPublisher = () =>{
+  //     fetch(
+  //       'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc',
+  //     )
+  //       .then(response => response.json())
+  //       .then(data =>
+  //         setPublishr([
+  //           'Publisher',
+  //           ...data.data.map(publisher => publisher.name),
+  //         ]),
+  //       ) // Assuming the API response has a "data" field with an array of genres
+  //       .catch(error => console.error('Error fetching publisher:', error));
+  //       }
+
+  //       const fetchLanguage = () => {
+  //         fetch(
+  //           'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=language_name&direction=asc',
+  //         )
+  //           .then(response => response.json())
+  //           .then(data =>
+  //             setLanguage([
+  //               'Languages',
+  //               ...data.data.map(language => language.language_name),
+  //             ]),
+  //           )
+  //           .catch(error => console.error('Error fetching publisher:', error));
+  //       }
+  //       fetchPublisher();
+  //       fetchLanguage();
+  // }, []);
 
   const handleSearch = text => {
     // console.log('Search Query:', text);
@@ -252,11 +287,6 @@ const FilterDataRecently = ({ navigation }) => {
     setSearchQueryauthor(itemValue); 
     handleSearchAuthor(itemValue);
   };
-
-
-
-
-
 
 
 
@@ -327,7 +357,9 @@ const FilterDataRecently = ({ navigation }) => {
                     marginLeft: 20,
                     marginRight: 20,
                   }}>
+
                   {/* =====================search================================= */}
+
                   <View>
                     <View
                       style={{
