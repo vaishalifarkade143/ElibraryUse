@@ -144,6 +144,7 @@ if(!isLoading){
     selectedFormat,
     selectedLibrary,
     isLoading,
+    
   ]);
 
   // console.log("useeffect call:", filterBybooks);
@@ -205,7 +206,7 @@ if(!isLoading){
     )
       .then(response => response.json())
       .then(data => setLanguage(data.data))
-      .catch(error => console.error('Error fetching Language:', error));
+      .catch(error => console.error('Error fetching publisher:', error));
   }, []);
 
   const handleSearch = text => {
@@ -420,15 +421,11 @@ if(!isLoading){
                       selectedValue={selectedPublisher}
                       onValueChange={itemValue =>
                         setSelectedPublisher(itemValue)
-                      }
-                      >
-                        <Picker.Item label='Publisher' value='0' />
+                      }>
                       {publishr
                         ? publishr.map((publishers, index) => (
-                          
                             <Picker.Item
                               key={index}
-                              
                               label={publishers.name}
                               value={publishers.name}
                               style={{
@@ -461,7 +458,6 @@ if(!isLoading){
                       onValueChange={itemValue =>
                         setSelectedLanguage(itemValue)
                       }>
-                         <Picker.Item label='Language' value='0' />
                       {language
                         ? language.map((language, index) => (
                             <Picker.Item
