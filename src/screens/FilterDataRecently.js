@@ -116,18 +116,25 @@ const FilterDataRecently = ({ navigation }) => {
 
 
   useEffect(() => {
-    /* book(); */
-
-    /*  */
+    console.log("Dependencies:", {
+      searchQuery,
+      searchQueryauthor,
+      selectedPublisher,
+      selectedLanguage,
+      selectedFormat,
+      selectedLibrary,
+    });
     /* &author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage} */
 
     fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&publisher=${selectedPublisher}&language=${selectedLanguage}&limit=20`,
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&publisher=${selectedPublisher}&language=${selectedLanguage}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
     )
       .then(res => res.json())
       .then(respo => {
         setFilterByBooks(respo.data);
-        setIsLoading(false);
+        // setIsLoading(false);
+        // setSelectedLanguage(0);
+        // setSelectedPublisher(0);
       });
   }, [
     searchQuery,
@@ -137,9 +144,10 @@ const FilterDataRecently = ({ navigation }) => {
     selectedFormat,
     selectedLibrary,
     isLoading,
+    
   ]);
 
-  // console.log("useeffect call:", filterBybooks);
+  // console.log("useeffect call:", filterBybooks);//[0]?.items[0].language.language_name
 
   // ==============================static dropdown===================================
   const formats = [
@@ -156,106 +164,135 @@ const FilterDataRecently = ({ navigation }) => {
   ];
 
   // ===================== fetching data for dynamic dropdown ================================================
-  useEffect(() => {
-    fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=',
-    )
-      .then(response => response.json())
-      .then(data => {
-        setGenr(['Genre', ...data.data.map(genres => genres.name)]);
-      })
-      .catch(error => console.error('Error fetching genres:', error));
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     'https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=',
+  //   )
+  //     .then(response => response.json())
+  //     .then(data => {
+  //       setGenr(['Genre', ...data.data.map(genres => genres.name)]);
+  //     })
+  //     .catch(error => console.error('Error fetching genres:', error));
+  // }, []);
 
-  useEffect(() => {
-    fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors?search=&limit=&order_by=first_name&direction=asc',
-    )
-      .then(response => response.json())
-      .then(data =>
-        setAuthr([
-          'Author',
-          ...data.data.map(
-            authors => authors.first_name + ' ' + authors.last_name,
-          ),
-        ]),
-      ) 
-      .catch(error => console.error('Error fetching authors:', error));
-  }, []);
-
-  useEffect(() => {
-    fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc&limit=5',
-      
-      
-    )
-      .then(response => response.json())
-      .then(data =>
-        setPublishr([
-          'Publisher',
-          ...data.data.map(publisher => publisher.name),
-        ]),
-      ) // Assuming the API response has a "data" field with an array of genres
-      .catch(error => console.error('Error fetching publisher:', error));
-  }, []);
-  
-  useEffect(() => {
-    fetch(
-      'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=created_at&direction=asc',
-    )
-      .then(response => response.json())
-      .then(data =>
-        setLanguage([
-          'Languages',
-          ...data.data.map(language => language.language_name),
-        ]),
-      )
-      .catch(error => console.error('Error fetching publisher:', error));
-  }, []);
+  // useEffect(() => {
+  //   fetch(
+  //     'https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors?search=&limit=&order_by=first_name&direction=asc',
+  //   )
+  //     .then(response => response.json())
+  //     .then(data =>
+  //       setAuthr([
+  //         'Author',
+  //         ...data.data.map(
+  //           authors => authors.first_name + ' ' + authors.last_name,
+  //         ),
+  //       ]),
+  //     ) 
+  //     .catch(error => console.error('Error fetching authors:', error));
+  // }, []);
 
 
 
 
   // useEffect(() => {
-  //     const fetchPublisher = () =>{
-  //     fetch(
-  //       'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc',
-  //     )
-  //       .then(response => response.json())
-  //       .then(data =>
-  //         setPublishr([
-  //           'Publisher',
-  //           ...data.data.map(publisher => publisher.name),
-  //         ]),
-  //       ) // Assuming the API response has a "data" field with an array of genres
-  //       .catch(error => console.error('Error fetching publisher:', error));
-  //       }
-
-  //       const fetchLanguage = () => {
-  //         fetch(
-  //           'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=language_name&direction=asc',
-  //         )
-  //           .then(response => response.json())
-  //           .then(data =>
-  //             setLanguage([
-  //               'Languages',
-  //               ...data.data.map(language => language.language_name),
-  //             ]),
-  //           )
-  //           .catch(error => console.error('Error fetching publisher:', error));
-  //       }
-  //       fetchPublisher();
-  //       fetchLanguage();
+  //   fetch(
+  //     'https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc&limit=5',
+  //   )
+  //     .then(response => response.json())
+  //     .then(data =>
+  //       setPublishr([
+  //         'Publisher',
+  //         ...data.data.map(publisher => publisher.name),
+  //       ]),
+  //     ) // Assuming the API response has a "data" field with an array of genres
+  //     .catch(error => console.error('Error fetching publisher:', error));
   // }, []);
 
+  // useEffect(() => {
+  //   fetch(
+  //     'https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=created_at&direction=asc',
+  //   )
+  //     .then(response => response.json())
+  //     .then(data =>
+  //       setLanguage([
+  //         'Languages',
+  //         ...data.data.map(language => language.language_name),
+  //       ]),
+  //     )
+  //     .catch(error => console.error('Error fetching publisher:', error));
+  // }, []);
+
+
+
+
+  useEffect(() => {
+    const fetchGenre = () => {
+      fetch(
+        'https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=',
+      )
+        .then(response => response.json())
+        .then(data => {
+          setGenr(['Genre', ...data.data.map(genres => genres.name)]);
+        })
+        .catch(error => console.error('Error fetching genres:', error));
+    }
+
+    const fetchAuthor = () => {
+      fetch(
+        'https://dindayalupadhyay.smartcitylibrary.com/api/v1/authors?search=&limit=&order_by=first_name&direction=asc',
+      )
+        .then(response => response.json())
+        .then(data =>
+          setAuthr([
+            'Author',
+            ...data.data.map(
+              authors => authors.first_name + ' ' + authors.last_name,
+            ),
+          ]),
+        )
+        .catch(error => console.error('Error fetching authors:', error));
+    }
+
+    const fetchPublisher = () => {
+      fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/publishers?order_by=name&direction=asc',)
+        .then(response => response.json())
+        .then(data =>
+          setPublishr([
+            'Publisher',
+            ...data.data.map(publisher => publisher.name),
+          ]),
+        ) // Assuming the API response has a "data" field with an array of genres
+        .catch(error => console.error('Error fetching publisher:', error));
+    }
+
+
+
+
+    const fetchLanguage = () => {
+      fetch('https://dindayalupadhyay.smartcitylibrary.com/api/b1/book-languages?order_by=language_name&direction=asc',)
+        .then(response => response.json())
+        .then(data =>
+          setLanguage([
+            'Languages',
+            ...data.data.map(language => language.language_name),
+           
+          ]),
+          console.log("language",language.language_name)
+        )
+        .catch(error => console.error('Error fetching language:', error));
+    }
+    fetchGenre();
+    fetchAuthor();
+    fetchPublisher();
+    fetchLanguage();
+  }, []);
+
   const handleSearch = text => {
-    // console.log('Search Query:', text);
     setIsLoading(true);
     const filteredResults = genr.filter(item =>
       item.toLowerCase().includes(text.toLowerCase()),
     );
     setSearchResults(filteredResults);
-    // console.log('Filtered Results of genre:', filteredResults);
     setIsLoading(false);
   };
 
@@ -265,26 +302,18 @@ const FilterDataRecently = ({ navigation }) => {
     handleSearch(itemValue); // Trigger search based on the selected genre
   };
 
-
-
-
-
   const handleSearchAuthor = text => {
     setIsLoading(true);
     const filteredAuthorResults = authr.filter(item =>
       item.toLowerCase().includes(text.toLowerCase()),
     );
-   
+
     setSearchResultsauthor(filteredAuthorResults);
-    console.log('Filtered Author Results:', filteredAuthorResults);
-    // console.log('Filtered Author searchQueryauthor inside:', searchResultsauthor);
     setIsLoading(false);
   };
-  console.log('Filtered Author searchQueryauthor:', searchResultsauthor);
-
   const handleAuthorSelection = itemValue => {
     // setSelectedAuthor(itemValue);
-    setSearchQueryauthor(itemValue); 
+    setSearchQueryauthor(itemValue);
     handleSearchAuthor(itemValue);
   };
 
@@ -327,7 +356,10 @@ const FilterDataRecently = ({ navigation }) => {
     setSelectedPublisher(0);
     setIsLoading(true);
   };
-  // ============================== working code for Filter  ==========================
+
+
+
+  //  // ============================== working code for Filter  ==========================
 
   // console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
   return (
@@ -393,7 +425,10 @@ const FilterDataRecently = ({ navigation }) => {
                       />
                     </View>
                     <FlatList
-                      style={{ borderColor: '#efefef', borderWidth: 0.5 }}
+                      style={{
+                        borderColor: '#efefef',
+                        borderWidth: 0.5
+                      }}
                       data={searchResults}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={renderItem}
@@ -462,6 +497,7 @@ const FilterDataRecently = ({ navigation }) => {
                       onValueChange={itemValue =>
                         setSelectedPublisher(itemValue)
                       }>
+                      
                       {publishr.map((publishers, index) => (
                         <Picker.Item
                           key={index}
@@ -496,11 +532,11 @@ const FilterDataRecently = ({ navigation }) => {
                       onValueChange={itemValue =>
                         setSelectedLanguage(itemValue)
                       }>
-                      {language.map((language, index) => (
+                      {language.map((languagee, index) => (
                         <Picker.Item
                           key={index}
-                          label={language}
-                          value={language}
+                          label={languagee}
+                          value={languagee}
                           style={{
                             fontSize: 15,
                           }}
@@ -579,7 +615,6 @@ const FilterDataRecently = ({ navigation }) => {
                     <TouchableOpacity
                       onPress={() => {
                         handleClearAll();
-                        //  handleDataFilters();
                         setFilterByBooks([]);
                       }}>
                       <Text
@@ -609,7 +644,6 @@ const FilterDataRecently = ({ navigation }) => {
                   numColumns={2}
                   keyExtractor={(item, index) => index.toString()}
                   data={filterBybooks}
-                  // extraData={filteredBooks}
                   renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() =>

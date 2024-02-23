@@ -918,7 +918,7 @@ const Books = ({ navigation }) => {
   // ===================== fetching data for dynamic dropdown ================================================
   useEffect(() => {
 
-    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=5')
+    fetch('https://dindayalupadhyay.smartcitylibrary.com/api/v1/genres?order_by=name&direction=asc&search=&limit=')
       .then(response => response.json())
       .then(data => setGenr(["Genre", ...data.data.map(genres => genres.name)]))
 
