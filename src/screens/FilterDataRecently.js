@@ -123,15 +123,17 @@ const FilterDataRecently = ({navigation}) => {
 
     /*  */
     /* &author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage} */
-
+    console.log("publisher:",selectedPublisher)
+if(!isLoading){
     fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&language=${selectedLanguage}&genre=${searchQuery}&publisher=${selectedPublisher}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
+      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&language=${selectedLanguage}&publisher=${selectedPublisher}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
     )
       .then(res => res.json())
       .then(respo => {
         setFilterByBooks(respo.data);
         setIsLoading(false);
       });
+    }
   }, [
     searchQuery,
     searchQueryauthor,
@@ -203,7 +205,7 @@ const FilterDataRecently = ({navigation}) => {
     )
       .then(response => response.json())
       .then(data => setLanguage(data.data))
-      .catch(error => console.error('Error fetching publisher:', error));
+      .catch(error => console.error('Error fetching Language:', error));
   }, []);
 
   const handleSearch = text => {
@@ -234,7 +236,7 @@ const FilterDataRecently = ({navigation}) => {
     // console.log('Filtered Author searchQueryauthor inside:', searchResultsauthor);
     setIsLoading(false);
   };
-  console.log('Filtered Author searchQueryauthor:', searchResultsauthor);
+  // console.log('Filtered Author searchQueryauthor:', searchResultsauthor);
 
   const handleAuthorSelection = itemValue => {
     // setSelectedAuthor(itemValue);
@@ -277,8 +279,11 @@ const FilterDataRecently = ({navigation}) => {
     setSelectedLanguage(0);
     setSelectedLibrary(111);
     setSelectedPublisher(0);
-    setIsLoading(true);
+    // setIsLoading(true);
   };
+
+
+  const handlePublisherValueChange=(itemValue, itemIndex) => setSelectedPublisher(itemValue)
   // ============================== working code for Filter  ==========================
 
   // console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
@@ -408,14 +413,22 @@ const FilterDataRecently = ({navigation}) => {
                         marginStart: 10,
                         color: '#5D6D7E',
                       }}
+                      // enabled={false}
+                      // mode={'dropdown'}
+                      // dropdownIconColor={'red'}
+
                       selectedValue={selectedPublisher}
                       onValueChange={itemValue =>
                         setSelectedPublisher(itemValue)
-                      }>
+                      }
+                      >
+                        <Picker.Item label='Publisher' value='0' />
                       {publishr
                         ? publishr.map((publishers, index) => (
+                          
                             <Picker.Item
                               key={index}
+                              
                               label={publishers.name}
                               value={publishers.name}
                               style={{
@@ -448,6 +461,7 @@ const FilterDataRecently = ({navigation}) => {
                       onValueChange={itemValue =>
                         setSelectedLanguage(itemValue)
                       }>
+                         <Picker.Item label='Language' value='0' />
                       {language
                         ? language.map((language, index) => (
                             <Picker.Item
@@ -533,7 +547,6 @@ const FilterDataRecently = ({navigation}) => {
                     <TouchableOpacity
                       onPress={() => {
                         handleClearAll();
-                        //  handleDataFilters();
                         setFilterByBooks([]);
                       }}>
                       <Text
