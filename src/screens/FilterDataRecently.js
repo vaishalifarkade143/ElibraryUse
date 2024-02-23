@@ -144,7 +144,7 @@ const FilterDataRecently = ({ navigation }) => {
     selectedFormat,
     selectedLibrary,
     isLoading,
-    
+
   ]);
 
   // console.log("useeffect call:", filterBybooks);//[0]?.items[0].language.language_name
@@ -275,9 +275,9 @@ const FilterDataRecently = ({ navigation }) => {
           setLanguage([
             'Languages',
             ...data.data.map(language => language.language_name),
-           
+
           ]),
-          console.log("language",language.language_name)
+          console.log("language", language.language_name)
         )
         .catch(error => console.error('Error fetching language:', error));
     }
@@ -497,8 +497,9 @@ const FilterDataRecently = ({ navigation }) => {
                       onValueChange={itemValue =>
                         setSelectedPublisher(itemValue)
                       }>
-                      
-                      {publishr.map((publishers, index) => (
+
+                      {publishr?
+                      publishr.map((publishers, index) => (
                         <Picker.Item
                           key={index}
                           label={publishers}
@@ -507,7 +508,9 @@ const FilterDataRecently = ({ navigation }) => {
                             fontSize: 15,
                           }}
                         />
-                      ))}
+                      ))
+                    :[]
+                    }
                     </Picker>
                   </View>
 
@@ -532,16 +535,19 @@ const FilterDataRecently = ({ navigation }) => {
                       onValueChange={itemValue =>
                         setSelectedLanguage(itemValue)
                       }>
-                      {language.map((languagee, index) => (
-                        <Picker.Item
-                          key={index}
-                          label={languagee}
-                          value={languagee}
-                          style={{
-                            fontSize: 15,
-                          }}
-                        />
-                      ))}
+                      {language ?
+                        language.map((languagee, index) => (
+                          <Picker.Item
+                            key={index}
+                            label={languagee}
+                            value={languagee}
+                            style={{
+                              fontSize: 15,
+                            }}
+                          />
+                        )) 
+                        : []
+                        }
                     </Picker>
                   </View>
 
