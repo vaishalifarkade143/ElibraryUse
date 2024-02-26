@@ -133,9 +133,20 @@ const MembershipPlan = () => {
   const [isPlanActivated, setIsPlanActivated] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [checkedEbookItems, setCheckedEbookItems] = useState({});
-  const [checkedBookItems, setCheckedBookItems] = useState({});
-  const [checkedLibraryItems, setCheckedLibraryItems] = useState({});
+  
+  // const [checkedEbookItems, setCheckedEbookItems] = useState({1: true, 6: true, 5:true});
+  // const [checkedBookItems, setCheckedBookItems] = useState({1: true, 6: true, 3: true, 2: true});
+  // const [checkedLibraryItems, setCheckedLibraryItems] = useState({1: true, 6: true, 4: true, 2: true});
+
+  
+  const [defaultCheckedBookItems, setDefaultCheckedBookItems] = useState({1: true, 6: true, 3: true, 2: true});
+  const [checkedBookItems, setCheckedBookItems] = useState(defaultCheckedBookItems);
+  
+  const [defaultCheckedLibraryItems, setDefaultCheckedLibraryItems] = useState({1: true, 6: true, 4: true, 2: true});
+  const [checkedLibraryItems, setCheckedLibraryItems] = useState(defaultCheckedLibraryItems);
+
+  const [ defaultCheckedEbookItems, setDefaultCheckedEbookItems] = useState({1: true, 6: true, 5:true});
+  const [checkedEbookItems, setCheckedEbookItems] = useState(defaultCheckedEbookItems);
 
   useEffect(() => {
     const subscription = () => {
@@ -280,66 +291,108 @@ const MembershipPlan = () => {
                     </View>
                     <Text style={styles.description}>{item.description}</Text>
 
-                    <View style={{flexDirection:'row'}}>
-                     
-                    <CheckBox
-                      value={checkedBookItems[item.id]}
-                      onValueChange={() => {
-                        setCheckedBookItems((prevCheckedItems) => ({
-                          ...prevCheckedItems,
-                          [item.id]: !prevCheckedItems[item.id],
-                        }));
-                      }}
-                      style={{
-                        marginLeft:-10
-                       }}
-                    />
-                     {item.id === 4 || item.id === 5 ? <Text style={{alignSelf:'center',
-                    fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>No Access of Book</Text>
-                    :
-                    <Text style={{alignSelf:'center',fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>Access of Book</Text>}
+                    <View style={{ flexDirection: 'row' }}>
+
+                      <CheckBox
+                        value={checkedBookItems[item.id]}
+                        // onValueChange={() => {
+                        //   setCheckedBookItems((prevCheckedItems) => ({
+                        //     ...prevCheckedItems,
+                        //     [item.id]: !prevCheckedItems[item.id],
+                        //   }));
+                        // }}
+
+                        onValueChange={() => {
+                          // Update only if it's not a default selected checkbox
+                          if (!defaultCheckedBookItems.hasOwnProperty(item.id)) {
+                            setCheckedBookItems((prevCheckedItems) => ({
+                              ...prevCheckedItems,
+                              [item.id]: !prevCheckedItems[item.id],
+                            }));
+                          }
+                        }}
+
+                        style={{
+                          marginLeft: -10,
+                        }}
+                      />
+                      {item.id === 4 || item.id === 5 ? <Text style={{
+                        alignSelf: 'center',
+                        fontSize: 11,
+                        fontFamily: 'Poppins-Regular',
+                      }}>No Access of Book</Text>
+                        :
+                        <Text style={{
+                          alignSelf: 'center', fontSize: 11,
+                          fontFamily: 'Poppins-Regular',
+                        }}>Access of Book</Text>}
                     </View>
 
-                  <View style={{flexDirection:'row'}}>
-                    <CheckBox
-                      value={checkedLibraryItems[item.id]}
-                      onValueChange={() => {
-                        setCheckedLibraryItems((prevCheckedItems) => ({
-                          ...prevCheckedItems,
-                          [item.id]: !prevCheckedItems[item.id],
-                        }));
-                      }}
-                      style={{
-                        marginLeft:-10
-                       }}
-                    />
-                    <Text style={{alignSelf:'center',
-                    fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>No Access of Library</Text>
+                    <View style={{ flexDirection: 'row' }}>
+                      <CheckBox
+                        value={checkedLibraryItems[item.id]}
+                        // onValueChange={() => {
+                        //   setCheckedLibraryItems((prevCheckedItems) => ({
+                        //     ...prevCheckedItems,
+                        //     [item.id]: !prevCheckedItems[item.id],
+                        //   }));
+                        // }}
+
+                        onValueChange={() => {
+                          // Update only if it's not a default selected checkbox
+                          if (!defaultCheckedLibraryItems.hasOwnProperty(item.id)) {
+                            setCheckedLibraryItems((prevCheckedItems) => ({
+                              ...prevCheckedItems,
+                              [item.id]: !prevCheckedItems[item.id],
+                            }));
+                          }
+                        }}
+
+                        style={{
+                          marginLeft: -10
+                        }}
+                      />
+                      <Text style={{
+                        alignSelf: 'center',
+                        fontSize: 11,
+                        fontFamily: 'Poppins-Regular',
+                      }}>No Access of Library</Text>
                     </View>
-                    
-                    <View style={{flexDirection:'row'}}>
-                    <CheckBox
-                   
-                      value={checkedEbookItems[item.id]}
-                      onValueChange={() => {
-                        setCheckedEbookItems((prevCheckedItems) => ({
-                          ...prevCheckedItems,
-                          [item.id]: !prevCheckedItems[item.id],
-                        }));
-                      }}
-                      style={{
-                       marginLeft:-10
-                      }}
-                    />
-                    {item.id === 2 || item.id === 3 || item.id === 4 ? <Text style={{alignSelf:'center',
-                    fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>No Access of Ebook</Text>
-                    :
-                    <Text style={{alignSelf:'center',fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>Access of Ebook</Text>}
+
+                    <View style={{ flexDirection: 'row' }}>
+                      <CheckBox
+                        value={checkedEbookItems[item.id]}
+                        // onValueChange={() => {
+                        //   setCheckedEbookItems((prevCheckedItems) => ({
+                        //     ...prevCheckedItems,
+                        //     [item.id]: !prevCheckedItems[item.id],
+                        //   }));
+                        // }}
+
+                        onValueChange={() => {
+                          // Update only if it's not a default selected checkbox
+                          if (!defaultCheckedEbookItems.hasOwnProperty(item.id)) {
+                            setCheckedEbookItems((prevCheckedItems) => ({
+                              ...prevCheckedItems,
+                              [item.id]: !prevCheckedItems[item.id],
+                            }));
+                          }
+                        }}
+
+                        style={{
+                          marginLeft: -10
+                        }}
+                      />
+                      {item.id === 2 || item.id === 3 || item.id === 4 ? <Text style={{
+                        alignSelf: 'center',
+                        fontSize: 11,
+                        fontFamily: 'Poppins-Regular',
+                      }}>No Access of Ebook</Text>
+                        :
+                        <Text style={{
+                          alignSelf: 'center', fontSize: 11,
+                          fontFamily: 'Poppins-Regular',
+                        }}>Access of Ebook</Text>}
                     </View>
 
                     <TouchableOpacity
@@ -352,14 +405,14 @@ const MembershipPlan = () => {
                     >
                       <Text style={styles.buttonText}>Subscribe</Text>
                     </TouchableOpacity>
-                   
+
                   </View>
                 )}
               />
             </View>
           </View>
         );
-        
+
       }}
     </Theme>
   );
