@@ -133,7 +133,9 @@ const MembershipPlan = () => {
   const [isPlanActivated, setIsPlanActivated] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [checkedItems, setCheckedItems] = useState({});
+  const [checkedEbookItems, setCheckedEbookItems] = useState({});
+  const [checkedBookItems, setCheckedBookItems] = useState({});
+  const [checkedLibraryItems, setCheckedLibraryItems] = useState({});
 
   useEffect(() => {
     const subscription = () => {
@@ -279,10 +281,11 @@ const MembershipPlan = () => {
                     <Text style={styles.description}>{item.description}</Text>
 
                     <View style={{flexDirection:'row'}}>
+                     
                     <CheckBox
-                      value={checkedItems[item.id]}
+                      value={checkedBookItems[item.id]}
                       onValueChange={() => {
-                        setCheckedItems((prevCheckedItems) => ({
+                        setCheckedBookItems((prevCheckedItems) => ({
                           ...prevCheckedItems,
                           [item.id]: !prevCheckedItems[item.id],
                         }));
@@ -297,16 +300,13 @@ const MembershipPlan = () => {
                     :
                     <Text style={{alignSelf:'center',fontSize:11,
                     fontFamily: 'Poppins-Regular',}}>Access of Book</Text>}
-                    {/* <Text style={{alignSelf:'center',
-                    fontSize:11,
-                    fontFamily: 'Poppins-Regular',}}>No Access of Ebook</Text> */}
                     </View>
 
                   <View style={{flexDirection:'row'}}>
                     <CheckBox
-                      value={checkedItems[item.id]}
+                      value={checkedLibraryItems[item.id]}
                       onValueChange={() => {
-                        setCheckedItems((prevCheckedItems) => ({
+                        setCheckedLibraryItems((prevCheckedItems) => ({
                           ...prevCheckedItems,
                           [item.id]: !prevCheckedItems[item.id],
                         }));
@@ -323,9 +323,9 @@ const MembershipPlan = () => {
                     <View style={{flexDirection:'row'}}>
                     <CheckBox
                    
-                      value={checkedItems[item.id]}
+                      value={checkedEbookItems[item.id]}
                       onValueChange={() => {
-                        setCheckedItems((prevCheckedItems) => ({
+                        setCheckedEbookItems((prevCheckedItems) => ({
                           ...prevCheckedItems,
                           [item.id]: !prevCheckedItems[item.id],
                         }));
