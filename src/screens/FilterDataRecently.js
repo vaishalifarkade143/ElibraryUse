@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,11 +10,11 @@ import {
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import Header from '../common/Header';
-import {Picker} from '@react-native-picker/picker';
-import {TextInput} from 'react-native-gesture-handler';
+import { Picker } from '@react-native-picker/picker';
+import { TextInput } from 'react-native-gesture-handler';
 import Feather from 'react-native-vector-icons/Feather';
 
-const FilterDataRecently = ({navigation}) => {
+const FilterDataRecently = ({ navigation }) => {
   const [filterBybooks, setFilterByBooks] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState(0);
   const [genr, setGenr] = useState([]);
@@ -33,112 +33,23 @@ const FilterDataRecently = ({navigation}) => {
   const [searchResultsauthor, setSearchResultsauthor] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  /* const book = () => {
-    fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&library_id=${selectedLibrary}&author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage}&format=${selectedFormat}&limit=20`,
-    ) //?order_by=created_at&limit=5&search=&genre=&library_id=111&author=&publisher=&language=0&format=0
-      .then(res => res.json())
-      .then(respo => {
-        setFilterByBooks(respo.data);
-        setIsLoading(false);
-      });
-  }; */
 
-  // const handleDataFilters = () => {
-  //   let filteredBooksCopy = [...filterBybooks];
-  //   console.log(
-  //     'filterdata at start of  handleDataFilters::---',
-  //     filteredBooksCopy,
-  //   );
-  //   // ============================ logic for search ===============================
-
-  //  if (searchQuery !== '') {
-  //     const query = searchQuery.toLowerCase();
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingBookName = book.genres.some(genr =>
-  //         genr.name.toLowerCase().includes(query),
-  //       );
-  //       // console.log("Checking Genre:", genr.name);
-  //       return hasMatchingBookName;
-  //     });
-  //   }
-  //   if (searchQueryauthor.trim() !== '') {
-  //     const queryauthor = searchQueryauthor.toLowerCase();
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingBookNameAuthor = book.authors.some(authr =>
-  //         (authr.first_name + '' + authr.last_name)
-  //           .toLowerCase()
-  //           .includes(queryauthor),
-  //       );
-  //       return hasMatchingBookNameAuthor;
-  //     });
-  //   }
-  //   // ==================logic for picker =====================
-  //   if (selectedPublisher !== 'Publisher') {
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingPublisher =
-  //         Array.isArray(book.items) &&
-  //         book.items.some(item => {
-  //           return item.publisher.name === selectedPublisher;
-  //         });
-
-  //       return hasMatchingPublisher;
-  //     });
-  //   }
-  //   if (selectedLanguage !== 'Languages') {
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingLanguage =
-  //         Array.isArray(book.items) &&
-  //         book.items.some(item => {
-  //           return item.language.language_name === selectedLanguage;
-  //         });
-
-  //       return hasMatchingLanguage;
-  //     });
-  //   }
-  //   if (selectedFormat !== 'Format') {
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingFormat =
-  //         Array.isArray(book.items) &&
-  //         book.items.some(item => {
-  //           return item.format === selectedFormat;
-  //         });
-  //       return hasMatchingFormat;
-  //     });
-  //   }
-  //   if (selectedLibrary !== 'Library') {
-  //     filteredBooksCopy = filterBybooks.filter(book => {
-  //       const hasMatchingLibrary = book.genres.some(library => {
-  //         return library.library_id === selectedLibrary;
-  //       });
-  //       return hasMatchingLibrary;
-  //     });
-  //   }
-
-  // setFilteredBooks(filteredBooksCopy);
-  // };
 
   useEffect(() => {
-    /* book(); */
-
-    /*  */
-    /* &author=${searchQueryauthor}&publisher=${selectedPublisher}&language=${selectedLanguage} */
-    console.log("publisher:",selectedPublisher)
-if(!isLoading){
-    fetch(
-      `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&language=${selectedLanguage}&publisher=${selectedPublisher}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
-    )
-      .then(res => res.json())
-      .then(respo => {
-        setFilterByBooks(respo.data);
-        setIsLoading(false);
-      });
+    // console.log("publisher:",selectedPublisher)
+    if (!isLoading) {
+      fetch(
+        `https://dindayalupadhyay.smartcitylibrary.com/api/v1/books?order_by=created_at&genre=${searchQuery}&language=${selectedLanguage}&publisher=${selectedPublisher}&author=${searchQueryauthor}&library_id=${selectedLibrary}&format=${selectedFormat}&limit=20`,
+      )
+        .then(res => res.json())
+        .then(respo => {
+          setFilterByBooks(respo.data);
+          setIsLoading(false);
+        });
     }
   }, [
     searchQuery,
     searchQueryauthor,
-    // selectedGenre,
-    // selectedAuthor,
     selectedPublisher,
     selectedLanguage,
     selectedFormat,
@@ -150,16 +61,16 @@ if(!isLoading){
 
   // ==============================static dropdown===================================
   const formats = [
-    {id: 'format', name: 'Format'},
-    {id: 1, name: 'Hardcover'},
-    {id: 2, name: 'PaparBack'},
-    {id: 3, name: 'E-Book'},
+    { id: 'format', name: 'Format' },
+    { id: 1, name: 'Hardcover' },
+    { id: 2, name: 'PaparBack' },
+    { id: 3, name: 'E-Book' },
   ];
   const libraries = [
-    {id: 'library', name: 'Library'},
-    {id: 111, name: 'Dindayal Upadhyay Library'},
-    {id: 222, name: 'Kundanlal Gupta Library'},
-    {id: 333, name: 'Rashtramata Kasturba Library'},
+    { id: 'library', name: 'Library' },
+    { id: 111, name: 'Dindayal Upadhyay Library' },
+    { id: 222, name: 'Kundanlal Gupta Library' },
+    { id: 333, name: 'Rashtramata Kasturba Library' },
   ];
 
   // ===================== fetching data for dynamic dropdown ================================================
@@ -244,26 +155,26 @@ if(!isLoading){
     handleSearchAuthor(itemValue);
   };
 
-  const renderItem = ({item}) => (
-    <View style={{elevation: 0.5}}>
+  const renderItem = ({ item }) => (
+    <View style={{ elevation: 0.5 }}>
       <TouchableOpacity
         onPress={() => {
           handleGenreSelection(item);
           setSearchResults([]);
         }}>
-        <Text style={{fontSize: 15, textAlign: 'center'}}>{item}</Text>
+        <Text style={{ fontSize: 15, textAlign: 'center' }}>{item}</Text>
       </TouchableOpacity>
     </View>
   );
 
-  const renderItemAuthor = ({item}) => (
-    <View style={{elevation: 0.5}}>
+  const renderItemAuthor = ({ item }) => (
+    <View style={{ elevation: 0.5 }}>
       <TouchableOpacity
         onPress={() => {
           handleAuthorSelection(item);
           setSearchResultsauthor([]);
         }}>
-        <Text style={{fontSize: 15, textAlign: 'center'}}>{item}</Text>
+        <Text style={{ fontSize: 15, textAlign: 'center' }}>{item}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -283,13 +194,13 @@ if(!isLoading){
   };
 
 
-  const handlePublisherValueChange=(itemValue, itemIndex) => setSelectedPublisher(itemValue)
+  const handlePublisherValueChange = (itemValue, itemIndex) => setSelectedPublisher(itemValue)
   // ============================== working code for Filter  ==========================
 
   // console.log('FilteredBooks are after search outside handle filter  ===', filteredBooks);
   return (
     <Theme>
-      {({theme}) => {
+      {({ theme }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
@@ -306,7 +217,7 @@ if(!isLoading){
             <View>
               <ScrollView
                 horizontal={true}
-                contentContainerStyle={{columnGap: -10}}
+                contentContainerStyle={{ columnGap: -10 }}
                 showsHorizontalScrollIndicator={false}>
                 <View
                   style={{
@@ -331,7 +242,7 @@ if(!isLoading){
                         name="search"
                         color={'gray'}
                         size={15}
-                        style={{marginLeft: 12, marginTop: 9, marginRight: 5}}
+                        style={{ marginLeft: 12, marginTop: 9, marginRight: 5 }}
                       />
                       <TextInput
                         style={{
@@ -348,7 +259,7 @@ if(!isLoading){
                       />
                     </View>
                     <FlatList
-                      style={{borderColor: '#efefef', borderWidth: 0.5}}
+                      style={{ borderColor: '#efefef', borderWidth: 0.5 }}
                       data={searchResults}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={renderItem}
@@ -371,7 +282,7 @@ if(!isLoading){
                         name="search"
                         color={'gray'}
                         size={15}
-                        style={{marginLeft: 12, marginTop: 9, marginRight: 5}}
+                        style={{ marginLeft: 12, marginTop: 9, marginRight: 5 }}
                       />
                       <TextInput
                         style={{
@@ -388,7 +299,7 @@ if(!isLoading){
                       />
                     </View>
                     <FlatList
-                      style={{borderColor: '#efefef', borderWidth: 0.5}}
+                      style={{ borderColor: '#efefef', borderWidth: 0.5 }}
                       data={searchResultsauthor}
                       keyExtractor={(item, index) => index.toString()}
                       renderItem={renderItemAuthor}
@@ -421,21 +332,21 @@ if(!isLoading){
                       onValueChange={itemValue =>
                         setSelectedPublisher(itemValue)
                       }
-                      >
-                        <Picker.Item label='Publisher' value='0' />
+                    >
+                      <Picker.Item label='Publisher' value='0' />
                       {publishr
                         ? publishr.map((publishers, index) => (
-                          
-                            <Picker.Item
-                              key={index}
-                              
-                              label={publishers.name}
-                              value={publishers.name}
-                              style={{
-                                fontSize: 15,
-                              }}
-                            />
-                          ))
+
+                          <Picker.Item
+                            key={index}
+
+                            label={publishers.name}
+                            value={publishers.name}
+                            style={{
+                              fontSize: 15,
+                            }}
+                          />
+                        ))
                         : []}
                     </Picker>
                   </View>
@@ -461,18 +372,18 @@ if(!isLoading){
                       onValueChange={itemValue =>
                         setSelectedLanguage(itemValue)
                       }>
-                         <Picker.Item label='Language' value='0' />
+                      <Picker.Item label='Language' value='0' />
                       {language
                         ? language.map((language, index) => (
-                            <Picker.Item
-                              key={index}
-                              label={language.language_name}
-                              value={language.id}
-                              style={{
-                                fontSize: 15,
-                              }}
-                            />
-                          ))
+                          <Picker.Item
+                            key={index}
+                            label={language.language_name}
+                            value={language.id}
+                            style={{
+                              fontSize: 15,
+                            }}
+                          />
+                        ))
                         : []}
                     </Picker>
                   </View>
@@ -577,10 +488,10 @@ if(!isLoading){
                   keyExtractor={(item, index) => index.toString()}
                   data={filterBybooks}
                   // extraData={filteredBooks}
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate('BooksDetailPage', {data: item})
+                        navigation.navigate('BooksDetailPage', { data: item })
                       }>
                       <View
                         style={{
@@ -594,12 +505,12 @@ if(!isLoading){
                             color: '#000',
                           }}>
                           <Image
-                            source={{uri: item.image_path}}
+                            source={{ uri: item.image_path }}
                             style={styles.bookImage}
                           />
                         </View>
 
-                        <View style={{padding: 10}}>
+                        <View style={{ padding: 10 }}>
                           <Text style={styles.bookNameText} numberOfLines={1}>
                             {item.name}
                           </Text>
@@ -656,10 +567,10 @@ if(!isLoading){
                   numColumns={2}
                   keyExtractor={(item, index) => index.toString()}
                   data={filteredBooks}
-                  renderItem={({item}) => (
+                  renderItem={({ item }) => (
                     <TouchableOpacity
                       onPress={() =>
-                        navigation.navigate('BooksDetailPage', {data: item})
+                        navigation.navigate('BooksDetailPage', { data: item })
                       }>
                       <View
                         style={{
@@ -673,12 +584,12 @@ if(!isLoading){
                             color: '#000',
                           }}>
                           <Image
-                            source={{uri: item.image_path}}
+                            source={{ uri: item.image_path }}
                             style={styles.bookImage}
                           />
                         </View>
 
-                        <View style={{padding: 10}}>
+                        <View style={{ padding: 10 }}>
                           <Text style={styles.bookNameText} numberOfLines={1}>
                             {item.name}
                           </Text>

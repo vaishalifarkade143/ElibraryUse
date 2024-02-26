@@ -126,7 +126,7 @@ const HomeScreen = ({ navigation }) => {
   }, [featurdBooks]);
 
 
-  //===============FETURED BOOKS=============
+  //===============FETURED EBOOKS=============
   const featureEBooks = useMemo(() => {
     return featurdEBooks.filter((item) =>
       item.items[0].format === format[2].id);

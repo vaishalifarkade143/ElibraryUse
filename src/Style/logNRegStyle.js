@@ -589,7 +589,7 @@ const getStyles = (theme) => {
     sectionHeading: {
       fontFamily: 'Poppins-Regular',
       fontSize: 24,
-      marginTop: 25,
+      // marginTop: 25,
       marginBottom:10,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       textAlign: 'center'
@@ -628,7 +628,7 @@ const getStyles = (theme) => {
       borderColor: '#fff',
       marginTop: 20,
       padding: 10,
-      elevation: 10,
+      elevation: 8,
       width: 150,
     },
 

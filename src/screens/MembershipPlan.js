@@ -115,13 +115,16 @@
 
 
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, Image, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../common/Header';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import RazorpayCheckout from 'react-native-razorpay';
+import CheckBox from '@react-native-community/checkbox';
+
+
 const MembershipPlan = () => {
   const [isLoaded, setIsLoaded] = useState(true);
   const [subscript, setSubscript] = useState([]);
@@ -130,6 +133,7 @@ const MembershipPlan = () => {
   const [isPlanActivated, setIsPlanActivated] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [checkedItems, setCheckedItems] = useState({});
 
   useEffect(() => {
     const subscription = () => {
@@ -188,7 +192,7 @@ const MembershipPlan = () => {
       prefill: {
         email: 'gaurav.kumar@example.com',
         contact: '9191919191',
-        name: 'Gaurav Kumar'
+        name: 'Nagpur Elibrary'
       },
       theme: { color: '#3498DB' }
 
@@ -219,7 +223,7 @@ const MembershipPlan = () => {
         return (
           <View style={styles.container}>
             <Header
-              rightIcon={require('../images/Logoelibrary.png')}
+              middleIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/menu.png')}
               onClickLeftIcon={() => {
                 navigation.openDrawer();
@@ -231,7 +235,7 @@ const MembershipPlan = () => {
                 <Text style={styles.sectionHeading}>Membership Plan</Text>
               </View>
               {/* <View style={[styles.dividerView, { width: 150, marginLeft: 90 }]}></View> */}
-              <Text style={styles.sectionHeading1}>We've Got a Plan For You Choose Your Plan</Text>
+              {/* <Text style={styles.sectionHeading1}>We've Got a Plan For You Choose Your Plan</Text> */}
               <FlatList
                 showsVerticalScrollIndicator={false}
                 columnWrapperStyle={{ justifyContent: 'space-between' }}
@@ -245,21 +249,24 @@ const MembershipPlan = () => {
                       <Image source={require('../images/rupee.png')} style={styles.rupeeIcon} />
                       <Text style={styles.price}>{item.price}</Text>
 
-                      {item.id === 8 ? (
-                        <Text style={styles.priceLabel}>/</Text>
+
+                      {item.id === 6 ? (
+                        <Text style={styles.priceLabel}>/Yearly</Text>
                       ) : (item.id === 1 ? (
-                        <Text style={styles.priceLabel}>/yearly</Text>
-                      ) : (item.id === 9 ? (
+                        <Text style={styles.priceLabel}>/LifeTime</Text>
+                      ) : (item.id === 2 ? (
                         <Text style={styles.priceLabel}>/Lifetime</Text>
-                      ) : (item.id === 10 ? (
+                      ) : (item.id === 3 ? (
+                        <Text style={styles.priceLabel}>/Lifetime</Text>
+                      ) : (item.id === 4 ? (
                         <Text style={styles.priceLabel}>/Monthly</Text>
-                      ) : (item.id === 11 ? (
-                        <Text style={styles.priceLabel}>/yearly</Text>
-                      ) 
-                      : (
-                        <Text style={styles.loadingText}>Loading...</Text>
-                      )))))}
-                     
+                      ) : (item.id === 5 ? (
+                        <Text style={styles.priceLabel}>/Monthly</Text>
+                      )
+                        : (
+                          <Text style={styles.loadingText}>Loading...</Text>
+                        ))))))}
+
 
                     </View>
 
@@ -270,24 +277,89 @@ const MembershipPlan = () => {
                       <Text style={styles.price}> Deposite</Text>
                     </View>
                     <Text style={styles.description}>{item.description}</Text>
+
+                    <View style={{flexDirection:'row'}}>
+                    <CheckBox
+                      value={checkedItems[item.id]}
+                      onValueChange={() => {
+                        setCheckedItems((prevCheckedItems) => ({
+                          ...prevCheckedItems,
+                          [item.id]: !prevCheckedItems[item.id],
+                        }));
+                      }}
+                      style={{
+                        marginLeft:-10
+                       }}
+                    />
+                     {item.id === 4 || item.id === 5 ? <Text style={{alignSelf:'center',
+                    fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>No Access of Book</Text>
+                    :
+                    <Text style={{alignSelf:'center',fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>Access of Book</Text>}
+                    {/* <Text style={{alignSelf:'center',
+                    fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>No Access of Ebook</Text> */}
+                    </View>
+
+                  <View style={{flexDirection:'row'}}>
+                    <CheckBox
+                      value={checkedItems[item.id]}
+                      onValueChange={() => {
+                        setCheckedItems((prevCheckedItems) => ({
+                          ...prevCheckedItems,
+                          [item.id]: !prevCheckedItems[item.id],
+                        }));
+                      }}
+                      style={{
+                        marginLeft:-10
+                       }}
+                    />
+                    <Text style={{alignSelf:'center',
+                    fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>No Access of Library</Text>
+                    </View>
+                    
+                    <View style={{flexDirection:'row'}}>
+                    <CheckBox
+                   
+                      value={checkedItems[item.id]}
+                      onValueChange={() => {
+                        setCheckedItems((prevCheckedItems) => ({
+                          ...prevCheckedItems,
+                          [item.id]: !prevCheckedItems[item.id],
+                        }));
+                      }}
+                      style={{
+                       marginLeft:-10
+                      }}
+                    />
+                    {item.id === 2 || item.id === 3 || item.id === 4 ? <Text style={{alignSelf:'center',
+                    fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>No Access of Ebook</Text>
+                    :
+                    <Text style={{alignSelf:'center',fontSize:11,
+                    fontFamily: 'Poppins-Regular',}}>Access of Ebook</Text>}
+                    </View>
+
                     <TouchableOpacity
                       disabled={isPlanActivated}
                       onPress={() => {
                         setSelectedPlan(item);
                         handlepayment(item);
-
-
                       }}
                       style={styles.subscribeButton}
                     >
                       <Text style={styles.buttonText}>Subscribe</Text>
                     </TouchableOpacity>
+                   
                   </View>
                 )}
               />
             </View>
           </View>
         );
+        
       }}
     </Theme>
   );
