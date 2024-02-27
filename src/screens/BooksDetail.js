@@ -3492,7 +3492,7 @@ const BooksDetail = ({ navigation }) => {
   // ====================================== on click of subscribe=============================================
 
   const handleSubscribeShowModal = () => {
-    if (userToken !== null && plan_exist[0] !== null ) {               //&& Plan_exist !== null
+    if (userToken !== null && plan_exist[0] !== null) {               //&& Plan_exist !== null
       const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/e-books';
 
       fetch(apiUrl, {
@@ -3521,9 +3521,9 @@ const BooksDetail = ({ navigation }) => {
 
   const handleSubscribe = () => {
     const member_id = userInfo.data.user.member_id;
-    console.log('member_id:::',member_id);
+    console.log('member_id:::', member_id);
     const id = book1[0]?.id;
-    console.log('data id:::',id);
+    console.log('data id:::', id);
 
     const library_id = selectedLibrary;
     const subscriptionData = {
@@ -3570,7 +3570,7 @@ const BooksDetail = ({ navigation }) => {
         console.log('ebook  response Data:', responseData);
 
         setModalVisible(!modalVisible);
-        navigation.navigate('myEBook', {singleSubscribedPlan});
+        navigation.navigate('myEBook', { singleSubscribedPlan });
         console.log('singleSubscribedPlan in BookDetails:', singleSubscribedPlan);
       })
       .catch((error) => {
@@ -3762,9 +3762,9 @@ const BooksDetail = ({ navigation }) => {
   const membership_exist = libraryid.map((item) => [
     item.membership_plan_name,
   ]);
-  console.log("mlan:",membership_exist);
+  console.log("mlan:", membership_exist);
   const plan_exist = membership_exist.flat();
-   console.log("olan:",plan_exist[0]);
+  console.log("olan:", plan_exist[0]);
 
   //===================API CALL FOR register-member-to-library=======================  
 
@@ -3859,7 +3859,7 @@ const BooksDetail = ({ navigation }) => {
                       <Pressable
                         style={styles.button}
                         onPress={() => {
-                           handleSubscribe(),
+                          handleSubscribe(),
                             handle_member()
                         }}>
                         <Text style={styles.textStyle}>Subscribe</Text>
@@ -4057,7 +4057,7 @@ const BooksDetail = ({ navigation }) => {
                       <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.edition}</Text>
                     </View>
                   </View>
-                  </View>
+                </View>
                 )
                 :
                 (<View style={{
@@ -4370,7 +4370,7 @@ const BooksDetail = ({ navigation }) => {
                         onPress={() => {
                           if (userToken !== null &&
                             plan_exist[0] === null) {
-                              //i have to add modal here======= instead of alert
+                            //i have to add modal here======= instead of alert
                             Alert.alert(
                               `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
                           }
@@ -4456,8 +4456,11 @@ const BooksDetail = ({ navigation }) => {
                       fontWeight: 'bold',
                       opacity: 0.4
                     }}>Ebook is Subscribed</Text>) :
-                    (
-                      <View style={{ flexDirection: 'row' }}>
+
+//now done
+                    ( book1[0]?.format === 1 && book1[0]?.status === 1?
+
+                     ( <View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity
                           style={{
                             backgroundColor: '#c27b7f',
@@ -4472,7 +4475,7 @@ const BooksDetail = ({ navigation }) => {
                           onPress={() => {
                             if (userToken !== null &&
                               plan_exist[0] === null) {
-                                  //i have to add modal here======= instead of alert
+                              //i have to add modal here======= instead of alert
                               Alert.alert(
                                 `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
                             }
@@ -4480,7 +4483,7 @@ const BooksDetail = ({ navigation }) => {
                               if (userToken !== null) {
 
                                 if (book1[0]?.format === 3) {
-handleSubscribeShowModal();
+                                  handleSubscribeShowModal();
 
                                   handle_member();
                                   setModalVisible(!modalVisible);
@@ -4506,7 +4509,10 @@ handleSubscribeShowModal();
                             fontFamily: 'OpenSans-Regular',
                             fontSize: 15,
                             textAlign: 'center',
-                          }}> {book1[0]?.format === 3 ? 'Subscribe' : 'Reserved'}</Text>
+                          }}>
+                            {book1[0]?.format === 3 ? 'Subscribe' : 'Reserved'}
+
+                          </Text>
                         </TouchableOpacity>
 
 
@@ -4536,6 +4542,10 @@ handleSubscribeShowModal();
                             }}>Preview</Text>
                           </TouchableOpacity>) : null}
                       </View>
+                      
+                      
+                      ):[]
+
                     )}
                 </View>
                 )
