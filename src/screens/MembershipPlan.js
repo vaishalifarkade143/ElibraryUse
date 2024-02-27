@@ -294,6 +294,7 @@ const MembershipPlan = () => {
                     <View style={{ flexDirection: 'row' }}>
 
                       <CheckBox
+                       tintColors={{ true: '#3498DB', false: 'gray' }}
                         value={checkedBookItems[item.id]}
                         // onValueChange={() => {
                         //   setCheckedBookItems((prevCheckedItems) => ({
@@ -314,6 +315,7 @@ const MembershipPlan = () => {
 
                         style={{
                           marginLeft: -10,
+                        
                         }}
                       />
                       {item.id === 4 || item.id === 5 ? <Text style={{
@@ -330,6 +332,7 @@ const MembershipPlan = () => {
 
                     <View style={{ flexDirection: 'row' }}>
                       <CheckBox
+                       tintColors={{ true: '#3498DB', false: 'gray' }}
                         value={checkedLibraryItems[item.id]}
                         // onValueChange={() => {
                         //   setCheckedLibraryItems((prevCheckedItems) => ({
@@ -361,6 +364,7 @@ const MembershipPlan = () => {
 
                     <View style={{ flexDirection: 'row' }}>
                       <CheckBox
+                       tintColors={{ true: '#3498DB', false: 'gray' }}
                         value={checkedEbookItems[item.id]}
                         // onValueChange={() => {
                         //   setCheckedEbookItems((prevCheckedItems) => ({
@@ -381,6 +385,7 @@ const MembershipPlan = () => {
 
                         style={{
                           marginLeft: -10
+                          
                         }}
                       />
                       {item.id === 2 || item.id === 3 || item.id === 4 ? <Text style={{

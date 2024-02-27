@@ -19,7 +19,7 @@ const MyEBook = ({ navigation, route }) => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const Plan_exist = route.params.singleSubscribedPlan;
-  // console.log('data come from details: ', Plan_exist);
+  console.log('singleSubscribedPlan in MyEBook: ', Plan_exist);
 
 
 
@@ -68,7 +68,7 @@ const MyEBook = ({ navigation, route }) => {
         .then(responce => {
           setIsLoaded(false);
           setEbooks(responce.data);
-          console.log("in myebook page:", responce.data);
+          // console.log("in myebook page:", responce.data);
         });
     };
 
@@ -300,7 +300,8 @@ const MyEBook = ({ navigation, route }) => {
                 </View>)} */}
 
             {Plan_exist !== null ?
-              (updatedTableData.length > 0 ? (<FlatList
+              (updatedTableData.length > 0 ? 
+                (<FlatList
                 data={updatedTableData}
                 keyExtractor={(item, index) => index.toString()}
                 renderItem={renderItem}
@@ -318,9 +319,6 @@ const MyEBook = ({ navigation, route }) => {
                     You haven't reserved any books yet.Please do reserve your book.
                   </Text>
                 </View>)
-
-
-
               )
               : (
                 <View style={{
@@ -334,7 +332,8 @@ const MyEBook = ({ navigation, route }) => {
                     Please Activate Any Subscription plan
                   </Text>
                 </View>
-              )}
+              )
+            }
 
 
           </View>
