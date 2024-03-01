@@ -10,12 +10,12 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
-const Transaction = ({ navigation,route }) => {
+const Transaction = ({ navigation, route }) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const { userInfo, userToken } = useContext(AuthContext);
   const [searchQuery, setSearchQuery] = useState('');
-  const Plan_exist= route.params.singleSubscribedPlan;
+  const Plan_exist = route.params.singleSubscribedPlan;
   console.log('transactionpage', Plan_exist);
 
 
@@ -54,7 +54,7 @@ const Transaction = ({ navigation,route }) => {
   }, [userToken]);
 
 
-  
+
 
 
 
@@ -101,7 +101,7 @@ const Transaction = ({ navigation,route }) => {
   }
 
 
-    const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
+  const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
     .filter((item) => {
 
       const plan = item.subscription_plan.name.toLowerCase();
@@ -124,36 +124,43 @@ const Transaction = ({ navigation,route }) => {
     }))
     : [];
 
-    const renderItem = ({ item }) => (
-      <View style={styles.flatListItemContainer}>
-  
-        <View style={styles.columnContainer}>
+  const renderItem = ({ item }) => (
+    <View style={styles.flatListItemContainer}>
+
+      <View style={styles.columnContainer}>
         <View style={{ flexDirection: 'row' }}>
           <Text style={styles.subscriptionPlan}>{item.subscription_plan}</Text>
-          </View>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.flatListItemText}>{item.amount}</Text>
-            {item.plan_id === 8 ? (
-              <Text style={styles.priceLabel}>/Life Time</Text>
-            ) : (item.plan_id === 1 ? (
-              <Text style={styles.priceLabel}>/yearly</Text>
-            ) : (item.plan_id === 9 ? (
-              <Text style={styles.priceLabel}>/Life Time</Text>
-            ) : (item.plan_id === 10 ? (
-              <Text style={styles.priceLabel}>/Monthly</Text>
-            ) : (item.plan_id === 11 ? (
-              <Text style={styles.priceLabel}>/yearly</Text>
-            )
-              : (
-                <Text style={styles.loadingText}>Loading...</Text>
-              )))))}
-  
-          </View>
-          <Text style={styles.flatListItemText1}>{item.created_at}</Text>
-  
         </View>
+        <View style={{ flexDirection: 'row' }}>
+        <Image source={require('../images/rupee.png')}
+                            style={{
+                              marginTop:5,
+                              width: 12,
+                              height: 15,
+                              textAlign: 'center'
+                            }} />
+          <Text style={styles.flatListItemText}>{item.amount}</Text>
+          {item.plan_id === 8 ? (
+            <Text style={styles.priceLabel}>/Life Time</Text>
+          ) : (item.plan_id === 1 ? (
+            <Text style={styles.priceLabel}>/yearly</Text>
+          ) : (item.plan_id === 9 ? (
+            <Text style={styles.priceLabel}>/Life Time</Text>
+          ) : (item.plan_id === 10 ? (
+            <Text style={styles.priceLabel}>/Monthly</Text>
+          ) : (item.plan_id === 11 ? (
+            <Text style={styles.priceLabel}>/yearly</Text>
+          )
+            : (
+              <Text style={styles.loadingText}>Loading...</Text>
+            )))))}
+
+        </View>
+        <Text style={styles.flatListItemText1}>{item.created_at}</Text>
+
       </View>
-    );
+    </View>
+  );
 
 
   return (
@@ -170,43 +177,43 @@ const Transaction = ({ navigation,route }) => {
               }}
             /> */}
             {/* <ScrollView> */}
-              <Text style={styles.sectionHeading}>Transaction</Text>
-              <View style={{
-                flexDirection: 'column',
-                marginBottom: 50,
-                paddingBottom: 20,
-              }}>
+            <Text style={styles.sectionHeading}>Transaction</Text>
+            <View style={{
+              flexDirection: 'column',
+              marginBottom: 50,
+              paddingBottom: 20,
+            }}>
 
-                {/* ==================search======================= */}
-                {/* <View style={styles.searchcontainer}> */}
-                  <View style={styles.searchBar}>
-                    <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
-                    <TextInput
-                      style={styles.searchInput}
-                      placeholder="Search by Plan Name"
-                      placeholderTextColor="#000"
-                      value={searchQuery}
-                      onChangeText={setSearchQuery}
-                    />
+              {/* ==================search======================= */}
+              {/* <View style={styles.searchcontainer}> */}
+              <View style={styles.searchBar}>
+                <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
+                <TextInput
+                  style={styles.searchInput}
+                  placeholder="Search by Plan Name"
+                  placeholderTextColor="#000"
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                />
 
-                    {searchQuery !== '' && (
-                      <TouchableOpacity onPress={() => {
-                        setSearchQuery('');
+                {searchQuery !== '' && (
+                  <TouchableOpacity onPress={() => {
+                    setSearchQuery('');
 
-                      }}>
-                        <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
-                      </TouchableOpacity>)}
-                  </View>
-                {/* </View> */}
+                  }}>
+                    <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
+                  </TouchableOpacity>)}
+              </View>
+              {/* </View> */}
 
-                <FlatList
-                        data={updatedTableData}
-                        keyExtractor={(item, index) => index.toString()}
-                        renderItem={renderItem}
-                      />
+              <FlatList
+                data={updatedTableData}
+                keyExtractor={(item, index) => index.toString()}
+                renderItem={renderItem}
+              />
 
-                {/* table */}
-                {/* <View style={{ flex: 1, marginTop: 15 }}>
+              {/* table */}
+              {/* <View style={{ flex: 1, marginTop: 15 }}>
                   {Plan_exist !== null ?
 
                     (<ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
@@ -250,7 +257,7 @@ const Transaction = ({ navigation,route }) => {
                 </View> */}
 
 
-              </View>
+            </View>
 
 
 
@@ -268,33 +275,35 @@ export default Transaction;
 const styles = StyleSheet.create({
 
   flatListItemContainer: {
-    backgroundColor: '#efefef',
     borderRadius: 8,
     padding: 15,
     margin: 10,
-    elevation: 2,
-    height:90,
+    borderWidth:1,
+    borderColor:'#efefef',
+    height: 90,
+    marginLeft:20,
+    marginRight:20,
   },
   subscriptionPlan: {
     color: '#333',
     fontFamily: 'Poppins-Regular',
     fontSize: 15,
   },
-  flatListItemText:{
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 15,
-    color:'blue'
+  flatListItemText: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 17,
+    color: 'blue'
   },
-  flatListItemText1:{
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 15,
-    color:'grey'
+  flatListItemText1: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 14,
+    color: 'grey',
   },
   priceLabel: {
     color: '#555',
-    fontFamily: 'OpenSans-Regular',
+    fontFamily: 'Poppins-Regular',
     fontSize: 12,
-    marginTop:5
+    marginTop: 4,
   },
   columnContainer: {
     alignItems: 'flex-start',

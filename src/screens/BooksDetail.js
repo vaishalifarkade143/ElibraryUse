@@ -3296,6 +3296,7 @@ const BooksDetail = ({ navigation }) => {
   const { userToken, userInfo, userEmail } = useContext(AuthContext);
   const [subscribedBooks, setSubscribedBooks] = useState([]);
   const [genre, setGenre] = useState([]);
+  const [membershipPlanModalVisible, setMembershipPlanModalVisible] = useState(false);
 
   const [ebook, setebook] = useState([]);
   const [textShown, setTextShown] = useState(false); //To show ur remaining Text
@@ -3506,7 +3507,8 @@ const BooksDetail = ({ navigation }) => {
         })
         .then((data) => {
           setebook(data.data);
-          console.log("all ebook", data.data);
+          console.log("all ebook name", data.data[0].name);
+
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -3514,68 +3516,83 @@ const BooksDetail = ({ navigation }) => {
     }
   }
 
+  const handleSubscribe = async () => {
 
+    try {
+      const member_id = userInfo.data.user.id;
+      console.log('member_id:::', member_id);
+      const id = book1[0]?.id;
+      console.log('data id:::', id);
 
+      const library_id = selectedLibrary;
+      const subscriptionData = {
+        issued_on: startDate,
+        returned_on: endDate,
+        ebook_id: id,
+        member_id: member_id,
+        library_id: library_id,
+        razorpay_payment_id: 'NA',
+        renew: false,
+        amount: 10,
 
+        // "member_id": 34,
+        // "ebook_id": "745",
+        // "issued_on": "2024-02-07",
+        // "returned_on": "2024-02-17",
+        // "razorpay_payment_id": "NA",
+        // "amount": 10,
+        // "email": "info@educron.com",
+        // "updated_at": "2024-02-07T11:13:15.000000Z",
+        // "created_at": "2024-02-07T11:13:15.000000Z",
+        // "id": 21
 
+      };
+      console.log('subscriptionData===', subscriptionData);
+      // console.log(" ebook_id", ebook_id);
 
-  const handleSubscribe = () => {
-    const member_id = userInfo.data.user.member_id;
-    console.log('member_id:::', member_id);
-    const id = book1[0]?.id;
-    console.log('data id:::', id);
+      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: JSON.stringify(subscriptionData),
 
-    const library_id = selectedLibrary;
-    const subscriptionData = {
-      issued_on: startDate,
-      returned_on: endDate,
-      ebook_id: id,
-      member_id: member_id,
-      library_id: library_id,
-      razorpay_payment_id: 'NA',
-      renew: false,
-      amount: 10,
-
-      // "member_id": 34,
-      // "ebook_id": "745",
-      // "issued_on": "2024-02-07",
-      // "returned_on": "2024-02-17",
-      // "razorpay_payment_id": "NA",
-      // "amount": 10,
-      // "email": "info@educron.com",
-      // "updated_at": "2024-02-07T11:13:15.000000Z",
-      // "created_at": "2024-02-07T11:13:15.000000Z",
-      // "id": 21
-
-    };
-    console.log('subscriptionData:::', subscriptionData);
-
-    const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/ebook-subscription`;
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${userToken}`,
-      },
-      body: JSON.stringify(subscriptionData),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        return response.json();
-      })
-      .then((responseData) => {
-        console.log('ebook  response Data:', responseData);
-
-        setModalVisible(!modalVisible);
-        navigation.navigate('myEBook', { singleSubscribedPlan });
-        console.log('singleSubscribedPlan in BookDetails:', singleSubscribedPlan);
-      })
-      .catch((error) => {
-        console.error('Error storing data:', error);
       });
+      //     .then((response) => {
+      //       if (!response.ok) {
+      //         throw new Error('Network response was not ok');
+      //       }
+
+      //       return response.json();
+      //     })
+      //     .then((responseData) => {
+      //       console.log('ebook  response Data:', responseData);
+
+      //       setModalVisible(!modalVisible);
+      //       navigation.navigate('myEBook', { singleSubscribedPlan });
+      //       console.log('singleSubscribedPlan in BookDetails:', singleSubscribedPlan);
+      //     })
+      //     .catch((error) => {
+      //       console.error('Error storing data:', error);
+      //     });
+      // };
+
+      if (!response.ok) {
+        throw new Error(`Failed to subscribe. Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log('ebook response Data:', responseData);
+
+      setModalVisible(!modalVisible);
+      navigation.navigate('myEBook', { singleSubscribedPlan });
+      console.log('singleSubscribedPlan in BookDetails:', singleSubscribedPlan);
+    }
+    catch (error) {
+      console.error('Error handling subscription:', error.message);
+    }
   };
 
 
@@ -3616,7 +3633,7 @@ const BooksDetail = ({ navigation }) => {
 
   // ======================================================================================
 
-  (useEffect(() => {
+  useEffect(() => {
     if (userToken !== null) {
       const id = userInfo.data.user.id;
       console.log(id);
@@ -3644,7 +3661,7 @@ const BooksDetail = ({ navigation }) => {
         });
     }
 
-  }, []))
+  }, [])
 
 
 
@@ -3916,6 +3933,37 @@ const BooksDetail = ({ navigation }) => {
                     </View>)}
                 </View>
               </Modal>
+              {/* ======================================Membership Plan Modal============================================================ */}
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={membershipPlanModalVisible}
+                onRequestClose={() => {
+                  setMembershipPlanModalVisible(!membershipPlanModalVisible);
+                }}>
+                <View style={styles.centeredView}>
+                  <View style={styles.modalView}>
+                    <Text style={{ fontSize: 15, fontFamily: 'Poppins-Regular', paddingBottom: 10 }}>You don't have any Membership Plan.Please choose any Plan.</Text>
+
+                    <View style={{ flexDirection: 'row', gap: 10 }}>
+                      <Pressable
+                        style={styles.button}
+                        onPress={() => {
+                          navigation.navigate('Membershipplan')
+                        }}>
+                        <Text style={styles.textStyle}>Yes</Text>
+                      </Pressable>
+
+                      <Pressable
+                        style={styles.button}
+                        onPress={() => setMembershipPlanModalVisible(!membershipPlanModalVisible)}>
+                        <Text style={styles.textStyle}>No</Text>
+                      </Pressable>
+                    </View>
+                  </View>
+                </View>
+              </Modal>
+
 
               {/* ===============================Pdf Modal============================================== */}
 
@@ -3944,11 +3992,9 @@ const BooksDetail = ({ navigation }) => {
                       scale={totalPages > 8 ? 8 / totalPages : 1}
                       style={styles.pdf}
                     />
-
                     <View style={styles.pageButton}>
                       <Text style={styles.pageButtonText}> {currentPage}</Text>
                     </View>
-
                   </View>
                 </View>
               </Modal>
@@ -4057,6 +4103,7 @@ const BooksDetail = ({ navigation }) => {
                       <Text style={styles.textHeadingOutput}>{filteredUsers[0]?.edition}</Text>
                     </View>
                   </View>
+
                 </View>
                 )
                 :
@@ -4272,60 +4319,71 @@ const BooksDetail = ({ navigation }) => {
 
               <View>
                 {status1 ?
-                  (<View><Text style={{
-                    marginLeft: 20,
-                    marginTop: 10,
-                    marginBottom: 5
-                  }}>
-                    {filteredUsers[0]?.format === 2 && filteredUsers[0]?.status === 1
-                      ? 'Paperback(1)'
-                      : 'Paperback(0)'
-                    }
-                  </Text>
-                    <Text style={{
+                  (<View style={{ flexDirection: 'row' }}>
+                    <Text style={[styles.batch1, {
                       marginLeft: 20,
-                      marginTop: 10,
-                      marginBottom: 5
-                    }}>
+                      backgroundColor: filteredUsers[0]?.format === 2 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      borderColor: filteredUsers[0]?.format === 2 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      color: filteredUsers[0]?.format === 2 && book1[0]?.status === 1 ? 'green' : 'grey',
+                    }]}>
+                      {filteredUsers[0]?.format === 2 && filteredUsers[0]?.status === 1
+                        ? 'Paperback(1)'
+                        : 'Paperback(0)'
+                      }
+                    </Text>
+                    <Text style={[styles.batch1, {
+                      marginLeft: 7,
+                      backgroundColor: filteredUsers[0]?.format === 1 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      borderColor: filteredUsers[0]?.format === 1 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      color: filteredUsers[0]?.format === 1 && book1[0]?.status === 1 ? 'green' : 'grey',
+                    }]}>
                       {filteredUsers[0]?.format === 1 && filteredUsers[0]?.status === 1
                         ? 'Hardcover(1)'
                         : 'Hardcover(0)'
                       }
                     </Text>
-                    < Text style={{
-                      marginLeft: 20,
-                      marginTop: 10,
-                      marginBottom: 5
-                    }} >
+                    <Text style={[styles.batch1, {
+                      marginLeft: 7,
+                      backgroundColor: filteredUsers[0]?.format === 3 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      borderColor: filteredUsers[0]?.format === 3 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      color: filteredUsers[0]?.format === 3 && book1[0]?.status === 1 ? 'green' : 'grey',
+                    }]} >
                       Ebook(
                       {filteredUsers ? 20 - filteredUsers[0]?.ebooksubscriptions.length : 0}
                       )
                     </Text>
-                  </View>) : (<View><Text style={{
-                    marginLeft: 20,
-                    marginTop: 10,
-                    marginBottom: 5
-                  }}>
-                    {book1[0]?.format === 2 && book1[0]?.status === 1
-                      ? 'Paperback(1)'
-                      : 'Paperback(0)'
-                    }
-                  </Text>
-                    <Text style={{
+                  </View>) : (<View style={{ flexDirection: 'row', }}>
+                    <Text style={[styles.batch1, {
                       marginLeft: 20,
-                      marginTop: 10,
-                      marginBottom: 5
-                    }}>
+                      backgroundColor: book1[0]?.format === 2 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      borderColor: book1[0]?.format === 2 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      color: book1[0]?.format === 2 && book1[0]?.status === 1 ? 'green' : 'grey',
+                    }]}>
+                      {book1[0]?.format === 2 && book1[0]?.status === 1
+                        ? 'Paperback(1)'
+                        : 'Paperback(0)'
+                      }
+                    </Text>
+                    <Text
+                      style={[styles.batch1, {
+                        marginLeft: 7,
+                        backgroundColor: book1[0]?.format === 1 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                        borderColor: book1[0]?.format === 1 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                        color: book1[0]?.format === 1 && book1[0]?.status === 1 ? 'green' : 'grey',
+                      }]}
+                    >
                       {book1[0]?.format === 1 && book1[0]?.status === 1
                         ? 'Hardcover(1)'
                         : 'Hardcover(0)'
                       }
                     </Text>
-                    < Text style={{
-                      marginLeft: 20,
-                      marginTop: 10,
-                      marginBottom: 5
-                    }} >
+                    <Text style={[styles.batch1, {
+                      marginLeft: 7,
+                      backgroundColor: book1[0]?.format === 3 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      borderColor: book1[0]?.format === 3 && book1[0]?.status === 1 ? '#B6FFC0' : '#efefef',
+                      color: book1[0]?.format === 3 && book1[0]?.status === 1 ? 'green' : 'grey',
+                    }]}
+                    >
                       Ebook(
                       {book1
                         ? 20 - book1[0]?.ebooksubscriptions.length
@@ -4335,6 +4393,18 @@ const BooksDetail = ({ navigation }) => {
                   </View>)
                 }
               </View>
+
+
+
+
+
+
+
+
+
+
+
+
 
               {status1 ?
                 (<View style={{ flexDirection: 'column' }}>
@@ -4371,8 +4441,9 @@ const BooksDetail = ({ navigation }) => {
                           if (userToken !== null &&
                             plan_exist[0] === null) {
                             //i have to add modal here======= instead of alert
-                            Alert.alert(
-                              `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                            // Alert.alert(
+                            //   `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                            setMembershipPlanModalVisible(!membershipPlanModalVisible);
                           }
                           else {
                             if (userToken !== null) {
@@ -4457,10 +4528,10 @@ const BooksDetail = ({ navigation }) => {
                       opacity: 0.4
                     }}>Ebook is Subscribed</Text>) :
 
-//now done
-                    ( book1[0]?.format === 1 && book1[0]?.status === 1?
+                    //now done
+                    (book1[0]?.format === 1 && book1[0]?.status === 1 || book1[0]?.format === 3 ?
 
-                     ( <View style={{ flexDirection: 'row' }}>
+                      (<View style={{ flexDirection: 'row' }}>
                         <TouchableOpacity
                           style={{
                             backgroundColor: '#c27b7f',
@@ -4476,8 +4547,9 @@ const BooksDetail = ({ navigation }) => {
                             if (userToken !== null &&
                               plan_exist[0] === null) {
                               //i have to add modal here======= instead of alert
-                              Alert.alert(
-                                `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                              // Alert.alert(
+                              //   `YOU DON'T HAVE ANY MEMBERSHIPPLAN`,)
+                              setMembershipPlanModalVisible(!membershipPlanModalVisible);
                             }
                             else {
                               if (userToken !== null) {
@@ -4542,14 +4614,23 @@ const BooksDetail = ({ navigation }) => {
                             }}>Preview</Text>
                           </TouchableOpacity>) : null}
                       </View>
-                      
-                      
-                      ):[]
+
+
+                      ) : []
 
                     )}
                 </View>
                 )
               }
+
+
+
+
+
+
+
+
+
 
               {/* =================================Trending books==================================== */}
 

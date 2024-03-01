@@ -50,14 +50,14 @@ const MembershipScreen = ({ navigation }) => {
       });
   };
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   useEffect(() => {
 
     fetchSinglePlan();
   }, []);
 
-  // console.log()
+  console.log(singleSubscribedPlan);
 
 
   useEffect(() => {
@@ -162,21 +162,30 @@ const MembershipScreen = ({ navigation }) => {
         {/* <AntDesign name="star" color={"red"} size={20} style={{marginLeft:15}} /> */}
         </View>
         <View style={{ flexDirection: 'row' }}>
+        <Image source={require('../images/rupee.png')}
+                            style={{
+                              marginTop:5,
+                              width: 12,
+                              height: 15,
+                              textAlign: 'center'
+                            }} />
           <Text style={styles.flatListItemText}>{item.amount}</Text>
-          {item.plan_id === 8 ? (
-            <Text style={styles.priceLabel}>/Life Time</Text>
-          ) : (item.plan_id === 1 ? (
-            <Text style={styles.priceLabel}>/yearly</Text>
-          ) : (item.plan_id === 9 ? (
-            <Text style={styles.priceLabel}>/Life Time</Text>
-          ) : (item.plan_id === 10 ? (
-            <Text style={styles.priceLabel}>/Monthly</Text>
-          ) : (item.plan_id === 11 ? (
-            <Text style={styles.priceLabel}>/yearly</Text>
-          )
-            : (
-              <Text style={styles.loadingText}>Loading...</Text>
-            )))))}
+          {item.plan_id === 6 ? (
+                        <Text style={styles.priceLabel}>/Yearly</Text>
+                      ) : (item.plan_id === 1 ? (
+                        <Text style={styles.priceLabel}>/LifeTime</Text>
+                      ) : (item.plan_id === 2 ? (
+                        <Text style={styles.priceLabel}>/Lifetime</Text>
+                      ) : (item.plan_id === 3 ? (
+                        <Text style={styles.priceLabel}>/Lifetime</Text>
+                      ) : (item.plan_id === 4 ? (
+                        <Text style={styles.priceLabel}>/Monthly</Text>
+                      ) : (item.plan_id === 5 ? (
+                        <Text style={styles.priceLabel}>/Monthly</Text>
+                      )
+                        : (
+                          <Text style={styles.loadingText}>Loading...</Text>
+                        ))))))}
 
         </View>
         <Text style={styles.flatListItemText1}>{item.created_at}</Text>
@@ -210,19 +219,19 @@ const MembershipScreen = ({ navigation }) => {
                 (
                   <View>
                     <View style={{
-                      backgroundColor: '#efefef',//#E5E8E8
+                      borderColor: '#efefef',//#E5E8E8
                       marginTop: 20,
                       marginBottom: 50,
                       paddingBottom: 20,
-                      marginLeft: 10,
-                      marginRight: 10,
-                      elevation: 5,
+                      marginLeft: 20,
+                      marginRight: 20,
+                      borderWidth:1,
                       borderRadius: 8
                     }}>
 
                       <View style={{
-                        marginTop: 30,
-                        marginLeft: 10,
+                        marginTop: 10,
+                        
                         alignItems: 'center'
                       }} >
                         {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
@@ -230,36 +239,43 @@ const MembershipScreen = ({ navigation }) => {
                           fontSize: 20,
                           color: '#000',
                           textAlign: 'center'
-                        }}>Annual plan</Text>)
+                        }}>BPL Card Holder</Text>)
                           :
-                          (singleSubscribedPlan.plan_id === 8 ? (<Text style={{
+                          (singleSubscribedPlan.plan_id === 2 ? (<Text style={{
                            fontFamily: 'Poppins-Regular',
                             fontSize: 20,
                             color: '#000',
                             textAlign: 'center'
-                          }}>Lifetime Plan</Text>)
+                          }}>Family Plan (4 Member)</Text>)
                             :
-                            (singleSubscribedPlan.plan_id === 9 ? (<Text style={{
+                            (singleSubscribedPlan.plan_id === 3 ? (<Text style={{
                              fontFamily: 'Poppins-Regular',
                               fontSize: 20,
                               color: '#000',
                               textAlign: 'center'
-                            }}>Life time plan 4 Family member</Text>)
+                            }}>Lifetime membership</Text>)
                               :
-                              (singleSubscribedPlan.plan_id === 10 ? (<Text style={{
+                              (singleSubscribedPlan.plan_id === 4 ? (<Text style={{
                                fontFamily: 'Poppins-Regular',
                                 fontSize: 20,
                                 color: '#000',
                                 textAlign: 'center'
-                              }}>Library Plan</Text>)
+                              }}>Library Access (Reading)</Text>)
                                 :
-                                (singleSubscribedPlan.plan_id === 11 ? (<Text style={{
+                                (singleSubscribedPlan.plan_id === 5 ? (<Text style={{
                                  fontFamily: 'Poppins-Regular',
                                   fontSize: 20,
                                   color: '#000',
                                   textAlign: 'center'
-                                }}>Digital Library Plan</Text>) :
-                                  (<Text style={styles.loadingText}>Loading...</Text>)))))}
+                                }}>E-Book Access</Text>) :
+                                 
+                                  (singleSubscribedPlan.plan_id === 6 ? (<Text style={{
+                                    fontFamily: 'Poppins-Regular',
+                                     fontSize: 20,
+                                     color: '#000',
+                                     textAlign: 'center'
+                                   }}>Regular Membership</Text>) :
+                                     (<Text style={styles.loadingText}>Loading...</Text>))))))}
 
                         <Text style={{
                           paddingTop: 5,
@@ -289,7 +305,7 @@ const MembershipScreen = ({ navigation }) => {
                           }}>{singleSubscribedPlan.plan_amount}</Text>
 
 
-
+{/* =============================================================================================== */}
 
                           {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
                             marginTop: 3,
@@ -331,6 +347,7 @@ const MembershipScreen = ({ navigation }) => {
                                     color: '#2f4858'
                                   }}>/yearly</Text>) :
                                     (<Text style={styles.loadingText}>Loading...</Text>)))))}
+{/* ======================================================================= */}
 
 
                         </View>
@@ -352,8 +369,8 @@ const MembershipScreen = ({ navigation }) => {
                           <Text style={
                             {
                               alignSelf: 'center',
-                              padding: 5,
-                              backgroundColor: '#5E35B1',
+                              padding: 8,
+                              backgroundColor: '#c27b7f',
                               fontWeight: 'bold',
                               fontSize: 15,
                               color: "#fff",
@@ -374,7 +391,7 @@ const MembershipScreen = ({ navigation }) => {
                     }}>
 
                       {/* =================search============= */}
-                      <View style={styles.searchcontainer}>
+                      {/* <View style={styles.searchcontainer}> */}
                         <View style={styles.searchBar}>
                           <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                           <TextInput
@@ -393,7 +410,7 @@ const MembershipScreen = ({ navigation }) => {
                               <Feather name="x" color={"gray"} size={20} style={styles.searchIcon} />
                             </TouchableOpacity>)}
                         </View>
-                      </View>
+                      {/* </View> */}
 
                       <FlatList
                         data={updatedTableData}
@@ -455,11 +472,12 @@ export default MembershipScreen;
 const styles = StyleSheet.create({
 
   flatListItemContainer: {
-     backgroundColor: '#efefef',
+    marginLeft:20,
+    marginRight:20,
     borderRadius: 5,
     padding: 10,
     margin: 10,
-    borderWidth:0.5,
+    borderWidth:1,
     height:90,
     borderColor:'#efefef'
   },
@@ -470,20 +488,20 @@ const styles = StyleSheet.create({
     // marginBottom: 3,
   },
   flatListItemText:{
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 15,
-    color:'blue'
+    fontFamily: 'Poppins-Regular',
+    fontSize: 17,
+    color:'#000'
   },
   flatListItemText1:{
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 12,
+    fontFamily: 'Poppins-Regular',
+    fontSize: 13,
     color:'grey'
   },
   priceLabel: {
     color: '#555',
-    fontFamily: 'OpenSans-Regular',
-    fontSize: 11,
-    marginTop:5
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    marginTop:4
   },
   // columnContainer: {
   //   alignItems: 'flex-start',

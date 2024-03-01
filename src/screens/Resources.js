@@ -618,18 +618,17 @@ const Resources = () => {
 
                   <View style={{
                     marginTop: 5,
-                    backgroundColor: '#ECF0F1',
                     paddingBottom: 15,
                     borderRadius: 10,
                     marginBottom: 15,
                     alignItems: 'center',
-                    elevation: 5
+                    borderWidth:1,
+                    borderColor:'#efefef'
                   }}>
                     <Text style={{
                       color: '#000',
                       fontFamily: 'Poppins-Regular',
                       fontSize: 15,
-                      // padding: 15
                       paddingTop:8,
                     }}
                     >
@@ -720,7 +719,7 @@ const styles = StyleSheet.create({
   // },
 
   searchIcon: {
-    backgroundColor: '#808B96',
+    backgroundColor: '#c27b7f',
     borderRadius: 10,
     padding: 5,
     paddingLeft: 20,
@@ -733,7 +732,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'OpenSans-Regular',
     // fontWeight: 'bold',
-    backgroundColor: '#808B96',
+    backgroundColor: '#c27b7f',
     borderRadius: 10,
     padding: 5,
     paddingLeft: 20,

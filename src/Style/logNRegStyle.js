@@ -589,7 +589,7 @@ const getStyles = (theme) => {
     sectionHeading: {
       fontFamily: 'Poppins-Regular',
       fontSize: 24,
-      // marginTop: 25,
+      marginTop: 25,
       marginBottom:10,
       color: theme === 'LIGHT' ? '#000' : '#fff',
       textAlign: 'center'
@@ -740,8 +740,8 @@ const getStyles = (theme) => {
       borderColor: 'grey',
       borderWidth: 0.8,
       paddingHorizontal: 12,
-      marginLeft: 10,
-      marginRight: 10,
+      marginLeft: 20,
+      marginRight: 20,
       color: theme === 'LIGHT' ? '#2f4858' : '#000',
     },
 
@@ -751,6 +751,7 @@ const getStyles = (theme) => {
       backgroundColor: '#eee',
       borderRadius: 20,
       paddingHorizontal: 10,
+      
     },
     searchInput3: {
       flex: 1,
@@ -1144,7 +1145,18 @@ const getStyles = (theme) => {
       fontSize: 13,
       borderRadius: 10,
       borderWidth: 1.5,
-      fontFamily: 'Roboto-Bold',
+      // fontFamily: 'Roboto-Bold',
+    },
+    batch1:{
+      textAlign: 'center',
+      
+      width: 100,
+      height: 25,
+      marginTop: 5,
+      borderRadius: 15,
+      borderWidth: 1.5,
+      fontFamily: 'Poppins-Regular',
+      fontSize: 12,paddingTop:4
     },
     bookicon:
     {
