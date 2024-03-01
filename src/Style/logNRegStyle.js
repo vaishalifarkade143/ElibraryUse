@@ -624,24 +624,26 @@ const getStyles = (theme) => {
     },
     planContainer: {
       backgroundColor: '#fff',
-      borderRadius: 10,
+      borderBottomLeftRadius: 20,
       borderColor: '#fff',
-      marginTop: 20,
+      marginBottom: 20,
       padding: 10,
-      elevation: 8,
-      width: 150,
+      borderWidth:1,
+      borderColor:'#efefef',
     },
 
     planName: {
       textAlign: 'center',
       fontFamily: 'Poppins-Regular',
-      fontSize: 17,
+      fontSize: 19,
       color: '#000',
     },
     priceContainer: {
       flexDirection: 'row',
       justifyContent: 'center',
       alignItems: 'center',
+      marginBottom:10
+      // paddingBottom:10,
     },
     price: {
       color: 'black',
@@ -655,18 +657,20 @@ const getStyles = (theme) => {
     description: {
       fontWeight: 'bold',
       color: '#c27b7f',
-      fontSize: 10,
+      fontSize: 11,
+      textAlign:'center',
+      marginBottom:10
     },
     subscribeButton: {
-      marginTop: 10,
+      marginTop: -38,
       backgroundColor: '#c27b7f',
-      borderRadius: 8,
-      paddingBottom: 10,
-      paddingTop: 10,
+      borderRadius: 20,
+      paddingBottom: 8,
+      paddingTop: 8,
       alignItems: 'center',
-
-      marginLeft: 5,
-      marginRight: 5
+      width:130,
+      alignSelf:'center',
+      marginBottom:25
     },
     buttonText: {
       textAlign: 'center',
@@ -684,7 +688,6 @@ const getStyles = (theme) => {
       padding: 20,
       borderRadius: 10
     },
-
     rupeeIcon: {
       width: 15,
       height: 15,
