@@ -112,7 +112,7 @@
 
 
 
-
+//==================================animation added=====================================
 
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
@@ -123,6 +123,13 @@ import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import RazorpayCheckout from 'react-native-razorpay';
 import CheckBox from '@react-native-community/checkbox';
+import Animated, {
+  useSharedValue,
+  withSpring,
+  Easing,
+  useAnimatedStyle,
+  withDelay,
+} from 'react-native-reanimated';
 
 
 const MembershipPlan = () => {
@@ -142,6 +149,25 @@ const MembershipPlan = () => {
 
   const [defaultCheckedEbookItems, setDefaultCheckedEbookItems] = useState({ 1: true, 5: true });
   const [checkedEbookItems, setCheckedEbookItems] = useState(defaultCheckedEbookItems);
+
+  // const initialOffset = 300;
+  const opacity = useSharedValue(20);
+
+  const startAnimation = () => {
+    opacity.value = withSpring(1, { damping: 4, stiffness: 50 });
+  };
+
+  const animatedItemStyle = useAnimatedStyle(() => {
+    return {
+      opacity: opacity.value,
+      transform: [{ translateY: opacity.value * 10 }],
+    };
+  });
+
+  useEffect(() => {
+    startAnimation(); // Trigger the animation when the component mounts
+  }, []); // Empty dependency array ensures the effect runs only once
+
 
   useEffect(() => {
     const subscription = () => {
@@ -258,7 +284,7 @@ const MembershipPlan = () => {
                   keyExtractor={(item) => item.id.toString()}
                   renderItem={({ item }) =>
                   (
-                    <View>
+                    <Animated.View style={[styles.animatedItem, animatedItemStyle]}>
                     <View style={{backgroundColor:'#3498DB', borderTopRightRadius:20, padding:10}}>
                     <Text style={styles.planName}>{item.name}</Text>
                     </View>
@@ -338,13 +364,11 @@ const MembershipPlan = () => {
                         />
                         {item.id === 2 || item.id === 3 || item.id === 5 || item.id === 6 ?
                           (<Text style={{
-                            // alignSelf: 'center',
                             fontSize: 12,
                             fontFamily: 'Poppins-Regular',
                           }}>Access of Library(₹ 500 / Monthly)</Text>)
                           :
                          ( <Text style={{
-                            // alignSelf: 'center',
                           
                             fontSize: 12,
                             fontFamily: 'Poppins-Regular',
@@ -396,7 +420,7 @@ const MembershipPlan = () => {
                       >
                         <Text style={styles.buttonText}>Subscribe</Text>
                       </TouchableOpacity>
-                    </View>
+                    </Animated.View>
                   )
                   }
 
