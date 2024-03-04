@@ -674,7 +674,7 @@ const getStyles = (theme) => {
     },
     buttonText: {
       textAlign: 'center',
-      fontWeight: 'bold',
+      fontFamily: 'Poppins-Regular',
       fontSize: 13,
       color: "#fff",
     },

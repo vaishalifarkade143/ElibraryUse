@@ -9,7 +9,6 @@ import Theme from './Theme';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Octicons from 'react-native-vector-icons/Octicons';
 
 import Modal from "react-native-modal";
 
@@ -204,15 +203,6 @@ const Profile = ({ navigation, route }) => {
                 const styles = getStyles(theme);
                 return (
                     <View style={styles.container}>
-                        {/* <Header
-                            rightIcon={require('../images/Logoelibrary.png')}
-                            leftIcon={require('../images/menu.png')}
-                            onClickLeftIcon={() => {
-                                navigation.openDrawer();
-                            }}
-                        /> */}
-
-
                         <ScrollView>
 
                             <Text style={styles.sectionHeading}>Profile</Text>

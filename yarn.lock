@@ -6517,6 +6517,11 @@ react-native-video@^5.2.1:
     prop-types "^15.7.2"
     shaka-player "^2.5.9"
 
+react-native-virtualized-view@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/react-native-virtualized-view/-/react-native-virtualized-view-1.0.0.tgz"
+  integrity sha512-7YyFMMkNzJ787/giGkKcm0JEx0IcLEE/XHREGz2I4K1RISQGFjEDe6iWsapOnHSR/e1vhebZJ8VmqhSpg5YPzg==
+
 react-native-webview@^13.6.2:
   version "13.6.2"
   resolved "https://registry.npmjs.org/react-native-webview/-/react-native-webview-13.6.2.tgz"
