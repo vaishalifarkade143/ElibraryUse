@@ -555,20 +555,10 @@
 
 
 
-
-
-
-
-
-
-
-
-// =====================================
-
 //==================================animation added=====================================
 
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../context/AuthContext';
 import Header from '../common/Header';
@@ -579,9 +569,6 @@ import CheckBox from '@react-native-community/checkbox';
 import Animated, { useSharedValue, withSpring, useAnimatedStyle, } from 'react-native-reanimated';
 import { ScrollView } from 'react-native-virtualized-view';
 import Modal from "react-native-modal";
-import Entypo from 'react-native-vector-icons/Entypo';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import ImagePicker from 'react-native-image-crop-picker';
 
 const MembershipPlan = () => {
@@ -641,6 +628,56 @@ const MembershipPlan = () => {
       );
     });
   }
+
+  // ===================Handle Bpl card subscription=====================
+
+  const handleBplSubscription = async () => {
+    const urlBpl = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session2/1`;
+    const formData = new FormData();
+    if (removeImage === 1) {
+      // Set the remove_image field to 1 when you want to remove the image
+      formData.append('remove_image', '1');
+    } else if (image) {
+      // If there's an image, add it to the form data
+      const imageFileName = image.split('/').pop();
+      const imageData = {
+        uri: image,
+        type: 'image/png', // Change the type if necessary
+        name: imageFileName,
+      };
+      formData.append('pdf_preview_file', imageData);
+      setImage(imageData);
+    }
+
+    try {
+      const response = await fetch(urlBpl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data', // Important for sending files
+          Authorization: `Bearer ${userToken}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      console.log('Data updated successfully:', response.json());
+
+      navigation.goBack();
+      setIsData(false);
+      Alert.alert(
+        'Success!',
+        `Data Updtated successfully `,
+      );
+    } catch (error) {
+      console.error('Error updating data:', error);
+    }
+
+  }
+
+
 
   // ===========animation code================
   const opacity = useSharedValue(20);
@@ -1055,16 +1092,18 @@ const MembershipPlan = () => {
                   padding: 10,
                   marginBottom: 40,
                 }}>
-                  <Image
-                    source={{}}
-                    style={{
-                      width: 140,
-                      height: 140,
-                      alignSelf: 'center',
-                      backgroundColor: 'pink'
-                    }}
-                    resizeMode="cover"  // Use 'cover' to maintain the aspect ratio and cover the entire container
-                  />
+                  <View>
+                    <Image
+                     source={{ uri: image }}
+                      style={{
+                        width: 140,
+                        height: 140,
+                        alignSelf: 'center',
+                        backgroundColor: 'pink'
+                      }}
+                      resizeMode="cover"  // Use 'cover' to maintain the aspect ratio and cover the entire container
+                    />
+                  </View>
                   <TouchableOpacity style={{
                     marginTop: 10,
                     borderColor: "#efefef",
@@ -1091,8 +1130,7 @@ const MembershipPlan = () => {
                 <TouchableOpacity
                   disabled={isPlanActivated}
                   onPress={() => {
-                    setSelectedPlan(item);
-                    handlepayment(item);
+                    handleBplSubscription();
                   }}
                   style={{
                     marginTop: -60,

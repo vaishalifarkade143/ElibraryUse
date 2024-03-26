@@ -665,10 +665,10 @@ const getStyles = (theme) => {
       marginTop: -38,
       backgroundColor: '#c27b7f',
       borderRadius: 20,
-      paddingBottom: 8,
-      paddingTop: 8,
+      paddingBottom: 5,
+      paddingTop: 5,
       alignItems: 'center',
-      width:130,
+      width:100,
       alignSelf:'center',
       marginBottom:25
     },

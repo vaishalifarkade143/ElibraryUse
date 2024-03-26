@@ -730,7 +730,7 @@ const User = ({ navigation }) => {
                         <View style={styles.userView}>
                           <Text style={styles.userText}>Membership Plans</Text>
                           <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
-                           style={{ marginLeft: 140 }} 
+                           style={{ marginLeft: 150 }} 
                           />
                         </View>
                       </TouchableOpacity>
@@ -763,7 +763,7 @@ const User = ({ navigation }) => {
                       navigation.navigate('resources')
                     }}>
                       <View style={styles.userView}>
-                        <Text style={styles.userText}>Resources</Text>
+                        <Text style={styles.userText}>eResources</Text>
                         <View style={{ justifyContent: 'flex-end' }}>
                           <AntDesign name="right" color={theme === 'LIGHT' ? '#000' : '#fff'} size={16}
                            style={{ marginLeft: 211 }}

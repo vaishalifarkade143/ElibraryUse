@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: 15,
         paddingRight: 15,
+       
     },
     btn: {
         width: 40,

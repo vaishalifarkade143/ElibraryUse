@@ -18,14 +18,15 @@ const HomeScreen = ({ navigation }) => {
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [genreBooks, setGenreBooks] = useState([]);
 
+// ====Animation================================================
+
+
 
   // generating a random number
   const a = Math.floor(Math.random() * (10 - 1)) + 1;
   //==============================video working=================================================
 
   const videoUrl = `https://player.vimeo.com/video/808983383?h=81d7a35acb&badge=0&autopause=0&player_id=0&app_id=58479`
-
-
 
   //===========added recently=================================
   const format = [{ id: 1, name: "Hardcover" },
