@@ -767,8 +767,9 @@ const Resources = () => {
   const [videoModalVisible, setVideoModalVisible] = useState(false);
   const [audioModalVisible, setAudioModalVisible] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [searchQuery, setSearchQuery] = useState('');
 
+  const [searchQuery, setSearchQuery] = useState('');
+  
   //====================================select========================
   const [selectedCategory, setSelectedCategory] = useState("Documents"); // Initialize with "Documents"
   const [datasSelect, setDataSelect] = useState([]);
@@ -777,11 +778,35 @@ const Resources = () => {
     setSelectedCategory(category);
   };
 
-  const filteredData = datasSelect.filter(item => selectedCategory === "Documents" ?
-    item.category_id === 1 : selectedCategory === "Multimedia" ?
-      item.category_id === 2 : item.category_id === 3);
+  // const filteredData = datasSelect.filter(item => 
+  //   selectedCategory === "Documents" ? item.category_id === 1 : selectedCategory === "Multimedia" ?
+  //     item.category_id === 2 : item.category_id === 3);
 
 
+const [filteredData, setFilteredData] = useState([]); // Filtered data
+
+// Function to filter data based on search query and category
+const filterData = () => {
+  let filtered = datasSelect; // Use the original data here
+
+  // Filter by category
+  filtered = filtered.filter(item =>
+    selectedCategory === "Documents" ? item.category_id === 1 :
+    selectedCategory === "Multimedia" ? item.category_id === 2 :
+    item.category_id === 3
+  );
+
+  // Filter by search query
+  filtered = filtered.filter(item =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  setFilteredData(filtered);
+};
+
+useEffect(() => {
+  filterData(); // Call the filter function whenever searchQuery or selectedCategory changes
+}, [selectedCategory,datasSelect,searchQuery]);
 
 
   // ============================================
@@ -799,13 +824,13 @@ const Resources = () => {
   const [puased, setPaused] = useState(false);
   const [progress, setProgress] = useState(null);
   const [fullScreen, setFullScreen] = useState(false)
-  const [data, setData] = useState('');
+
   const ref = useRef();
   const format = seconds => {
     let mins = parseInt(seconds / 60)
       .toString()
       .padStart(2, '0');
-    let secs = (Math.trunc(seconds) % 60).toString().padStart(2, '0');
+    let secs = (Math.trunc(seconds) % 60).toString().padStart(2,'0');
     return `${mins}:${secs}`;
   };
 
@@ -1161,42 +1186,47 @@ const Resources = () => {
 
             <Text style={styles.sectionHeading}>eResources</Text>
 
-
             {/* ==================search======================= */}
             <View style={{
-              flexDirection: 'row',
               alignItems: 'center',
-              borderRadius: 10,
-              borderColor: '#efefef',
-              borderWidth: 0.8,
-              paddingHorizontal: 10,
-              marginLeft: 20,
+              flexDirection: 'row', marginLeft: 20,
               marginRight: 20,
-              color: theme === 'LIGHT' ? '#2f4858' : '#000',
-
-
             }}>
+              <View style={{
+                flexDirection: 'row',
+                marginRight: 10,
+                borderRadius: 10,
+                borderColor: '#efefef',
+                borderWidth: 0.8,
+                paddingHorizontal: 10,
+                width: 240,
+                color: theme === 'LIGHT' ? '#2f4858' : '#000',
+              }}>
 
-              <TextInput
-                style={{
-                  color: theme === 'LIGHT' ? '#2f4858' : '#000',
-                  fontSize: 15,
-                  marginTop: -8,
-                  marginBottom: -8
-                }}
-                placeholder="Search by Title"
+                <TextInput
+                  style={{
+                    color: theme === 'LIGHT' ? '#2f4858' : '#000',
+                    fontSize: 15,
+                    marginTop: -8,
+                    marginBottom: -8
+                  }}
+                  placeholder="Search by Title"
+                  value={searchQuery}
+                  onChangeText={setSearchQuery}
+                />
 
-                value={searchQuery}
-                onChangeText={setSearchQuery}
-              />
-
-              {searchQuery !== '' && (
-                <TouchableOpacity onPress={() => {
-                  setSearchQuery('');
-
-                }}>
-
-                </TouchableOpacity>)}
+              </View>
+              <TouchableOpacity onPress={{}}>
+              <Text style={{
+                backgroundColor: '#c27b7f',
+                padding: 8,
+                paddingLeft:16,paddingRight:16,
+                 borderRadius: 10,
+                fontSize: 13, fontWeight: '700',
+                fontFamily: 'Poppins-Regular',
+                color:'#fff'
+              }}>Reset</Text>
+              </TouchableOpacity>
             </View>
             {/* =====================================buttons============================ */}
 
@@ -1230,13 +1260,11 @@ const Resources = () => {
               marginRight: 20,
 
             }}>
-              <View style={{}}>
-                {/* {data !== null && ( */}
+              <View>
                 <FlatList
                   showsVerticalScrollIndicator={false}
                   // columnWrapperStyle={{ justifyContent: 'space-between' }}
                   numColumns={1}
-                  // data={data}
                   data={filteredData}
                   keyExtractor={(item) => item.id}
                   renderItem={({ item }) =>
@@ -1247,34 +1275,34 @@ const Resources = () => {
                       paddingBottom: 15,
                       borderRadius: 10,
                       alignItems: 'center',
-                      backgroundColor: "#E7E8D1",
+                      backgroundColor: "#f5e0e1",//#E7E8D1
 
                     }}>
                       <View>
-                      {item.category_id === 1 ?
-    (<Text style={{
-      color: 'grey',
-      fontFamily: 'Poppins-Regular',
-      fontSize: 15,
-      paddingTop: 8,
-      marginLeft: -150
-    }}>Document</Text>) :
-    item.category_id === 2 ?
-      (<Text style={{
-        color: 'grey',
-        fontFamily: 'Poppins-Regular',
-        fontSize: 15,
-        paddingTop: 8,
-        marginLeft: -150
-      }}>Multimedia</Text>) :
-      (<Text style={{
-        color: 'grey',
-        fontFamily: 'Poppins-Regular',
-        fontSize: 15,
-        paddingTop: 8,
-        marginLeft: -150
-      }}>Quick Links</Text>)
-}
+                        {item.category_id === 1 ?
+                          (<Text style={{
+                            color: 'grey',
+                            fontFamily: 'Poppins-Regular',
+                            fontSize: 15,
+                            paddingTop: 8,
+                            marginLeft: -150
+                          }}>Document</Text>) :
+                          item.category_id === 2 ?
+                            (<Text style={{
+                              color: 'grey',
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 15,
+                              paddingTop: 8,
+                              marginLeft: -150
+                            }}>Multimedia</Text>) :
+                            (<Text style={{
+                              color: 'grey',
+                              fontFamily: 'Poppins-Regular',
+                              fontSize: 15,
+                              paddingTop: 8,
+                              marginLeft: -150
+                            }}>Quick Links</Text>)
+                        }
                       </View>
                       <Text style={{
                         color: '#000',

@@ -20,18 +20,6 @@ const Searchbar = ({ navigation }) => {
     const [masterDataSource, setMasterDataSource] = useState([]);
     const [recentSearch, setRecentSearch] = useState([]);
 
-  //   const [selectedGenre, setSelectedGenre] = useState("Genre");
-  // const [genr, setGenr] = useState([]);
-  // const [selectedPublisher, setSelectedPublisher] = useState("Publisher");
-  // const [publishr, setPublishr] = useState([]);
-  // const [selectedAuthor, setSelectedAuthor] = useState("Author");
-  // const [authr, setAuthr] = useState([]);
-  // const [selectedLanguage, setSelectedLanguage] = useState("Language");
-  // const [language, setLanguage] = useState([]);
-  // const [selectedFormat, setSelectedFormat] = useState("Format");
-  // const [selectedLibrary, setSelectedLibrary] = useState("Library");
-  // const [books, setBooks] = useState([]);
-  // const [isLoaded, setisLoaded] = useState(true);
 
 //=================================search function api call=============================
     useEffect(() => {
@@ -42,11 +30,7 @@ const Searchbar = ({ navigation }) => {
                 .then((res) => res.json())
                 .then((data) => {
                     setMasterDataSource(data.data);
-                    setFilteredDataSource(data.data);
-                    //   setIsLoading(false);
-                    // setisLoaded(false);
-
-                })
+                    setFilteredDataSource(data.data);})
                 .catch((error) => {
                     console.error(error);
                 });

@@ -259,8 +259,6 @@ const Transaction = ({ navigation, route }) => {
 
             </View>
 
-
-
             {/* </ScrollView> */}
 
           </View>
