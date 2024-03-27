@@ -1216,7 +1216,9 @@ useEffect(() => {
                 />
 
               </View>
-              <TouchableOpacity onPress={{}}>
+              <TouchableOpacity onPress={
+               () => setSearchQuery('')
+              }>
               <Text style={{
                 backgroundColor: '#c27b7f',
                 padding: 8,
