@@ -3535,17 +3535,7 @@ const BooksDetail = ({ navigation }) => {
         renew: false,
         amount: 10,
 
-        // "member_id": 34,
-        // "ebook_id": "745",
-        // "issued_on": "2024-02-07",
-        // "returned_on": "2024-02-17",
-        // "razorpay_payment_id": "NA",
-        // "amount": 10,
-        // "email": "info@educron.com",
-        // "updated_at": "2024-02-07T11:13:15.000000Z",
-        // "created_at": "2024-02-07T11:13:15.000000Z",
-        // "id": 21
-
+        
       };
       console.log('subscriptionData===', subscriptionData);
       // console.log(" ebook_id", ebook_id);

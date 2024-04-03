@@ -28,9 +28,16 @@ const Resources = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
 
-  const [showFullText, setShowFullText] = useState(false);
+  // const [showFullText, setShowFullText] = useState(false);
 
-
+  const [showFullText, setShowFullText] = useState([]);
+  const handleToggleReadMore = (index) => {
+    setShowFullText(prevState => {
+      const newState = [...prevState];
+      newState[index] = !newState[index];
+      return newState;
+    });
+  };
   //====================================select========================
   const [selectedCategory, setSelectedCategory] = useState("Documents"); // Initialize with "Documents"
   const [datasSelect, setDataSelect] = useState([]);
@@ -57,6 +64,9 @@ const Resources = () => {
     );
 
     setFilteredData(filtered);
+
+    setShowFullText(new Array(filtered.length).fill(false)); 
+
   };
 
   useEffect(() => {
@@ -95,7 +105,7 @@ const Resources = () => {
   const xlsxUrl = 'https://dindayalupadhyay.smartcitylibrary.com/uploads/Resources/Popular-Books-By-genre1697019311.xlsx'; //download URL for the XLSX file
 
 
-  //==========download for permition=============
+  //=================================download for permition==========================================
 
 
   const requestStoragePermission = async () => {
@@ -526,7 +536,7 @@ const Resources = () => {
                   numColumns={1}
                   data={filteredData}
                   keyExtractor={(item) => item.id}
-                  renderItem={({ item }) =>
+                  renderItem={({ item, index }) =>
 
                     <View style={{
                       marginTop: 15,
@@ -570,7 +580,7 @@ const Resources = () => {
                         {item.title}
                       </Text>
 
-                      {item.note && (
+                      {/* {item.note && (
                         <Text
                           style={{
                             color: '#34495E',
@@ -591,6 +601,30 @@ const Resources = () => {
                       {showFullText && (
                         <TouchableOpacity onPress={() => setShowFullText(false)}>
                           <Text style={{ color: 'blue', marginLeft:10 }}>Read Less</Text>
+                        </TouchableOpacity>
+                      )} */}
+
+{item.note && (
+                        <Text
+                          style={{
+                            color: '#34495E',
+                            fontFamily: 'OpenSans-Regular',
+                            fontSize: 13,
+                            paddingLeft: 10,
+                            paddingRight: 10,
+                            marginTop: 10,
+                          }}>
+                          {showFullText[index] ? item.note : item.note.slice(0, 100)}
+                        </Text>
+                      )}
+                      {item.note && item.note.length > 100 && !showFullText[index] && (
+                        <TouchableOpacity onPress={() => handleToggleReadMore(index)}>
+                          <Text style={{ color: 'blue', marginLeft: 10 }}>Read More</Text>
+                        </TouchableOpacity>
+                      )}
+                      {showFullText[index] && (
+                        <TouchableOpacity onPress={() => handleToggleReadMore(index)}>
+                          <Text style={{ color: 'blue', marginLeft: 10 }}>Read Less</Text>
                         </TouchableOpacity>
                       )}
 
@@ -684,28 +718,28 @@ const Resources = () => {
 export default Resources;
 
 
-const styles = StyleSheet.create({
+// const styles = StyleSheet.create({
 
 
-  searchIcon: {
-    backgroundColor: '#c27b7f',
-    borderRadius: 10,
-    padding: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 10,
-    textAlign: 'center',
-  },
-  categoryText: {
-    textAlign: 'center',
-    color: '#fff',
-    fontFamily: 'OpenSans-Regular',
-    backgroundColor: '#c27b7f',
-    borderRadius: 10,
-    padding: 5,
-    paddingLeft: 20,
-    paddingRight: 20,
-    marginTop: 10,
-  },
-});
+//   searchIcon: {
+//     backgroundColor: '#c27b7f',
+//     borderRadius: 10,
+//     padding: 5,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//     marginTop: 10,
+//     textAlign: 'center',
+//   },
+//   categoryText: {
+//     textAlign: 'center',
+//     color: '#fff',
+//     fontFamily: 'OpenSans-Regular',
+//     backgroundColor: '#c27b7f',
+//     borderRadius: 10,
+//     padding: 5,
+//     paddingLeft: 20,
+//     paddingRight: 20,
+//     marginTop: 10,
+//   },
+// });
 
