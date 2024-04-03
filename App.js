@@ -8,16 +8,14 @@ import {StatusBar} from 'react-native';
 
 
 const App = () => {
-//   componentDidMount() {
-//     StatusBar.setBarStyle( 'light-content',true)
-//     StatusBar.setBackgroundColor("#fff")
-// }
+  useEffect(() => {
+    StatusBar.setBarStyle('light-content', true);
+    StatusBar.setBackgroundColor('#fff');
+  }, []); 
   return (
  
-    <AuthProvider  >
-      
+    <AuthProvider >
         <AppNav />
-     
     </AuthProvider>
            
   );
