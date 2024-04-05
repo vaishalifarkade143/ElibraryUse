@@ -65,7 +65,7 @@ const Resources = () => {
 
     setFilteredData(filtered);
 
-    setShowFullText(new Array(filtered.length).fill(false)); 
+    setShowFullText(new Array(filtered.length).fill(false));
 
   };
 
@@ -580,31 +580,8 @@ const Resources = () => {
                         {item.title}
                       </Text>
 
-                      {/* {item.note && (
-                        <Text
-                          style={{
-                            color: '#34495E',
-                            fontFamily: 'OpenSans-Regular',
-                            fontSize: 13,
-                            paddingLeft: 10,
-                            paddingRight: 10,
-                            marginTop: 10,
-                          }}>
-                          {showFullText ? item.note : item.note.slice(0, 100)}
-                        </Text>
-                      )}
-                      {item.note && item.note.length > 100 && !showFullText && (
-                        <TouchableOpacity onPress={() => setShowFullText(true)}>
-                          <Text style={{ color: 'blue', marginLeft:10 }}>Read More</Text>
-                        </TouchableOpacity>
-                      )}
-                      {showFullText && (
-                        <TouchableOpacity onPress={() => setShowFullText(false)}>
-                          <Text style={{ color: 'blue', marginLeft:10 }}>Read Less</Text>
-                        </TouchableOpacity>
-                      )} */}
 
-{item.note && (
+                      {item.note && (
                         <Text
                           style={{
                             color: '#34495E',

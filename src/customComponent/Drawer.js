@@ -1,31 +1,31 @@
 
-import { View, Text ,Image,TouchableOpacity,Linking} from 'react-native'
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native'
 import React from 'react'
-import {DrawerContentScrollView,DrawerItemList} from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 
-const Drawer =(props)=> {
+const Drawer = (props) => {
   return (
-    <View style={{flex: 1}}>
-    <DrawerContentScrollView
-      {...props}
-      contentContainerStyle={{backgroundColor: '#f5ebe6'}}
+    <View style={{ flex: 1 }}>
+      <DrawerContentScrollView
+        {...props}
+        contentContainerStyle={{ backgroundColor: '#f5ebe6' }}
       >
-      
+
         <Image
           source={require('../images/Logoelibrary.png')}
-          style={{height: 55, width: 170,margin:15}}
+          style={{ height: 55, width: 170, margin: 15 }}
         />
-        
-        
-      
-      <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
-        <DrawerItemList {...props} />
-      </View>
-    </DrawerContentScrollView>
 
 
-    <View style={{flexDirection:'end'}}>
-    {/* <Text style={{paddingBottom:8,textAlign:'center',fontSize:20,fontWeight:'bold',right:15}}>Our address</Text>
+
+        <View style={{ flex: 1, backgroundColor: '#fff', paddingTop: 10 }}>
+          <DrawerItemList {...props} />
+        </View>
+      </DrawerContentScrollView>
+
+
+      <View style={{ flexDirection: 'end' }}>
+        {/* <Text style={{paddingBottom:8,textAlign:'center',fontSize:20,fontWeight:'bold',right:15}}>Our address</Text>
           <Text style={{textAlign:'center',right:15}}>Nagpur{"\n"}Maharashtra</Text>
           <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',right:15}}>
             <TouchableOpacity onPress={() => {Linking.openURL('https://www.facebook.com/')}}>
@@ -43,23 +43,27 @@ const Drawer =(props)=> {
         />
             </TouchableOpacity>
       </View> */}
-      
-      
-      
-      <Image
-          source={require('../images/smartCity.png')}
-          style={{height: 65, width: 210,margin:20}}
-        />
-        <Text style={{textAlign:'center',marginBottom:5}}>
-          <Text>"© 2023" </Text><TouchableOpacity onPress={() => {Linking.openURL('https://www.educron.com//')}}>
-             <Text style={{color:'blue'}}>Educron.</Text><Text>"All rights reserved."</Text> 
-             </TouchableOpacity>
-        </Text>
-        
-    </View>
 
-   
-  </View>
+
+
+        <Image
+          source={require('../images/smartCity.png')}
+          style={{ height: 65, width: 210, margin: 20 }}
+        />
+        <View style={{ marginBottom: 15, flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
+          <Text>©2024 </Text>
+          <TouchableOpacity
+            onPress={() => { Linking.openURL('https://www.educron.com//') }}>
+            <Text style={{ color: 'blue' }}>Educron.</Text>
+          </TouchableOpacity>
+          <Text>All rights reserved.</Text>
+
+        </View>
+
+      </View>
+
+
+    </View>
   )
 }
 

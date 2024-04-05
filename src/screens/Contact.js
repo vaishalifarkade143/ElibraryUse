@@ -32,14 +32,7 @@ const ContactForm = ({ navigation }) => {
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>CONTACT US</Text>
                 <Text style={styles.subtitle}>We'd love to hear from you</Text>
-                {/* <View style={{
-                  width: 150,
-                  height: 2,
-                  backgroundColor: '#c27b7f',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: -15,
-                }}></View> */}
+                
               </View>
 
               <View style={styles.formContainer}>
@@ -103,8 +96,6 @@ const ContactForm = ({ navigation }) => {
 
                 <TouchableOpacity
                   style={[styles.loginbtn, { backgroundColor: '#c27b7f', }]}
-                  //: '#e4e7ea'
-                  // onPress={handleSubmit}
                   onPress={() => {
                     handleSubmit();
                     setemail('');

@@ -20,7 +20,7 @@ const PrivacyPolicy = ({ navigation }) => {
                                           }}
                                     />
                                     <View style={styles.terms}>
-                                          <ScrollView>
+                                          <ScrollView showsVerticalScrollIndicator={false}>
                                                 <Text style={styles.heading}>Privacy Policy</Text>
                                                 <Text style={styles.subHeading}>Privacy Policy</Text>
                                                 <Text style={styles.disclemerText}>We take your privacy seriously at our library, and we are

@@ -33,7 +33,6 @@ const ELibrary = ({ navigation }) => {
         return (
           <View style={styles.container}>
             <Header
-              // rightIcon={require('../images/Logoelibrary.png')}
               leftIcon={require('../images/back.png')}
               onClickLeftIcon={() => {
                 navigation.navigate('Home');
@@ -42,15 +41,7 @@ const ELibrary = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.titleContainer}>
                 <Text style={styles.title}>ABOUTE  LIBRARY</Text>
-                <Text style={styles.subtitle}>Where Information Comes Alive</Text>
-                {/* <View style={{
-                  width: 150,
-                  height: 2,
-                  backgroundColor: '#c27b7f',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  marginTop: -15,
-                }}></View> */}
+          
               </View>
 
 
@@ -58,7 +49,7 @@ const ELibrary = ({ navigation }) => {
                 <Image
                   source={{
                     uri:
-                      "https://dindayalupadhyay.smartcitylibrary.com/images/achive.png"
+                      "https://dindayalupadhyay.smartcitylibrary.com/public/uploads/images/achive.png"
                   }}
                   style={styles.image1}
                   resizeMode="cover"
@@ -66,7 +57,7 @@ const ELibrary = ({ navigation }) => {
               </View>
 
               <View style={styles.textContainer}>
-                <Text style={[styles.disclemerText,{marginLeft:10,marginRight:10}]}>
+                <Text style={[styles.disclemerText,{marginLeft:20,marginRight:20}]}>
                   Smart City Digital Library is the online repository of knowledge,
                   where it is easy to discover the knowledge from available recourse with search/browse facilities.
                   It is an innovative project mentored by Nagpur Smart and Sustainable City Development Corporation
@@ -74,7 +65,7 @@ const ELibrary = ({ navigation }) => {
                   Government of India. The objective of this ambitious solution is to ease the access of the readers
                   to the right resources on the go with minimum efforts.
                 </Text>
-                <Text style={[styles.disclemerText,{marginLeft:10,marginRight:10}]}>
+                <Text style={[styles.disclemerText,{marginLeft:20,marginRight:20}]}>
                   Smart City's Digital Library provides Study resources that benefit all age group users,
                   School and College students, aspirants preparing for competitive exams, Researchers and general
                   learners. This Digital Library is designed to hold content of English, Hindi, Marathi languages. Under this project traditional Libraries of Nagpur Municipal Corporation are being converted to Digital libraries with the facilities to have access to the resources worldwide. The library is equipped with
