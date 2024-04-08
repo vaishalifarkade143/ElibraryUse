@@ -107,8 +107,9 @@ const MembershipPlan = () => {
 
       console.log('Data updated successfully:', response.json());
 
-      navigation.goBack();
-      setIsData(false);
+      // navigation.goBack();
+      navigation.navigate('Userr');
+      // setIsData(false);
       Alert.alert(
         'Success!',
         `Data Updtated successfully `,
@@ -149,7 +150,6 @@ const MembershipPlan = () => {
     };
     subscription();
   }, []);
-  // console.log("data is subscript:", subscript);
 
   // ==================================== if plan subscribe successfully then it navigate to user page=========================
 
@@ -179,32 +179,22 @@ const MembershipPlan = () => {
           console.error('Error storing data:', error);
         });
     } 
-    // else {
-    //   // Handle the case when selectedPlan is null or undefined
-    //   console.error('Selected plan is null or undefined');
-    // }
   };
   useEffect(() => {
     if (paymentSuccess) {
-      // if (paymentSuccess && selectedPlan) {
-      // If payment was successful, activate the plan
       activatePlan(selectedPlan);
     }
   }, [paymentSuccess, selectedPlan]);
-
 
 
   // ========================for selection of checkboxes=======================================
 
 
   const handlepayment = (selectedPlan) => {
-
-
     let totalAmount = (selectedPlan.price + selectedPlan.deposit); // Initialize totalAmount with the base price of the selected plan
-    // console.log("amount2:",totalAmount)
+   
     if (selectedPlan.id === 2) {
       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
-        // If both library and ebook checkboxes are selected, add both amounts
         totalAmount += 300 + 500;
       } else if (checkedLibraryItems[selectedPlan.id]) {
         totalAmount += 300;
@@ -215,11 +205,9 @@ const MembershipPlan = () => {
 
     if (selectedPlan.id === 3) {
       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
-        // If both library and ebook checkboxes are selected, add both amounts
         totalAmount += 300 + 500;
       } else if (checkedLibraryItems[selectedPlan.id]) {
         totalAmount += 300;
-        console.log('sub----')
       } else if (checkedEbookItems[selectedPlan.id]) {
         totalAmount += 500;
       }
@@ -227,7 +215,6 @@ const MembershipPlan = () => {
 
     if (selectedPlan.id === 4) {
       if (checkedBookItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
-        // If both library and ebook checkboxes are selected, add both amounts
         totalAmount += 370 + 500;
       } else if (checkedBookItems[selectedPlan.id]) {
         totalAmount += 370;
@@ -238,7 +225,6 @@ const MembershipPlan = () => {
 
     if (selectedPlan.id === 5) {
       if (checkedBookItems[selectedPlan.id] && checkedLibraryItems[selectedPlan.id]) {
-        // If both library and ebook checkboxes are selected, add both amounts
         totalAmount += 370 + 300;
       } else if (checkedBookItems[selectedPlan.id]) {
         totalAmount += 370;
@@ -249,7 +235,6 @@ const MembershipPlan = () => {
 
     if (selectedPlan.id === 6) {
       if (checkedEbookItems[selectedPlan.id] && checkedLibraryItems[selectedPlan.id]) {
-        // If both library and ebook checkboxes are selected, add both amounts
         totalAmount += 500 + 300;
       } else if (checkedEbookItems[selectedPlan.id]) {
         totalAmount += 500;
@@ -286,7 +271,6 @@ const MembershipPlan = () => {
       });
   };
   // ================================================================================ \\
-  console.log("selectedplan :", selectedPlan)
 
   return (
     <Theme>
@@ -568,12 +552,6 @@ const MembershipPlan = () => {
                         </View>
                         <TouchableOpacity
                           disabled={isPlanActivated}
-                          // onPress={() => {
-                          //   // setSelectedPlan(item);
-
-                          //   handlepayment(item);
-                          // }}
-
                           onPress={() => {
                             console.log('Selected item:', item);
                             if (item) {

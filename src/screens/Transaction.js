@@ -108,13 +108,6 @@ const Transaction = ({ navigation, route }) => {
       const query = searchQuery.toLowerCase();
       return plan.includes(query);
     })
-    // .map((item) => [
-    //   item.subscription_plan.name,
-    //   item.amount,
-    //   formatDate(item.created_at),
-    // ])
-
-
     .map((item) => ({
       subscription_plan: item.subscription_plan.name,
       amount: item.amount,
@@ -132,28 +125,32 @@ const Transaction = ({ navigation, route }) => {
           <Text style={styles.subscriptionPlan}>{item.subscription_plan}</Text>
         </View>
         <View style={{ flexDirection: 'row' }}>
-        <Image source={require('../images/rupee.png')}
-                            style={{
-                              marginTop:5,
-                              width: 12,
-                              height: 15,
-                              textAlign: 'center'
-                            }} />
+          <Image source={require('../images/rupee.png')}
+            style={{
+              marginTop: 5,
+              width: 12,
+              height: 15,
+              textAlign: 'center'
+            }} />
           <Text style={styles.flatListItemText}>{item.amount}</Text>
-          {item.plan_id === 8 ? (
-            <Text style={styles.priceLabel}>/Life Time</Text>
+
+          {item.plan_id === 6 ? (
+            <Text style={styles.priceLabel}>/Yearly</Text>
           ) : (item.plan_id === 1 ? (
-            <Text style={styles.priceLabel}>/yearly</Text>
-          ) : (item.plan_id === 9 ? (
-            <Text style={styles.priceLabel}>/Life Time</Text>
-          ) : (item.plan_id === 10 ? (
+            <Text style={styles.priceLabel}>/LifeTime</Text>
+          ) : (item.plan_id === 2 ? (
+            <Text style={styles.priceLabel}>/Lifetime</Text>
+          ) : (item.plan_id === 3 ? (
+            <Text style={styles.priceLabel}>/Lifetime</Text>
+          ) : (item.plan_id === 4 ? (
             <Text style={styles.priceLabel}>/Monthly</Text>
-          ) : (item.plan_id === 11 ? (
-            <Text style={styles.priceLabel}>/yearly</Text>
+          ) : (item.plan_id === 5 ? (
+            <Text style={styles.priceLabel}>/Monthly</Text>
           )
             : (
               <Text style={styles.loadingText}>Loading...</Text>
-            )))))}
+            ))))))}
+
 
         </View>
         <Text style={styles.flatListItemText1}>{item.created_at}</Text>
@@ -274,13 +271,13 @@ const styles = StyleSheet.create({
 
   flatListItemContainer: {
     borderRadius: 8,
-    padding: 15,
     margin: 10,
-    borderWidth:1,
-    borderColor:'#efefef',
     height: 90,
-    marginLeft:20,
-    marginRight:20,
+    marginLeft: 20,
+    marginRight: 20,
+    backgroundColor:'#f5e0e1',
+    justifyContent:'center',
+    paddingLeft:12
   },
   subscriptionPlan: {
     color: '#333',
