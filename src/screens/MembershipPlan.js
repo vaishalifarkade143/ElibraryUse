@@ -108,7 +108,7 @@ const MembershipPlan = () => {
       console.log('Data updated successfully:', response.json());
 
       // navigation.goBack();
-      navigation.navigate('Userr');
+      navigation.navigate('membershipscreen');
       // setIsData(false);
       Alert.alert(
         'Success!',
@@ -151,12 +151,12 @@ const MembershipPlan = () => {
     subscription();
   }, []);
 
-  // ==================================== if plan subscribe successfully then it navigate to user page=========================
+  // ==================================== after plan subscribe POST req call =========================
 
   const activatePlan = (item) => {
     if (item) {
       const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session/${item.id}`;
-      console.log("id::", item.id)
+      // console.log("id::", item.id)
       fetch(url, {
         method: 'POST',
         headers: {
@@ -172,7 +172,7 @@ const MembershipPlan = () => {
         })
         .then((responseData) => {
           setIsPlanActivated(true);
-          navigation.navigate('MembershipScreen');
+          navigation.navigate('membershipscreen');
 
         })
         .catch((error) => {

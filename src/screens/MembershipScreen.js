@@ -7,47 +7,58 @@ import { AuthContext } from '../context/AuthContext';
 import getStyles from '../Style/logNRegStyle';
 import Theme from './Theme';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import CheckBox from '@react-native-community/checkbox';
+import RazorpayCheckout from 'react-native-razorpay';
 
 const MembershipScreen = ({ navigation }) => {
   const [AllSubscribedPlan, setAllSubscribedPlan] = useState(null);
   const [singleSubscribedPlan, setSingleSubscribedPlan] = useState(null);
-  const { userToken, userInfo } = useContext(AuthContext);
+  const { userToken, } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
 
+
+  const [checkedBookItems, setCheckedBookItems] = useState(false);
+  const [checkedLibraryItems, setCheckedLibraryItems] = useState(false);
+  const [checkedEbookItems, setCheckedEbookItems] = useState(false);
+
+  const [isPlanUpdateded, setIsPlanUpdateded] = useState(false);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [updatedPlan, setUpdatedPlan] = useState(null);
+
+
   // =================  for single data view ============================
-  const fetchSinglePlan = () => {
-    const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
 
-    fetch(singleUrl, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${userToken}`,
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then((res) => {
-        setSingleSubscribedPlan(res.data);
-        setIsLoading(false); // Data has been loaded
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setIsLoading(false); // Handle error and set isLoading to false
-
-      });
-  };
   useEffect(() => {
+    const fetchSinglePlan = () => {
+      const singleUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/membership-details';
 
+      fetch(singleUrl, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${userToken}`,
+          'Content-Type': 'application/json',
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          return response.json();
+        })
+        .then((res) => {
+          setSingleSubscribedPlan(res.data);
+          setIsLoading(false); // Data has been loaded
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setIsLoading(false); // Handle error and set isLoading to false
+
+        });
+    };
     fetchSinglePlan();
   }, []);
 
-  console.log(singleSubscribedPlan);
 
 
   useEffect(() => {
@@ -117,6 +128,9 @@ const MembershipScreen = ({ navigation }) => {
 
   const formattedDate = singleSubscribedPlan ? formatDate(singleSubscribedPlan.start_date) : null;
   const formattedDate1 = singleSubscribedPlan ? formatDate(singleSubscribedPlan.end_date) : null;
+  const ebook_date = singleSubscribedPlan ? formatDate(singleSubscribedPlan.ebook_status_created_at) : null;
+  const book_date = singleSubscribedPlan ? formatDate(singleSubscribedPlan.book_status_created_at) : null;
+  const library_date = singleSubscribedPlan ? formatDate(singleSubscribedPlan.library_status_created_at) : null;
 
   const updatedTableData = AllSubscribedPlan ? AllSubscribedPlan
     .filter((item) => {
@@ -170,9 +184,128 @@ const MembershipScreen = ({ navigation }) => {
       </View>
       <Text style={styles.flatListItemText1}>{item.created_at}</Text>
 
-      {/* </View> */}
     </View>
   );
+
+  // ===========================update plan=====================
+  handleUpdatedPayment = (plan) => {
+    let totalAmount = 0// Initialize totalAmount with the base price of the selected plan
+
+    console.log("singleSubscribedPlan planid is :", singleSubscribedPlan.plan_id)
+    if (singleSubscribedPlan.plan_id === 2) {
+      if (checkedLibraryItems && checkedEbookItems) {
+        totalAmount += 300 + 500;
+      } else if (checkedLibraryItems) {
+        totalAmount += 300;
+      } else if (checkedEbookItems) {
+        totalAmount += 500;
+      }
+    }
+
+    if (singleSubscribedPlan.plan_id === 3) {
+      if (checkedLibraryItems && checkedEbookItems) {
+        totalAmount += 300 + 500;
+      } else if (checkedLibraryItems) {
+        totalAmount += 300;
+      } else if (checkedEbookItems) {
+        totalAmount += 500;
+      }
+    }
+
+    if (singleSubscribedPlan.plan_id === 4) {
+      if (checkedBookItems && checkedEbookItems) {
+        totalAmount += 370 + 500;
+      } else if (checkedBookItems) {
+        totalAmount += 370;
+      } else if (checkedEbookItems) {
+        totalAmount += 500;
+      }
+    }
+
+    if (singleSubscribedPlan.plan_id === 5) {
+      if (checkedBookItems && checkedLibraryItems) {
+        totalAmount += 370 + 300;
+      } else if (checkedBookItems) {
+        totalAmount += 370;
+      } else if (checkedLibraryItems) {
+        totalAmount += 300;
+      }
+    }
+
+    if (singleSubscribedPlan.plan_id === 6) {
+      if (checkedEbookItems && checkedLibraryItems) {
+        totalAmount += 500 + 300;
+      } else if (checkedEbookItems) {
+        totalAmount += 500;
+      } else if (checkedLibraryItems) {
+        totalAmount += 300;
+      }
+    }
+
+    console.log("amount is :", totalAmount)
+    const options = {
+      description: 'Credits towards consultation',
+      image: require('../images/Logoelibrary.png'),
+      currency: 'INR',
+      key: 'rzp_test_iGWfBKpv8IcFlF',
+      amount: totalAmount * 100, // Amount should be in paisa (multiply by 100)
+      name: 'Nagpur Elibrary',
+      order_id: '',
+      prefill: {
+        email: 'gaurav.kumar@example.com',
+        contact: '9191919191',
+        name: 'Nagpur Elibrary'
+      },
+      theme: { color: '#3498DB' }
+    };
+
+    RazorpayCheckout.open(options)
+      .then(data => {
+        setPaymentSuccess(true);
+        setUpdatedPlan(plan)
+        // setSelectedPlan(selectedPlan);
+        alert(`Success: ${data.razorpay_payment_id}`);
+      })
+      .catch(error => {
+        alert(`Error: ${error.code} | ${error.description}`);
+      });
+  }
+
+  // ==================================== after plan update  POST req call =========================
+
+  const updatePlan = (item) => {
+    if (item) {
+      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session4/${item.id}`;
+      console.log("after updating plan id::", item.id)
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`,
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then((responseData) => {
+          setIsPlanUpdateded(true);
+          navigation.navigate('membershipscreen');
+
+        })
+        .catch((error) => {
+          console.error('Error storing data:', error);
+        });
+    }
+  };
+  useEffect(() => {
+    if (paymentSuccess) {
+      updatePlan(updatedPlan);
+    }
+  }, [paymentSuccess, updatedPlan]);
+
 
   return (
     <Theme>
@@ -208,24 +341,20 @@ const MembershipScreen = ({ navigation }) => {
                       {singleSubscribedPlan.plan_id === 6 ?
                         (<Text style={styles.planName}>Regular Membership</Text>) :
                         (singleSubscribedPlan.plan_id === 1 ?
-                          (<Text style={{
-                            color: '#000',
-                            fontFamily: 'Poppins-Regular',
-                            fontSize: 20,
-                            paddingTop: 8,
-                            fontWeight: 'bold', paddingLeft: 20,
-                          }}>BPL Card Holder</Text>) :
+                          (<Text style={styles.planInScreen}>BPL Card Holder</Text>) :
                           (singleSubscribedPlan.plan_id === 2 ?
-                            (<Text style={styles.planName}>Family Plan (4 Member)</Text>) :
+                            (<Text style={styles.planInScreen}>Family Plan (4 Member)</Text>) :
                             (singleSubscribedPlan.plan_id === 3 ?
-                              (<Text style={styles.planName}>Lifetime membership</Text>) :
+                              (<Text style={styles.planInScreen}>Lifetime membership</Text>)
+                              :
                               (singleSubscribedPlan.plan_id === 4 ?
-                                (<Text style={styles.planName}>Library Access </Text>) :
+                                (<Text style={styles.planInScreen}>Library Access </Text>) :
                                 (singleSubscribedPlan.plan_id === 5 ?
-                                  (<Text style={styles.planName}>E-Book Access</Text>)
+                                  (<Text style={styles.planInScreen}>E-Book Access</Text>)
                                   : (
                                     <Text style={styles.loadingText}>Loading...</Text>
                                   ))))))}
+
                       {singleSubscribedPlan.plan_id === 1 ? (<Text style={{
                         paddingTop: 5,
                         fontSize: 15,
@@ -309,7 +438,6 @@ const MembershipScreen = ({ navigation }) => {
                                     ))))))}
                         {/* ======================================================================= */}
 
-
                       </View>
 
                       <Text style={{
@@ -322,58 +450,110 @@ const MembershipScreen = ({ navigation }) => {
                         fontFamily: 'Poppins-Regular',
                         color: '#2f4858'
                       }}>Current Plan Have :</Text>
-                      {singleSubscribedPlan.plan_id === 1 ?
-                        (<View>
-                          <View style={{ flexDirection: 'row' }}>
-                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop:3,paddingLeft: 20,}} />
-                            <Text style={{
-                             
-                              fontFamily: 'Poppins-Regular',
-                              color: '#000'
-                            }}>Access of Books Active till LifeTime</Text>
-                          </View>
-                          <View style={{ flexDirection: 'row' }}>
-                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop:3,paddingLeft: 20,}} />
-                            <Text style={{
-                              fontFamily: 'Poppins-Regular',
-                              color: '#000'
-                            }}>Access of Library Active till LifeTime</Text>
-                          </View>
-                          <View style={{ flexDirection: 'row' }}>
-                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop:3,paddingLeft: 20,}} />
-                            <Text style={{
-                              fontFamily: 'Poppins-Regular',
-                              marginBottom: 6,
-                              color: '#000'
-                            }}>Access of E-Books Active till LifeTime</Text>
-                          </View>
+
+
+
+                      {singleSubscribedPlan.book_status !== null ?
+                        (<View style={{ flexDirection: 'row' }}>
+                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop: 3, paddingLeft: 17, }} />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000'
+                          }}>Access of Books Active till {book_date}</Text>
+                        </View>) : (<View style={{ flexDirection: 'row' }}>
+                          <CheckBox
+                            tintColors={{ true: '#3498DB', false: 'gray' }}
+                            disabled={false}
+                            value={checkedBookItems}
+                            onValueChange={(newValue) => setCheckedBookItems(newValue)}
+                            style={{
+                              marginLeft: 10
+                            }}
+                          />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000'
+                          }}>Access of Books Active </Text>
                         </View>)
-                        : (<Text style={{
-                          paddingLeft: 20,
-                          fontFamily: 'Poppins-Regular',
-                          marginBottom: 6,
-                          color: '#2f4858'
-                        }}>add conditions here:</Text>)}
-                        {singleSubscribedPlan.plan_id === 1 ?
+                      }
+
+                      {singleSubscribedPlan.ebook_status !== null ?
+                        (<View style={{ flexDirection: 'row' }}>
+                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop: 3, paddingLeft: 17, }} />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000',
+                          }}>Access of EBooks Active till {ebook_date}</Text>
+                        </View>) : (<View style={{ flexDirection: 'row' }}>
+                          <CheckBox
+                            tintColors={{ true: '#3498DB', false: 'gray' }}
+                            disabled={false}
+                            value={checkedEbookItems}
+                            onValueChange={(newValue) => setCheckedEbookItems(newValue)}
+                            style={{
+                              marginLeft: 10
+                            }}
+                          />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000',
+                            marginTop: 5
+                          }}>Access of Ebook (₹ 500 / Monthly)</Text>
+                        </View>)
+                      }
+
+                      {singleSubscribedPlan.library_status !== null ?
+                        (<View style={{ flexDirection: 'row' }}>
+                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop: 3, paddingLeft: 17, }} />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000'
+                          }}>Access of Library Active till {library_date}</Text>
+                        </View>) : (<View style={{ flexDirection: 'row' }}>
+                          <CheckBox
+                            tintColors={{ true: '#3498DB', false: 'gray' }}
+                            disabled={false}
+                            value={checkedLibraryItems}
+                            onValueChange={(newValue) => setCheckedLibraryItems(newValue)}
+                            style={{
+                              marginLeft: 10
+                            }}
+                          />
+                          <Text style={{
+                            fontFamily: 'Poppins-Regular',
+                            color: '#000',
+                            marginTop: 5
+                          }}>Access of Library (₹ 300 / Monthly) </Text>
+                        </View>)
+                      }
+
+                      {/* {console.log("book_staus is::", singleSubscribedPlan.book_status)}
+                      {console.log("library_status is::", singleSubscribedPlan.library_status)}
+                      {console.log("ebook_status is::", singleSubscribedPlan.ebook_status)} */}
+
+
+
+                      {singleSubscribedPlan.plan_id === 1 ?
                         (<View></View>)
-                        :( <View style={{ justifyContent: 'center', width: 108, marginLeft: 20 }}>
-                        <TouchableOpacity
-                          onPress={() => {
-                            navigation.navigate('MembershipPlan')
-                          }}>
-                          <Text style={
-                            {
-                              padding: 8,
-                              backgroundColor: '#c27b7f',
-                              fontWeight: 'bold',
-                              fontSize: 15,
-                              color: "#fff",
-                              borderRadius: 5,
-                            }
-                          }>Upgrade Plan</Text>
-                        </TouchableOpacity>
-                      </View>)}
-                     
+                        : (<View style={{ justifyContent: 'center', width: 108, marginLeft: 20 }}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              handleUpdatedPayment();
+                              // navigation.navigate('MembershipPlan')
+                            }}>
+                            <Text style={
+                              {
+                                padding: 8,
+                                backgroundColor: '#c27b7f',
+                                fontWeight: 'bold',
+                                fontSize: 15,
+                                color: "#fff",
+                                borderRadius: 5,
+                              }
+                            }>Upgrade Plan</Text>
+                          </TouchableOpacity>
+                        </View>)}
+
 
                     </View>
                     <Text style={[styles.sectionHeading, { marginTop: -30 }]}>Transaction</Text>

@@ -637,14 +637,19 @@ const getStyles = (theme) => {
 
     planName: {
       textAlign: 'center',
-      // fontFamily: 'Poppins-Regular',
-      // fontSize: 19,
-      // color: '#000',
       color: '#000',
       fontFamily: 'Poppins-Regular',
       fontSize: 20,
       paddingTop: 8,
       fontWeight: 'bold'
+    },
+    planInScreen:{
+      color: '#000',
+      fontFamily: 'Poppins-Regular',
+      fontSize: 20,
+      paddingTop: 8,
+      fontWeight: 'bold', 
+      paddingLeft: 20,
     },
     priceContainer: {
       flexDirection: 'row',
