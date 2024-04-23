@@ -3534,8 +3534,6 @@ const BooksDetail = ({ navigation }) => {
         razorpay_payment_id: 'NA',
         renew: false,
         amount: 10,
-
-        
       };
       console.log('subscriptionData===', subscriptionData);
       // console.log(" ebook_id", ebook_id);
