@@ -303,7 +303,7 @@ const MembershipPlan = () => {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new Error('Network response was not ok22');
+            throw new Error('Network response was not ok');
           }
           return response.json();
         })
@@ -313,7 +313,7 @@ const MembershipPlan = () => {
 
         })
         .catch((error) => {
-          console.error('Error storing data:', error);
+          console.error('Error storing data1:', error);
         });
     } 
   };
@@ -360,12 +360,15 @@ const MembershipPlan = () => {
       .then(data => {
         setPaymentSuccess(true);
         setSelectedPlan(selectedPlan);
+        console.log("aftercheckbox:",selectedPlan)
         alert(`Success: ${data.razorpay_payment_id}`);
       })
       .catch(error => {
         alert(`Error: ${error.code} | ${error.description}`);
       });
   };
+
+ 
 
   // ================================================================================ \\
 
