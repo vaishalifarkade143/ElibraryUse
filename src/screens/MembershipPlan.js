@@ -888,6 +888,9 @@ const MembershipPlan = () => {
   const [isPlanActivated, setIsPlanActivated] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
+  const [selectedCheckbox, setSelectedCheckbox] = useState({});
+  
+
 
   const [defaultCheckedBookItems, setDefaultCheckedBookItems] = useState({ 1: true, 6: true, 3: true, 2: true });
   const [checkedBookItems, setCheckedBookItems] = useState(defaultCheckedBookItems);
@@ -1033,7 +1036,7 @@ const MembershipPlan = () => {
         checkbox3: checkedEbookItems[item.id],
   
       }
-      console.log("subscriptionData:",subscriptionData)
+      // console.log("subscriptionData:",subscriptionData)
       const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session/${item.id}`;
       // console.log("id::", item.id)
       fetch(url, {
@@ -1073,15 +1076,6 @@ const MembershipPlan = () => {
    const handlepayment = (selectedPlan) => {
     let totalAmount = (selectedPlan.price + selectedPlan.deposit); // Initialize totalAmount with the base price of the selected plan
    
-    // if (selectedPlan.id === 2) {
-    //   if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
-    //     totalAmount += 300 + 500;
-    //   } else if (checkedLibraryItems[selectedPlan.id]) {
-    //     totalAmount += 300;
-    //   } else if (checkedEbookItems[selectedPlan.id]) {
-    //     totalAmount += 500;
-    //   }
-    // }
 
     if (selectedPlan.id === 3) {
       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
@@ -1166,7 +1160,7 @@ const MembershipPlan = () => {
         checkbox3: checkedEbookItems[item1.id],
       }; 
       console.log("subscriptionData2:",subscriptionData2)
-      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/2`;
+      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/${item1.id}`;
       console.log("id item1::", item1.id)
       fetch(url, {
         method: 'POST',
@@ -1181,6 +1175,7 @@ const MembershipPlan = () => {
             throw new Error('Network response was not ok');
           }
           return response.json();
+          
         })
         .then((responseData) => {
           setIsPlanActivated(true);
@@ -1200,8 +1195,7 @@ const MembershipPlan = () => {
 
 
 
-  const handleLifePlanpayment = (selectedPlan) => {
-    // setSelectedPlan(selectedPlan);
+  const handleLifePlanpayment = (selectedPlan,) => {
    let totalAmount = (selectedPlan.price + selectedPlan.deposit);
    
       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
@@ -1213,7 +1207,7 @@ const MembershipPlan = () => {
         console.log("toataamount:",totalAmount)
       }
 
-
+     
     const options = {
       description: 'Credits towards consultation',
       image: require('../images/Logoelibrary.png'),
@@ -1234,6 +1228,7 @@ const MembershipPlan = () => {
       .then(data => {
         setPaymentSuccess(true);
         setSelectedPlan(selectedPlan);
+        setSelectedCheckbox(selectedCheckbox);
         console.log("aftercheckbox:",selectedPlan)
         alert(`Success: ${data.razorpay_payment_id}`);
       })
@@ -1603,7 +1598,8 @@ const MembershipPlan = () => {
                               // Open modal containing three text inputs
                               setModalVisible(true);
                               setSelectedPlan(item);
-                             
+                              setSelectedCheckbox({checkedBookItems,checkedEbookItems,checkedLibraryItems});
+                              // console.log("itemsub",item)
                             } else {
                               handlepayment(item);
                             }
