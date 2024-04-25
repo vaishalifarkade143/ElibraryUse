@@ -36,7 +36,7 @@
 //   const [checkBox1,setCheckbox1] = useState (false);
 //   const [checkBox2,setCheckbox2] = useState (false);
 //   const [checkBox3,setCheckbox3] = useState (false);
-  
+
 
 //   const [modalVisible, setModalVisible] = useState(false);
 
@@ -209,7 +209,7 @@
 
 //    const handlepayment = (selectedPlan) => {
 //     let totalAmount = (selectedPlan.price + selectedPlan.deposit); // Initialize totalAmount with the base price of the selected plan
-   
+
 //     // if (selectedPlan.id === 2) {
 //     //   if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
 //     //     totalAmount += 300 + 500;
@@ -292,7 +292,7 @@
 //   // ==================================== after Lifetime plan subscribe POST req call =========================
 
 //   const activateLifeTimePlan = (item1) => {
-    
+
 //     const subscriptionData2 = {
 //       memberOne: input2,
 //       memberTwo: input3,
@@ -300,10 +300,10 @@
 //       checkbox1: checkBox1,
 //       checkbox2: checkBox2,
 //       checkbox3: checkBox3,
-      
+
 //     }; 
 //     console.log("ssubscriptionDataub:",subscriptionData2)
-   
+
 //     if (item1) {
 //       const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/2`;
 //       console.log("id item1::", item1.id)
@@ -344,7 +344,7 @@
 //    let totalAmount = (selectedPlan.price + selectedPlan.deposit);
 //     // console.log("price:",selectedPlan.price)
 //     // console.log("totalAmount:",totalAmount)
-   
+
 //       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
 //         totalAmount += 300 + 500;
 //       } else if (checkedLibraryItems[selectedPlan.id]) {
@@ -382,7 +382,7 @@
 //       });
 //   };
 
- 
+
 
 //   // ================================================================================ \\
 
@@ -407,7 +407,7 @@
 //              onBackButtonPress={() => {
 //                setModalVisible(false);
 //              }}>
-      
+
 //         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
 //           <View style={{ backgroundColor: '#efefef', padding: 20, 
 //           borderRadius: 10, width: '90%' }}>
@@ -424,7 +424,7 @@
 //                 }} />
 //             </TouchableOpacity>
 //             </View>
-         
+
 //           <Text
 //               style={{ borderWidth: 0.5, borderColor: 'grey',
 //                padding: 10, marginBottom: 10 }}>Sub plan</Text>
@@ -446,7 +446,7 @@
 //               onChangeText={setInput4}
 //               style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
 //             />
-           
+
 //             <TouchableOpacity
 //                           disabled={isPlanActivated}
 //                           onPress={() => {
@@ -466,7 +466,7 @@
 //                         >
 //                           <Text style={styles.buttonText}>Subscribe</Text>
 //                         </TouchableOpacity>
-           
+
 //           </View>
 //         </View>
 //       </Modal>
@@ -887,9 +887,10 @@ const MembershipPlan = () => {
   const { userInfo, userToken } = useContext(AuthContext);
   const [isPlanActivated, setIsPlanActivated] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [paymentSuccess2, setPaymentSuccess2] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState(null);
-  const [selectedCheckbox, setSelectedCheckbox] = useState({});
-  
+  const [amount, setAmount] = useState(0);
+
 
 
   const [defaultCheckedBookItems, setDefaultCheckedBookItems] = useState({ 1: true, 6: true, 3: true, 2: true });
@@ -1025,16 +1026,16 @@ const MembershipPlan = () => {
   }, []);
 
 
-  
+
   // ==================================== after plan subscribe POST req call =========================
 
   const activatePlan = (item) => {
     if (item) {
-      const subscriptionData ={
+      const subscriptionData = {
         checkbox1: checkedBookItems[item.id],
         checkbox2: checkedLibraryItems[item.id],
         checkbox3: checkedEbookItems[item.id],
-  
+
       }
       // console.log("subscriptionData:",subscriptionData)
       const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session/${item.id}`;
@@ -1059,9 +1060,10 @@ const MembershipPlan = () => {
 
         })
         .catch((error) => {
-          console.error('Error storing data:', error);
+          console.error('Error storing data33:', error);
+          console.log('Response:', error.response);
         });
-    } 
+    }
   };
   useEffect(() => {
     if (paymentSuccess) {
@@ -1070,12 +1072,12 @@ const MembershipPlan = () => {
   }, [paymentSuccess, selectedPlan]);
 
 
-   // ========================for selection of checkboxes=======================================
+  // ========================for selection of checkboxes=======================================
 
 
-   const handlepayment = (selectedPlan) => {
+  const handlepayment = (selectedPlan) => {
     let totalAmount = (selectedPlan.price + selectedPlan.deposit); // Initialize totalAmount with the base price of the selected plan
-   
+
 
     if (selectedPlan.id === 3) {
       if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
@@ -1149,7 +1151,7 @@ const MembershipPlan = () => {
   // ==================================== after Lifetime plan subscribe POST req call =========================
 
   const activateLifeTimePlan = (item1) => {
-    
+
     if (item1) {
       const subscriptionData2 = {
         memberOne: input2,
@@ -1158,8 +1160,9 @@ const MembershipPlan = () => {
         checkbox1: checkedBookItems[item1.id],
         checkbox2: checkedLibraryItems[item1.id],
         checkbox3: checkedEbookItems[item1.id],
-      }; 
-      console.log("subscriptionData2:",subscriptionData2)
+        plan_amount: amount
+      };
+      console.log("subscriptionData2:", subscriptionData2)
       const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/${item1.id}`;
       console.log("id item1::", item1.id)
       fetch(url, {
@@ -1175,7 +1178,7 @@ const MembershipPlan = () => {
             throw new Error('Network response was not ok');
           }
           return response.json();
-          
+
         })
         .then((responseData) => {
           setIsPlanActivated(true);
@@ -1185,29 +1188,28 @@ const MembershipPlan = () => {
         .catch((error) => {
           console.error('Error storing data1:', error);
         });
-    } 
+    }
   };
   useEffect(() => {
-    if (paymentSuccess) {
+    if (paymentSuccess2) {
       activateLifeTimePlan(selectedPlan);
     }
-  }, [paymentSuccess, selectedPlan]);
+  }, [paymentSuccess2, selectedPlan]);
 
 
 
   const handleLifePlanpayment = (selectedPlan,) => {
-   let totalAmount = (selectedPlan.price + selectedPlan.deposit);
-   
-      if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
-        totalAmount += 300 + 500;
-      } else if (checkedLibraryItems[selectedPlan.id]) {
-        totalAmount += 300;
-      } else if (checkedEbookItems[selectedPlan.id]) {
-        totalAmount += 500;
-        console.log("toataamount:",totalAmount)
-      }
+    let totalAmount = (selectedPlan.price + selectedPlan.deposit);
 
-     
+    if (checkedLibraryItems[selectedPlan.id] && checkedEbookItems[selectedPlan.id]) {
+      totalAmount += 300 + 500;
+    } else if (checkedLibraryItems[selectedPlan.id]) {
+      totalAmount += 300;
+    } else if (checkedEbookItems[selectedPlan.id]) {
+      totalAmount += 500;
+    }
+    console.log("totalamount:", totalAmount);
+    setAmount(totalAmount);
     const options = {
       description: 'Credits towards consultation',
       image: require('../images/Logoelibrary.png'),
@@ -1221,15 +1223,15 @@ const MembershipPlan = () => {
         contact: '9191919191',
         name: 'Nagpur Elibrary'
       },
-      theme: { color: '#3498DB' }
+      theme: { color: '#3498DB' },
     };
 
     RazorpayCheckout.open(options)
       .then(data => {
-        setPaymentSuccess(true);
+        setPaymentSuccess2(true);
         setSelectedPlan(selectedPlan);
-        setSelectedCheckbox(selectedCheckbox);
-        console.log("aftercheckbox:",selectedPlan)
+
+        console.log("aftercheckbox:", selectedPlan)
         alert(`Success: ${data.razorpay_payment_id}`);
       })
       .catch(error => {
@@ -1237,7 +1239,7 @@ const MembershipPlan = () => {
       });
   };
 
- 
+
 
   // ================================================================================ \\
 
@@ -1255,76 +1257,81 @@ const MembershipPlan = () => {
               }}
             />
 
-            {/* ======================modal for plan id=2(lifetome plan)===================== */}
+            {/* ======================modal for plan id=2(family plan)===================== */}
 
             <Modal
-             isVisible={modalVisible}
-             onBackButtonPress={() => {
-               setModalVisible(false);
-             }}>
-      
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{ backgroundColor: '#efefef', padding: 20, 
-          borderRadius: 10, width: '90%' }}>
+              isVisible={modalVisible}
+              onBackButtonPress={() => {
+                setModalVisible(false);
+              }}>
 
-            <View style={{ alignItems: 'flex-end',marginTop:-12 ,marginBottom:5}}>
-            <TouchableOpacity
-            onPress={() => {
-              setModalVisible(false);
-          }}
-              style={{ padding: 10, alignItems: 'center', 
-              borderRadius: 5,
-             }} >
-              <AntDesign name="close" color={"grey"} size={15} style={{
-                }} />
-            </TouchableOpacity>
-            </View>
-         
-          <Text
-              style={{ borderWidth: 0.5, borderColor: 'grey',
-               padding: 10, marginBottom: 10 }}>Sub plan</Text>
-            <TextInput
-              placeholder="Member two"
-              value={input2}
-              onChangeText={setInput2}
-              style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
-            />
-            <TextInput
-              placeholder="Member three"
-              value={input3}
-              onChangeText={setInput3}
-              style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
-            />
-            <TextInput
-              placeholder="Member four"
-              value={input4}
-              onChangeText={setInput4}
-              style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
-            />
-           
-            <TouchableOpacity
-                          disabled={isPlanActivated}
-                          onPress={() => {
-                            handleLifePlanpayment(selectedPlan);
-                            setModalVisible(false);
-                          }}
-                          style={{ 
-                            backgroundColor: '#c27b7f',
-                            borderRadius: 20,
-                            paddingBottom: 5,
-                            paddingTop: 5,
-                            alignItems: 'center',
-                            width: 100,
-                            alignSelf: 'center',
-                            marginTop:5
-                          }}
-                        >
-                          <Text style={styles.buttonText}>Subscribe</Text>
-                        </TouchableOpacity>
-           
-          </View>
-        </View>
-      </Modal>
+              <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{
+                  backgroundColor: '#efefef', padding: 20,
+                  borderRadius: 10, width: '90%'
+                }}>
+
+                  <View style={{ alignItems: 'flex-end', marginTop: -12, marginBottom: 5 }}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        setModalVisible(false);
+                      }}
+                      style={{
+                        padding: 10, alignItems: 'center',
+                        borderRadius: 5,
+                      }} >
+                      <AntDesign name="close" color={"grey"} size={15} style={{
+                      }} />
+                    </TouchableOpacity>
+                  </View>
+
+                  <Text
+                    style={{
+                      borderWidth: 0.5, borderColor: 'grey',
+                      padding: 10, marginBottom: 10
+                    }}>Sub plan</Text>
+                  <TextInput
+                    placeholder="Member two"
+                    value={input2}
+                    onChangeText={setInput2}
+                    style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
+                  />
+                  <TextInput
+                    placeholder="Member three"
+                    value={input3}
+                    onChangeText={setInput3}
+                    style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
+                  />
+                  <TextInput
+                    placeholder="Member four"
+                    value={input4}
+                    onChangeText={setInput4}
+                    style={{ borderWidth: 0.5, borderColor: 'grey', padding: 7, marginBottom: 10 }}
+                  />
+
+                  <TouchableOpacity
+                    disabled={isPlanActivated}
+                    onPress={() => {
+                      handleLifePlanpayment(selectedPlan);
+                      setModalVisible(false);
+                    }}
+                    style={{
+                      backgroundColor: '#c27b7f',
+                      borderRadius: 20,
+                      paddingBottom: 5,
+                      paddingTop: 5,
+                      alignItems: 'center',
+                      width: 100,
+                      alignSelf: 'center',
+                      marginTop: 5
+                    }}
+                  >
+                    <Text style={styles.buttonText}>Subscribe</Text>
+                  </TouchableOpacity>
+
+                </View>
+              </View>
+            </Modal>
 
             {/* ================choose image modal================================== */}
 
@@ -1598,7 +1605,7 @@ const MembershipPlan = () => {
                               // Open modal containing three text inputs
                               setModalVisible(true);
                               setSelectedPlan(item);
-                              setSelectedCheckbox({checkedBookItems,checkedEbookItems,checkedLibraryItems});
+                              // setSelectedCheckbox({checkedBookItems,checkedEbookItems,checkedLibraryItems});
                               // console.log("itemsub",item)
                             } else {
                               handlepayment(item);
