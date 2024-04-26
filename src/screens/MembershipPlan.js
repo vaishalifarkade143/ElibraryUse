@@ -1163,7 +1163,8 @@ const MembershipPlan = () => {
         plan_amount: amount
       };
       console.log("subscriptionData2:", subscriptionData2)
-      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/${item1.id}`;
+      // const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session3/${item1.id}`;
+      const url ='https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session-second3/2'
       console.log("id item1::", item1.id)
       fetch(url, {
         method: 'POST',
