@@ -670,7 +670,7 @@ const MembershipScreen = ({ navigation }) => {
   const { userToken, } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const [amount, setAmount] = useState(0);
 
   const [checkedBookItems, setCheckedBookItems] = useState(false);
   const [checkedLibraryItems, setCheckedLibraryItems] = useState(false);
@@ -842,10 +842,10 @@ const MembershipScreen = ({ navigation }) => {
   );
 
   // ===========================update plan=====================
-  handleUpdatedPayment = (plan) => {
+  handleUpdatedPayment = () => {
     let totalAmount = 0// Initialize totalAmount with the base price of the selected plan
 
-    console.log("singleSubscribedPlan planid is :", singleSubscribedPlan.plan_id)
+    // console.log("singleSubscribedPlan planid is :", singleSubscribedPlan.plan_id)
     if (singleSubscribedPlan.plan_id === 2) {
       if (checkedLibraryItems && checkedEbookItems) {
         totalAmount += 300 + 500;
@@ -895,8 +895,10 @@ const MembershipScreen = ({ navigation }) => {
         totalAmount += 300;
       }
     }
+    
+    setAmount(totalAmount);
+    console.log("totalamount:", totalAmount); 
 
-    console.log("amount is :", totalAmount)
     const options = {
       description: 'Credits towards consultation',
       image: require('../images/Logoelibrary.png'),
@@ -916,8 +918,7 @@ const MembershipScreen = ({ navigation }) => {
     RazorpayCheckout.open(options)
       .then(data => {
         setPaymentSuccess(true);
-        setUpdatedPlan(plan)
-        // setSelectedPlan(selectedPlan);
+        // setUpdatedPlan(updatedPlan)
         alert(`Success: ${data.razorpay_payment_id}`);
       })
       .catch(error => {
@@ -927,21 +928,23 @@ const MembershipScreen = ({ navigation }) => {
 
   // ==================================== after plan update  POST req call =========================
 
-  const updatePlan = (item) => {
-    if (item) {
+  const updatePlan = () => {
+    console.log("singleSubscribedPlan is  8888:",singleSubscribedPlan);
+    const plan_id = singleSubscribedPlan.plan_id
+    // console.log("after updating plan id::",plan_id)
+     const subscriptionid = singleSubscribedPlan.id;
+    //  console.log("after updating subscription_id::",subscriptionid)
+     if (singleSubscribedPlan ) {
       const subscriptionData = {
-        // issued_on: startDate,
-        // plan_amount: endDate,
-        // subscription_id: id,
-
-        "checkedEbookItems": true,
-      "plan_amount": 500,
-    "subscription_id": 40
-    
-
+        checkbox1 : checkedBookItems,
+        checkbox2 : checkedLibraryItems,
+        checkbox3 : checkedEbookItems,
+        plan_amount : amount,
+        subscription_id : subscriptionid,
       };
-      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session4/${item.plan_id}`;
-      console.log("after updating plan id::", item.plan_id)
+      console.log("subscriptionData --:", subscriptionData)
+     
+      const url = `https://dindayalupadhyay.smartcitylibrary.com/api/v1/create-membership-payment-session4/${plan_id}`;
       fetch(url, {
         method: 'POST',
         headers: {
@@ -957,8 +960,8 @@ const MembershipScreen = ({ navigation }) => {
           return response.json();
         })
         .then((responseData) => {
-          setIsPlanUpdateded(true);
-          navigation.navigate('membershipscreen');
+          // setIsPlanUpdateded(true);
+          // navigation.navigate('membershipscreen');
 
         })
         .catch((error) => {
@@ -967,10 +970,13 @@ const MembershipScreen = ({ navigation }) => {
     }
   };
   useEffect(() => {
+    
     if (paymentSuccess) {
-      updatePlan(updatedPlan);
+      updatePlan();
+      // navigation.navigate('membershipscreen')
+      navigation.goBack();
     }
-  }, [paymentSuccess, updatedPlan]);
+  }, [paymentSuccess, ]);
 
 
   return (
@@ -979,13 +985,6 @@ const MembershipScreen = ({ navigation }) => {
         const styles = getStyles(theme);
         return (
           <View style={styles.container}>
-            {/* <Header
-              rightIcon={require('../images/Logoelibrary.png')}
-              leftIcon={require('../images/menu.png')}
-              onClickLeftIcon={() => {
-                navigation.openDrawer();
-              }}
-            /> */}
             <Text style={styles.sectionHeading}>Membership Plan</Text>
 
             {singleSubscribedPlan ?
@@ -1147,7 +1146,8 @@ const MembershipScreen = ({ navigation }) => {
 
                       {singleSubscribedPlan.library_status !== null ?
                         (<View style={{ flexDirection: 'row' }}>
-                          <AntDesign name="checkcircle" color={"#3498DB"} size={15} style={{ marginTop: 3, paddingLeft: 17, }} />
+                          <AntDesign name="checkcircle" color={"#3498DB"} size={15}
+                           style={{ marginTop: 3, paddingLeft: 17, }} />
                           <Text style={{
                             fontFamily: 'Poppins-Regular',
                             color: '#000'
@@ -1182,7 +1182,7 @@ const MembershipScreen = ({ navigation }) => {
                             tintColors={{ true: '#3498DB', false: 'gray' }}
                             disabled={false}
                             value={checkedEbookItems}
-                            onValueChange={(newValue) => setCheckedEbookItems(newValue)}
+                            onValueChange={(newValue1) => setCheckedEbookItems(newValue1)}
                             style={{
                               marginLeft: 10
                             }}
@@ -1194,20 +1194,13 @@ const MembershipScreen = ({ navigation }) => {
                           }}>Access of Ebook (₹ 500 / Monthly)</Text>
                         </View>)
                       }
-
-                      {/* {console.log("book_staus is::", singleSubscribedPlan.book_status)}
-                      {console.log("library_status is::", singleSubscribedPlan.library_status)}
-                      {console.log("ebook_status is::", singleSubscribedPlan.ebook_status)} */}
-
-
-
+                      
                       {singleSubscribedPlan.plan_id === 1 ?
                         (<View></View>)
                         : (<View style={{ justifyContent: 'center', width: 108, marginLeft: 20 }}>
                           <TouchableOpacity
                             onPress={() => {
                               handleUpdatedPayment();
-                              // navigation.navigate('MembershipPlan')
                             }}>
                             <Text style={
                               {
