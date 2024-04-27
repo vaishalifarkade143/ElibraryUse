@@ -857,6 +857,9 @@ const MembershipScreen = ({ navigation }) => {
     }
 
     if (singleSubscribedPlan.plan_id === 3) {
+      console.log(checkedLibraryItems);
+      console.log(checkedEbookItems);
+
       if (checkedLibraryItems && checkedEbookItems) {
         totalAmount += 300 + 500;
       } else if (checkedLibraryItems) {
@@ -918,7 +921,6 @@ const MembershipScreen = ({ navigation }) => {
     RazorpayCheckout.open(options)
       .then(data => {
         setPaymentSuccess(true);
-        // setUpdatedPlan(updatedPlan)
         alert(`Success: ${data.razorpay_payment_id}`);
       })
       .catch(error => {
@@ -936,9 +938,9 @@ const MembershipScreen = ({ navigation }) => {
     //  console.log("after updating subscription_id::",subscriptionid)
      if (singleSubscribedPlan ) {
       const subscriptionData = {
-        checkbox1 : checkedBookItems,
-        checkbox2 : checkedLibraryItems,
-        checkbox3 : checkedEbookItems,
+        checkbox1 :checkedBookItems === true ? checkedBookItems : null,
+        checkbox2 :checkedLibraryItems === true ? checkedLibraryItems : null,
+        checkbox3 :checkedEbookItems === true ? checkedEbookItems : null,
         plan_amount : amount,
         subscription_id : subscriptionid,
       };
@@ -960,9 +962,9 @@ const MembershipScreen = ({ navigation }) => {
           return response.json();
         })
         .then((responseData) => {
-          // setIsPlanUpdateded(true);
+          setIsPlanUpdateded(true);
           // navigation.navigate('membershipscreen');
-
+          navigation.goBack();
         })
         .catch((error) => {
           console.error('Error storing data:', error);
@@ -973,8 +975,6 @@ const MembershipScreen = ({ navigation }) => {
     
     if (paymentSuccess) {
       updatePlan();
-      // navigation.navigate('membershipscreen')
-      navigation.goBack();
     }
   }, [paymentSuccess, ]);
 

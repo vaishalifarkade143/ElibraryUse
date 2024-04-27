@@ -18,11 +18,6 @@ const BookHistory = ({ navigation, route }) => {
 
 
 
-
-
-
-
-
   useEffect(() => {
     if (userToken !== null && Plan_exist !== null) {
       const apiUrl = 'https://dindayalupadhyay.smartcitylibrary.com/api/v1/books-history';
