@@ -112,8 +112,8 @@ const Transaction = ({ navigation, route }) => {
       subscription_plan: item.subscription_plan.name,
       amount: item.amount,
       created_at: formatDate(item.created_at),
-      plan_id: item.plan_id
-
+      plan_id: item.plan_id,
+      id: item.id
     }))
     : [];
 
@@ -129,7 +129,7 @@ const Transaction = ({ navigation, route }) => {
             style={{
               marginTop: 5,
               width: 12,
-              height: 15,
+              height: 12,
               textAlign: 'center'
             }} />
           <Text style={styles.flatListItemText}>{item.amount}</Text>
@@ -152,6 +152,18 @@ const Transaction = ({ navigation, route }) => {
             ))))))}
 
 
+        </View>
+        <View style={{ flexDirection: 'row' }}>
+          <Text style={{
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+            color: '#000'
+          }}>Transcation id : </Text>
+          <Text style={{
+            fontFamily: 'Poppins-Regular',
+            fontSize: 14,
+            color: '#000'
+          }}>{item.id}</Text>
         </View>
         <Text style={styles.flatListItemText1}>{item.created_at}</Text>
 
@@ -182,7 +194,6 @@ const Transaction = ({ navigation, route }) => {
             }}>
 
               {/* ==================search======================= */}
-              {/* <View style={styles.searchcontainer}> */}
               <View style={styles.searchBar}>
                 <Feather name="search" color={"gray"} size={20} style={styles.searchIcon} />
                 <TextInput
@@ -201,7 +212,6 @@ const Transaction = ({ navigation, route }) => {
                     <Feather name="x" color={"gray"} size={20} style={[styles.searchIcon, { marginLeft: 50 }]} />
                   </TouchableOpacity>)}
               </View>
-              {/* </View> */}
 
               <FlatList
                 data={updatedTableData}
@@ -209,54 +219,7 @@ const Transaction = ({ navigation, route }) => {
                 renderItem={renderItem}
               />
 
-              {/* table */}
-              {/* <View style={{ flex: 1, marginTop: 15 }}>
-                  {Plan_exist !== null ?
-
-                    (<ScrollView horizontal={true} contentContainerStyle={{ columnGap: 50 }}>
-
-                      <View style={{ backgroundColor: '#fff', marginTop: 15, marginLeft: 15, marginRight: 15 }}>
-                        
-                        <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                          <Row data={state.tableHead} widthArr={state.widthArr} style={styles.header}
-                            textStyle={{ textAlign: 'center', fontWeight: 'bold', color: '#000' }} />
-                        </Table>
-
-
-
-                        <ScrollView style={styles.dataWrapper}>
-                          <Table borderStyle={{ borderWidth: 1, borderColor: '#fff' }}>
-                            {updatedTableData.map((item, index) => (
-                              <Row
-                                key={index}
-                                data={item}
-                                widthArr={state.widthArr}
-                                style={[styles.row1, index % 2 && { backgroundColor: '#fff' }]}
-                                textStyle={styles.texttt}
-                              />
-                            ))}
-                          </Table>
-                        </ScrollView>
-                      </View>
-                    </ScrollView> )
-                    : (<View style={{
-                      alignItems: 'center',
-                      backgroundColor: '#fff',
-                      marginLeft: 10,
-                      marginRight: 10,
-                      paddingBottom: 30,
-                      paddingTop: 30
-                    }}>
-                      <Text style={{ fontSize: 15, fontFamily: 'Philosopher-Bold' }}>
-                        Please Activate Any Subscription plan
-                      </Text>
-                    </View>)}
-                </View> */}
-
-
             </View>
-
-            {/* </ScrollView> */}
 
           </View>
         );
@@ -272,12 +235,12 @@ const styles = StyleSheet.create({
   flatListItemContainer: {
     borderRadius: 8,
     margin: 10,
-    height: 90,
+    height: 100,
     marginLeft: 20,
     marginRight: 20,
-    backgroundColor:'#f5e0e1',
-    justifyContent:'center',
-    paddingLeft:12
+    backgroundColor: '#f5e0e1',
+    justifyContent: 'center',
+    paddingLeft: 12,
   },
   subscriptionPlan: {
     color: '#333',
@@ -286,7 +249,7 @@ const styles = StyleSheet.create({
   },
   flatListItemText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 17,
+    fontSize: 15,
     color: 'blue'
   },
   flatListItemText1: {
@@ -298,7 +261,7 @@ const styles = StyleSheet.create({
     color: '#555',
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
-    marginTop: 4,
+    marginTop: 3,
   },
   columnContainer: {
     alignItems: 'flex-start',

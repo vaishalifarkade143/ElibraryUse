@@ -165,9 +165,13 @@ const MembershipPlan = () => {
   const activatePlan = (item) => {
     if (item) {
       const subscriptionData = {
-        checkbox1: checkedBookItems[item.id],
-        checkbox2: checkedLibraryItems[item.id],
-        checkbox3: checkedEbookItems[item.id],
+        checkbox1 :checkedBookItems[item.id] === true ? checkedBookItems[item.id] : null,
+        checkbox2 :checkedLibraryItems[item.id] === true ? checkedLibraryItems[item.id] : null,
+        checkbox3 :checkedEbookItems[item.id] === true ? checkedEbookItems[item.id] : null,
+
+        // checkbox1: checkedBookItems[item.id],
+        // checkbox2: checkedLibraryItems[item.id],
+        // checkbox3: checkedEbookItems[item.id],
 
       }
       // console.log("subscriptionData:",subscriptionData)
@@ -290,9 +294,14 @@ const MembershipPlan = () => {
         memberOne: input2,
         memberTwo: input3,
         memberThree: input4,
-        checkbox1: checkedBookItems[item1.id],
-        checkbox2: checkedLibraryItems[item1.id],
-        checkbox3: checkedEbookItems[item1.id],
+
+        // checkbox1: checkedBookItems[item1.id],
+        // checkbox2: checkedLibraryItems[item1.id],
+        // checkbox3: checkedEbookItems[item1.id],
+
+        checkbox1 :checkedBookItems[item1.id] === true ? checkedBookItems[item1.id] : null,
+        checkbox2 :checkedLibraryItems[item1.id] === true ? checkedLibraryItems[item1.id] : null,
+        checkbox3 :checkedEbookItems[item1.id] === true ? checkedEbookItems[item1.id] : null,
         plan_amount: amount
       };
       console.log("subscriptionData2:", subscriptionData2)
